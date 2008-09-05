@@ -1,0 +1,141 @@
+<ul class="download">
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 19.45 KB</a> </li>
+
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 197.83 KB</a></li>
+</ul>
+
+<h2>Introduction</h2>
+
+<p>Microsoft's <code>CListCtrl</code> has support for displaying data in a grid using the report style, but we have to make several changes to implement features like:</p>
+
+<ul>
+<li><a href="clistctrl_sort.aspx">Sorting</a> </li>
+
+<li><a href="CListCtrl_subItem_focus.aspx">Cell navigation and keyboard search</a> </li>
+
+<li><a href="CListCtrl_ToolTip.aspx">Tooltips</a> </li>
+
+<li><a href="CListCtrl_column_picker.aspx">Hiding and showing columns</a> </li>
+
+<li><a href="nirs2000.aspx">Cell editing</a></li>
+</ul>
+
+<p>This article will demonstrate a customized <code>CListCtrl</code>, which implements all the above features, while maintaining the Windows XP/Vista look.</p>
+<img height="290" alt="screenshot.png" hspace="0" src="CGridListCtrlEx/screenshot.png" width="496" border="0" /> 
+<h2>Background</h2>
+
+<p>There are lots of advanced grid controls that extend the <code>CListCtrl</code>, and one of those is the <a href="http://www.codeguru.com/cpp/frameworks/advancedui/outlookcontrols/article.php/c3223/">Enhanced List Control (CGfxListCtrl)</a>. This wonderful control provides all the above features, but fails to handle Windows XP and Vista. Finding a good replacement for this control is not very easy:</p>
+
+<ul>
+<li><a href="http://www.codeproject.com/KB/miscctrl/gridctrl.aspx">MFC Grid Control</a> - Doesn't inherit from <code>CListCtrl</code>, so applications will not get the benefit of the improvements Microsoft adds to the <code>CListCtrl</code> </li>
+
+<li><a href="quicklist.aspx">CQuickList</a> - Very close to being a perfect replacement, but hard to add new ways to display data, and it requires <code>LVS_OWNERDATA</code> that makes sorting a little harder</li>
+
+<li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it tries to store a copy of the entire data model inside itself</li>
+
+<li><a href="ReportControl.aspx">Another Report List Control</a> - Simple and easy to use, but lacks other means to edit data besides using <code>CEdit</code>, and also misses subitem navigation</li>
+</ul>
+
+<p>The <code>CGridListCtrlEx</code> tries to be simple, while still providing the ability to customize how a cell should be displayed and edited. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
+
+<h2>How to Use the CGridListCtrlEx</h2>
+
+<p>The <code>CGridListCtrlEx</code> tries to stay true to the <code>CListCtrl</code>, and doesn't try to replace anything the <code>CListCtrl</code> already provides. This means we can replace a <code>CListCtrl</code> with <code>CGridListCtrlEx</code> without needing to do anything more.</p>
+
+<p>It is recommended that we don't use the <code>CGridListCtrlEx</code> directly, but create a new class that inherits/derives from <code>CGridListCtrlEx</code>. This will make it easier to migrate any updates there will be to the <code>CGridListCtrlEx</code> class later on.</p>
+
+<h4>Editing Cells/Subitems</h4>
+
+<p>By default, when inserting columns in the <code>CGridListCtrlEx</code>, they will be configured as read-only, without the ability to be edited. By using <code>CGridListCtrlEx::InsertColumnTrait()</code>, we can provide a <code>CGridColumnTrait</code> class which specifies what type of editor it should use.</p>
+
+<pre lang="C++">CGridColumnTrait* pTrait = new CGridColumnTraitEdit;
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
+
+<p>When having edited an item, a standard <code>LVN_ENDLABELEDIT</code> message will be sent to the <code>CListCtrl</code>. When the <code>CGridListCtrlEx</code> receives this message, it will automatically call the virtual method <code>CGridListCtrlEx::OnTraitEditComplete()</code>, allowing a derived class to validate the input and maybe update an underlying data model.</p>
+
+<h4>Editing Cells/Subitems with a Combo-box</h4>
+
+<p>By using <code>CGridListCtrlEx::InsertColumnTrait()</code>, we can also provide a <code>CGridColumnTrait</code> class which works as a combobox.</p>
+
+<pre lang="C++">CGridColumnTraitCombo* pTrait = new CGridColumnTraitCombo;
+pTrait-&gt;AddItem(0, &quot;Hello&quot;);
+pTrait-&gt;AddItem(1, &quot;Goodbye&quot;);
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
+
+<p>We can specify the items of the combobox when inserting the columns (as shown above). If we want to provide the combobox items dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the combobox.</p>
+
+<h4>Sorting Rows</h4>
+
+<p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all columns, where it will perform a simple text-comparison. If we want a more advanced sorting, then we can override the <code>CGridListCtrlEx::SortColumn()</code> method. Then, it is just a matter of choosing the right way to perform the sorting. See <a href="clistctrl_sort.aspx">CListCtrl and Sorting Rows</a>.</p>
+
+<h4>Showing Tooltip</h4>
+
+<p>By default, the <code>CGridListCtrlEx</code> will just display the cell contents as tooltip. If we want to display something different in the tooltip, then we can override the <code>CGridListCtrlEx::GetCellTooltip()</code> method.</p>
+
+<h4>Formatting Cells/Subitems</h4>
+
+<p>If we want to change the foreground/background color or the font style (bold, italic, underline), then we can override the methods <code>CGridListCtrlEx::GetCellCustomColor()</code> and <code>CGridListCtrlEx::GetCellCustomFont()</code>.</p>
+
+<h2>How Does the CGridColumnTrait Work</h2>
+
+<p><code>CGridListCtrlEx</code> tries to keep away from all the nasty details about how to display and edit data. These things are instead handled by the <code>CGridColumnTrait</code> class, and if we want to modify how data is displayed, then it is &quot;just&quot; a matter of creating a new <code>CGridColumnTrait</code> class.</p>
+
+<p>When inserting a column, we can assign a <code>CGridColumnTrait</code> to the column. The <code>CGridListCtrlEx</code> will activate the appropriate <code>CGridColumnTrait</code> when we need to draw a cell in that column, or edit a cell in the column.</p>
+
+<p>The <code>CGridColumnTrait</code> includes some special members known as meta-data. These members can be used by your own class when it derives from <code>CGridListCtrlEx</code>, so we can easily add extra properties to a column.</p>
+
+<p>When inheriting from <code>CGridColumnTrait</code>, we must consider the following:</p>
+
+<ul>
+<li>If performing custom drawing, we must also handle the selection and focus coloring. </li>
+
+<li>If performing editing, we must ensure that the editor closes when it loses focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is complete.</li>
+</ul>
+
+<h2>Using the Code</h2>
+
+<p>The source code includes the following classes:</p>
+
+<ul>
+<li><code>CGridListCtrlEx</code> - The specialized <code>CListCtrl</code> </li>
+
+<li><code>CGridColumnTrait</code> - Specifies the interface of a column-trait 
+
+<ul>
+<li><code>CGridColumnTraitText</code> - Implements cell formatting 
+<ul>
+<li><code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code></li>
+
+<li><code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code></li>
+</ul>
+
+</li>
+</ul>
+</li>
+
+<li><code>CGridColumnTraitVisitor</code> - Visitor pattern if wanting to add new behavior to the column-traits</li>
+</ul>
+
+<h2>Things To Do</h2>
+
+<p>The <code>CGridListCtrlEx</code> is not quite finished, as it still lacks some features:</p>
+
+<ul>
+<li><code>CListCtrl</code> group-style and the ability to group rows according to a chosen column </li>
+
+<li>Better handling of <code>LVS_EX_SUBITEMIMAGES</code>, as subitem images now overlap the grid-borders (bug in <code>CListCtrl</code>)</li>
+
+<li>Support for checkboxes (might consider some misuse of the <code>Image</code> property)</li>
+
+<li>Support for progress bar</li>
+
+<li>Support for date / time editing</li>
+</ul>
+
+<p>Only the group-style handling should be part of the <code>CGridListCtrlEx</code> itself, while the other features should be handled with new specialized <code>CGridColumnTrait</code>s.</p>
+
+<h2>History</h2>
+
+<ul>
+<li><strong>2008-09-04</strong> - First release of the article</li>
+</ul>
