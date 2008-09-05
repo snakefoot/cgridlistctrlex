@@ -4,7 +4,7 @@
 #pragma once
 #include "afxcmn.h"
 
-#include "CGridListCtrlEx.h"
+#include "..\CGridListCtrlEx\CGridListCtrlEx.h"
 #include "CListCtrl_DataModel.h"
 
 

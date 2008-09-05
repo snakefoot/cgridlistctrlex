@@ -125,18 +125,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\CGridColumnTraitCombo.cpp">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitEdit.cpp">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitText.cpp">
-			</File>
-			<File
-				RelativePath=".\CGridListCtrlEx.cpp">
-			</File>
-			<File
 				RelativePath=".\CGridListCtrlExApp.cpp">
 			</File>
 			<File
@@ -162,24 +150,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath=".\CGridColumnTrait.h">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitCombo.h">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitEdit.h">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitText.h">
-			</File>
-			<File
-				RelativePath=".\CGridColumnTraitVisitor.h">
-			</File>
-			<File
-				RelativePath=".\CGridListCtrlEx.h">
-			</File>
 			<File
 				RelativePath=".\CGridListCtrlExApp.h">
 			</File>
@@ -210,8 +180,50 @@
 				RelativePath=".\res\CGridListCtrlEx.rc2">
 			</File>
 		</Filter>
+		<Filter
+			Name="CGridListCtrlEx"
+			Filter="">
+			<Filter
+				Name="Source Files"
+				Filter="">
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.cpp">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitText.cpp">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridListCtrlEx.cpp">
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				Filter="">
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitText.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitVisitor.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridListCtrlEx.h">
+				</File>
+			</Filter>
+		</Filter>
 		<File
-			RelativePath=".\CGridListCtrlEx.htm"
+			RelativePath="..\Documentation\CGridListCtrlEx.htm"
 			DeploymentContent="TRUE">
 		</File>
 		<File
