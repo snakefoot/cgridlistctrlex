@@ -17,6 +17,8 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_EX(HDN_BEGINTRACKA, 0, OnHeaderBeginResize)
 	ON_NOTIFY_EX(HDN_BEGINTRACKW, 0, OnHeaderBeginResize)
 	ON_NOTIFY_EX(HDN_ENDDRAG, 0, OnHeaderEndDrag)
+	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKA, 0, OnHeaderDividerDblClick)
+	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKW, 0, OnHeaderDividerDblClick)
 	ON_NOTIFY_EX(TTN_NEEDTEXTA, 0, OnToolNeedText)
 	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolNeedText)
 	ON_NOTIFY_REFLECT_EX(LVN_COLUMNCLICK, OnHeaderClick)	// Column Click
@@ -1335,6 +1337,13 @@ BOOL CGridListCtrlEx::OnCommand(WPARAM wParam, LPARAM lParam)
 		ShowColumn(nCol, !IsColumnVisible(nCol));
 	}
 	return TRUE;
+}
+
+BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
+	SetColumnWidthAuto(pNMH->iItem);
+	return TRUE;	// Don't let parent handle the event
 }
 
 BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
