@@ -5,8 +5,8 @@
 #include "CGridListCtrlExApp.h"
 #include "CGridListCtrlExDlg.h"
 
-#include "CGridColumnTraitEdit.h"
-#include "CGridColumnTraitCombo.h"
+#include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
+#include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
