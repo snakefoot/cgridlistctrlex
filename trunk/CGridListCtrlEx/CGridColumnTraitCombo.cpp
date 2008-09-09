@@ -5,7 +5,66 @@
 #include "CGridListCtrlEx.h"
 
 namespace {
-	// Posts end-label notification when finished
+	/////////////////////////////////////////////////////////////////////////////
+	// CComboEdit window
+	class CComboEdit : public CEdit
+	{
+	// Implementation
+	protected:
+		
+		// Stoopid win95 accelerator key problem workaround - Matt Weagle.
+		virtual BOOL PreTranslateMessage(MSG* pMsg)
+		{
+			// Make sure that the keystrokes continue to the appropriate handlers
+			if (pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP)
+			{
+				::TranslateMessage(pMsg);
+				::DispatchMessage(pMsg);
+				return TRUE;
+			}	
+
+			// Catch the Alt key so we don't choke if focus is going to an owner drawn button
+			if (pMsg->message == WM_SYSCHAR)
+				return TRUE;
+
+			return CEdit::PreTranslateMessage(pMsg);
+		}
+
+		afx_msg void CComboEdit::OnKillFocus(CWnd* pNewWnd) 
+		{
+			CEdit::OnKillFocus(pNewWnd);
+
+			CWnd* pOwner = GetOwner();
+			if (pOwner && pOwner!=pNewWnd)
+				pOwner->SendMessage(WM_KEYUP, VK_RETURN, 0 + (((DWORD)0)<<16));
+		}
+
+		afx_msg void CComboEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+		{
+			if (nChar == VK_TAB || nChar == VK_RETURN || nChar == VK_ESCAPE)
+			{
+				CWnd* pOwner = GetOwner();
+				if (pOwner)
+					pOwner->SendMessage(WM_KEYUP, nChar, nRepCnt + (((DWORD)nFlags)<<16));
+				return;
+			}
+
+			CEdit::OnKeyDown(nChar, nRepCnt, nFlags);
+		}
+
+		DECLARE_MESSAGE_MAP()
+	};
+
+	BEGIN_MESSAGE_MAP(CComboEdit, CEdit)
+		//{{AFX_MSG_MAP(CComboEdit)
+		ON_WM_KILLFOCUS()
+		ON_WM_KEYDOWN()
+		//}}AFX_MSG_MAP
+	END_MESSAGE_MAP()
+
+
+	/////////////////////////////////////////////////////////////////////////////
+	// CInPlaceList window
 	class CInPlaceList : public CComboBox
 	{
 	public:
@@ -14,6 +73,22 @@ namespace {
 			,m_Col(nCol)
 			,m_Completed(false)
 		{}
+
+		BOOL Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID)
+		{
+			BOOL bRes = CComboBox::Create(dwStyle, rect, pParentWnd, nID);
+			if (!bRes)
+				return FALSE;
+
+			// Subclass the combobox edit control if style includes CBS_DROPDOWN
+			//	- Must handle the focus of the internal CEdit
+			if ((dwStyle & CBS_DROPDOWN) && !((dwStyle & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST))
+			{
+				m_Edit.SubclassWindow(*GetWindow(GW_CHILD));
+			}
+
+			return bRes;
+		}
 
 		void EndEdit(bool bSuccess)
 		{
@@ -46,52 +121,71 @@ namespace {
 			PostMessage(WM_CLOSE);
 		}
 
-		void OnKillFocus(CWnd *pNewWnd)
+	protected:
+		afx_msg void OnKillFocus(CWnd* pNewWnd)
 		{
+			CComboBox::OnKillFocus(pNewWnd);
+
+			if (this == pNewWnd)
+				return;
+
+			if (&m_Edit==pNewWnd)
+				return;
+
 			EndEdit(true);
 		}
 
-		void OnCloseUp()
-		{
-			EndEdit(true);
-		}
-
-		void OnNcDestroy()
+		afx_msg void OnNcDestroy()
 		{
 			CComboBox::OnNcDestroy();
 			delete this;
 		}
-		
-		BOOL PreTranslateMessage(MSG* pMSG)
+
+		afx_msg void OnDestroy()
 		{
-			switch(pMSG->message)
-			{
-				case WM_KEYDOWN:
-				{
-					switch(pMSG->wParam)
-					{
-						case VK_RETURN: EndEdit(true); return TRUE;
-						case VK_TAB: EndEdit(true); return FALSE;
-						case VK_ESCAPE: EndEdit(false);return TRUE;
-					}
-					break;
-				}
-			}
-			return CComboBox::PreTranslateMessage(pMSG);
+			if (!m_Completed)
+				EndEdit(false);
+
+			if (m_Edit.GetSafeHwnd() != NULL)
+				m_Edit.UnsubclassWindow();
+
+			CComboBox::OnDestroy();
 		}
 
-	private:
-		int m_Row;
-		int m_Col;
-		bool m_Completed;
+		afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
+		{
+			if (nChar == VK_TAB || nChar == VK_RETURN)
+			{
+				EndEdit(true);
+				return;
+			}
+			else
+			if (nChar == VK_ESCAPE)
+			{
+				EndEdit(false);
+				return;
+			}
+
+			CComboBox::OnKeyUp(nChar, nRepCnt, nFlags);
+		}
+
+		afx_msg UINT OnGetDlgCode() { return DLGC_WANTALLKEYS; }
 
 		DECLARE_MESSAGE_MAP()
+
+	private:
+		CComboEdit m_Edit;  // subclassed edit control
+		bool	m_Completed;
+		int		m_Row;
+		int		m_Col;
 	};
 
-	BEGIN_MESSAGE_MAP(CInPlaceList, CEdit)
+	BEGIN_MESSAGE_MAP(CInPlaceList, CComboBox)
 		//{{AFX_MSG_MAP(CInPlaceList)
 		ON_WM_KILLFOCUS()
-		ON_CONTROL_REFLECT(CBN_CLOSEUP, OnCloseUp)
+		ON_WM_GETDLGCODE()
+		ON_WM_DESTROY()
+		ON_WM_KEYUP()
 		ON_WM_NCDESTROY()
 		//}}AFX_MSG_MAP
 	END_MESSAGE_MAP()
@@ -120,22 +214,54 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, i
 		m_pComboBox->SetCurSel(nCurSel);
 }
 
+//-----------------------------------------------------------------------------
+namespace {
+	int GetEditFontHeight(CGridListCtrlEx& owner)
+	{
+		const CString testText = _T("yjpÍÁ");
+
+		CRect rcRequired = CRect(0,0,0,0);
+
+		CClientDC dc(&owner);
+		dc.SelectObject(owner.GetCellFont());
+		dc.DrawText(testText, &rcRequired, DT_CALCRECT|DT_SINGLELINE);
+
+		return rcRequired.Height();
+	}
+}
+
 CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	CRect rcItem;
 	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rcItem) );
 
+	// Adjust position to font height
+	int requiredHeight = GetEditFontHeight(owner);
+	if (!owner.UsingVisualStyle())
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE)) > rcItem.Height())
+		{
+			rcItem.top -= ::GetSystemMetrics(SM_CXEDGE);
+			rcItem.bottom += ::GetSystemMetrics(SM_CXEDGE);
+		}
+	}
+	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)) < rcItem.Height())
+			rcItem.bottom -= ::GetSystemMetrics(SM_CXBORDER);
+	}
+
 	// Expand the size of the ComboBox according to 9 elements
-	rcItem.bottom += (rcItem.bottom - rcItem.top) * 9;
-	rcItem.top -= GetSystemMetrics(SM_CXEDGE); // Because of ComboBox 3D Style
+	CRect rcFinalSize = rcItem;
+	rcFinalSize.bottom += rcItem.Height() + requiredHeight * 9;
 
 	// Create edit control to edit the cell
 	//	- Stores the pointer, so elements can be dynamically added laters
 	m_pComboBox = new CInPlaceList(nRow, nCol);
-	VERIFY( m_pComboBox->Create( WS_CHILD |WS_VSCROLL|WS_HSCROLL | CBS_SIMPLE |CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT, rcItem, &owner, 0) );
+	VERIFY( m_pComboBox->Create( WS_CHILD|WS_VSCROLL|CBS_AUTOHSCROLL|CBS_DROPDOWN, rcFinalSize, &owner, 0) );
 
 	// Configure font
-	m_pComboBox->SetFont(owner.GetFont(), FALSE);
+	m_pComboBox->SetFont(owner.GetCellFont(), FALSE);
 
 	// Add all items to list
 	if (m_ComboList.GetSize()>0)
@@ -157,14 +283,25 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	}
 
 	// Resize combobox according to element count
-	CRect rcFinalSize;
 	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rcFinalSize) );
-	rcFinalSize.bottom += (rcFinalSize.bottom - rcFinalSize.top) * min(9, m_pComboBox->GetCount() + 1);
+	rcFinalSize.bottom += rcItem.Height() + requiredHeight * min(9, m_pComboBox->GetCount() + 1);
 	m_pComboBox->SetWindowPos(NULL,		// not relative to any other windows
 							0, 0,		// TopLeft corner doesn't change
-							rcFinalSize.Width(), rcFinalSize.bottom - rcFinalSize.top,   // existing width, new height
+							rcFinalSize.Width(), rcFinalSize.Height(),   // existing width, new height
 							SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
 							);
+
+	// Adjust the item-height to font-height
+	CRect comboRect;
+	m_pComboBox->GetClientRect(&comboRect);
+	int itemHeight = max(requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE), rcItem.Height());
+	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+	{
+		if (itemHeight > (requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)))
+			itemHeight -= ::GetSystemMetrics(SM_CXBORDER);
+	}
+	m_pComboBox->SetItemHeight(-1, itemHeight - 2*::GetSystemMetrics(SM_CXEDGE));
+
 	return m_pComboBox;
 }
 

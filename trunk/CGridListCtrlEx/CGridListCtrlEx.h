@@ -25,6 +25,8 @@ public:
 	// CListCtrl
 	LRESULT EnableVisualStyles(bool bValue);
 	inline bool UsingVisualStyle() const { return m_UsingVisualStyle; }
+	CFont* GetCellFont();
+	void SetCellFont(CFont* pFont, BOOL bRedraw = TRUE);
 
 	// Row
 	int GetFocusRow() const;
@@ -56,7 +58,7 @@ public:
 
 	// DataModel callbacks
 	virtual bool GetCellText(int nRow, int nCol, CString& text) { return false; }
-	virtual bool GetCellImage(int nRow, int nCol, int imageId) { return false; }
+	virtual bool GetCellImage(int nRow, int nCol, int& imageId) { return false; }
 	virtual bool GetCellCustomColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
 	virtual bool GetCellCustomFont(int nRow, int nCol, LOGFONT& font) { return false; }
 	virtual bool GetCellTooltip(int nRow, int nCol, CString& text);
@@ -90,6 +92,11 @@ protected:
 
 	bool m_UsingVisualStyle;
 
+	CFont* m_pGridFont;
+	CFont* m_pCellFont;
+	CFont* m_pOldFont;
+	double m_Margin;
+
 	// Global column trait methods
 	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult) {}
 	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol) { return pEditor; }
@@ -112,6 +119,7 @@ protected:
 	virtual afx_msg LRESULT OnSetColumnWidth(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderBeginResize(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
+	virtual afx_msg BOOL OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderEndDrag(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);

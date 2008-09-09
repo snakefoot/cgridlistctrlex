@@ -96,6 +96,22 @@ void CGridColumnTraitEdit::Accept(CGridColumnTraitVisitor& visitor)
 	visitor.Visit(*this);
 }
 
+//-----------------------------------------------------------------------------
+namespace {
+	int GetEditFontHeight(CGridListCtrlEx& owner)
+	{
+		const CString testText = _T("yjpÍÁ");
+
+		CRect rcRequired = CRect(0,0,0,0);
+
+		CClientDC dc(&owner);
+		dc.SelectObject(owner.GetCellFont());
+		dc.DrawText(testText, &rcRequired, DT_CALCRECT|DT_SINGLELINE);
+
+		return rcRequired.Height();
+	}
+}
+
 CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Get the text-style of the cell to edit
@@ -114,19 +130,28 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 	CRect rcItem;
 	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rcItem) );
 
+	// Adjust position to font height
+	int requiredHeight = GetEditFontHeight(owner);
+	if (!owner.UsingVisualStyle())
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE)) > rcItem.Height())
+		{
+			rcItem.top -= ::GetSystemMetrics(SM_CXEDGE);
+			rcItem.bottom += ::GetSystemMetrics(SM_CXEDGE);
+		}
+	}
+	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)) < rcItem.Height())
+			rcItem.bottom -= ::GetSystemMetrics(SM_CXBORDER);
+	}
+
 	// Create edit control to edit the cell
 	CEdit* pEdit = new CInPlaceEdit(nRow, nCol);
 	VERIFY( pEdit->CreateEx( 0, _T ("EDIT"), _T(""), ES_AUTOHSCROLL | ES_NOHIDESEL | WS_CHILD | WS_BORDER | dwStyle, rcItem, &owner, 0) );
 
 	// Configure font
-	pEdit->SetFont(owner.GetFont(), TRUE);
-
-	// Adjust edit control according to font (CEdit top/bottom border margin changes with font)
-	CRect editRect = rcItem;
-	pEdit->GetRect(editRect);
-	int height_margin = rcItem.Height() - editRect.Height();
-	rcItem.top -= 2*::GetSystemMetrics(SM_CXEDGE) - height_margin;
-	pEdit->MoveWindow(rcItem, TRUE);
+	pEdit->SetFont(owner.GetCellFont(), TRUE);
 
 	// First item (Label) doesn't have a margin (Subitems does)
 	if (nCol==0)

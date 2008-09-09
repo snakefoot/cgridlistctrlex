@@ -16,6 +16,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
 	ON_NOTIFY_EX(HDN_BEGINTRACKA, 0, OnHeaderBeginResize)
 	ON_NOTIFY_EX(HDN_BEGINTRACKW, 0, OnHeaderBeginResize)
+	ON_NOTIFY_EX(HDN_BEGINDRAG, 0, OnHeaderBeginDrag)
 	ON_NOTIFY_EX(HDN_ENDDRAG, 0, OnHeaderEndDrag)
 	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKA, 0, OnHeaderDividerDblClick)
 	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKW, 0, OnHeaderDividerDblClick)
@@ -40,6 +41,10 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pEditor(NULL)
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
+	,m_Margin(1.25)		// Higher row-height (more room for edit-ctrl border)
+	,m_pGridFont(NULL)
+	,m_pCellFont(NULL)
+	,m_pOldFont(NULL)
 {}
 
 CGridListCtrlEx::~CGridListCtrlEx()
@@ -166,6 +171,8 @@ void CGridListCtrlEx::PreSubclassWindow()
 
 	EnableToolTips(TRUE);
 	GetToolTips()->Activate(FALSE);
+
+	SetCellFont(CListCtrl::GetFont());
 }
 
 int CGridListCtrlEx::InsertColumnTrait(int nCol, LPCTSTR lpszColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
@@ -226,6 +233,33 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 	else
 		return (const CHeaderCtrl*) CHeaderCtrl::FromHandle(hWnd);
 }
+
+CFont* CGridListCtrlEx::GetCellFont()
+{
+	return m_pCellFont;
+}
+
+void CGridListCtrlEx::SetCellFont(CFont* pFont, BOOL bRedraw /* = TRUE */)
+{
+	LOGFONT lf = {0};
+	VERIFY(pFont->GetLogFont(&lf)!=0);
+
+	delete m_pCellFont;
+	m_pCellFont = new CFont;
+	VERIFY( m_pCellFont->CreateFontIndirect(&lf) );
+
+	lf.lfHeight = (int)(lf.lfHeight * m_Margin);
+	lf.lfWidth = (int)(lf.lfWidth * m_Margin);
+	delete m_pGridFont;
+	m_pGridFont = NULL;
+	m_pGridFont = new CFont();
+	VERIFY( m_pGridFont->CreateFontIndirect(&lf) );
+
+	CListCtrl::SetFont(m_pGridFont);
+	GetHeaderCtrl()->SetFont(m_pCellFont);
+	GetToolTips()->SetFont(m_pCellFont);
+}
+
 
 //------------------------------------------------------------------------
 //! The column version of GetItemData(), one can specify an unique
@@ -1123,6 +1157,9 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		// Before painting a row
 		case CDDS_ITEMPREPAINT:
 		{
+			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+			m_pOldFont = pDC->SelectObject(m_pCellFont);
+
 			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
 			{
 				// If drawing focus row, then remove focus state and request to draw it later
@@ -1161,6 +1198,9 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		// After painting the entire row
 		case CDDS_ITEMPOSTPAINT:
 		{
+			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+			pDC->SelectObject(m_pOldFont);
+
 			if (GetFocusRow()!=nRow)
 				break;
 
@@ -1341,6 +1381,9 @@ BOOL CGridListCtrlEx::OnCommand(WPARAM wParam, LPARAM lParam)
 
 BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+
 	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
 	SetColumnWidthAuto(pNMH->iItem);
 	return TRUE;	// Don't let parent handle the event
@@ -1348,6 +1391,9 @@ BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pRes
 
 BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+
 	// Check that column is allowed to be resized
 	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
 	int nCol = (int)pNMH->iItem;
@@ -1373,6 +1419,13 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
+}
+
+BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+	return FALSE;
 }
 
 BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
@@ -1448,7 +1501,8 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
 
-	SetFocus();	// Ensure edit controls gets kill-focus
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
 
 	int nCol = pLV->iSubItem;
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
@@ -1474,16 +1528,14 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// Force focus to finish editing
 	if( GetFocus() != this )
-		SetFocus();
+		SetFocus();	// Force focus to finish editing
 	 CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
 void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	// Force focus to finish editing
 	if( GetFocus() != this )
-		SetFocus();
+		SetFocus();	// Force focus to finish editing
 	 CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
 }
