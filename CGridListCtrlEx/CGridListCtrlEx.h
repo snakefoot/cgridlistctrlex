@@ -26,7 +26,7 @@ public:
 	LRESULT EnableVisualStyles(bool bValue);
 	inline bool UsingVisualStyle() const { return m_UsingVisualStyle; }
 	CFont* GetCellFont();
-	void SetCellFont(CFont* pFont, BOOL bRedraw = TRUE);
+	void SetCellMargin(double margin);
 
 	// Row
 	int GetFocusRow() const;
@@ -57,11 +57,11 @@ public:
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);
 
 	// DataModel callbacks
-	virtual bool GetCellText(int nRow, int nCol, CString& text) { return false; }
-	virtual bool GetCellImage(int nRow, int nCol, int& imageId) { return false; }
-	virtual bool GetCellCustomColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
-	virtual bool GetCellCustomFont(int nRow, int nCol, LOGFONT& font) { return false; }
-	virtual bool GetCellTooltip(int nRow, int nCol, CString& text);
+	virtual bool CallbackCellText(int nRow, int nCol, CString& text) { return false; }
+	virtual bool CallbackCellImage(int nRow, int nCol, int& imageId) { return false; }
+	virtual bool CallbackCellCustomColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
+	virtual bool CallbackCellCustomFont(int nRow, int nCol, LOGFONT& font) { return false; }
+	virtual bool CallbackCellTooltip(int nRow, int nCol, CString& text);
 
 protected:
 	// Maintaining column traits (and visible state)

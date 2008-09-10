@@ -35,4 +35,5 @@ protected:
 private:
 	CGridListCtrlEx m_ListCtrl;
 	CListCtrl_DataModel m_DataModel;
+	CImageList m_ImageList;
 };

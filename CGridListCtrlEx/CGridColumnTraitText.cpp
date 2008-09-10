@@ -29,11 +29,11 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 				pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
 			}
 
-			if (owner.GetCellCustomColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
+			if (owner.CallbackCellCustomColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
 				*pResult |= CDRF_NEWFONT;
 
 			LOGFONT newFont = {0};
-			if (owner.GetCellCustomFont(nRow, nCol, newFont))
+			if (owner.CallbackCellCustomFont(nRow, nCol, newFont))
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;
@@ -47,7 +47,6 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 		// After painting a cell
 		case CDDS_ITEMPOSTPAINT | CDDS_SUBITEM:
 		{
-			int nCol = pLVCD->iSubItem;
 			if (m_pOldFont!=NULL)
 			{
 				// Restore the original font
@@ -57,4 +56,54 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			}
 		} break;
 	}
+}
+
+//------------------------------------------------------------------------
+//! Returns the proper row-height, which an editor should fit in
+//------------------------------------------------------------------------
+int CGridColumnTraitText::GetCellFontHeight(CGridListCtrlEx& owner)
+{
+	const CString testText = _T("yjpÍÁ");
+
+	CRect rcRequired = CRect(0,0,0,0);
+
+	CClientDC dc(&owner);
+	dc.SelectObject(owner.GetCellFont());
+	dc.DrawText(testText, &rcRequired, DT_CALCRECT|DT_SINGLELINE);
+
+	return rcRequired.Height();
+}
+
+//------------------------------------------------------------------------
+//! Returns the proper rectangle, which an editor should fit in
+//------------------------------------------------------------------------
+CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol)
+{
+	// Find the required height according to font
+	int requiredHeight = GetCellFontHeight(owner);
+
+	// Get position of the cell to edit
+	CRect rectCell;
+	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rectCell) );
+
+	// Adjust position to font height
+	if (!owner.UsingVisualStyle())
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE)) > rectCell.Height())
+		{
+			rectCell.top -= ::GetSystemMetrics(SM_CXEDGE);
+			rectCell.bottom += ::GetSystemMetrics(SM_CXEDGE);
+		}
+	}
+	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+	{
+		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)) < rectCell.Height())
+			rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
+	}
+	if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES)
+	{
+		if (owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow,nCol)>=0)
+			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+	}
+	return rectCell;
 }

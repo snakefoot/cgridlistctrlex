@@ -99,6 +99,15 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
+	// Create and attach image list
+	m_ImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON1));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON2));
+	m_ListCtrl.SetImageList(&m_ImageList, LVSIL_SMALL);
+	
+	// Give better margin to editors
+	m_ListCtrl.SetCellMargin(1.2);
+
 	// Create Columns
 	m_ListCtrl.InsertHiddenLabelColumn();	// Requires one never uses column 0
 
@@ -140,6 +149,12 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			m_ListCtrl.SetItemText(nItem, col+1, m_DataModel.GetCellText(rowId, col).c_str());
 		}
 	}
+
+	// Assign images to the list-control
+	m_ListCtrl.SetCellImage(0, 3, 0);
+	m_ListCtrl.SetCellImage(1, 3, 0);
+	m_ListCtrl.SetCellImage(2, 3, 0);
+	m_ListCtrl.SetCellImage(3, 3, 1);
 	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }

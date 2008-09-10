@@ -98,11 +98,24 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <h4>Showing Tooltip</h4>
 <p>By default, the <code>CGridListCtrlEx</code> will just display the cell contents 
 	as tooltip. If we want to display something different in the tooltip, then we 
-	can override the <code>CGridListCtrlEx::GetCellTooltip()</code> method.</p>
+	can override the <code>CGridListCtrlEx::CallbackCellTooltip()</code> method.</p>
 <h4>Formatting Cells/Subitems</h4>
 <p>If we want to change the foreground/background color or the font style (bold, 
-	italic, underline), then we can override the methods <code>CGridListCtrlEx::GetCellCustomColor()</code>
-	and <code>CGridListCtrlEx::GetCellCustomFont()</code>.</p>
+	italic, underline), then we can override the methods <code>CGridListCtrlEx::CallbackCellCustomColor()</code>
+	and <code>CGridListCtrlEx::CallbackCellCustomFont()</code>.</p>
+<H4>Displaying Cell/Subitem Images</H4>
+<P>The CGridListCtrlEx enables the extended style <code>LVS_EX_SUBITEMIMAGES</code> 
+	by default, but one is still required to attach a <code>CImageList</code> using <code>
+		CListCtrl::SetImageList()</code>.</P>
+<P>After having attached the images, then one can bind a cell/subitem with an index 
+	in the CImageList. This can be done with <code>CGridListCtrlEx::SetCellImage()</code>, 
+	or if using <code>I_IMAGECALLBACK</code> then return the image index by 
+	overriding <code>CGridListCtrlEx::CallbackCellImage()</code>.</P>
+<P>The <code>CGridListCtrlEx</code> also enables the extended style <code>LVS_EX_GRIDLINES</code>
+	by default, which can cause subitem images to overlap the grid border. This can 
+	be solved by making sure that the image only uses 15 of the 16 pixels (First 
+	pixel transparent).
+</P>
 <h2>How Does the CGridColumnTrait Work</h2>
 <p><code>CGridListCtrlEx</code> tries to keep away from all the nasty details about 
 	how to display and edit data. These things are instead handled by the <code>CGridColumnTrait</code>
@@ -150,21 +163,18 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <h2>Things To Do</h2>
 <p>The <code>CGridListCtrlEx</code> is not quite finished, as it still lacks some 
 	features:</p>
-<ul>
+<UL>
 	<li>
 		<code>CListCtrl</code>
 	group-style and the ability to group rows according to a chosen column.
 	<li>
-		Better handling of <code>LVS_EX_SUBITEMIMAGES</code>, as subitem images now 
-		overlap the grid-borders (bug in <code>CListCtrl</code>).
+		Better handling of <code>LVS_EX_SUBITEMIMAGES</code>, as the background of 
+		subitem images are not drawn properly when row is selected (bug&nbsp;in <code>CListCtrl</code>).
 	<li>
 		Support for checkboxes (might consider some misuse of the <code>iImage</code> property 
 		of <code>LV_ITEM</code>).
 	<li>
-	Support for progress bar.
-	<li>
-		Support for date / time editing.</li>
-</ul>
+		Support for progress bar.</li></UL>
 <p>Only the group-style handling should be part of the <code>CGridListCtrlEx</code> 
 	itself, while the other features should be handled with new specialized <code>CGridColumnTrait</code>
 	classes.</p>
@@ -174,7 +184,16 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 		<strong>2008-09-04</strong>
 	- First release of the article
 	<LI>
-		<strong>2008-09-09</strong> - Improved resize of CEdit and CComboBox to better 
-		fit the grid-cell
+		<strong>2008-09-10</strong> - Improved grid-cell editor support:
+		<UL>
+			<LI>
+				Added ability to add extra cell margin with <code>CGridListCtrlEx::SetCellMargin()</code>.
+			<LI>
+			Better resizing of grid-cell editors according to font.
+			<LI>
+				Extended <code>CComboBox</code> editor to handle <code>CBS_DROPDOWN</code> style 
+				(Before it only supported <code>CBS_DROPDOWNLIST</code>).
+			<LI>
+				Added <code>CDateTimeCtrl</code> editor.</LI></UL>
 	</LI>
 </ul>
