@@ -46,6 +46,7 @@ public:
 			,m_AlwaysHidden(false)
 			,m_Sortable(true)
 			,m_Editable(true)
+			,m_Resizable(true)
 			,m_MetaFlags(0)
 		{}
 		bool m_Visible;
@@ -54,6 +55,7 @@ public:
 		bool m_AlwaysHidden;
 		bool m_Sortable;
 		bool m_Editable;
+		bool m_Resizable;
 
 		//! Meta-Flags (and data) can be used to store extra properties for a column
 		//! when deriving from CGridListCtrlEx.

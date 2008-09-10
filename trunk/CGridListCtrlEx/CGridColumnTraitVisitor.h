@@ -11,14 +11,16 @@
 
 class CGridColumnTrait;
 class CGridColumnTraitCombo;
+class CGridColumnTraitDateTime;
 class CGridColumnTraitEdit;
 class CGridColumnTraitText;
 
 class CGridColumnTraitVisitor
 {
 public:
-	void Visit(CGridColumnTrait& item)		{}
-	void Visit(CGridColumnTraitCombo& item)	{}
-	void Visit(CGridColumnTraitEdit& item)	{}
-	void Visit(CGridColumnTraitText& item)	{}
+	void Visit(CGridColumnTrait&)			{}
+	void Visit(CGridColumnTraitCombo&)		{}
+	void Visit(CGridColumnTraitDateTime&)	{}
+	void Visit(CGridColumnTraitEdit&)		{}
+	void Visit(CGridColumnTraitText&)		{}
 };

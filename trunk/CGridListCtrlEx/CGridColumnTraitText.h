@@ -12,12 +12,14 @@
 
 class CGridColumnTraitText : public CGridColumnTrait
 {
+public:
+	CGridColumnTraitText();
+	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
+
 protected:
 	CFont*	m_pOldFont;		// Backup of the original font while drawing with this font
 
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
-
-public:
-	CGridColumnTraitText();
-	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
+	virtual int GetCellFontHeight(CGridListCtrlEx& owner);
+	virtual CRect GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol);
 };

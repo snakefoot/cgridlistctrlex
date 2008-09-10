@@ -26,7 +26,7 @@
 				RuntimeLibrary="1"
 				TreatWChar_tAsBuiltInType="TRUE"
 				UsePrecompiledHeader="3"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="4"/>
 			<Tool
@@ -179,6 +179,12 @@
 			<File
 				RelativePath=".\res\CGridListCtrlEx.rc2">
 			</File>
+			<File
+				RelativePath=".\res\FLGDEN.ICO">
+			</File>
+			<File
+				RelativePath=".\res\FLGSWED.ICO">
+			</File>
 		</Filter>
 		<Filter
 			Name="CGridListCtrlEx"
@@ -188,6 +194,9 @@
 				Filter="">
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitDateTime.cpp">
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.cpp">
@@ -207,6 +216,9 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitDateTime.h">
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.h">

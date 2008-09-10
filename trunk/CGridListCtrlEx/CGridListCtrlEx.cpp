@@ -41,7 +41,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pEditor(NULL)
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
-	,m_Margin(1.25)		// Higher row-height (more room for edit-ctrl border)
+	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
 	,m_pGridFont(NULL)
 	,m_pCellFont(NULL)
 	,m_pOldFont(NULL)
@@ -51,6 +51,11 @@ CGridListCtrlEx::~CGridListCtrlEx()
 {
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
+
+	delete m_pGridFont;
+	m_pGridFont = NULL;
+	delete m_pCellFont;
+	m_pCellFont = NULL;
 }
 
 namespace {
@@ -171,8 +176,6 @@ void CGridListCtrlEx::PreSubclassWindow()
 
 	EnableToolTips(TRUE);
 	GetToolTips()->Activate(FALSE);
-
-	SetCellFont(CListCtrl::GetFont());
 }
 
 int CGridListCtrlEx::InsertColumnTrait(int nCol, LPCTSTR lpszColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
@@ -236,13 +239,22 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 
 CFont* CGridListCtrlEx::GetCellFont()
 {
+	if (m_pCellFont==NULL)
+		return GetFont();
 	return m_pCellFont;
 }
 
-void CGridListCtrlEx::SetCellFont(CFont* pFont, BOOL bRedraw /* = TRUE */)
+//------------------------------------------------------------------------
+//! Takes the current font and increases the font with the given margin
+//! multiplier. Increases the row-height but keeps the cell font intact.
+//! Gives more room for the grid-cell editors and their border.
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SetCellMargin(double margin)
 {
+	m_Margin = margin;
+
 	LOGFONT lf = {0};
-	VERIFY(pFont->GetLogFont(&lf)!=0);
+	VERIFY(GetFont()->GetLogFont(&lf)!=0);
 
 	delete m_pCellFont;
 	m_pCellFont = new CFont;
@@ -259,7 +271,6 @@ void CGridListCtrlEx::SetCellFont(CFont* pFont, BOOL bRedraw /* = TRUE */)
 	GetHeaderCtrl()->SetFont(m_pCellFont);
 	GetToolTips()->SetFont(m_pCellFont);
 }
-
 
 //------------------------------------------------------------------------
 //! The column version of GetItemData(), one can specify an unique
@@ -790,13 +801,13 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
 
 	if ( m_LastSearchString.GetLength()==1
-	  && m_LastSearchString.GetAt(0)==nChar)
+	  && m_LastSearchString.GetAt(0)==(TCHAR)nChar)
 	{
 		// When the same first character is entered again,
 		// then just repeat the search
 	}
 	else
-		m_LastSearchString.AppendChar(nChar);
+		m_LastSearchString.AppendChar((TCHAR)nChar);
 
 	int nRow = GetFocusRow();
 	if (nRow < 0)
@@ -862,7 +873,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Request text
 		CString result;
-		if (GetCellText(nRow, nCol, result))
+		if (CallbackCellText(nRow, nCol, result))
 		{
 			_tcsncpy(pNMW->item.pszText, result.GetBuffer(), pNMW->item.cchTextMax);
 		}
@@ -872,7 +883,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Request-Image
 		int result = -1;
-		if (GetCellImage(nRow, nCol, result))
+		if (CallbackCellImage(nRow, nCol, result))
             pNMW->item.iImage = result;
 		else
 		{
@@ -899,7 +910,7 @@ bool CGridListCtrlEx::ShowToolTipText(const CPoint& pt) const
 	return true;
 }
 
-bool CGridListCtrlEx::GetCellTooltip(int nRow, int nCol, CString& text)
+bool CGridListCtrlEx::CallbackCellTooltip(int nRow, int nCol, CString& text)
 {
 	if (nRow!=-1 && nCol!=-1)
 	{
@@ -943,7 +954,7 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	// Make const-reference to the returned anonymous CString-object,
 	// will keep it alive until reaching scope end
 	CString tooltip;
-	if (!GetCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
+	if (!CallbackCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
 		return FALSE;
 
 	// Non-unicode applications can receive requests for tooltip-text in unicode
@@ -1127,7 +1138,6 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVCUSTOMDRAW* pLVCD = (NMLVCUSTOMDRAW*)(pNMHDR);
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
-	int nRowItemData = (int)pLVCD->nmcd.lItemlParam;
 
 	*pResult = CDRF_DODEFAULT;
 
@@ -1158,7 +1168,10 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		case CDDS_ITEMPREPAINT:
 		{
 			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-			m_pOldFont = pDC->SelectObject(m_pCellFont);
+			if (m_pCellFont!=NULL)
+			{
+				m_pOldFont = pDC->SelectObject(m_pCellFont);
+			}
 
 			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
 			{
@@ -1198,8 +1211,12 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		// After painting the entire row
 		case CDDS_ITEMPOSTPAINT:
 		{
-			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-			pDC->SelectObject(m_pOldFont);
+			if (m_pOldFont!=NULL)
+			{
+				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+				pDC->SelectObject(m_pOldFont);
+				m_pOldFont = NULL;
+			}
 
 			if (GetFocusRow()!=nRow)
 				break;
@@ -1397,11 +1414,21 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	// Check that column is allowed to be resized
 	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
 	int nCol = (int)pNMH->iItem;
-	if (!IsColumnVisible(nCol))
+
+	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
+	if (!columnState.m_Visible)
 	{
 		*pResult = TRUE;	// Block resize
 		return TRUE;		// Block event
 	}
+
+	if (!columnState.m_Resizable)
+	{
+		*pResult = TRUE;	// Block resize
+		return TRUE;		// Block event
+	}
+
 	return FALSE;
 }
 
@@ -1413,9 +1440,10 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 
 	if (!columnState.m_Visible)
-	{
 		return FALSE;
-	}
+
+	if (!columnState.m_Resizable)
+		return FALSE;
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
