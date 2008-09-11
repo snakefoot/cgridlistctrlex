@@ -223,7 +223,7 @@ int CGridListCtrlEx::InsertHiddenLabelColumn()
 
 	CGridColumnTrait* pColumTrait = new CGridColumnTrait;
 	pColumTrait->GetColumnState().m_AlwaysHidden = true;
-	return InsertColumnTrait(0, "", LVCFMT_LEFT, -1, -1, pColumTrait);
+	return InsertColumnTrait(0, _T(""), LVCFMT_LEFT, -1, -1, pColumTrait);
 }
 
 const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
