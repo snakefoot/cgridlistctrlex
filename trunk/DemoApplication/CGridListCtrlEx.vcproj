@@ -207,6 +207,9 @@
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridListCtrlEx.cpp">
 				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridListCtrlGroups.cpp">
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -231,6 +234,9 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridListCtrlEx.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridListCtrlGroups.h">
 				</File>
 			</Filter>
 		</Filter>
