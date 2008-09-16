@@ -130,6 +130,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 		if (col==2)	// Country
 		{
 			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
+			pComboTrait->SetStyle(WS_VSCROLL | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST);
 			const vector<string>& countries = m_DataModel.GetCountries();
 			for(size_t i=0; i < countries.size() ; ++i)
 				pComboTrait->AddItem((int)i, countries[i].c_str());
