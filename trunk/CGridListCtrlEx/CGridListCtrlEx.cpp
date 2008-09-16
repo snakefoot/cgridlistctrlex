@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
 	ON_WM_RBUTTONDOWN()	// OnRButtonDown(UINT nFlags, CPoint point)
+	ON_WM_LBUTTONDBLCLK()// OnLButtonDblClk(UINT nFlags, CPoint point)
 	ON_WM_HSCROLL()		// OnHScroll
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar
@@ -59,6 +60,26 @@ CGridListCtrlEx::~CGridListCtrlEx()
 }
 
 namespace {
+	bool IsCommonControlsEnabled()
+	{
+		// Test if application has access to common controls
+		HMODULE hinstDll = ::LoadLibrary(_T("comctl32.dll"));
+		if (hinstDll)
+		{
+			DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
+			::FreeLibrary(hinstDll);
+			if (pDllGetVersion != NULL)
+			{
+				DLLVERSIONINFO dvi = {0};
+				dvi.cbSize = sizeof(dvi);
+				HRESULT hRes = pDllGetVersion ((DLLVERSIONINFO *) &dvi);
+				if (SUCCEEDED(hRes))
+					return dvi.dwMajorVersion >= 6;
+			}
+		}
+		return false;
+	}
+
 	bool IsThemeEnabled()
 	{
 		HMODULE hinstDll;
@@ -78,20 +99,7 @@ namespace {
 				if (pIsAppThemed() && pIsThemeActive())
 				{
 					// Test if application has themes enabled by loading the proper DLL
-					hinstDll = ::LoadLibrary(_T("comctl32.dll"));
-					if (hinstDll)
-					{
-						DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
-						::FreeLibrary(hinstDll);
-						if (pDllGetVersion != NULL)
-						{
-							DLLVERSIONINFO dvi = {0};
-							dvi.cbSize = sizeof(dvi);
-							HRESULT hRes = pDllGetVersion ((DLLVERSIONINFO *) &dvi);
-							if (SUCCEEDED(hRes))
-                                XPStyle = dvi.dwMajorVersion >= 6;
-						}
-					}
+					return IsCommonControlsEnabled();
 				}
 			}
 		}
@@ -1129,6 +1137,10 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	UpdateFocusCell(nCol);
 }
 
+void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+}
+
 //------------------------------------------------------------------------
 //! Performs custom drawing of the CListCtrl
 //!  - Ensures the CGridColumnTrait's can do their thing
@@ -1338,6 +1350,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	if (point.x==-1 && point.y==-1)
 	{
 		// OBS! point is initialized to (-1,-1) if using SHIFT+F10 or VK_APPS
+		OnContextMenuKeyboard(pWnd, point);
 	}
 	else
 	{
@@ -1348,52 +1361,80 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 		GetHeaderCtrl()->GetClientRect(&headerRect);
 		if (headerRect.PtInRect(pt))
 		{
-			// Show context-menu with the option to show hide columns
-			CMenu menu;
-			if (menu.CreatePopupMenu())
-			{
-				for( int i = GetColumnTraitSize()-1 ; i >= 0; --i)
-				{
-					CGridColumnTrait* pTrait = GetColumnTrait(i);
-					CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-
-					if (columnState.m_AlwaysHidden)
-						continue;	// Cannot be shown
-
-					UINT uFlags = MF_BYPOSITION | MF_STRING;
-
-					// Put check-box on context-menu
-					if (IsColumnVisible(i))
-						uFlags |= MF_CHECKED;
-					else
-						uFlags |= MF_UNCHECKED;
-
-					// Retrieve column-title
-					LVCOLUMN lvc = {0};
-					lvc.mask = LVCF_TEXT;
-					TCHAR sColText[256];
-					lvc.pszText = sColText;
-					lvc.cchTextMax = sizeof(sColText)-1;
-					VERIFY( GetColumn(i, &lvc) );
-
-					menu.InsertMenu(0, uFlags, i, lvc.pszText);
-				}
-
-				menu.TrackPopupMenu(TPM_LEFTALIGN, point.x, point.y, this, 0);
-			}
+			HDHITTESTINFO hdhti = {0};
+			hdhti.pt = pt;
+			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, (LPARAM) &hdhti);
+			OnContextMenuHeader(pWnd, point, hdhti.iItem);
+		}
+		else
+		{
+			int nRow, nCol;
+			CellHitTest(pt, nRow, nCol);
+			if (nRow!=-1)
+                OnContextMenuCell(pWnd, point, nRow, nCol);
+			else
+				OnContextMenuGrid(pWnd, point);
 		}
 	}
 }
 
-// Handle context-menu event for showing / hiding columns
-BOOL CGridListCtrlEx::OnCommand(WPARAM wParam, LPARAM lParam)
+void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 {
-	if (HIWORD(wParam) == 0)
+}
+
+void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
+{
+	int nCol = GetFocusCell();
+	int nRow = GetFocusRow();
+
+	OnContextMenuCell(pWnd, point, nRow, nCol);
+}
+
+void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
+{
+	// Show context-menu with the option to show hide columns
+	CMenu menu;
+	VERIFY( menu.CreatePopupMenu() );
+
+	for( int i = GetColumnTraitSize()-1 ; i >= 0; --i)
 	{
-		int nCol = LOWORD(wParam);
+		CGridColumnTrait* pTrait = GetColumnTrait(i);
+		CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
+
+		if (columnState.m_AlwaysHidden)
+			continue;	// Cannot be shown
+
+		UINT uFlags = MF_BYPOSITION | MF_STRING;
+
+		// Put check-box on context-menu
+		if (IsColumnVisible(i))
+			uFlags |= MF_CHECKED;
+		else
+			uFlags |= MF_UNCHECKED;
+
+		// Retrieve column-title
+		LVCOLUMN lvc = {0};
+		lvc.mask = LVCF_TEXT;
+		TCHAR sColText[256];
+		lvc.pszText = sColText;
+		lvc.cchTextMax = sizeof(sColText)-1;
+		VERIFY( GetColumn(i, &lvc) );
+
+		// +1 as zero is a reserved value in TrackPopupMenu() 
+		menu.InsertMenu(0, uFlags, i+1, lvc.pszText);
+	}
+
+	// Will return zero if no selection was made (TPM_RETURNCMD)
+	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
+	if (nResult!=0)
+	{
+		int nCol = nResult-1;
 		ShowColumn(nCol, !IsColumnVisible(nCol));
 	}
-	return TRUE;
+}
+
+void CGridListCtrlEx::OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol)
+{
 }
 
 BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult)

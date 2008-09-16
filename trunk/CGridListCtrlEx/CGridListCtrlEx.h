@@ -102,6 +102,12 @@ protected:
 	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol) { return pEditor; }
 	virtual bool OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI) { return true; }
 
+	// Context Menu Handlers
+	virtual void OnContextMenuGrid(CWnd* pWnd, CPoint point);
+	virtual void OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol);
+	virtual void OnContextMenuKeyboard(CWnd* pWnd, CPoint point);
+	virtual void OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol);
+
 	//{{AFX_VIRTUAL(CGridListCtrlEx)
 	virtual void PreSubclassWindow();
 	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO * pTI) const;
@@ -115,6 +121,7 @@ protected:
 	virtual afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	virtual afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg LRESULT OnSetColumnWidth(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
@@ -128,7 +135,6 @@ protected:
 	virtual afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
-	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
