@@ -9,7 +9,7 @@
 
 BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 #if _WIN32_WINNT >= 0x0600
-	ON_NOTIFY_REFLECT_EX(LVN_LINKCLICK, OnGroupTaskClick)	// Column Click
+	ON_NOTIFY_REFLECT_EX(LVN_LINKCLICK, OnGroupTaskClick)	// Task-Link Click
 #endif
 END_MESSAGE_MAP()
 
