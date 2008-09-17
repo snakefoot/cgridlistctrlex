@@ -36,7 +36,7 @@ public:
 	// Column
 	const CHeaderCtrl* GetHeaderCtrl() const;
 	CHeaderCtrl* GetHeaderCtrl() { return CListCtrl::GetHeaderCtrl(); }
-	int InsertColumnTrait(int nCol, LPCTSTR lpszColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
+	int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	int InsertHiddenLabelColumn();
 	BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
 	int GetColumnData(int col) const;
@@ -47,8 +47,8 @@ public:
 	BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
 
 	// Cell / Subitem 
-	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
-	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
+	virtual void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
+	virtual BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual bool ShowToolTipText(const CPoint& pt) const;
 	CWnd* EditCell(int nRow, int nCol);
@@ -92,6 +92,7 @@ protected:
 
 	bool m_UsingVisualStyle;
 
+	// Maintaining margin
 	CFont* m_pGridFont;
 	CFont* m_pCellFont;
 	CFont* m_pOldFont;

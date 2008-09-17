@@ -4,7 +4,7 @@
 #pragma once
 #include "afxcmn.h"
 
-#include "..\CGridListCtrlEx\CGridListCtrlGroups.h"
+#include "..\CGridListCtrlEx\CGridListCtrlXp.h"
 #include "CListCtrl_DataModel.h"
 
 
@@ -33,7 +33,7 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 private:
-	CGridListCtrlGroups m_ListCtrl;
+	CGridListCtrlXp m_ListCtrl;
 	CListCtrl_DataModel m_DataModel;
 	CImageList m_ImageList;
 };

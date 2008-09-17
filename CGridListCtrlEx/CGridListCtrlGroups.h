@@ -8,11 +8,11 @@
 //! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
 //! Placed in its own file as all features requires _WIN32_WINNT > 0x0501
 //------------------------------------------------------------------------
-#if _WIN32_WINNT >= 0x0501
 
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
+#if _WIN32_WINNT >= 0x0501
 	LRESULT InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
 
 	CString GetGroupHeader(int nGroupID);
@@ -34,7 +34,7 @@ public:
 	void CollapseAllGroups();
 	void ExpandAllGroups();
 
-	BOOL SetGroupFooter(int nGroupID, const CString& footer);
+	BOOL SetGroupFooter(int nGroupID, const CString& footer, DWORD dwAlign = 0);
 	BOOL SetGroupTask(int nGroupID, const CString& task);
 	BOOL SetGroupSubtitle(int nGroupID, const CString& subtitle);
 	BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc);
@@ -56,6 +56,5 @@ protected:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
-};
-
 #endif
+};

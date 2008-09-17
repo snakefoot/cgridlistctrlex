@@ -124,7 +124,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
 			const vector<string>& states = m_DataModel.GetStates();
 			for(size_t i=0; i < states.size() ; ++i)
-				pComboTrait->AddItem((int)i, states[i].c_str());
+				pComboTrait->AddItem((int)i, CString(states[i].c_str()));
 			pTrait = pComboTrait;
 		}
 		if (col==2)	// Country
@@ -133,21 +133,21 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			pComboTrait->SetStyle(WS_VSCROLL | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST);
 			const vector<string>& countries = m_DataModel.GetCountries();
 			for(size_t i=0; i < countries.size() ; ++i)
-				pComboTrait->AddItem((int)i, countries[i].c_str());
+				pComboTrait->AddItem((int)i, CString(countries[i].c_str()));
 			pTrait = pComboTrait;
 		}
-		m_ListCtrl.InsertColumnTrait(col+1, title.c_str(), LVCFMT_LEFT, 100, col, pTrait);
+		m_ListCtrl.InsertColumnTrait(col+1, CString(title.c_str()), LVCFMT_LEFT, 100, col, pTrait);
 	}
 
 	// Insert data into list-control by copying from datamodel
 	int nItem = 0;
 	for(size_t rowId = 0; rowId < m_DataModel.GetRowIds() ; ++rowId)
 	{
-		nItem = m_ListCtrl.InsertItem(++nItem, m_DataModel.GetCellText(rowId, 0).c_str());
+		nItem = m_ListCtrl.InsertItem(++nItem, CString(m_DataModel.GetCellText(rowId, 0).c_str()));
 		m_ListCtrl.SetItemData(nItem, rowId);
 		for(int col = 0; col < m_DataModel.GetColCount() ; ++col)
 		{
-			m_ListCtrl.SetItemText(nItem, col+1, m_DataModel.GetCellText(rowId, col).c_str());
+			m_ListCtrl.SetItemText(nItem, col+1, CString(m_DataModel.GetCellText(rowId, col).c_str()));
 		}
 	}
 

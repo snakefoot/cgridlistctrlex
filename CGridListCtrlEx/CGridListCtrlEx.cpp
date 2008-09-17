@@ -150,7 +150,12 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 
 	if (bValue && rc==S_OK)
 	{
-		m_UsingVisualStyle = true;
+		OSVERSIONINFO osver = {0};
+		osver.dwOSVersionInfoSize = sizeof(osver);
+		GetVersionEx(&osver);
+		WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+		if (fullver >= 0x0600)
+			 m_UsingVisualStyle = true;
 
 		// OBS! Focus retangle is not painted properly without double-buffering
 #if (_WIN32_WINNT >= 0x501)
@@ -186,7 +191,7 @@ void CGridListCtrlEx::PreSubclassWindow()
 	GetToolTips()->Activate(FALSE);
 }
 
-int CGridListCtrlEx::InsertColumnTrait(int nCol, LPCTSTR lpszColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
+int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
 {
 	if (pTrait!=NULL)
 	{
@@ -209,7 +214,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, LPCTSTR lpszColumnHeading, int 
 		}
 	}
 
-	int index = InsertColumn(nCol, lpszColumnHeading, nFormat, nWidth, nSubItem);
+	int index = InsertColumn(nCol, columnHeading.GetString(), nFormat, nWidth, nSubItem);
 	if (index != -1)
 		VERIFY( index == nCol );
 	else
@@ -314,50 +319,38 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 {
-	// Find the top and bottom of the cell-rectangle
-	CRect rowRect;
-	if (GetItemRect(nRow, rowRect, LVIR_BOUNDS)==FALSE)
+	if (GetSubItemRect(nRow, nCol, nCode, rect)==FALSE)
 		return FALSE;
 
-	// Find the left and right of the cell-rectangle using the CHeaderCtrl
-	CRect colRect;
-	if (GetHeaderCtrl()->GetItemRect(nCol, colRect)==FALSE)
-		return FALSE;
-
-	// Adjust for scrolling
-	colRect.left -= GetScrollPos(SB_HORZ);
-	colRect.right -= GetScrollPos(SB_HORZ);
-
-	rect.left = colRect.left;
-	rect.top = rowRect.top;
-	rect.right = colRect.right;
-	rect.bottom = rowRect.bottom;
-
-	if (nCode == LVIR_LABEL)
+	if (nCode == LVIR_BOUNDS && nCol==0)
 	{
-		if (nCol > 0)
-		{
-			if (GetExtendedStyle() & LVS_EX_SUBITEMIMAGES)
-			{
-				CImageList* pImageList = GetImageList(LVSIL_SMALL);
-				if (pImageList!=NULL)
-				{
-					int nImage = GetCellImage(nRow, nCol);
-					if (nImage >= 0)
-					{
-						IMAGEINFO imageInfo = {0};
-						if (pImageList->GetImageInfo(nImage, &imageInfo)==FALSE)
-							return FALSE;
+		CRect labelRect;
+		if (GetSubItemRect(nRow, nCol, LVIR_LABEL, labelRect)==FALSE)
+			return FALSE;
 
-						rect.left += imageInfo.rcImage.right - imageInfo.rcImage.left;
-					}
-				}
-			}
-		}
-		else
-		{
-			rect.left = rowRect.left;
-		}
+		// Find the left and right of the cell-rectangle using the CHeaderCtrl
+		CRect colRect;
+		if (GetHeaderCtrl()->GetItemRect(nCol, colRect)==FALSE)
+			return FALSE;
+
+		rect.right = labelRect.right; 
+		rect.left  = labelRect.right - colRect.Width();
+	}
+
+	if (nCode == LVIR_LABEL && nCol>0)
+	{
+		if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
+			return TRUE;	// no image in subitem
+
+		int nImage = GetCellImage(nRow, nCol);
+		if (nImage < 0)
+			return TRUE;	// No image in subitem
+
+		CRect iconRect;
+		if (GetSubItemRect(nRow, 0, LVIR_ICON, iconRect)==FALSE)
+			return FALSE;
+
+		rect.left += iconRect.Width();
 	}
 
 	return TRUE;
@@ -906,6 +899,7 @@ else
 	if (pNMW->item.mask & LVIF_STATE)
 	{
 		// Request-selection/Focus state (Virtual-list/LVS_OWNERDATA)
+		// Use LVM_SETITEMSTATE to set selection/focus state in LVS_OWNERDATA
 	}
 
 	// OBS! Append LVIF_DI_SETITEM to the mask if the item-text/image from now on should be cached in the list (SetItem)
