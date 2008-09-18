@@ -1343,6 +1343,9 @@ LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 
 void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 {
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+
 	if (point.x==-1 && point.y==-1)
 	{
 		// OBS! point is initialized to (-1,-1) if using SHIFT+F10 or VK_APPS
