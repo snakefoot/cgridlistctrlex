@@ -102,6 +102,10 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			rcCell.right = rcIcon.right + 2;
 			pDC->FillSolidRect(&rcCell, selectColor);
 
+			IMAGEINFO imageInfo = {0};
+			if (GetImageList(LVSIL_SMALL)->GetImageInfo(nImage, &imageInfo))
+				rcIcon.top += (rcIcon.Height() - CRect(imageInfo.rcImage).Height()) / 2;
+
 			// Draw icon
 			GetImageList(LVSIL_SMALL)->Draw (	pDC,  
 												nImage,  

@@ -142,6 +142,16 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 		return S_FALSE;
 	}
 
+	OSVERSIONINFO osver = {0};
+	osver.dwOSVersionInfoSize = sizeof(osver);
+	GetVersionEx(&osver);
+	WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+	if (fullver < 0x0600)
+	{
+		m_UsingVisualStyle = false;
+		return S_FALSE;
+	}
+
 	LRESULT rc = S_FALSE;
 	if (bValue)
 		rc = EnableWindowTheme(GetSafeHwnd(), L"ListView", L"Explorer", NULL);
@@ -150,14 +160,8 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 
 	if (bValue && rc==S_OK)
 	{
-		OSVERSIONINFO osver = {0};
-		osver.dwOSVersionInfoSize = sizeof(osver);
-		GetVersionEx(&osver);
-		WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
-		if (fullver >= 0x0600)
-			 m_UsingVisualStyle = true;
-
 		// OBS! Focus retangle is not painted properly without double-buffering
+		m_UsingVisualStyle = true;
 #if (_WIN32_WINNT >= 0x501)
 		SetExtendedStyle(LVS_EX_DOUBLEBUFFER | GetExtendedStyle());
 #endif
@@ -183,6 +187,9 @@ void CGridListCtrlEx::PreSubclassWindow()
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_HEADERDRAGDROP);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_GRIDLINES);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_SUBITEMIMAGES);
+#if (_WIN32_WINNT >= 0x501)
+	SetExtendedStyle(GetExtendedStyle() | LVS_EX_DOUBLEBUFFER);
+#endif
 	
 	// Enable Vista-look if possible
 	EnableVisualStyles(true);
