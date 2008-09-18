@@ -98,15 +98,11 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			VERIFY( GetCellRect(nRow, nCol, LVIR_ICON, rcIcon) );
 			VERIFY( GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
 
-			COLORREF oldBkColor = GetImageList(LVSIL_SMALL)->SetBkColor(selectColor);
 			rcCell.right = rcIcon.right + 2;
 			pDC->FillSolidRect(&rcCell, selectColor);
 
-			IMAGEINFO imageInfo = {0};
-			if (GetImageList(LVSIL_SMALL)->GetImageInfo(nImage, &imageInfo))
-				rcIcon.top += (rcIcon.Height() - CRect(imageInfo.rcImage).Height()) / 2;
-
 			// Draw icon
+			COLORREF oldBkColor = GetImageList(LVSIL_SMALL)->SetBkColor(selectColor);
 			GetImageList(LVSIL_SMALL)->Draw (	pDC,  
 												nImage,  
 												rcIcon.TopLeft(),  
@@ -132,6 +128,7 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 				Pen.CreatePen(PS_SOLID, 1, ::GetSysColor(COLOR_BTNFACE));
 				CPen* pOldPen = pDC->SelectObject(&Pen);
 
+				// Loop through the columns without regard of display order
 				int nColCount = GetHeaderCtrl()->GetItemCount();
 				for(int nCol = 0; nCol < nColCount; ++nCol)
 				{
@@ -140,7 +137,7 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 					if (rcCell.right < 0)
 						continue;
 					if (rcCell.right > rcVisibleRect.right)
-						break;
+						continue;
 
 					pDC->MoveTo(rcCell.right, rcCell.top);
 					pDC->LineTo(rcCell.right, rcCell.bottom);
