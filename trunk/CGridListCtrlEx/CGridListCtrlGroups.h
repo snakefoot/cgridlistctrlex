@@ -13,31 +13,35 @@ class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
 #if _WIN32_WINNT >= 0x0501
-	LRESULT InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
+	CGridListCtrlGroups();
 
-	CString GetGroupHeader(int nGroupID);
-	int GetRowGroupId(int nRow);
-	BOOL SetRowGroupId(int nRow, int nGroupID);
-	int GroupHitTest(const CPoint& point);
+	virtual LRESULT InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
 
-	BOOL GroupByColumn(int nCol);
-	void DeleteEntireGroup(int nGroupId);
-	BOOL IsGroupStateEnabled();
+	virtual CString GetGroupHeader(int nGroupID);
+	virtual int GetRowGroupId(int nRow);
+	virtual BOOL SetRowGroupId(int nRow, int nGroupID);
+	virtual int GroupHitTest(const CPoint& point);
 
-	void CheckEntireGroup(int nGroupId, bool bChecked);
+	virtual BOOL GroupByColumn(int nCol);
+	virtual void DeleteEntireGroup(int nGroupId);
+	virtual BOOL IsGroupStateEnabled();
 
-	bool SortColumn(int columnIndex, bool ascending);
+	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
 
-	BOOL HasGroupState(int nGroupID, DWORD dwState);
-	BOOL SetGroupState(int nGroupID, DWORD dwState);
+	virtual bool SortColumn(int columnIndex, bool ascending);
 
-	void CollapseAllGroups();
-	void ExpandAllGroups();
+	virtual BOOL HasGroupState(int nGroupID, DWORD dwState);
+	virtual BOOL SetGroupState(int nGroupID, DWORD dwState);
 
-	BOOL SetGroupFooter(int nGroupID, const CString& footer, DWORD dwAlign = 0);
-	BOOL SetGroupTask(int nGroupID, const CString& task);
-	BOOL SetGroupSubtitle(int nGroupID, const CString& subtitle);
-	BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc);
+	virtual void CollapseAllGroups();
+	virtual void ExpandAllGroups();
+
+	virtual BOOL SetGroupFooter(int nGroupID, const CString& footer, DWORD dwAlign = 0);
+	virtual BOOL SetGroupTask(int nGroupID, const CString& task);
+	virtual BOOL SetGroupSubtitle(int nGroupID, const CString& subtitle);
+	virtual BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc);
+
+	void SetEmptyMarkupText(const CString& text);
 
 	// DataModel callbacks
 	virtual bool CallbackCellGroup(int nRow, int nCol, int& groupId) { return false; }
@@ -53,7 +57,11 @@ protected:
 	virtual afx_msg BOOL OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
+
+	int m_GroupHeight;
+	CString m_EmptyMarkupText;
 
 	DECLARE_MESSAGE_MAP();
 #endif

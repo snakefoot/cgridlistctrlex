@@ -11,6 +11,8 @@
 
 class CGridListCtrlXp : public CGridListCtrlGroups
 {
-	bool RedrawCell(int nRow, int nCol);
-	virtual void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
+protected:
+	void OnPaint();
+	virtual afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
+	DECLARE_MESSAGE_MAP();
 };

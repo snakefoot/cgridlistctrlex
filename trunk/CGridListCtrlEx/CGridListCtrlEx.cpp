@@ -638,25 +638,20 @@ BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool includeHeader)
 namespace {
 	HBITMAP CreateSortBitmap(bool bAscending)
 	{
+		// Aquire the Display DC
 		CDC* pDC = CDC::FromHandle(::GetDC(::GetDesktopWindow()));
-
-		CBrush brush;
-
-		CRect iconRect(0, 0, 16, 16);
-
-		//create a brush
-		brush.CreateSolidBrush(RGB(0, 0, 0));
-
 		//create a memory dc
 		CDC memDC;
 		memDC.CreateCompatibleDC(pDC);
 
 		//Create a memory bitmap
 		CBitmap newbmp;
+		CRect iconRect(0, 0, 16, 16);
 		newbmp.CreateCompatibleBitmap(pDC, iconRect.Height(), iconRect.Width());
 
-		//release the Display DC
-		::ReleaseDC(::GetDesktopWindow(), pDC->Detach());
+		//create a black brush
+		CBrush brush;
+		brush.CreateSolidBrush(RGB(0, 0, 0));
 
 		//select the bitmap in the memory dc
 		CBitmap *pOldBitmap = memDC.SelectObject(&newbmp);
@@ -664,7 +659,7 @@ namespace {
 		//make the bitmap white to begin with
 		memDC.FillSolidRect(iconRect.top,iconRect.left,iconRect.bottom,iconRect.right,::GetSysColor(COLOR_3DFACE));
 
-		//draw a rectangle and an ellipse on the Display using the brush
+		//draw a rectangle using the brush
 		CBrush *pOldBrush = memDC.SelectObject(&brush);
 		if (bAscending)
 		{
@@ -723,7 +718,7 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 			{
 				if (hditem.hbm)
 				{
-					DeleteObject(hditem.hbm);
+					VERIFY( DeleteObject(hditem.hbm) );
 					hditem.hbm = NULL;
 				}
 				hditem.fmt &= ~(HDF_BITMAP|HDF_BITMAP_ON_RIGHT);

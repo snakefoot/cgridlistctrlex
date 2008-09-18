@@ -25,8 +25,8 @@ public:
 	// CListCtrl
 	LRESULT EnableVisualStyles(bool bValue);
 	inline bool UsingVisualStyle() const { return m_UsingVisualStyle; }
-	CFont* GetCellFont();
-	void SetCellMargin(double margin);
+	virtual CFont* GetCellFont();
+	virtual void SetCellMargin(double margin);
 
 	// Row
 	int GetFocusRow() const;
@@ -36,22 +36,22 @@ public:
 	// Column
 	const CHeaderCtrl* GetHeaderCtrl() const;
 	CHeaderCtrl* GetHeaderCtrl() { return CListCtrl::GetHeaderCtrl(); }
-	int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
-	int InsertHiddenLabelColumn();
-	BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
 	int GetColumnData(int col) const;
-	void SetSortArrow(int colIndex, bool ascending);
-	BOOL ShowColumn(int nCol, bool bShow);
-	bool IsColumnVisible(int nCol);
-	int GetFirstVisibleColumn();
-	BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
+	virtual BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
+	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
+	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
+	virtual int InsertHiddenLabelColumn();
+	virtual void SetSortArrow(int colIndex, bool ascending);
+	virtual BOOL ShowColumn(int nCol, bool bShow);
+	virtual bool IsColumnVisible(int nCol);
+	virtual int GetFirstVisibleColumn();
 
 	// Cell / Subitem 
-	virtual void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
-	virtual BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
+	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
+	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual bool ShowToolTipText(const CPoint& pt) const;
-	CWnd* EditCell(int nRow, int nCol);
+	virtual CWnd* EditCell(int nRow, int nCol);
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);

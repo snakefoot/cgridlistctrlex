@@ -15,7 +15,13 @@ public:
 	CGridColumnTraitCombo();
 
 	void SetMaxItems(int items);
+	int  GetMaxItems() const;
+
 	void SetStyle(DWORD dwStyle);
+	DWORD GetStyle() const;
+
+	void SetMaxWidth(int width);
+	int  GetMaxWidth() const;
 
 	void LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel);
 	void AddItem(int itemData, const CString& itemText);
@@ -31,6 +37,7 @@ protected:
 	CComboBox* m_pComboBox;
 	DWORD m_ComboBoxStyle;
 	int m_MaxItems;
+	int m_MaxWidth;
 };
 
 //------------------------------------------------------------------------
@@ -59,7 +66,7 @@ protected:
 class CGridEditorComboBox : public CComboBox
 {
 public:
-	CGridEditorComboBox(int nRow, int nCol);
+	CGridEditorComboBox(int nRow, int nCol, int nMaxWidth);
 
 	virtual BOOL Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	virtual void EndEdit(bool bSuccess);
@@ -70,6 +77,8 @@ protected:
 	afx_msg void OnDestroy();
 	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg UINT OnGetDlgCode();
+	afx_msg void OnDropDown();
+	afx_msg void OnCloseUp();
 
 	DECLARE_MESSAGE_MAP();
 
@@ -77,4 +86,5 @@ protected:
 	bool	m_Completed;
 	int		m_Row;
 	int		m_Col;
+	int		m_MaxWidth;
 };

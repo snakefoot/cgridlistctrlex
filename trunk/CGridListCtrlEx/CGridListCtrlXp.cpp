@@ -1,6 +1,52 @@
 #include "stdafx.h"
 #include "CGridListCtrlXp.h"
 
+BEGIN_MESSAGE_MAP(CGridListCtrlXp, CGridListCtrlGroups)
+	ON_WM_PAINT()
+END_MESSAGE_MAP()
+
+void CGridListCtrlXp::OnPaint()
+{
+#if _WIN32_WINNT >= 0x0600
+	if (UsingVisualStyle())
+	{
+		// Use LVN_GETEMPTYMARKUP if available
+		CGridListCtrlGroups::OnPaint();	// default
+		return;
+	}
+#endif
+
+	if (GetItemCount()==0 && !m_EmptyMarkupText.IsEmpty())
+	{
+		CPaintDC dc(this);
+
+		int nSavedDC = dc.SaveDC();
+
+		//Set up variables
+		COLORREF clrText = ::GetSysColor(COLOR_WINDOWTEXT);	//system text color
+		COLORREF clrBack = ::GetSysColor(COLOR_WINDOW);		//system background color
+		CRect rc;
+		GetClientRect(&rc);	//get client area of the ListCtrl
+
+        //Now we actually display the text
+        dc.SetTextColor(clrText);	//set the text color
+        dc.SetBkColor(clrBack);	//set the background color
+		dc.FillRect(rc, &CBrush(clrBack));	//fill the client area rect
+		CFont* pOldFont = dc.SelectObject(GetCellFont());	//select a font
+		dc.DrawText(m_EmptyMarkupText, -1, rc, 
+                      DT_CENTER | DT_WORDBREAK | DT_NOPREFIX |
+					  DT_NOCLIP | DT_VCENTER | DT_SINGLELINE); //and draw the text
+		dc.SelectObject(pOldFont);
+
+        // Restore dc
+		dc.RestoreDC(nSavedDC);
+	}
+	else
+	{
+		CGridListCtrlGroups::OnPaint();	// default
+	}
+}
+
 // Redraw icon-rect with proper selection color
 void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
