@@ -344,7 +344,7 @@ void CGridEditorComboBox::OnDropDown()
 		nWidth +=::GetSystemMetrics(SM_CXVSCROLL);
     
     // Add margin space to the calculations
-    nWidth += dc.GetTextExtent("0").cx;
+    nWidth += dc.GetTextExtent(_T("0")).cx;
 
     dc.RestoreDC(nSave);
     SetDroppedWidth(nWidth);
