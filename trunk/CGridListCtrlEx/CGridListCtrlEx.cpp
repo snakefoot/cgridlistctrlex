@@ -354,7 +354,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 			return TRUE;	// No image in subitem
 
 		CRect iconRect;
-		if (GetSubItemRect(nRow, 0, LVIR_ICON, iconRect)==FALSE)
+		if (GetSubItemRect(nRow, nCol, LVIR_ICON, iconRect)==FALSE)
 			return FALSE;
 
 		rect.left += iconRect.Width();

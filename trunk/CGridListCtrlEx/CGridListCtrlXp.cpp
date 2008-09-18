@@ -121,7 +121,7 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			//	- To reproduce the bug one needs atleast 2 columns:
 			//		1) Resize the second column so a scrollbar appears
 			//		2) Scroll to the right so the first column disappear
-			//		3) Scroll slowly to the left and the right border of first column is gone
+			//		3) When scrolling slowly to the left, the right border of first column is not drawn
 			if ( (GetExtendedStyle() & LVS_EX_GRIDLINES) && (GetExtendedStyle() & LVS_EX_DOUBLEBUFFER))
 			{
 				CRect rcVisibleRect;
