@@ -8,8 +8,9 @@
 // CGridColumnTraitCombo
 //------------------------------------------------------------------------
 CGridColumnTraitCombo::CGridColumnTraitCombo()
-	:m_MaxItems(9)
-	,m_ComboBoxStyle(WS_VSCROLL | CBS_AUTOHSCROLL | CBS_DROPDOWN)
+	:m_MaxItems(7)
+	,m_MaxWidth(200)
+	,m_ComboBoxStyle(WS_VSCROLL | WS_HSCROLL | CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT)
 	,m_pComboBox(NULL)
 {}
 
@@ -23,14 +24,34 @@ void CGridColumnTraitCombo::SetMaxItems(int items)
 	m_MaxItems = items;
 }
 
+int CGridColumnTraitCombo::GetMaxItems() const
+{
+	return m_MaxItems;
+}
+
+void CGridColumnTraitCombo::SetMaxWidth(int width)
+{
+	m_MaxWidth = width;
+}
+
+int CGridColumnTraitCombo::GetMaxWidth() const
+{
+	return m_MaxWidth;
+}
+
 void CGridColumnTraitCombo::SetStyle(DWORD dwStyle)
 {
 	m_ComboBoxStyle = dwStyle;
 }
 
+DWORD CGridColumnTraitCombo::GetStyle() const
+{
+	return m_ComboBoxStyle;
+}
+
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
-	CComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol);
+	CComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth);
 	VERIFY( pComboBox->Create( WS_CHILD | m_ComboBoxStyle, rect, &owner, 0) );
 
 	// Configure font
@@ -185,13 +206,16 @@ BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	ON_WM_DESTROY()
 	ON_WM_KEYUP()
 	ON_WM_NCDESTROY()
+	ON_CONTROL_REFLECT(CBN_CLOSEUP, OnCloseUp)
+	ON_CONTROL_REFLECT(CBN_DROPDOWN, OnDropDown)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol)
+CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidth)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
+	,m_MaxWidth(nMaxWidth)
 {}
 
 BOOL CGridEditorComboBox::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID)
@@ -286,6 +310,46 @@ void CGridEditorComboBox::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	CComboBox::OnKeyUp(nChar, nRepCnt, nFlags);
+}
+
+void CGridEditorComboBox::OnDropDown()
+{
+	// Resize combo-box width to fit contents
+    int nNumEntries = GetCount();
+    int nWidth = 0;
+    CString str;
+
+    CClientDC dc(this);
+    int nSave = dc.SaveDC();
+    dc.SelectObject(GetFont());
+
+    for (int i = 0; i < nNumEntries; i++)
+    {
+        GetLBText(i, str);
+        int nLength = dc.GetTextExtent(str).cx;
+        nWidth = max(nWidth, nLength);
+		if (nWidth > m_MaxWidth)
+		{
+			nWidth = m_MaxWidth;
+			break;
+		}
+    }
+
+	// check if the current height is large enough for the items in the list
+	CRect rect;
+	GetDroppedControlRect(&rect);
+	if (rect.Height() <= nNumEntries*GetItemHeight(0))
+		nWidth +=::GetSystemMetrics(SM_CXVSCROLL);
+    
+    // Add margin space to the calculations
+    nWidth += dc.GetTextExtent("0").cx;
+
+    dc.RestoreDC(nSave);
+    SetDroppedWidth(nWidth);
+}
+
+void CGridEditorComboBox::OnCloseUp()
+{
 }
 
 UINT CGridEditorComboBox::OnGetDlgCode()

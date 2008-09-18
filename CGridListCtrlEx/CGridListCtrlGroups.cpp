@@ -10,8 +10,14 @@
 BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 #if _WIN32_WINNT >= 0x0600
 	ON_NOTIFY_REFLECT_EX(LVN_LINKCLICK, OnGroupTaskClick)	// Task-Link Click
+	ON_NOTIFY_REFLECT_EX(LVN_GETEMPTYMARKUP, OnGetEmptyMarkup)	// Request text to display when empty
 #endif
 END_MESSAGE_MAP()
+
+CGridListCtrlGroups::CGridListCtrlGroups()
+	:m_GroupHeight(-1)
+	,m_EmptyMarkupText(_T("There are no items to show in this view."))
+{}
 
 LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState /* = LVGS_NORMAL */, DWORD dwAlign /*= LVGA_HEADER_LEFT*/)
 {
@@ -71,6 +77,9 @@ CString CGridListCtrlGroups::GetGroupHeader(int nGroupID)
 #endif
 }
 
+//------------------------------------------------------------------------
+//! Windows Vista or higher is required to modify the state of a group
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::IsGroupStateEnabled()
 {
 	if (!IsGroupViewEnabled())
@@ -112,6 +121,7 @@ BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
 	lg.stateMask = dwState;
 
 #ifdef LVGS_COLLAPSIBLE
+	// Maintain LVGS_COLLAPSIBLE state
 	if (HasGroupState(nGroupID, LVGS_COLLAPSIBLE))
 		lg.state |= LVGS_COLLAPSIBLE;
 #endif
@@ -122,6 +132,9 @@ BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! Find the group-id below the given point
+//------------------------------------------------------------------------
 int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 {
 	if (!IsGroupViewEnabled())
@@ -145,7 +158,6 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 #ifdef ListView_GetGroupCount
 #ifdef ListView_GetGroupRect
 #ifdef ListView_GetGroupInfoByIndex
-		bool foundGroup = false;
 		LRESULT groupCount = ListView_GetGroupCount(m_hWnd);
 		if (groupCount <= 0)
 			return -1;
@@ -182,14 +194,44 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 	CRect gridRect(0,0,0,0);
 	GetClientRect(&gridRect);
 
+	// Loop through all rows until a visible row below the point is found
+	int nPrevGroupId = -1, nCollapsedGroups = 0;
 	int nRowAbove = -1, nRowBelow = 0;
-	for(nRowBelow = GetTopIndex(); nRowBelow < GetItemCount(); nRowBelow++)
+	for(nRowBelow = 0; nRowBelow < GetItemCount(); nRowBelow++)
 	{
-		GetRowGroupId(nRowBelow);
+		int nGroupId = GetRowGroupId(nRowBelow);
 
 		CRect rectRowBelow;
 		if (GetItemRect(nRowBelow, rectRowBelow, LVIR_BOUNDS)==FALSE)
-			continue;	// Found invisible row
+		{
+			// Found invisible row (row within collapsed group)
+			if (nGroupId != -1 && nGroupId != nPrevGroupId)
+			{
+				//	Test if the point is within a collapsed group
+				nCollapsedGroups++;
+				nPrevGroupId = nGroupId;
+				CRect groupRect = gridRect;
+				if (nRowAbove!=-1)
+				{
+					GetItemRect(nRowAbove, groupRect, LVIR_BOUNDS);
+					groupRect.right = gridRect.right;
+				}
+				else
+				{
+					groupRect.bottom = headerRect.bottom;
+				}
+				groupRect.bottom += m_GroupHeight * nCollapsedGroups;
+				if (groupRect.PtInRect(point))
+					return nGroupId;	// Hit a collapsed group
+			}
+			continue;	
+		}
+
+		// Cheating by remembering the group-height from the first visible row
+		if (m_GroupHeight==-1)
+		{
+			m_GroupHeight = rectRowBelow.top - headerRect.Height();
+		}
 
 		rectRowBelow.right = gridRect.right;
 		if (rectRowBelow.PtInRect(point))
@@ -197,20 +239,44 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 		if (rectRowBelow.top > point.y)
 			break;		// Found row just below the point
 
+		nCollapsedGroups = 0;
 		nRowAbove = nRowBelow;
 	}
 
 	if (nRowBelow < GetItemCount())
 	{
-		// Probably hit the group just above this row
+		// Probably hit a group above this row
 		return GetRowGroupId(nRowBelow);
+	}
+	else
+	{
+		//	Test if the point is within a collapsed group
+		CRect groupRect = gridRect;
+		if (nRowAbove!=0)
+		{
+			GetItemRect(nRowBelow, groupRect, LVIR_BOUNDS);
+			groupRect.right = gridRect.right;
+		}
+		else
+		{
+			groupRect.bottom = 0;
+		}
+		groupRect.bottom += m_GroupHeight * nCollapsedGroups;
+		if (groupRect.PtInRect(point))
+			return nPrevGroupId;	// Hit a collapsed group
 	}
 
 	return -1;
 }
 
+//------------------------------------------------------------------------
+//! Update the checkbox of the label column (first column)
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
 {
+	if (!(GetExtendedStyle() & LVS_EX_CHECKBOXES))
+		return;
+
 	for (int nRow=0; nRow<GetItemCount(); ++nRow)
 	{
 		if (GetRowGroupId(nRow) == nGroupId)
@@ -233,6 +299,9 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 	RemoveGroup(nGroupId);
 }
 
+//------------------------------------------------------------------------
+//! Create a group for each unique values within a column
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 {
 	SetSortArrow(-1, false);
@@ -637,6 +706,31 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 #endif
 }
 
+void CGridListCtrlGroups::SetEmptyMarkupText(const CString& text)
+{
+	m_EmptyMarkupText = text;
+}
+
+BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	if (m_EmptyMarkupText.IsEmpty())
+		return FALSE;
+
+#if _WIN32_WINNT >= 0x0600
+	NMLVEMPTYMARKUP* pEmptyMarkup = (NMLVEMPTYMARKUP*)pNMHDR;
+	pEmptyMarkup->dwFlags = EMF_CENTERED;
+
+#ifdef UNICODE
+	lstrcpyn(pEmptyMarkup->szMarkup, m_EmptyMarkupText.GetString(), sizeof(pEmptyMarkup->szMarkup));
+#else
+	_mbstowcsz(pEmptyMarkup->szMarkup, m_EmptyMarkupText.GetString(), sizeof(pEmptyMarkup->szMarkup));
+#endif
+	*pResult = TRUE;
+
+#endif
+	return TRUE;
+}
+
 BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 #if _WIN32_WINNT >= 0x0600
@@ -749,7 +843,6 @@ bool CGridListCtrlGroups::SortColumn(int columnIndex, bool ascending)
 
 		// Avoid bug in CListCtrl::SortGroups() which differs from ListView_SortGroups
 		ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort);
-		return true;
 	}
 
 	// Always sort the rows, so the handicapped GroupHitTest() will work
