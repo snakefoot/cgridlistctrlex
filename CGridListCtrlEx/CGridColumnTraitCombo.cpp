@@ -314,6 +314,8 @@ void CGridEditorComboBox::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGridEditorComboBox::OnDropDown()
 {
+	int itemHeight = GetItemHeight(-1);
+
 	// Resize combo-box width to fit contents
     int nNumEntries = GetCount();
     int nWidth = 0;
@@ -346,6 +348,7 @@ void CGridEditorComboBox::OnDropDown()
 
     dc.RestoreDC(nSave);
     SetDroppedWidth(nWidth);
+	SetItemHeight(-1, itemHeight);
 }
 
 void CGridEditorComboBox::OnCloseUp()
