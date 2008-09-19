@@ -178,8 +178,11 @@ void CGridListCtrlEx::PreSubclassWindow()
 {
 	CListCtrl::PreSubclassWindow();
 
-	VERIFY( GetStyle() & LVS_REPORT );
-	VERIFY( !(GetStyle() & LVS_OWNERDRAWFIXED) );
+	// Not using VERIFY / ASSERT as MessageBox cannot be opened during subclassing
+	if (!(GetStyle() & LVS_REPORT))
+		DebugBreak();	// CListCtrl must be created with style LVS_REPORT
+	if (GetStyle() & LVS_OWNERDRAWFIXED)
+		DebugBreak();	// CListCtrl must be created without style LVS_OWNERDRAWFIXED
 
 	ModifyStyle(0, LVS_SHOWSELALWAYS);
 
