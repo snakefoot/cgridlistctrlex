@@ -118,6 +118,7 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			//		1) Resize the second column so a scrollbar appears
 			//		2) Scroll to the right so the first column disappear
 			//		3) When scrolling slowly to the left, the right border of first column is not drawn
+#if (_WIN32_WINNT >= 0x501)
 			if ( (GetExtendedStyle() & LVS_EX_GRIDLINES) && (GetExtendedStyle() & LVS_EX_DOUBLEBUFFER))
 			{
 				CRect rcVisibleRect;
@@ -145,6 +146,7 @@ void CGridListCtrlXp::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 				pDC->SelectObject(pOldPen);
 			}
+#endif
 		}
 	}
 

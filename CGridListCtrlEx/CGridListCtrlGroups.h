@@ -12,6 +12,8 @@
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
+	void SetEmptyMarkupText(const CString& text);
+
 #if _WIN32_WINNT >= 0x0501
 	CGridListCtrlGroups();
 
@@ -41,8 +43,6 @@ public:
 	virtual BOOL SetGroupSubtitle(int nGroupID, const CString& subtitle);
 	virtual BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc);
 
-	void SetEmptyMarkupText(const CString& text);
-
 	// DataModel callbacks
 	virtual bool CallbackCellGroup(int nRow, int nCol, int& groupId) { return false; }
 
@@ -61,8 +61,10 @@ protected:
 	//}}AFX_MSG
 
 	int m_GroupHeight;
-	CString m_EmptyMarkupText;
 
 	DECLARE_MESSAGE_MAP();
 #endif
+
+protected:
+	CString m_EmptyMarkupText;
 };
