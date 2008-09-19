@@ -194,8 +194,12 @@ void CGridListCtrlEx::PreSubclassWindow()
 	// Enable Vista-look if possible
 	EnableVisualStyles(true);
 
+	// Enable the standard tooltip
 	EnableToolTips(TRUE);
-	GetToolTips()->Activate(FALSE);
+
+	// Disable the builtin tooltip (if available)
+	if (GetToolTips()!=NULL && GetToolTips()->m_hWnd!=NULL)
+        GetToolTips()->Activate(FALSE);
 }
 
 int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
@@ -773,6 +777,7 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		case VK_F2:
 		{
 			EditCell(GetFocusRow(), m_FocusCell);
+			break;
 		}
 	}
 	CListCtrl::OnKeyDown(nChar, nRepCnt, nFlags);
@@ -1081,6 +1086,9 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+
 	// Find out what subitem was clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
@@ -1112,6 +1120,9 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 {
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
+
 	// Find out what subitem was clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
