@@ -26,7 +26,7 @@
 </ul>
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which 
 	implements all the above features while maintaining the Windows XP/Vista look.</p>
-<img height="290" alt="screenshot.png" hspace="0" src="CGridListCtrlEx/screenshot0918.png"
+<img height="290" alt="screenshot.png" hspace="0" src="CGridListCtrlEx/screenshot.png"
 	width="496" border="0">
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - 
 		CGridListCtrlEx</a> can be used if wanting SubVersion access.</p>
@@ -82,16 +82,16 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 	data model.</p>
 <h4>Editing Cells/Subitems with a Combo-box</h4>
 <p>By using <code>CGridListCtrlEx::InsertColumnTrait()</code>, we can also provide 
-	a <code>CGridColumnTrait</code> class which works as a <code>combobox</code>.</p>
+	a <code>CGridColumnTrait</code> class which works as a <code>CComboBox</code>.</p>
 <pre lang="C++">CGridColumnTraitCombo* pTrait = new CGridColumnTraitCombo;
 pTrait-&gt;AddItem(0, &amp;quot;Hello&amp;quot;);
 pTrait-&gt;AddItem(1, &amp;quot;Goodbye&amp;quot;);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
-<p>We can specify the items of the <code>combobox </code>when inserting the columns 
-	(as shown above). If we want to provide the <code>combobox </code>items 
+<p>We can specify the items of the <code>CComboBox</code> when inserting the columns 
+	(as shown above). If we want to provide the <code>CComboBox</code> items 
 	dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, 
 	and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code>
-	to modify the items in the <code>combobox</code>.</p>
+	to modify the items in the <code>CComboBox</code>.</p>
 <h4>Sorting Rows</h4>
 <p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all 
 	columns, where it will perform a simple text-comparison. If we want a more 
