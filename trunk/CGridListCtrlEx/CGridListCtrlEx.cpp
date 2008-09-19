@@ -293,7 +293,8 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 
 	CListCtrl::SetFont(m_pGridFont);
 	GetHeaderCtrl()->SetFont(m_pCellFont);
-	GetToolTips()->SetFont(m_pCellFont);
+	if (GetToolTips()!=NULL && GetToolTips()->m_hWnd!=NULL)
+		GetToolTips()->SetFont(m_pCellFont);
 }
 
 //------------------------------------------------------------------------
