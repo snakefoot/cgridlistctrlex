@@ -317,37 +317,37 @@ void CGridEditorComboBox::OnDropDown()
 	int itemHeight = GetItemHeight(-1);
 
 	// Resize combo-box width to fit contents
-    int nNumEntries = GetCount();
-    int nWidth = 0;
-    CString str;
+	int nNumEntries = GetCount();
+	int nWidth = 0;
+	CString str;
 
-    CClientDC dc(this);
-    int nSave = dc.SaveDC();
-    dc.SelectObject(GetFont());
+	CClientDC dc(this);
+	int nSave = dc.SaveDC();
+	dc.SelectObject(GetFont());
 
-    for (int i = 0; i < nNumEntries; i++)
-    {
-        GetLBText(i, str);
-        int nLength = dc.GetTextExtent(str).cx;
-        nWidth = max(nWidth, nLength);
+	for (int i = 0; i < nNumEntries; i++)
+	{
+		GetLBText(i, str);
+		int nLength = dc.GetTextExtent(str).cx;
+		nWidth = max(nWidth, nLength);
 		if (nWidth > m_MaxWidth)
 		{
 			nWidth = m_MaxWidth;
 			break;
 		}
-    }
+	}
 
 	// check if the current height is large enough for the items in the list
 	CRect rect;
 	GetDroppedControlRect(&rect);
 	if (rect.Height() <= nNumEntries*GetItemHeight(0))
 		nWidth +=::GetSystemMetrics(SM_CXVSCROLL);
-    
-    // Add margin space to the calculations
-    nWidth += dc.GetTextExtent(_T("0")).cx;
 
-    dc.RestoreDC(nSave);
-    SetDroppedWidth(nWidth);
+	// Add margin space to the calculations
+	nWidth += dc.GetTextExtent(_T("0")).cx;
+
+	dc.RestoreDC(nSave);
+	SetDroppedWidth(nWidth);
 	SetItemHeight(-1, itemHeight);
 }
 
