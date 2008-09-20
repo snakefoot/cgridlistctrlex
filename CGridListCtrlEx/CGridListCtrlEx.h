@@ -15,6 +15,7 @@
 //------------------------------------------------------------------------
 
 class CGridColumnTrait;
+class CGridRowTrait;
 
 class CGridListCtrlEx : public CListCtrl
 {
@@ -27,11 +28,14 @@ public:
 	inline bool UsingVisualStyle() const { return m_UsingVisualStyle; }
 	virtual CFont* GetCellFont();
 	virtual void SetCellMargin(double margin);
+	void SetEmptyMarkupText(const CString& text);
 
 	// Row
 	int GetFocusRow() const;
 	bool IsRowSelected(int nRow) const;
 	BOOL SelectRow(int nRow, bool bSelect);
+	virtual CGridRowTrait* GetRowTrait(int nRow);
+	virtual void SetDefaultRowTrait(CGridRowTrait* pRowTrait);
 
 	// Column
 	const CHeaderCtrl* GetHeaderCtrl() const;
@@ -45,6 +49,8 @@ public:
 	virtual BOOL ShowColumn(int nCol, bool bShow);
 	virtual bool IsColumnVisible(int nCol);
 	virtual int GetFirstVisibleColumn();
+	virtual CGridColumnTrait* GetColumnTrait(int nCol);
+	virtual int GetColumnTraitSize() const;
 
 	// Cell / Subitem 
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
@@ -62,14 +68,17 @@ public:
 	virtual bool CallbackCellCustomColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
 	virtual bool CallbackCellCustomFont(int nRow, int nCol, LOGFONT& font) { return false; }
 	virtual bool CallbackCellTooltip(int nRow, int nCol, CString& text);
+	virtual bool CallbackRowCustomColor(int nRow, COLORREF& text, COLORREF& background) { return false; } 
+	virtual bool CallbackRowCustomFont(int nRow, LOGFONT& font) { return false; }
 
 protected:
 	// Maintaining column traits (and visible state)
 	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;
-	virtual CGridColumnTrait* GetColumnTrait(int nCol);
-	virtual int GetColumnTraitSize() const;
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
+
+	// Maintaining row traits
+	CGridRowTrait* m_pDefaultRowTrait;
 
 	// Maintaining cell/subitem focus
 	int m_FocusCell;
@@ -95,8 +104,9 @@ protected:
 	// Maintaining margin
 	CFont* m_pGridFont;
 	CFont* m_pCellFont;
-	CFont* m_pOldFont;
 	double m_Margin;
+
+	CString m_EmptyMarkupText;
 
 	// Global column trait methods
 	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult) {}
@@ -136,6 +146,7 @@ protected:
 	virtual afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
+	virtual afx_msg void OnPaint();
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
