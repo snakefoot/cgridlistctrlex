@@ -12,8 +12,6 @@
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
-	void SetEmptyMarkupText(const CString& text);
-
 #if _WIN32_WINNT >= 0x0501
 	CGridListCtrlGroups();
 
@@ -58,13 +56,11 @@ protected:
 	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg void OnPaint();
 	//}}AFX_MSG
 
 	int m_GroupHeight;
 
 	DECLARE_MESSAGE_MAP();
-#endif
-
-protected:
-	CString m_EmptyMarkupText;
+#endif	
 };

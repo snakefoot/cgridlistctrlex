@@ -7,6 +7,7 @@
 
 #include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
+#include "..\CGridListCtrlEx\CGridRowTraitXP.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -107,6 +108,8 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 	
 	// Give better margin to editors
 	m_ListCtrl.SetCellMargin(1.2);
+	CGridRowTraitXP* pRowTrait = new CGridRowTraitXP;
+	m_ListCtrl.SetDefaultRowTrait(pRowTrait);
 
 	// Create Columns
 	m_ListCtrl.InsertHiddenLabelColumn();	// Requires one never uses column 0

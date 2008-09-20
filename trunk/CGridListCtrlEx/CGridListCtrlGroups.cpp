@@ -16,7 +16,6 @@ END_MESSAGE_MAP()
 
 CGridListCtrlGroups::CGridListCtrlGroups()
 	:m_GroupHeight(-1)
-	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 {}
 
 LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState /* = LVGS_NORMAL */, DWORD dwAlign /*= LVGA_HEADER_LEFT*/)
@@ -706,11 +705,6 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 #endif
 }
 
-void CGridListCtrlGroups::SetEmptyMarkupText(const CString& text)
-{
-	m_EmptyMarkupText = text;
-}
-
 BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if (m_EmptyMarkupText.IsEmpty())
@@ -780,7 +774,6 @@ BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	return CGridListCtrlEx::OnGetDispInfo(pNMHDR, pResult);
 }
-
 namespace {
 	struct PARAMSORT
 	{
@@ -794,6 +787,17 @@ namespace {
 		int  m_ColumnIndex;
 		bool m_Ascending;
 		CSimpleMap<int,CString> m_GroupNames;
+
+		const CString& LookupGroupName(int nGroupId)
+		{
+			int groupIdx = m_GroupNames.FindKey(nGroupId);
+			if (groupIdx==-1)
+			{
+				static const CString emptyStr;
+				return emptyStr;
+			}			
+			return m_GroupNames.GetValueAt(groupIdx);
+		}
 	};
 
 	// Comparison extracts values from the List-Control
@@ -811,12 +815,12 @@ namespace {
 			return _tcscmp( right, left );			
 	}
 
-	int CALLBACK SortFuncGroup(int nGroupId1, int nGroupId2, void* lParamSort)
+	int CALLBACK SortFuncGroup(int leftId, int rightId, void* lParamSort)
 	{
 		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
 
-		const CString& left = ps.m_GroupNames.Lookup(nGroupId1);
-		const CString& right = ps.m_GroupNames.Lookup(nGroupId2);
+		const CString& left = ps.LookupGroupName(leftId);
+		const CString& right = ps.LookupGroupName(rightId);
 
 		if (ps.m_Ascending)
 			return _tcscmp( left, right );
@@ -837,7 +841,7 @@ bool CGridListCtrlGroups::SortColumn(int columnIndex, bool ascending)
 		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
 		{
 			int nGroupId = GetRowGroupId(nRow);
-			if (nGroupId!=-1 && paramsort.m_GroupNames.Lookup(nGroupId).IsEmpty())
+			if (nGroupId!=-1 && paramsort.m_GroupNames.FindKey(nGroupId)==-1)
 				paramsort.m_GroupNames.Add(nGroupId, GetGroupHeader(nGroupId));
 		}
 
@@ -848,6 +852,20 @@ bool CGridListCtrlGroups::SortColumn(int columnIndex, bool ascending)
 	// Always sort the rows, so the handicapped GroupHitTest() will work
 	//	- Must ensure that the rows are reordered along with the groups.
 	return CGridListCtrlEx::SortColumn(columnIndex, ascending);
+}
+
+void CGridListCtrlGroups::OnPaint()
+{
+#if _WIN32_WINNT >= 0x0600
+	if (UsingVisualStyle())
+	{
+		// Use LVN_GETEMPTYMARKUP if available
+		CListCtrl::OnPaint();	// default
+		return;
+	}
+#endif
+
+    CGridListCtrlEx::OnPaint();
 }
 
 #endif // _WIN32_WINNT >= 0x0501

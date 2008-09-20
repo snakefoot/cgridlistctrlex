@@ -4,6 +4,7 @@
 #include <shlwapi.h>	// IsThemeEnabled
 
 #include "CGridColumnTraitText.h"
+#include "CGridRowTraitText.h"
 
 BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	//{{AFX_MSG_MAP(CGridListCtrlEx)
@@ -31,6 +32,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_HSCROLL()		// OnHScroll
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar
+	ON_WM_PAINT()		// OnPaint
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -42,16 +44,20 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pEditor(NULL)
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
+	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
 	,m_pGridFont(NULL)
 	,m_pCellFont(NULL)
-	,m_pOldFont(NULL)
+	,m_pDefaultRowTrait(new CGridRowTraitText)
 {}
 
 CGridListCtrlEx::~CGridListCtrlEx()
 {
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
+
+	delete m_pDefaultRowTrait;
+	m_pDefaultRowTrait = NULL;
 
 	delete m_pGridFont;
 	m_pGridFont = NULL;
@@ -901,7 +907,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 #if (_WIN32_IE >= 0x0501)
 			pNMW->item.iImage = I_IMAGENONE;
-else
+#else
 			pNMW->item.iImage = I_IMAGECALLBACK;
 #endif
 		}
@@ -1167,6 +1173,11 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 	// Allow column-traits to perform their custom drawing
 	if (pLVCD->nmcd.dwDrawStage & CDDS_SUBITEM)
 	{
+		CGridRowTrait* pRowTrait = GetRowTrait(nRow);
+		pRowTrait->OnCustomDraw(*this, pLVCD, pResult);
+		if (*pResult & CDRF_SKIPDEFAULT)
+			return;	// Everything is handled by the row-trait
+
 		int nCol = pLVCD->iSubItem;
 		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 		if (!pTrait->GetColumnState().m_Visible)
@@ -1190,98 +1201,31 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		// Before painting a row
 		case CDDS_ITEMPREPAINT:
 		{
-			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-			if (m_pCellFont!=NULL)
-			{
-				m_pOldFont = pDC->SelectObject(m_pCellFont);
-			}
-
-			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
-			{
-				// If drawing focus row, then remove focus state and request to draw it later
-				//	- Row paint request can come twice, with and without focus flag
-				//	- Only respond to the one with focus flag, else DrawFocusRect XOR will cause solid or blank focus-rectangle
-				if (GetFocusRow()==nRow)
-				{
-					if (m_FocusCell >= 0)
-					{
-						// We want to draw a cell-focus-rectangle instead of row-focus-rectangle
-						pLVCD->nmcd.uItemState &= ~CDIS_FOCUS;
-						*pResult |= CDRF_NOTIFYPOSTPAINT;
-					}
-					else
-					if (GetExtendedStyle() & LVS_EX_GRIDLINES)
-					{
-						// Avoid bug where bottom of focus rectangle is missing when using grid-lines
-						//	- Draw the focus-rectangle for the entire row (explicit)
-						pLVCD->nmcd.uItemState &= ~CDIS_FOCUS;
-						*pResult |= CDRF_NOTIFYPOSTPAINT;
-					}
-				}
-			}
-
-			if (pLVCD->nmcd.uItemState & CDIS_SELECTED)
-			{
-				// Remove the selection color for the focus cell, to make it easier to see focus
-				if (m_FocusCell!=-1)
-					*pResult |= CDRF_NOTIFYSUBITEMDRAW;
-			}
-
+			*pResult |= CDRF_NOTIFYPOSTPAINT;	// Ensure row-traits gets called
 			*pResult |= CDRF_NOTIFYSUBITEMDRAW;	// Ensure column-traits gets called
-			*pResult |= CDRF_NOTIFYPOSTPAINT;	// Ensure we draw the proper focus marker
+			CGridRowTrait* pTrait = GetRowTrait(nRow);
+			pTrait->OnCustomDraw(*this, pLVCD, pResult);
 		} break;
 
 		// After painting the entire row
 		case CDDS_ITEMPOSTPAINT:
 		{
-			if (m_pOldFont!=NULL)
-			{
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-				pDC->SelectObject(m_pOldFont);
-				m_pOldFont = NULL;
-			}
-
-			if (GetFocusRow()!=nRow)
-				break;
-
-			// Perform the drawing of the focus rectangle
-			if (m_FocusCell >= 0)
-			{
-				// Draw the focus-rectangle for a single-cell
-				CRect rcHighlight;
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-
-				VERIFY( GetCellRect(nRow, m_FocusCell, LVIR_BOUNDS, rcHighlight) );
-
-				// Adjust rectangle according to grid-lines
-				if (GetExtendedStyle() & LVS_EX_GRIDLINES)
-				{
-					int cxborder = ::GetSystemMetrics(SM_CXBORDER);
-					rcHighlight.bottom -= cxborder;
-					// First column doesn't have a left-grid border
-					if (GetFirstVisibleColumn()!=m_FocusCell)
-						rcHighlight.left += cxborder;
-				}
-
-				pDC->DrawFocusRect(rcHighlight);
-			}
-			else
-			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
-			{
-				// Avoid bug where bottom of focus rectangle is missing when using grid-lines
-				//	- Draw the focus-rectangle for the entire row (explicit)
-				CRect rcHighlight;
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-				// Using LVIR_BOUNDS to get the entire row-rectangle
-				VERIFY( GetItemRect(nRow, rcHighlight, LVIR_BOUNDS) );
-				
-				// Adjust rectangle according to grid-lines
-				int cxborder = ::GetSystemMetrics(SM_CXBORDER);
-				rcHighlight.bottom -= cxborder;
-				pDC->DrawFocusRect(rcHighlight);
-			}
+			CGridRowTrait* pTrait = GetRowTrait(nRow);
+			pTrait->OnCustomDraw(*this, pLVCD, pResult);
 		} break;
 	}
+}
+
+CGridRowTrait* CGridListCtrlEx::GetRowTrait(int nRow)
+{
+	return m_pDefaultRowTrait;
+}
+
+void CGridListCtrlEx::SetDefaultRowTrait(CGridRowTrait* pRowTrait)
+{
+	ASSERT(pRowTrait!=NULL);
+	delete m_pDefaultRowTrait;
+	m_pDefaultRowTrait = pRowTrait;
 }
 
 bool CGridListCtrlEx::IsColumnVisible(int nCol)
@@ -1621,4 +1565,43 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
 	 CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CGridListCtrlEx::SetEmptyMarkupText(const CString& text)
+{
+	m_EmptyMarkupText = text;
+}
+
+void CGridListCtrlEx::OnPaint()
+{
+	if (GetItemCount()==0 && !m_EmptyMarkupText.IsEmpty())
+	{
+		// Show text string when list is empty
+		CPaintDC dc(this);
+
+		int nSavedDC = dc.SaveDC();
+
+		//Set up variables
+		COLORREF clrText = ::GetSysColor(COLOR_WINDOWTEXT);	//system text color
+		COLORREF clrBack = GetBkColor();
+		CRect rc;
+		GetClientRect(&rc);	//get client area of the ListCtrl
+
+        //Now we actually display the text
+        dc.SetTextColor(clrText);	//set the text color
+        dc.SetBkColor(clrBack);	//set the background color
+		dc.FillRect(rc, &CBrush(clrBack));	//fill the client area rect
+		CFont* pOldFont = dc.SelectObject(GetCellFont());	//select a font
+		dc.DrawText(m_EmptyMarkupText, -1, rc, 
+                      DT_CENTER | DT_WORDBREAK | DT_NOPREFIX |
+					  DT_NOCLIP | DT_VCENTER | DT_SINGLELINE); //and draw the text
+		dc.SelectObject(pOldFont);
+
+        // Restore dc
+		dc.RestoreDC(nSavedDC);
+	}
+	else
+	{
+		CListCtrl::OnPaint();	// default
+	}
 }

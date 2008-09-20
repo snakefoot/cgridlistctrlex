@@ -211,7 +211,10 @@
 					RelativePath="..\CGridListCtrlEx\CGridListCtrlGroups.cpp">
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridListCtrlXp.cpp">
+					RelativePath="..\CGridListCtrlEx\CGridRowTraitText.cpp">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.cpp">
 				</File>
 			</Filter>
 			<Filter
@@ -242,7 +245,16 @@
 					RelativePath="..\CGridListCtrlEx\CGridListCtrlGroups.h">
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridListCtrlXp.h">
+					RelativePath="..\CGridListCtrlEx\CGridRowTrait.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridRowTraitText.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridRowTraitVisitor.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.h">
 				</File>
 			</Filter>
 		</Filter>

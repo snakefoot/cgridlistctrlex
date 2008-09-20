@@ -6,11 +6,33 @@
 
 CGridColumnTraitText::CGridColumnTraitText()
 	:m_pOldFont(NULL)
+	,m_TextColor(COLORREF(-1))
+	,m_BackColor(COLORREF(-1))
 {}
 
 void CGridColumnTraitText::Accept(CGridColumnTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
+}
+
+bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
+{
+	if (m_TextColor!=COLORREF(-1))
+	{
+		textColor = m_TextColor;
+		return true;
+	}
+	return false;
+}
+
+bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)
+{
+	if (m_BackColor!=COLORREF(-1))
+	{
+		backColor = m_BackColor;
+		return true;
+	}
+	return false;
 }
 
 void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
@@ -29,8 +51,18 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 				pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
 			}
 
-			if (owner.CallbackCellCustomColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
-				*pResult |= CDRF_NEWFONT;
+			if (!owner.IsRowSelected(nRow) && owner.GetHotItem()!=nRow)
+			{
+				if (UpdateTextColor(pLVCD->clrText))
+					*pResult |= CDRF_NEWFONT;
+
+				if (UpdateBackColor(pLVCD->clrTextBk))
+					*pResult |= CDRF_NEWFONT;
+
+				// Only change cell colors when not selected / in focus
+				if (owner.CallbackCellCustomColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
+					*pResult |= CDRF_NEWFONT;
+			}
 
 			LOGFONT newFont = {0};
 			if (owner.CallbackCellCustomFont(nRow, nCol, newFont))

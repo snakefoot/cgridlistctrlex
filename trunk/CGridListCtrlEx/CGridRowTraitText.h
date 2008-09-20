@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CGridColumnTrait.h"
+#include "CGridRowTrait.h"
 
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
@@ -10,21 +10,24 @@
 //! CGridColumnTraitText provides customization of cell text and background
 //------------------------------------------------------------------------
 
-class CGridColumnTraitText : public CGridColumnTrait
+class CGridRowTraitText : public CGridRowTrait
 {
 public:
-	CGridColumnTraitText();
-	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
+	CGridRowTraitText();
+	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 
-	bool UpdateTextColor(COLORREF& textColor);
-	bool UpdateBackColor(COLORREF& backColor);
+	void SetRowColor(COLORREF textColor, COLORREF backColor);
+	void SetAltRowColor(COLORREF textColor, COLORREF backColor);
 
 protected:
 	CFont*	m_pOldFont;		// Backup of the original font while drawing with this font
 	COLORREF m_TextColor;
 	COLORREF m_BackColor;
 
-	virtual void Accept(CGridColumnTraitVisitor& visitor);
-	virtual int GetCellFontHeight(CGridListCtrlEx& owner);
-	virtual CRect GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol);
+	COLORREF m_AltTextColor;
+	COLORREF m_AltBackColor;
+
+	bool UpdateTextColor(int nRow, COLORREF& textColor);
+	bool UpdateBackColor(int nRow, COLORREF& backColor);
+	virtual void Accept(CGridRowTraitVisitor& visitor);
 };
