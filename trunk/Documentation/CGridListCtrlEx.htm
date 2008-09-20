@@ -87,8 +87,8 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 pTrait-&gt;AddItem(0, &amp;quot;Hello&amp;quot;);
 pTrait-&gt;AddItem(1, &amp;quot;Goodbye&amp;quot;);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
-<p>We can specify the items of the <code>CComboBox</code> when inserting the columns 
-	(as shown above). If we want to provide the <code>CComboBox</code> items 
+<p>We can specify the items of the <code>CComboBox</code> when inserting the 
+	columns (as shown above). If we want to provide the <code>CComboBox</code> items 
 	dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, 
 	and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code>
 	to modify the items in the <code>CComboBox</code>.</p>
@@ -124,7 +124,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 	available solutions:</p>
 <ul>
 	<li>
-		Assign a <code>CImageList </code>
+		Assign a <code>CImageList</code>
 	where the image has the height wanted for the row.
 	<li>
 		Change the font of the grid control, and the row height will follow. <code>CGridListCtrlEx::SetCellMargin()</code>
@@ -144,46 +144,51 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 	so we can easily add extra properties to a column.</p>
 <p>When inheriting from <code>CGridColumnTrait</code>, we must consider the 
 	following:</p>
-<ul>
+<UL>
 	<li>
 	If performing custom drawing, then we must also handle the selection and focus 
 	coloring.
 	<li>
 		If performing editing, then we must ensure that the editor closes when it loses 
 		focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is 
-		complete.</li>
-</ul>
+		complete.</li></UL>
+<h2>How does the CGridRowTrait Work</h2>
+<P>Based on the same idea as CGridColumnTrait but operates at row level instead of 
+	column level. This is useful for situations where&nbsp;one to&nbsp;modify the 
+	display behavior of all columns.&nbsp;</P>
 <h2>Using the Code</h2>
 <p>The source code includes the following classes:</p>
-<ul>
+<UL>
 	<li>
 		<code>CGridListCtrlEx</code> - The specialized <code>CListCtrl</code>
 	<li>
 		<code>CGridListCtrlGroups</code> - <code>CGridListCtrlEx</code>
 	extended with support for grouping
-	<li>
-		<code>CGridListCtrlXP</code> - <code>CGridListCtrlEx</code>
-	extended with fixes for classic- and XP-style drawing bugs.
-	<li>
+	<LI>
 		<code>CGridColumnTrait</code> - Specifies the interface of a column-trait
-		<ul>
+	</LI>
+	<UL>
+		<LI>
+			<code>CGridColumnTraitText</code> - Implements cell formatting
+		</LI>
+		<UL>
 			<li>
-				<code>CGridColumnTraitText</code> - Implements cell formatting
-				<ul>
-					<li>
-						<code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code>
-					<li>
-						<code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code>
-					<li>
-						<code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code></li>
-				</ul>
-			</li>
-		</ul>
-	<li>
-		<code>CGridColumnTraitVisitor</code> - Visitor pattern if wanting to add new 
-		behavior to the column-traits
-	</li>
-</ul>
+				<code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code>
+			<li>
+				<code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code>
+			<li>
+				<code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code></li></UL>
+	</UL>
+	<LI>
+		<code>CGridRowTrait</code> - Specifies the interface of a row trait</LI>
+	<UL>
+		<LI>
+			<code>CGridRowTraitText</code>
+		- Implements row formatting.
+		<LI>
+			<code>CGridRowTraitXP</code> - Implements row drawing with better handling of 
+			subitem images when using classic- or XP-style.</LI></UL>
+</UL>
 <h2>Things To Do</h2>
 <p>The <code>CGridListCtrlEx</code> tries to stay away from performing any drawing 
 	itself. This means that the following features/bugs will not get that much 
@@ -203,7 +208,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 		ListCtrl - A WTL List Control with Windows Vista Style Item Selection</a>.</p>
 <p>Contributions to this project are very welcome.</p>
 <h2>History</h2>
-<ul>
+<UL>
 	<li>
 		<strong>2008-09-04</strong>
 	- First release of the article
@@ -221,22 +226,28 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 			<li>
 				Added <code>CDateTimeCtrl</code> editor</li>
 		</ul>
-	<li>
+	<LI>
 		<strong>2008-09-18</strong> - Added support for grouping with <code>CGridListCtrlGroups</code>
-		<ul>
-			<li>
-				Fixed drawing bugs when using Classic- and XP-style
-				<ul>
-					<li>
-					Fixed image background color for selected subitems (no longer white)
-					<li>
-					Fixed grid border disappearing when scrolling right and left
-					<li>
-						Indicate the list is empty when it contains no items</li>
-				</ul>
-			<li>
-				Extended <code>CComboBox</code> editor, so it automatically resizes dropdown 
-				width to its contents</li>
-		</ul>
-	</li>
-</ul>
+	</LI>
+	<UL>
+		<li>
+			Fixed drawing bugs when using Classic- and XP-style
+			<ul>
+				<li>
+				Fixed image background color for selected subitems (no longer white)
+				<li>
+				Fixed grid border disappearing when scrolling right and left
+				<li>
+					Indicate the list is empty when it contains no items</li>
+			</ul>
+		<li>
+			Extended <code>CComboBox</code> editor, so it automatically resizes dropdown 
+			width to its contents</li></UL>
+	<LI>
+		<strong>2008-09-20</strong> - Added support for row-level display handling with <code>
+			CGridRowTrait</code></LI>
+	<UL>
+		<LI>
+			Fixed bug&nbsp;when using <code>CGridListCtrlEx</code> in <code>CView</code>, 
+			by checking <code>GetToolTip()</code> return value.</LI></UL>
+</UL>
