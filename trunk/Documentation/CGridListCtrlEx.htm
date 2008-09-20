@@ -119,18 +119,23 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 	be solved by making sure that the image only uses 15 of the 16 pixels (First 
 	pixel transparent).
 </p>
+<P>When using subitem images and running the application on Windows XP or using 
+	classic style, then it will show a white background when a row is selected. 
+	This can be fixed by using CGridRowTraitXP:</P>
+<pre lang="C++">
+m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
+</pre>
 <h4>Changing Row Height</h4>
 <p>The <code>CGridListCtrlEx </code>uses customdraw, so there are only these 
 	available solutions:</p>
-<ul>
+<UL>
 	<li>
 		Assign a <code>CImageList</code>
 	where the image has the height wanted for the row.
 	<li>
 		Change the font of the grid control, and the row height will follow. <code>CGridListCtrlEx::SetCellMargin()</code>
 		uses this trick to increase the font of the grid control, while keeping the row 
-		font intact.</li>
-</ul>
+		font intact.</li></UL>
 <h2>How Does the CGridColumnTrait Work</h2>
 <p><code>CGridListCtrlEx</code> tries to keep away from all the nasty details about 
 	how to display and edit data. These things are instead handled by the <code>CGridColumnTrait</code>
@@ -166,28 +171,28 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 	extended with support for grouping
 	<LI>
 		<code>CGridColumnTrait</code> - Specifies the interface of a column-trait
-	</LI>
-	<UL>
-		<LI>
-			<code>CGridColumnTraitText</code> - Implements cell formatting
-		</LI>
 		<UL>
-			<li>
-				<code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code>
-			<li>
-				<code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code>
-			<li>
-				<code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code></li></UL>
-	</UL>
+			<LI>
+				<code>CGridColumnTraitText</code> - Implements cell formatting
+				<UL>
+					<li>
+						<code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code>
+					<li>
+						<code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code>
+					<li>
+						<code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code></li></UL>
+			</LI>
+		</UL>
 	<LI>
-		<code>CGridRowTrait</code> - Specifies the interface of a row trait</LI>
-	<UL>
-		<LI>
-			<code>CGridRowTraitText</code>
-		- Implements row formatting.
-		<LI>
-			<code>CGridRowTraitXP</code> - Implements row drawing with better handling of 
-			subitem images when using classic- or XP-style.</LI></UL>
+		<code>CGridRowTrait</code> - Specifies the interface of a row trait
+		<UL>
+			<LI>
+				<code>CGridRowTraitText</code>
+			- Implements row formatting.
+			<LI>
+				<code>CGridRowTraitXP</code> - Implements row drawing with better handling of 
+				subitem images when using classic- or XP-style.</LI></UL>
+	</LI>
 </UL>
 <h2>Things To Do</h2>
 <p>The <code>CGridListCtrlEx</code> tries to stay away from performing any drawing 
@@ -228,26 +233,26 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 		</ul>
 	<LI>
 		<strong>2008-09-18</strong> - Added support for grouping with <code>CGridListCtrlGroups</code>
-	</LI>
-	<UL>
-		<li>
-			Fixed drawing bugs when using Classic- and XP-style
-			<ul>
-				<li>
-				Fixed image background color for selected subitems (no longer white)
-				<li>
-				Fixed grid border disappearing when scrolling right and left
-				<li>
-					Indicate the list is empty when it contains no items</li>
-			</ul>
-		<li>
-			Extended <code>CComboBox</code> editor, so it automatically resizes dropdown 
-			width to its contents</li></UL>
+		<UL>
+			<li>
+				Fixed drawing bugs when using Classic- and XP-style
+				<ul>
+					<li>
+					Fixed image background color for selected subitems (no longer white)
+					<li>
+					Fixed grid border disappearing when scrolling right and left
+					<li>
+						Indicate the list is empty when it contains no items</li>
+				</ul>
+			<li>
+				Extended <code>CComboBox</code> editor, so it automatically resizes dropdown 
+				width to its contents</li></UL>
 	<LI>
 		<strong>2008-09-20</strong> - Added support for row-level display handling with <code>
-			CGridRowTrait</code></LI>
-	<UL>
-		<LI>
-			Fixed bug&nbsp;when using <code>CGridListCtrlEx</code> in <code>CView</code>, 
-			by checking <code>GetToolTip()</code> return value.</LI></UL>
+			CGridRowTrait</code>
+		<UL>
+			<LI>
+				Fixed bug&nbsp;when using <code>CGridListCtrlEx</code> in <code>CView</code>, 
+				by checking <code>GetToolTip()</code> return value.</LI></UL>
+	</LI>
 </UL>
