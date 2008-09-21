@@ -310,12 +310,23 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 //! The column version of GetItemData(), one can specify an unique
 //! identifier when using InsertColumn()
 //------------------------------------------------------------------------
-int CGridListCtrlEx::GetColumnData(int col) const
+int CGridListCtrlEx::GetColumnData(int nCol) const
 {
 	LVCOLUMN lvc = {0};
 	lvc.mask = LVCF_SUBITEM;
-	VERIFY( GetColumn(col, &lvc) );
+	VERIFY( GetColumn(nCol, &lvc) );
 	return lvc.iSubItem;
+}
+
+//------------------------------------------------------------------------
+//! Get column position in the CHeaderCtrl's display order array
+//------------------------------------------------------------------------
+int CGridListCtrlEx::GetColumnOrder(int nCol) const
+{
+	LVCOLUMN lvc = {0};
+	lvc.mask = LVCF_ORDER;
+	VERIFY( GetColumn(nCol, &lvc) );
+	return lvc.iOrder;
 }
 
 int CGridListCtrlEx::GetFocusRow() const
@@ -1590,7 +1601,8 @@ void CGridListCtrlEx::OnPaint()
         //Now we actually display the text
         dc.SetTextColor(clrText);	//set the text color
         dc.SetBkColor(clrBack);	//set the background color
-		dc.FillRect(rc, &CBrush(clrBack));	//fill the client area rect
+		CBrush backBrush(clrBack);
+		dc.FillRect(rc, &backBrush);	//fill the client area rect
 		CFont* pOldFont = dc.SelectObject(GetCellFont());	//select a font
 		dc.DrawText(m_EmptyMarkupText, -1, rc, 
                       DT_CENTER | DT_WORDBREAK | DT_NOPREFIX |

@@ -40,7 +40,8 @@ public:
 	// Column
 	const CHeaderCtrl* GetHeaderCtrl() const;
 	CHeaderCtrl* GetHeaderCtrl() { return CListCtrl::GetHeaderCtrl(); }
-	int GetColumnData(int col) const;
+	int GetColumnData(int nCol) const;
+	int GetColumnOrder(int nCol) const;
 	virtual BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
 	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
 	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
