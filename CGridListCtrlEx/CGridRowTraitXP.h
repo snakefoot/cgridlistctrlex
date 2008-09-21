@@ -17,7 +17,5 @@ public:
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 
 protected:
-	bool UpdateBackColor(CGridListCtrlEx& owner, int nRow, int nCol, COLORREF& backColor);
-
 	virtual void Accept(CGridRowTraitVisitor& visitor);
 };
