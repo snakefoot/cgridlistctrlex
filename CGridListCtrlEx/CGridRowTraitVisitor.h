@@ -11,10 +11,12 @@
 
 class CGridRowTrait;
 class CGridRowTraitText;
+class CGridRowTraitXP;
 
 class CGridRowTraitVisitor
 {
 public:
 	void Visit(CGridRowTrait&)				{}
 	void Visit(CGridRowTraitText&)			{}
+	void Visit(CGridRowTraitXP&)			{}
 };
