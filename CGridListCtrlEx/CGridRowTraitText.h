@@ -7,7 +7,8 @@
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all
 //
-//! CGridColumnTraitText provides customization of cell text and background
+//! CGridRowTraitText provides customization text and background at
+//! row-level
 //------------------------------------------------------------------------
 
 class CGridRowTraitText : public CGridRowTrait
