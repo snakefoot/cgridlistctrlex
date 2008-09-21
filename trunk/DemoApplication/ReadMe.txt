@@ -15,12 +15,12 @@ CGridListCtrlEx.vcproj
     information about the platforms, configurations, and project features selected with the
     application wizard.
 
-CGridListCtrlEx.h
+CGridListCtrlExApp.h
     This is the main header file for the application.  It includes other
     project specific headers (including Resource.h) and declares the
     CGridListCtrlExApp application class.
 
-CGridListCtrlEx.cpp
+CGridListCtrlExApp.cpp
     This is the main application source file that contains the application
     class CGridListCtrlExApp.
 
