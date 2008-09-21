@@ -11,32 +11,6 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 	visitor.Visit(*this);
 }
 
-bool CGridRowTraitXP::UpdateBackColor(CGridListCtrlEx& owner, int nRow, int nCol, COLORREF& backColor)
-{
-	bool result = false;
-
-	// Check row-trait color
-	if (CGridRowTraitText::UpdateBackColor(nRow, backColor))
-		result = true;
-
-	// Check grid-row color
-	COLORREF textColor(-1);
-	if (owner.CallbackRowCustomColor(nRow, textColor, backColor))
-		result = true;
-
-	// Check col-trait color
-	CGridColumnTrait* pColTrait = owner.GetColumnTrait(nCol);
-	CGridColumnTraitText* pColTraitText = dynamic_cast<CGridColumnTraitText*>(pColTrait);
-	if (pColTraitText!=NULL && pColTraitText->UpdateBackColor(backColor))
-		result = true;
-
-	// Check grid-col color
-	if (owner.CallbackCellCustomColor(nRow, nCol, textColor, backColor));
-		result = true;
-
-	return true;
-}
-
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	if (owner.UsingVisualStyle())
@@ -48,6 +22,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 	// We are using classic- or XP-style
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 
+	// Perform standard drawing
+	CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
+	if (*pResult & CDRF_SKIPDEFAULT)
+		return;
+
+	// Repair the standard drawing
 	switch (pLVCD->nmcd.dwDrawStage)
 	{
 		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
@@ -68,9 +48,11 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			COLORREF backColor = COLORREF(-1);
 			if (!owner.IsRowSelected(nRow))
 			{
-				// Check if custom back-coloring is wanted
-				if (!UpdateBackColor(owner, nRow, nCol, backColor))
-					break;
+				// Redraw with the given background color
+				if (pLVCD->clrTextBk > RGB(255,255,255))
+					break;	// If a color is more than white, then it is invalid
+
+				backColor = pLVCD->clrTextBk;
 			}
 			else
 			{
@@ -138,13 +120,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				{
 					CRect rcCell;
 					VERIFY( owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
-					if (rcCell.right < 0)
-						continue;
-					if (rcCell.right > rcVisibleRect.right)
-						continue;
-
-					pDC->MoveTo(rcCell.right, rcCell.top);
-					pDC->LineTo(rcCell.right, rcCell.bottom);
+					if (rcCell.right==0 && rcCell.left!=rcCell.right)
+					{
+						// Only redraw when the border is about to show, and the column has a width
+						pDC->MoveTo(rcCell.right, rcCell.top);
+						pDC->LineTo(rcCell.right, rcCell.bottom);
+					}
 				}
 
 				pDC->SelectObject(pOldPen);
@@ -152,6 +133,4 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 #endif
 		} break;
 	}
-
-	CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
 }
