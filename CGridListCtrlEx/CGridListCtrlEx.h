@@ -120,12 +120,15 @@ protected:
 	virtual void OnContextMenuKeyboard(CWnd* pWnd, CPoint point);
 	virtual void OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol);
 
+	virtual void OnCreateStyle();
+
 	//{{AFX_VIRTUAL(CGridListCtrlEx)
 	virtual void PreSubclassWindow();
 	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO * pTI) const;
 	//}}AFX_VIRTUAL
 
 	//{{AFX_MSG(CGridListCtrlEx)
+	virtual afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual afx_msg LRESULT OnDeleteColumn(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg LRESULT OnInsertColumn(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);

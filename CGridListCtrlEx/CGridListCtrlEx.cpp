@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar
 	ON_WM_PAINT()		// OnPaint
+	ON_WM_CREATE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -180,11 +181,11 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 	return rc;
 }
 
-void CGridListCtrlEx::PreSubclassWindow()
+void CGridListCtrlEx::OnCreateStyle()
 {
-	CListCtrl::PreSubclassWindow();
+	// Will be called twice when placed inside a CView
 
-	// Not using VERIFY / ASSERT as MessageBox cannot be opened during subclassing
+	// Not using VERIFY / ASSERT as MessageBox cannot be opened during subclassing/creating
 	if (!(GetStyle() & LVS_REPORT))
 		DebugBreak();	// CListCtrl must be created with style LVS_REPORT
 	if (GetStyle() & LVS_OWNERDRAWFIXED)
@@ -209,6 +210,23 @@ void CGridListCtrlEx::PreSubclassWindow()
 	// Disable the builtin tooltip (if available)
 	if (GetToolTips()!=NULL && GetToolTips()->m_hWnd!=NULL)
         GetToolTips()->Activate(FALSE);
+}
+
+int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	// Will not be called when placed inside a CDialog
+	int rc = CListCtrl::OnCreate(lpCreateStruct);
+	if (rc==0)
+		OnCreateStyle();
+
+	return rc;
+}
+
+void CGridListCtrlEx::PreSubclassWindow()
+{
+	// Changes made to style will not having any effect when placed in a CView
+	CListCtrl::PreSubclassWindow();
+	OnCreateStyle();
 }
 
 int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
