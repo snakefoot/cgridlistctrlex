@@ -366,26 +366,36 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 //! Improved version of GetSubItemRect()
 //!	- It doesn't return entire row-rect when using LVIR_BOUNDS for label-column (nCol==0)
 //!	- It supports LVIR_LABEL for sub-items (nCol>0)
+//! - It supports LVIR_BOUNDS when column width is less than subitem image width
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 {
 	if (GetSubItemRect(nRow, nCol, nCode, rect)==FALSE)
 		return FALSE;
 
-	if (nCode == LVIR_BOUNDS && nCol==0)
+	if (nCode == LVIR_BOUNDS)
 	{
-		CRect labelRect;
-		if (GetSubItemRect(nRow, nCol, LVIR_LABEL, labelRect)==FALSE)
-			return FALSE;
-
 		// Find the left and right of the cell-rectangle using the CHeaderCtrl
 		CRect colRect;
 		if (GetHeaderCtrl()->GetItemRect(nCol, colRect)==FALSE)
 			return FALSE;
 
-		rect.right = labelRect.right; 
-		rect.left  = labelRect.right - colRect.Width();
-	}
+		if (nCol==0)
+		{
+			// Fix bug where LVIR_BOUNDS gives the entire row for nCol==0
+			CRect labelRect;
+			if (GetSubItemRect(nRow, nCol, LVIR_LABEL, labelRect)==FALSE)
+				return FALSE;
+
+			rect.right = labelRect.right; 
+			rect.left  = labelRect.right - colRect.Width();
+		}
+		else
+		{
+			// Fix bug when width is smaller than subitem image width
+			rect.right = rect.left + colRect.Width();
+		}
+    }
 
 	if (nCode == LVIR_LABEL && nCol>0)
 	{
@@ -415,7 +425,7 @@ void CGridListCtrlEx::CellHitTest(const CPoint& pt, int& nRow, int& nCol) const
 	lvhti.pt = pt;
 	nRow = ListView_SubItemHitTest(m_hWnd, &lvhti);	// SubItemHitTest is non-const
 	nCol = lvhti.iSubItem;
-	if (!(lvhti.flags & LVHT_ONITEMLABEL))
+	if (!(lvhti.flags & LVHT_ONITEM))
 		nRow = -1;
 }
 
@@ -1365,16 +1375,39 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 }
 
-void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
-{
-}
-
 void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 {
 	int nCol = GetFocusCell();
 	int nRow = GetFocusRow();
 
-	OnContextMenuCell(pWnd, point, nRow, nCol);
+	if (nRow==-1)
+	{
+		// Place context-menu in the top-left corner of the grid
+		CRect gridRect;
+		GetClientRect(gridRect);
+		ClientToScreen(gridRect);
+		OnContextMenuGrid(pWnd, gridRect.TopLeft());
+	}
+	else
+	{
+		// Place context-menu over the selected row / cell
+		CRect cellRect;
+		if (nCol==-1)
+			GetItemRect(nRow, cellRect, LVIR_BOUNDS);
+		else
+			GetCellRect(nRow, nCol, LVIR_BOUNDS, cellRect);
+		ClientToScreen(cellRect);
+
+		// Adjust point so context-menu doesn't cover row / cell
+		point = cellRect.TopLeft();
+		point.x += cellRect.Height() / 2;
+		point.y += min(cellRect.Height() / 2, cellRect.Width() / 2);
+		OnContextMenuCell(pWnd, point, nRow, nCol);
+	}
+}
+
+void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
+{
 }
 
 void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
