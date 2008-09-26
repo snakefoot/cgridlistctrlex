@@ -60,14 +60,14 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Editing Cells/Subitems with a Combo-box</h4>
 
-<p>By using <code>CGridListCtrlEx::InsertColumnTrait()</code>, we can also provide a <code>CGridColumnTrait</code> class which works as a <code>combobox</code>.</p>
+<p>By using <code>CGridListCtrlEx::InsertColumnTrait()</code>, we can also provide a <code>CGridColumnTrait</code> class which works as a <code>CComboBox</code>.</p>
 
 <pre lang="C++">CGridColumnTraitCombo* pTrait = new CGridColumnTraitCombo;
 pTrait-&gt;AddItem(0, &amp;quot;Hello&amp;quot;);
 pTrait-&gt;AddItem(1, &amp;quot;Goodbye&amp;quot;);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
 
-<p>We can specify the items of the <code>combobox </code>when inserting the columns (as shown above). If we want to provide the <code>combobox </code>items dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the <code>combobox</code>.</p>
+<p>We can specify the items of the <code>CComboBox</code> when inserting the columns (as shown above). If we want to provide the <code>CComboBox</code> items dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the <code>CComboBox</code>.</p>
 
 <h4>Sorting Rows</h4>
 
@@ -83,22 +83,32 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Displaying Cell/Subitem Images</h4>
 
-<p>The <code>CGridListCtrlEx </code>enables the extended style <code>LVS_EX_SUBITEMIMAGES</code> by default, but one is still required to attach a <code>CImageList</code> using <code>CListCtrl::SetImageList()</code>.</p>
+<p>The <code>CGridListCtrlEx</code> enables the extended style <code>LVS_EX_SUBITEMIMAGES</code> by default, but one is still required to attach a <code>CImageList</code> using <code>CListCtrl::SetImageList()</code>.</p>
 
 <p>After having attached the images, one can bind a cell/subitem with an index in the <code>CImageList</code>. This can be done with <code>CGridListCtrlEx::SetCellImage()</code>, or if using <code>I_IMAGECALLBACK</code> then return the image index by overriding <code>CGridListCtrlEx::CallbackCellImage()</code>.</p>
 
 <p>The <code>CGridListCtrlEx</code> also enables the extended style <code>LVS_EX_GRIDLINES</code> by default, which can cause subitem images to overlap the grid border. This can be solved by making sure that the image only uses 15 of the 16 pixels (First pixel transparent). </p>
 
+<P>When using subitem images and running the application on Windows XP or using classic style, then it will show a white background when a row is selected. This can be fixed by using CGridRowTraitXP:</p>
+<pre lang="C++">
+m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
+</pre>
+
 <h4>Changing Row Height</h4>
 
-<p>The <code>CGridListCtrlEx </code>uses customdraw, so there are only these available solutions:</p>
+<p>The <code>CGridListCtrlEx</code> uses customdraw, so there are only these available solutions:</p>
 
 <ul>
-<li>Assign a <code>CImageList </code>where the image has the height wanted for the row. </li>
+<li>Assign a <code>CImageList</code> where the image has the height wanted for the row. </li>
 
 <li>Change the font of the grid control, and the row height will follow. <code>CGridListCtrlEx::SetCellMargin()</code> uses this trick to increase the font of the grid control, while keeping the row font intact. </li>
 
 </ul>
+
+<h4>Changing the empty markup text</h4>
+<p>When the <code>CGridListCtrlEx</code> doesn't contain any items, then it will display a text string to indicate the list is empty.</p>
+<p>Use <code>CGridListCtrlEx::SetEmptyMarkupText()</code> to change this text string. If providing an empty string, then it will behave like a normal <code>CListCtrl</code>.</p>
+<p>If using <code>CGridListCtrlGroups</code> then it will also react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -116,6 +126,9 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <li>If performing editing, then we must ensure that the editor closes when it loses focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is complete. </li>
 </ul>
 
+<h2>How does the CGridRowTrait Work</h2>
+<p>Based on the same idea as <code>CGridColumnTrait</code> but operates at row level instead of column level. This is useful for situations where one to modify the display behavior of all columns.</p>
+
 <h2>Using the Code</h2>
 
 <p>The source code includes the following classes:</p>
@@ -124,8 +137,6 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <li><code>CGridListCtrlEx</code> - The specialized <code>CListCtrl</code> </li>
 
 <li><code>CGridListCtrlGroups</code> - <code>CGridListCtrlEx</code> extended with support for grouping </li>
-
-<li><code>CGridListCtrlXP</code> - <code>CGridListCtrlEx</code> extended with fixes for classic- and XP-style drawing bugs. </li>
 
 <li><code>CGridColumnTrait</code> - Specifies the interface of a column-trait 
 <ul>
@@ -143,7 +154,12 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 </ul>
 </li>
 
-<li><code>CGridColumnTraitVisitor</code> - Visitor pattern if wanting to add new behavior to the column-traits </li>
+<li><code>CGridRowTrait</code> - Specifies the interface of a row trait
+<ul>
+<li><code>CGridRowTraitText</code> - Implements row formatting.</li>
+<li><code>CGridRowTraitXP</code> - Implements drawing of subitem image background when using classic- or XP-style.</li>
+</ul>
+</li>
 </ul>
 
 <h2>Things To Do</h2>
