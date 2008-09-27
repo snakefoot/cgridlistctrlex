@@ -19,7 +19,7 @@
 
 <li><a href="nirs2000.aspx">Cell editing</a> </li>
 
-<li><a href="KB/list/CListCtrl_Grouping.aspx">Grouping</a> </li>
+<li><a href="CListCtrl_Grouping.aspx">Grouping</a> </li>
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
@@ -105,11 +105,11 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Changing the Empty Markup Text</h4>
 
-<p>When the <code>CGridListCtrlEx</code> doesn't contain any items, it will display a text <code>string </code>to indicate the list is empty.</p>
+<p>When the <code>CGridListCtrlEx</code> doesn't contain any items, it will display markup text to indicate the list is empty.</p>
 
-<p>Use <code>CGridListCtrlEx::SetEmptyMarkupText()</code> to change this text <code>string</code>. If providing an empty <code>string</code>, it will behave like a normal <code>CListCtrl</code>.</p>
+<p>Use <code>CGridListCtrlEx::SetEmptyMarkupText()</code> to change this markup text. If providing empty text, then it will behave like a normal <code>CListCtrl</code>.</p>
 
-<p>If using <code>CGridListCtrlGroups</code>, it will also react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
+<p>If using <code>CGridListCtrlGroups</code>, it will instead react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
