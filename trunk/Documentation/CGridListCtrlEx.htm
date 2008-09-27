@@ -1,7 +1,7 @@
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 37.85 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 38.05 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 237.41 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 236.77 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -87,12 +87,11 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <p>After having attached the images, one can bind a cell/subitem with an index in the <code>CImageList</code>. This can be done with <code>CGridListCtrlEx::SetCellImage()</code>, or if using <code>I_IMAGECALLBACK</code> then return the image index by overriding <code>CGridListCtrlEx::CallbackCellImage()</code>.</p>
 
-<p>The <code>CGridListCtrlEx</code> also enables the extended style <code>LVS_EX_GRIDLINES</code> by default, which can cause subitem images to overlap the grid border. This can be solved by making sure that the image only uses 15 of the 16 pixels (First pixel transparent). </p>
+<p>The <code>CGridListCtrlEx</code> also enables the extended style <code>LVS_EX_GRIDLINES</code> by default, which can cause subitem images to overlap the grid border. This can be solved by making sure that the image only uses 15 of the 16 pixels (first pixel transparent). </p>
 
-<P>When using subitem images and running the application on Windows XP or using classic style, then it will show a white background when a row is selected. This can be fixed by using CGridRowTraitXP:</p>
-<pre lang="C++">
-m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
-</pre>
+<p>When using subitem images and running the application on Windows XP or using classic style, it will show a white background when a row is selected. This can be fixed by using <code>CGridRowTraitXP</code>:</p>
+
+<pre lang="C++">m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);</pre>
 
 <h4>Changing Row Height</h4>
 
@@ -102,13 +101,15 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 <li>Assign a <code>CImageList</code> where the image has the height wanted for the row. </li>
 
 <li>Change the font of the grid control, and the row height will follow. <code>CGridListCtrlEx::SetCellMargin()</code> uses this trick to increase the font of the grid control, while keeping the row font intact. </li>
-
 </ul>
 
-<h4>Changing the empty markup text</h4>
-<p>When the <code>CGridListCtrlEx</code> doesn't contain any items, then it will display a text string to indicate the list is empty.</p>
-<p>Use <code>CGridListCtrlEx::SetEmptyMarkupText()</code> to change this text string. If providing an empty string, then it will behave like a normal <code>CListCtrl</code>.</p>
-<p>If using <code>CGridListCtrlGroups</code> then it will also react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
+<h4>Changing the Empty Markup Text</h4>
+
+<p>When the <code>CGridListCtrlEx</code> doesn't contain any items, it will display a text <code>string </code>to indicate the list is empty.</p>
+
+<p>Use <code>CGridListCtrlEx::SetEmptyMarkupText()</code> to change this text <code>string</code>. If providing an empty <code>string</code>, it will behave like a normal <code>CListCtrl</code>.</p>
+
+<p>If using <code>CGridListCtrlGroups</code>, it will also react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -127,7 +128,8 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 </ul>
 
 <h2>How does the CGridRowTrait Work</h2>
-<p>Based on the same idea as <code>CGridColumnTrait</code> but operates at row level instead of column level. This is useful for situations where one to modify the display behavior of all columns.</p>
+
+<p>Based on the same idea as <code>CGridColumnTrait</code> but operates at row level instead of column level. This is useful for situations where one has to modify the display behavior of all columns.</p>
 
 <h2>Using the Code</h2>
 
@@ -154,10 +156,12 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 </ul>
 </li>
 
-<li><code>CGridRowTrait</code> - Specifies the interface of a row trait
+<li><code>CGridRowTrait</code> - Specifies the interface of a row trait 
 <ul>
-<li><code>CGridRowTraitText</code> - Implements row formatting.</li>
-<li><code>CGridRowTraitXP</code> - Implements drawing of subitem image background when using classic- or XP-style.</li>
+<li><code>CGridRowTraitText</code> - Implements row formatting </li>
+
+<li><code>CGridRowTraitXP</code> - Implements drawing of subitem image background when using classic- or XP-style </li>
+
 </ul>
 </li>
 </ul>
@@ -170,7 +174,6 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 <li>Support for checkboxes - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. Maybe consider some misuse of the <code>iImage</code> property of <code>LV_ITEM</code> to store the checkbox state. </li>
 
 <li>Support for progress bar - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. </li>
-
 </ul>
 
 <p>Implementing a <code>CGridColumnTrait</code> class that draws the entire cell could probably be done by stealing/borrowing some code from <a href="http://www.codeproject.com/KB/wtl/WTL_ListCtrl.aspx">ListCtrl - A WTL List Control with Windows Vista Style Item Selection</a>.</p>
@@ -191,7 +194,6 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 <li>Extended <code>CComboBox</code> editor to handle <code>CBS_DROPDOWN</code> style (earlier, it only supported <code>CBS_DROPDOWNLIST</code>) - credits <a href="http://www.codeproject.com/KB/miscctrl/gridctrl.aspx">Chris Maunder</a> </li>
 
 <li>Added <code>CDateTimeCtrl</code> editor </li>
-
 </ul>
 </li>
 
@@ -211,11 +213,17 @@ m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);
 </ul>
 </li>
 
-<li><strong>2008-09-24</strong> 
+<li><strong>2008-09-24</strong> </li>
+
 <ul>
-<li>Replaced the CGridListCtrlXP with CGridRowTraitXP </li>
+<li>Replaced the <code>CGridListCtrlXP </code>with <code>CGridRowTraitXP</code> </li>
 
 <li>Fixed some reported bugs </li>
 </ul>
-</li>
+
+<li><strong>2008-09-26</strong></li>
+
+<ul>
+<li>Fixed extended style when used in <code>CView</code> </li>
+</ul>
 </ul>
