@@ -387,14 +387,17 @@ void CGridListCtrlGroups::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if ( IsGroupViewEnabled() )
 	{
-		CPoint pt = point;
-		ScreenToClient(&pt);
-
-		int nGroupId = GroupHitTest(pt);
-		if (nGroupId!=-1)
+		if (point.x!=-1 && point.y!=-1)
 		{
-			OnContextMenuGroup(pWnd, point, nGroupId);
-			return;
+			CPoint pt = point;
+			ScreenToClient(&pt);
+
+			int nGroupId = GroupHitTest(pt);
+			if (nGroupId!=-1)
+			{
+				OnContextMenuGroup(pWnd, point, nGroupId);
+				return;
+			}
 		}
 	}
 	CGridListCtrlEx::OnContextMenu(pWnd, point);

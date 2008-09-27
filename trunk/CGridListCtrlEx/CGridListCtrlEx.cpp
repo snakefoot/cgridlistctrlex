@@ -980,10 +980,11 @@ bool CGridListCtrlEx::CallbackCellTooltip(int nRow, int nCol, CString& text)
 
 INT_PTR CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 {
+	if (!ShowToolTipText(point))
+		return -1;
+
 	CPoint pt(GetMessagePos());
 	ScreenToClient(&pt);
-	if (!ShowToolTipText(pt))
-		return -1;
 
 	int nRow, nCol;
 	CellHitTest(pt, nRow, nCol);
@@ -1400,8 +1401,8 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 
 		// Adjust point so context-menu doesn't cover row / cell
 		point = cellRect.TopLeft();
-		point.x += cellRect.Height() / 2;
-		point.y += min(cellRect.Height() / 2, cellRect.Width() / 2);
+		point.x += min(cellRect.Height() / 2, cellRect.Width() / 2);
+		point.y += cellRect.Height() / 2;
 		OnContextMenuCell(pWnd, point, nRow, nCol);
 	}
 }
