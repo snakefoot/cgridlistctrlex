@@ -99,7 +99,7 @@ void CGridEditorText::EndEdit(bool bSuccess)
 	if (bSuccess)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
-		dispinfo.item.pszText = str.GetBuffer();
+		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
 	}
 	ShowWindow(SW_HIDE);
