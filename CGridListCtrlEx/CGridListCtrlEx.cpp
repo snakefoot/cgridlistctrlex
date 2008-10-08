@@ -208,8 +208,9 @@ void CGridListCtrlEx::OnCreateStyle()
 	EnableToolTips(TRUE);
 
 	// Disable the builtin tooltip (if available)
-	if (GetToolTips()!=NULL && GetToolTips()->m_hWnd!=NULL)
-        GetToolTips()->Activate(FALSE);
+	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
+	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
+        pToolTipCtrl->Activate(FALSE);
 }
 
 int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -252,7 +253,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, i
 		}
 	}
 
-	int index = InsertColumn(nCol, columnHeading.GetString(), nFormat, nWidth, nSubItem);
+	int index = InsertColumn(nCol, static_cast<LPCTSTR>(columnHeading), nFormat, nWidth, nSubItem);
 	if (index != -1)
 		VERIFY( index == nCol );
 	else
@@ -320,8 +321,9 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 
 	CListCtrl::SetFont(m_pGridFont);
 	GetHeaderCtrl()->SetFont(m_pCellFont);
-	if (GetToolTips()!=NULL && GetToolTips()->m_hWnd!=NULL)
-		GetToolTips()->SetFont(m_pCellFont);
+	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
+	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
+		pToolTipCtrl->SetFont(m_pCellFont);
 }
 
 //------------------------------------------------------------------------
@@ -864,7 +866,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		// then just repeat the search
 	}
 	else
-		m_LastSearchString.AppendChar((TCHAR)nChar);
+		m_LastSearchString.Insert(m_LastSearchString.GetLength()+1, (TCHAR)nChar);
 
 	int nRow = GetFocusRow();
 	if (nRow < 0)
@@ -884,7 +886,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 			CString cellText = GetItemText(i, nCol);
 			if (cellText.GetLength()>=m_LastSearchString.GetLength())
 			{
-				cellText.Truncate(m_LastSearchString.GetLength());
+				cellText = cellText.Left(m_LastSearchString.GetLength());
 				if (cellText.CompareNoCase(m_LastSearchString)==0)
 				{
 					// De-select all other rows
@@ -932,7 +934,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		CString result;
 		if (CallbackCellText(nRow, nCol, result))
 		{
-			_tcsncpy(pNMW->item.pszText, result.GetBuffer(), pNMW->item.cchTextMax);
+			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
 		}
 	}
 
@@ -978,7 +980,11 @@ bool CGridListCtrlEx::CallbackCellTooltip(int nRow, int nCol, CString& text)
 	return false;
 }
 
+#if defined(_WIN64)
 INT_PTR CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
+#else
+int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
+#endif
 {
 	if (!ShowToolTipText(point))
 		return -1;
@@ -1021,14 +1027,14 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		lstrcpyn(pTTTA->szText, tooltip.GetString(), sizeof(pTTTA->szText));
+		lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
 	else
-		_mbstowcsz(pTTTW->szText, tooltip.GetString(), sizeof(pTTTW->szText));
+		_mbstowcsz(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText));
 #else
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		_wcstombsz(pTTTA->szText, tooltip.GetString(), sizeof(pTTTA->szText));
+		_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
 	else
-		lstrcpyn(pTTTW->szText, tooltip.GetString(), sizeof(pTTTW->szText));
+		lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText));
 #endif
 	return TRUE;
 }
@@ -1570,6 +1576,15 @@ namespace {
 			return _tcscmp( right, left );			
 	}
 }
+
+// Define does not exist on VC6
+#ifndef ListView_SortItemsEx
+	#ifndef LVM_SORTITEMSEX
+		#define LVM_SORTITEMSEX          (LVM_FIRST + 81)
+	#endif
+	#define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
+	(BOOL)SNDMSG((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
+#endif
 
 bool CGridListCtrlEx::SortColumn(int columnIndex, bool ascending)
 {

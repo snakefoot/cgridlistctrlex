@@ -256,7 +256,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	if (bSuccess)
 	{
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
-		dispinfo.item.pszText = str.GetBuffer();
+		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
 		dispinfo.item.lParam = GetItemData(GetCurSel());
 	}

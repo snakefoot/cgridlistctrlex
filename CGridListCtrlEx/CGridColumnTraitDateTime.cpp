@@ -108,7 +108,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	if (m_Format.IsEmpty())
 		str = dt.Format(m_FormatFlags, m_FormatLCID);
 	else
-		str = dt.Format(m_Format.GetString());
+		str = dt.Format(static_cast<LPCTSTR>(m_Format));
 
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = {0};
@@ -121,7 +121,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	if (bSuccess)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
-		dispinfo.item.pszText = str.GetBuffer();
+		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
 	}
 	ShowWindow(SW_HIDE);

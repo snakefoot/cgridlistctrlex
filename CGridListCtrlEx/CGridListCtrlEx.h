@@ -124,7 +124,11 @@ protected:
 
 	//{{AFX_VIRTUAL(CGridListCtrlEx)
 	virtual void PreSubclassWindow();
+#if defined(_WIN64)
 	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO * pTI) const;
+#else
+	virtual int OnToolHitTest(CPoint point, TOOLINFO * pTI) const;
+#endif
 	//}}AFX_VIRTUAL
 
 	//{{AFX_MSG(CGridListCtrlEx)
