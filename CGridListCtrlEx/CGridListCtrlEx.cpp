@@ -1194,10 +1194,6 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	// as it might cause a row-repaint
 	m_FocusCell = nCol;
 	CListCtrl::OnRButtonDown(nFlags, point);
-
-	// CListCtrl::OnRButtonDown() doesn't always cause a row-repaint
-	// call our own method to ensure the row is repainted
-	UpdateFocusCell(nCol);
 }
 
 void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -1350,6 +1346,10 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
+
+	// CListCtrl::OnRButtonDown() doesn't always cause a row-repaint
+	// call our own method to ensure the row is repainted
+	UpdateFocusCell(m_FocusCell);
 
 	if (point.x==-1 && point.y==-1)
 	{
