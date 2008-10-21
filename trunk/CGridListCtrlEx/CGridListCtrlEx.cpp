@@ -1347,10 +1347,6 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
 
-	// CListCtrl::OnRButtonDown() doesn't always cause a row-repaint
-	// call our own method to ensure the row is repainted
-	UpdateFocusCell(m_FocusCell);
-
 	if (point.x==-1 && point.y==-1)
 	{
 		// OBS! point is initialized to (-1,-1) if using SHIFT+F10 or VK_APPS
@@ -1358,6 +1354,10 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 	else
 	{
+		// CListCtrl::OnRButtonDown() doesn't always cause a row-repaint
+		// call our own method to ensure the row is repainted
+		UpdateFocusCell(m_FocusCell);
+
 		CPoint pt = point;
 		ScreenToClient(&pt);
 
