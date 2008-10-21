@@ -1184,15 +1184,13 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	CellHitTest(point, nRow, nCol);
 
 	// If not right-clicking on an actual row, then don't update focus cell
-	if (nRow==-1)
+	if (nRow!=-1)
 	{
-		CListCtrl::OnRButtonDown(nFlags, point);
-		return;
+		// Update the focused cell before calling CListCtrl::OnRButtonDown()
+		// as it might cause a row-repaint
+		m_FocusCell = nCol;
 	}
 
-	// Update the focused cell before calling CListCtrl::OnRButtonDown()
-	// as it might cause a row-repaint
-	m_FocusCell = nCol;
 	CListCtrl::OnRButtonDown(nFlags, point);
 }
 
