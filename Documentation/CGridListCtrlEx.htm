@@ -75,17 +75,17 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Showing Tooltip</h4>
 
-<p>By default, the <code>CGridListCtrlEx</code> will just display the cell contents as tooltip. If we want to display something different in the tooltip, then we can override the <code>CGridListCtrlEx::CallbackCellTooltip()</code> method.</p>
+<p>By default, the <code>CGridListCtrlEx</code> will just display the cell contents as tooltip. If we want to display something different in the tooltip, then we can override the <code>CGridListCtrlEx::OnDisplayCellTooltip()</code> method.</p>
 
 <h4>Formatting Cells/Subitems</h4>
 
-<p>If we want to change the foreground/background color or the font style (bold, italic, underline), then we can override the methods <code>CGridListCtrlEx::CallbackCellCustomColor()</code> and <code>CGridListCtrlEx::CallbackCellCustomFont()</code>.</p>
+<p>If we want to change the foreground/background color or the font style (bold, italic, underline), then we can override the methods <code>CGridListCtrlEx::OnDisplayCellColor()</code> and <code>CGridListCtrlEx::OnDisplayCellFont()</code>.</p>
 
 <h4>Displaying Cell/Subitem Images</h4>
 
 <p>The <code>CGridListCtrlEx</code> enables the extended style <code>LVS_EX_SUBITEMIMAGES</code> by default, but one is still required to attach a <code>CImageList</code> using <code>CListCtrl::SetImageList()</code>.</p>
 
-<p>After having attached the images, one can bind a cell/subitem with an index in the <code>CImageList</code>. This can be done with <code>CGridListCtrlEx::SetCellImage()</code>, or if using <code>I_IMAGECALLBACK</code> then return the image index by overriding <code>CGridListCtrlEx::CallbackCellImage()</code>.</p>
+<p>After having attached the images, one can bind a cell/subitem with an index in the <code>CImageList</code>. This can be done with <code>CGridListCtrlEx::SetCellImage()</code>, or if using <code>I_IMAGECALLBACK</code> then return the image index by overriding <code>CGridListCtrlEx::OnDisplayCellImage()</code>.</p>
 
 <p>The <code>CGridListCtrlEx</code> also enables the extended style <code>LVS_EX_GRIDLINES</code> by default, which can cause subitem images to overlap the grid border. This can be solved by making sure that the image only uses 15 of the 16 pixels (first pixel transparent). </p>
 

@@ -24,11 +24,12 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_EX(TTN_NEEDTEXTA, 0, OnToolNeedText)
 	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolNeedText)
 	ON_NOTIFY_REFLECT_EX(LVN_COLUMNCLICK, OnHeaderClick)	// Column Click
+	ON_NOTIFY_REFLECT_EX(NM_CLICK, OnItemClick)				// Cell Click
+	ON_NOTIFY_REFLECT_EX(NM_DBLCLK, OnItemDblClick)			// Cell Double Click
 	ON_WM_CONTEXTMENU()	// OnContextMenu
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
 	ON_WM_RBUTTONDOWN()	// OnRButtonDown(UINT nFlags, CPoint point)
-	ON_WM_LBUTTONDBLCLK()// OnLButtonDblClk(UINT nFlags, CPoint point)
 	ON_WM_HSCROLL()		// OnHScroll
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar
@@ -932,7 +933,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Request text
 		CString result;
-		if (CallbackCellText(nRow, nCol, result))
+		if (OnDisplayCellText(nRow, nCol, result))
 		{
 			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
 		}
@@ -942,7 +943,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Request-Image
 		int result = -1;
-		if (CallbackCellImage(nRow, nCol, result))
+		if (OnDisplayCellImage(nRow, nCol, result))
             pNMW->item.iImage = result;
 		else
 		{
@@ -965,12 +966,12 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
-bool CGridListCtrlEx::ShowToolTipText(const CPoint& pt) const
+bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& pt) const
 {
 	return true;
 }
 
-bool CGridListCtrlEx::CallbackCellTooltip(int nRow, int nCol, CString& text)
+bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& text)
 {
 	if (nRow!=-1 && nCol!=-1)
 	{
@@ -986,7 +987,7 @@ INT_PTR CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 #endif
 {
-	if (!ShowToolTipText(point))
+	if (!OnDisplayCellTooltip(point))
 		return -1;
 
 	CPoint pt(GetMessagePos());
@@ -1019,7 +1020,7 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	// Make const-reference to the returned anonymous CString-object,
 	// will keep it alive until reaching scope end
 	CString tooltip;
-	if (!CallbackCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
+	if (!OnDisplayCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
 		return FALSE;
 
 	// Non-unicode applications can receive requests for tooltip-text in unicode
@@ -1170,6 +1171,9 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (startEdit)
 	{
+		// This will steal the double-click event when double-clicking a cell that already have focus,
+		// but we cannot guess after the first click, whether the user will click a second time.
+		// A timer could be used but it would cause slugish behavior (http://blogs.msdn.com/oldnewthing/archive/2004/10/15/242761.aspx)
 		EditCell(nRow, nCol);
 	}
 }
@@ -1192,10 +1196,6 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	}
 
 	CListCtrl::OnRButtonDown(nFlags, point);
-}
-
-void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
-{
 }
 
 //------------------------------------------------------------------------
@@ -1626,6 +1626,28 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 	if (SortColumn(m_SortCol, m_Ascending))
 		SetSortArrow(m_SortCol, m_Ascending);
 
+	return FALSE;	// Let parent-dialog get chance
+}
+
+BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMITEMACTIVATE* pItem = reinterpret_cast<NMITEMACTIVATE*>(pNMHDR);
+
+	int nRow = pItem->iItem;
+	int nCol = pItem->iSubItem;
+
+	CellHitTest(pItem->ptAction, nRow, nCol);
+	return FALSE;	// Let parent-dialog get chance
+}
+
+BOOL CGridListCtrlEx::OnItemDblClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMITEMACTIVATE* pItem = reinterpret_cast<NMITEMACTIVATE*>(pNMHDR);
+
+	int nRow = pItem->iItem;
+	int nCol = pItem->iSubItem;
+
+	CellHitTest(pItem->ptAction, nRow, nCol);
 	return FALSE;	// Let parent-dialog get chance
 }
 
