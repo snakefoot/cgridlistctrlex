@@ -60,12 +60,12 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 					*pResult |= CDRF_NEWFONT;
 
 				// Only change cell colors when not selected / in focus
-				if (owner.CallbackCellCustomColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
+				if (owner.OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
 					*pResult |= CDRF_NEWFONT;
 			}
 
 			LOGFONT newFont = {0};
-			if (owner.CallbackCellCustomFont(nRow, nCol, newFont))
+			if (owner.OnDisplayCellFont(nRow, nCol, newFont))
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;

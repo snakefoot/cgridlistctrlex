@@ -44,12 +44,12 @@ public:
 	int GetColumnOrder(int nCol) const;
 	virtual BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
 	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
-	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
-	virtual int InsertHiddenLabelColumn();
 	virtual void SetSortArrow(int colIndex, bool ascending);
 	virtual BOOL ShowColumn(int nCol, bool bShow);
 	virtual bool IsColumnVisible(int nCol);
 	virtual int GetFirstVisibleColumn();
+	virtual int InsertHiddenLabelColumn();
+	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	virtual CGridColumnTrait* GetColumnTrait(int nCol);
 	virtual int GetColumnTraitSize() const;
 
@@ -57,20 +57,20 @@ public:
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
 	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
-	virtual bool ShowToolTipText(const CPoint& pt) const;
 	virtual CWnd* EditCell(int nRow, int nCol);
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);
 
 	// DataModel callbacks
-	virtual bool CallbackCellText(int nRow, int nCol, CString& text) { return false; }
-	virtual bool CallbackCellImage(int nRow, int nCol, int& imageId) { return false; }
-	virtual bool CallbackCellCustomColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
-	virtual bool CallbackCellCustomFont(int nRow, int nCol, LOGFONT& font) { return false; }
-	virtual bool CallbackCellTooltip(int nRow, int nCol, CString& text);
-	virtual bool CallbackRowCustomColor(int nRow, COLORREF& text, COLORREF& background) { return false; } 
-	virtual bool CallbackRowCustomFont(int nRow, LOGFONT& font) { return false; }
+	virtual bool OnDisplayCellText(int nRow, int nCol, CString& text) { return false; }
+	virtual bool OnDisplayCellImage(int nRow, int nCol, int& imageId) { return false; }
+	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
+	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font) { return false; }
+	virtual bool OnDisplayCellTooltip(const CPoint& pt) const;
+	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& text);
+	virtual bool OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background) { return false; } 
+	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font) { return false; }
 
 protected:
 	// Maintaining column traits (and visible state)
@@ -135,12 +135,13 @@ protected:
 	virtual afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual afx_msg LRESULT OnDeleteColumn(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg LRESULT OnInsertColumn(WPARAM wParam, LPARAM lParam);
+	virtual afx_msg BOOL OnItemClick(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnItemDblClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	virtual afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg LRESULT OnSetColumnWidth(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
