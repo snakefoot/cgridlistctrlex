@@ -145,7 +145,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 	if (IsGroupStateEnabled())
 	{
 #ifdef ListView_HitTestEx
-#ifdef LVHT_EX_GROUP_HEADER
+#ifdef LVHT_EX_GROUP
 		LVHITTESTINFO lvhitinfo = {0};
 		lvhitinfo.pt = point;
 		ListView_HitTestEx(m_hWnd, &lvhitinfo);
