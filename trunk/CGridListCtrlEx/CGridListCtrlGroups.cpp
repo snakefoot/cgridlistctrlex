@@ -144,6 +144,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 
 	if (IsGroupStateEnabled())
 	{
+#if _WIN32_WINNT >= 0x0600
 #ifdef ListView_HitTestEx
 #ifdef LVHT_EX_GROUP
 		LVHITTESTINFO lvhitinfo = {0};
@@ -153,7 +154,9 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 			return -1;
 #endif
 #endif
+#endif
 
+#if _WIN32_WINNT >= 0x0600
 #ifdef ListView_GetGroupCount
 #ifdef ListView_GetGroupRect
 #ifdef ListView_GetGroupInfoByIndex
@@ -176,6 +179,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 		// Don't try other ways to find the group
 		if (groupCount > 0)
 			return -1;
+#endif
 #endif
 #endif
 #endif
