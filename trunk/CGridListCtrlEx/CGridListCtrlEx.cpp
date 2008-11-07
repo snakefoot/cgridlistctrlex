@@ -1676,27 +1676,37 @@ void CGridListCtrlEx::OnCopyToClipboard()
 
 	// Open clipboard
 	if (!OpenClipboard())
+	{
+		GlobalFree(hglbCopy);
 		return;
+	}
 
 	// Clear clipboard
-	EmptyClipboard();
+	if (!EmptyClipboard())
+	{
+		CloseClipboard();
+		GlobalFree(hglbCopy);
+		return;
+	}
 
 	// paste result
 #ifndef _UNICODE
 	if (SetClipboardData(CF_TEXT, hglbCopy)==NULL)
 	{
 		CloseClipboard();
+		GlobalFree(hglbCopy);
 		return;
 	}
 #else
 	if (SetClipboardData(CF_UNICODETEXT, hglbCopy)==NULL)
 	{
 		CloseClipboard();
+		GlobalFree(hglbCopy);
 		return;
 	}
 #endif
 
-	// Close clipboard
+	// Close clipboard (Now owns the memory object)
 	CloseClipboard();
 }
 
