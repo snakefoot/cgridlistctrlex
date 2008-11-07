@@ -985,11 +985,19 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! Called constantly while the mouse is moving over the list-control
+//! @return Start tooltip timer for displaying tooltip (true / false)
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& pt) const
 {
 	return true;
 }
 
+//------------------------------------------------------------------------
+//! Called after the tooltip timer has fired
+//! @return Is tooltip available for current cell (true / false)
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& text)
 {
 	if (nRow!=-1 && nCol!=-1)
@@ -1670,6 +1678,7 @@ void CGridListCtrlEx::OnCopyToClipboard()
 	if (!OpenClipboard())
 		return;
 
+	// Clear clipboard
 	EmptyClipboard();
 
 	// paste result
