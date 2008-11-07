@@ -6,12 +6,13 @@
 // License: Free to use for all
 //
 //! GridListCtrlEx extends the CListCtrl with the following functionality:
-//!	 - Sortable
-//!  - Simple column picker
-//!	 - Cell navigation
-//!  - Keyboard search navigation
-//!  - Cell tooltip
-//!  - Cell editing and customization through use of CGridColumnTrait's
+//!	- Sortable
+//!	- Simple column picker
+//!	- Cell navigation
+//!	- Keyboard search navigation
+//!	- Cell tooltip
+//!	- Cell editing and customization through use of CGridColumnTrait's
+//!	- Clipboard (copy only)
 //------------------------------------------------------------------------
 
 class CGridColumnTrait;
