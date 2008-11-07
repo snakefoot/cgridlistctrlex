@@ -42,6 +42,7 @@ public:
 	CHeaderCtrl* GetHeaderCtrl() { return CListCtrl::GetHeaderCtrl(); }
 	int GetColumnData(int nCol) const;
 	int GetColumnOrder(int nCol) const;
+	CString GetColumnHeading(int nCol) const;
 	virtual BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
 	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
 	virtual void SetSortArrow(int colIndex, bool ascending);
@@ -71,6 +72,9 @@ public:
 	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& text);
 	virtual bool OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background) { return false; } 
 	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font) { return false; }
+	virtual bool OnDisplayToClipboard(CString& result);
+	virtual bool OnDisplayToClipboard(int nRow, CString& text);
+	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& text);
 
 protected:
 	// Maintaining column traits (and visible state)
@@ -122,6 +126,8 @@ protected:
 
 	virtual void OnCreateStyle();
 
+	virtual void OnCopyToClipboard();
+
 	//{{AFX_VIRTUAL(CGridListCtrlEx)
 	virtual void PreSubclassWindow();
 #if defined(_WIN64)
@@ -156,6 +162,7 @@ protected:
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual afx_msg void OnPaint();
+	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();

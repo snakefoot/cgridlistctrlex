@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_CHAR()		// OnChar
 	ON_WM_PAINT()		// OnPaint
 	ON_WM_CREATE()
+	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -348,6 +349,18 @@ int CGridListCtrlEx::GetColumnOrder(int nCol) const
 	lvc.mask = LVCF_ORDER;
 	VERIFY( GetColumn(nCol, &lvc) );
 	return lvc.iOrder;
+}
+
+CString CGridListCtrlEx::GetColumnHeading(int nCol) const
+{
+	// Retrieve column-title
+	LVCOLUMN lvc = {0};
+	lvc.mask = LVCF_TEXT;
+	TCHAR sColText[256];
+	lvc.pszText = sColText;
+	lvc.cchTextMax = sizeof(sColText)-1;
+	VERIFY( GetColumn(nCol, &lvc) );
+	return lvc.pszText;
 }
 
 int CGridListCtrlEx::GetFocusRow() const
@@ -815,8 +828,14 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				if (!(GetStyle() & LVS_SINGLESEL))
 					SelectRow(-1, true);
 			}
-			break;
-		}
+		} break;
+		case 0x43:		// CTRL+C (Copy to clipboard)
+		{
+			if (GetKeyState(VK_CONTROL) < 0)
+			{
+				OnCopyToClipboard();
+			}
+		} break;
 		case VK_ADD:	// CTRL + NumPlus (Auto size all columns)
 		{
 			if (GetKeyState(VK_CONTROL) < 0)
@@ -1438,15 +1457,10 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 			uFlags |= MF_UNCHECKED;
 
 		// Retrieve column-title
-		LVCOLUMN lvc = {0};
-		lvc.mask = LVCF_TEXT;
-		TCHAR sColText[256];
-		lvc.pszText = sColText;
-		lvc.cchTextMax = sizeof(sColText)-1;
-		VERIFY( GetColumn(i, &lvc) );
+		const CString& columnTitle = GetColumnHeading(i);
 
 		// +1 as zero is a reserved value in TrackPopupMenu() 
-		menu.InsertMenu(0, uFlags, i+1, lvc.pszText);
+		menu.InsertMenu(0, uFlags, i+1, static_cast<LPCTSTR>(columnTitle));
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
@@ -1627,6 +1641,112 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 		SetSortArrow(m_SortCol, m_Ascending);
 
 	return FALSE;	// Let parent-dialog get chance
+}
+
+void CGridListCtrlEx::OnCopyToClipboard()
+{
+	CString result;
+	if (!OnDisplayToClipboard(result))
+		return;
+
+	int nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+
+	// Allocate a global memory object for the text.
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
+	if (hglbCopy==NULL)
+		return;
+
+	// Lock the handle to the memory object
+	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+	if (lptstrCopy==NULL)
+		return;
+
+	// Copy the text to the memory object.
+	memcpy(lptstrCopy, result, nlength);
+	if (GlobalUnlock(hglbCopy)!=NO_ERROR)
+		return;
+
+	// Open clipboard
+	if (!OpenClipboard())
+		return;
+
+	EmptyClipboard();
+
+	// paste result
+#ifndef _UNICODE
+	if (SetClipboardData(CF_TEXT, hglbCopy)==NULL)
+	{
+		CloseClipboard();
+		return;
+	}
+#else
+	if (SetClipboardData(CF_UNICODETEXT, hglbCopy)==NULL)
+	{
+		CloseClipboard();
+		return;
+	}
+#endif
+
+	// Close clipboard
+	CloseClipboard();
+}
+
+bool CGridListCtrlEx::OnDisplayToClipboard(CString& result)
+{
+	if (GetSelectedCount()==1 && m_FocusCell!=-1)
+		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, result);
+
+	POSITION pos = GetFirstSelectedItemPosition();
+	if (pos==NULL)
+		return false;
+
+	OnDisplayToClipboard(-1, result);
+
+	while(pos!=NULL)
+	{
+		int nRow = GetNextSelectedItem(pos);
+
+		CString line;
+		OnDisplayToClipboard(nRow, line);
+
+		if (!result.IsEmpty())
+			result += _T("\r\n");
+		result += line;
+	}
+	return true;
+}
+
+bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& line)
+{
+	int nColCount = GetHeaderCtrl()->GetItemCount();
+	for(int i = 0; i < nColCount; ++i)
+	{
+		int nCol = GetHeaderCtrl()->OrderToIndex(i);
+		if (!IsColumnVisible(nCol))
+			continue;
+		CString cellText;
+		if (!OnDisplayToClipboard(nRow, nCol, cellText))
+			continue;
+		if (!line.IsEmpty())
+			line += _T("\t");
+		line += cellText;
+	}
+	return true;
+}
+
+bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& text)
+{
+	if (nRow==-1)
+		text = GetColumnHeading(nCol);
+	else
+		text = GetItemText(nRow, nCol);
+	return true;
+}
+
+LRESULT CGridListCtrlEx::OnCopy(WPARAM wParam, LPARAM lParam)
+{
+	OnCopyToClipboard();
+	return DefWindowProc(WM_COPY, wParam, lParam); 
 }
 
 BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
