@@ -20,6 +20,8 @@
 <li><a href="nirs2000.aspx">Cell editing</a> </li>
 
 <li><a href="CListCtrl_Grouping.aspx">Grouping</a> </li>
+
+<li><a href="http://www.codeproject.com/KB/clipboard/clipboard_faq.aspx">Clipboard</a> (copy only) </li>
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
@@ -234,5 +236,15 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <ul>
 <li>Fixed compiler errors that appeared when using Visual Studio 6 (VC6)</li>
 
+</ul>
+
+<li><strong>2008-10-07</strong> </li>
+
+<ul>
+<li>Added clipboard support for copying the contents of the selected cell / rows </li>
+
+<li>Renamed the &quot;Callback&quot;-functions to &qout;OnDisplay&quot;, as it resembles the MFC naming convention </li>
+
+<li>Fixed some reported bugs </li>
 </ul>
 </ul>
