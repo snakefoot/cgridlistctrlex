@@ -1726,7 +1726,8 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& result)
 		int nRow = GetNextSelectedItem(pos);
 
 		CString line;
-		OnDisplayToClipboard(nRow, line);
+		if (!OnDisplayToClipboard(nRow, line))
+			continue;
 
 		if (!result.IsEmpty())
 			result += _T("\r\n");
