@@ -131,7 +131,9 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 
 void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 {
-	EndEdit(true);
+	CDateTimeCtrl::OnKillFocus(pNewWnd);
+	if (GetMonthCalCtrl()==NULL)
+		EndEdit(true);
 }
 
 void CGridEditorDateTimeCtrl::OnNcDestroy()
