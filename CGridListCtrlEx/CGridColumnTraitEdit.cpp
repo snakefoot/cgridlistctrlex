@@ -109,6 +109,7 @@ void CGridEditorText::EndEdit(bool bSuccess)
 
 void CGridEditorText::OnKillFocus(CWnd *pNewWnd)
 {
+	CEdit::OnKillFocus(pNewWnd);
 	EndEdit(true);
 }
 
