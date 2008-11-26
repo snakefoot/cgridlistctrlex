@@ -1,7 +1,7 @@
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 38.05 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 39.36 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 236.77 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 272.8 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -25,7 +25,8 @@
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
-<img height="290" alt="screenshot.png" hspace="0" src="CGridListCtrlEx/screenshot0918.png" width="496" border="0" /> 
+
+<img height="290" alt="screenshot.png" src="CGridListCtrlEx/screenshot.png" width="496" /> 
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access.</p>
 
 <h2>Background</h2>
@@ -40,7 +41,6 @@
 <li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it tries to store a copy of the entire data model inside itself. </li>
 
 <li><a href="ReportControl.aspx">Another Report List Control</a> - Simple and easy to use, but lacks other means to edit data besides using <code>CEdit</code>, and also misses subitem navigation. </li>
-
 </ul>
 
 <p>The <code>CGridListCtrlEx</code> tries to be simple, while still providing the ability to customize how a cell should be displayed and edited. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
@@ -129,9 +129,9 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <li>If performing editing, then we must ensure that the editor closes when it loses focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is complete. </li>
 </ul>
 
-<h2>How does the CGridRowTrait Work</h2>
+<h2>How Does the CGridRowTrait Work</h2>
 
-<p>Based on the same idea as <code>CGridColumnTrait</code> but operates at row level instead of column level. This is useful for situations where one has to modify the display behavior of all columns.</p>
+<p>It is based on the same idea as <code>CGridColumnTrait</code> but operates at row level instead of column level. This is useful for situations where one has to modify the display behavior of all columns.</p>
 
 <h2>Using the Code</h2>
 
@@ -215,36 +215,38 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 </ul>
 </li>
 
-<li><strong>2008-09-24</strong> </li>
-
+<li><strong>2008-09-24</strong> 
 <ul>
 <li>Replaced the <code>CGridListCtrlXP </code>with <code>CGridRowTraitXP</code> </li>
 
 <li>Fixed some reported bugs </li>
 </ul>
+</li>
 
-<li><strong>2008-09-26</strong></li>
+<li><strong>2008-09-26</strong> 
 
 <ul>
 <li>Fixed extended style when used in <code>CView</code> </li>
 
-<li>Fixed positioning of context-menu when using keyboard shortcut (SHIFT+F10)</li>
+<li>Fixed positioning of context-menu when using keyboard shortcut (SHIFT+F10) </li>
 </ul>
+</li>
 
-<li><strong>2008-10-09</strong></li>
-
+<li><strong>2008-10-09</strong> 
 <ul>
-<li>Fixed compiler errors that appeared when using Visual Studio 6 (VC6)</li>
-
+<li>Fixed compiler errors that appeared when using Visual Studio 6 (VC6) </li>
 </ul>
 
-<li><strong>2008-11-07</strong> </li>
+</li>
 
+<li><strong>2008-11-07</strong> 
 <ul>
 <li>Added clipboard support for copying the contents of the selected cell / rows </li>
 
-<li>Renamed the &quot;Callback&quot;-functions to &qout;OnDisplay&quot;, as it resembles the MFC naming convention </li>
+<li>Renamed the &quot;<code>Callback</code>&quot;-functions to &quot;<code>OnDisplay</code>&quot;, as it resembles the MFC naming convention </li>
 
 <li>Fixed some reported bugs </li>
+
 </ul>
+</li>
 </ul>
