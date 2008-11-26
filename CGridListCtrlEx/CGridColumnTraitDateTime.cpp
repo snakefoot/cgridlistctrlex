@@ -158,9 +158,8 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	m_Completed = true;
 
 	// Format time back to string
-	COleDateTime dt;
-	GetTime(dt);
-	CString str = FormatTimeStr(dt, m_Format, m_FormatLCID);
+	CString str;
+	GetWindowText(str);
 
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = {0};
