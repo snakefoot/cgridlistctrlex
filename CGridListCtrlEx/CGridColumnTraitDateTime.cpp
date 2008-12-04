@@ -58,48 +58,6 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 	return pDateTimeCtrl;
 }
 
-namespace {
-	CString FormatTimeStr(const COleDateTime& dt, const CString& format, LCID formatLCID)
-	{
-		// Convert the time back to a string-value
-		SYSTEMTIME sysTime = {0};
-		dt.GetAsSystemTime(sysTime);
-
-		CString strTime;
-		if (format.IsEmpty())
-		{
-			// Retrieve short date format
-			CString shortFormat;
-			int nFormatSize = GetLocaleInfo(formatLCID, LOCALE_SSHORTDATE, 0, 0);
-			GetLocaleInfo(formatLCID, LOCALE_SSHORTDATE, shortFormat.GetBuffer(nFormatSize), nFormatSize);
-			shortFormat.ReleaseBuffer();
-
-			int nSize = GetDateFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(shortFormat), NULL, 0);
-			int rc = GetDateFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(shortFormat), strTime.GetBuffer(nSize), nSize); 
-			if (rc==0)
-				rc = GetLastError();
-		}
-		else
-		{
-			// We cheat by first converting the date-part followed by the time-part
-			CString strDate;
-			int nSize = GetDateFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(format), NULL, 0);
-			int rc = GetDateFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(format), strDate.GetBuffer(nSize), nSize); 
-			strDate.ReleaseBuffer();
-			if (rc==0)
-				rc = GetLastError();
-
-			nSize = GetTimeFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(strDate), NULL, 0);
-			rc = GetTimeFormat( formatLCID, 0, &sysTime, static_cast<LPCTSTR>(strDate), strTime.GetBuffer(nSize), nSize); 
-			if (rc==0)
-				rc = GetLastError();
-		}
-		strTime.ReleaseBuffer();
-
-		return strTime;
-	}
-}
-
 CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Convert cell-text to date/time format
@@ -108,15 +66,6 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	COleDateTime dt;
 	if(dt.ParseDateTime(cellText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
 		dt.SetDateTime(1970, 1, 1, 0, 0, 0);
-	else
-	{
-		// Convert the time back to a string-value
-		CString strTime = FormatTimeStr(dt, m_Format, m_ParseDateTimeLCID);
-
-		// Check with the original string
-		if (strTime!=cellText)
-			dt.SetDateTime(1970, 1, 1, 0, 0, 0);
-	}
 
 	// Get position of the cell to edit
 	CRect rcItem = GetCellEditRect(owner, nRow, nCol);
@@ -126,6 +75,15 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	VERIFY(pDateTimeCtrl!=NULL);
 
 	pDateTimeCtrl->SetTime(dt);
+
+	// Check with the original string
+	CString timeText;
+	pDateTimeCtrl->GetWindowText(timeText);
+	if (cellText!=timeText)
+	{
+		dt.SetDateTime(1970, 1, 1, 0, 0, 0);
+		pDateTimeCtrl->SetTime(dt);
+	}
 
 	return pDateTimeCtrl;
 }
