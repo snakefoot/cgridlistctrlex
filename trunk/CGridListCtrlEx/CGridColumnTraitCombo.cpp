@@ -51,7 +51,7 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
-	CComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth);
+	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth);
 	VERIFY( pComboBox->Create( WS_CHILD | m_ComboBoxStyle, rect, &owner, 0) );
 
 	// Configure font
