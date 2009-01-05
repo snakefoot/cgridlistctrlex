@@ -1432,8 +1432,10 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 
 		// Adjust point so context-menu doesn't cover row / cell
 		point = cellRect.TopLeft();
-		point.x += min(cellRect.Height() / 2, cellRect.Width() / 2);
-		point.y += cellRect.Height() / 2;
+		int cellHeightCenter = cellRect.Height() / 2;
+		int cellWidthCenter = cellRect.Width() / 2;
+		point.x += cellHeightCenter < cellWidthCenter ? cellHeightCenter : cellWidthCenter; // min(cellHeightCenter, cellHeightCenter);
+		point.y += cellHeightCenter;
 		OnContextMenuCell(pWnd, point, nRow, nCol);
 	}
 }
@@ -1558,7 +1560,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			if (IsColumnVisible(pOrderArray[i]))
 			{
-                pNMH->pitem->iOrder = max(pNMH->pitem->iOrder,i);
+				pNMH->pitem->iOrder = pNMH->pitem->iOrder > i ? pNMH->pitem->iOrder : i; // max(pNMH->pitem->iOrder,i);
 				break;
 			}
 		}

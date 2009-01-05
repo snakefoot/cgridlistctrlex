@@ -95,7 +95,8 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 
 	// Resize combobox according to element count
 	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rcFinalSize) );
-	rcFinalSize.bottom += rcItem.Height() + requiredHeight * min(m_MaxItems, m_pComboBox->GetCount() + 1);
+	int visibleItemCount = 	m_MaxItems < m_pComboBox->GetCount() ? m_MaxItems : m_pComboBox->GetCount(); // min(m_MaxItems, m_pComboBox->GetCount());
+	rcFinalSize.bottom += rcItem.Height() + requiredHeight * (visibleItemCount + 1);
 	m_pComboBox->SetWindowPos(NULL,		// not relative to any other windows
 							0, 0,		// TopLeft corner doesn't change
 							rcFinalSize.Width(), rcFinalSize.Height(),   // existing width, new height
@@ -105,7 +106,8 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	// Adjust the item-height to font-height
 	CRect comboRect;
 	m_pComboBox->GetClientRect(&comboRect);
-	int itemHeight = max(requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE), rcItem.Height());
+	int fontHeightWithMargin = requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE);
+	int itemHeight = fontHeightWithMargin > rcItem.Height() ? fontHeightWithMargin : rcItem.Height(); // max(fontHeightWithMargin, rcItem.Height());
 	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 	{
 		if (itemHeight > (requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)))
@@ -329,7 +331,7 @@ void CGridEditorComboBox::OnDropDown()
 	{
 		GetLBText(i, str);
 		int nLength = dc.GetTextExtent(str).cx;
-		nWidth = max(nWidth, nLength);
+		nWidth = nWidth > nLength ? nWidth : nLength;	// max(nWidth, nLength);
 		if (nWidth > m_MaxWidth)
 		{
 			nWidth = m_MaxWidth;
