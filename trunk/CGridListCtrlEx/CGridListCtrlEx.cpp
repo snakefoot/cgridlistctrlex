@@ -1392,6 +1392,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 		{
 			HDHITTESTINFO hdhti = {0};
 			hdhti.pt = pt;
+			hdhti.pt.x += GetScrollPos(SB_HORZ);
 			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, (LPARAM) &hdhti);
 			OnContextMenuHeader(pWnd, point, hdhti.iItem);
 		}
