@@ -251,23 +251,6 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 		// Probably hit a group above this row
 		return GetRowGroupId(nRowBelow);
 	}
-	else
-	{
-		//	Test if the point is within a collapsed group
-		CRect groupRect = gridRect;
-		if (nRowAbove!=0)
-		{
-			GetItemRect(nRowBelow, groupRect, LVIR_BOUNDS);
-			groupRect.right = gridRect.right;
-		}
-		else
-		{
-			groupRect.bottom = 0;
-		}
-		groupRect.bottom += m_GroupHeight * nCollapsedGroups;
-		if (groupRect.PtInRect(point))
-			return nPrevGroupId;	// Hit a collapsed group
-	}
 
 	return -1;
 }
@@ -807,21 +790,6 @@ namespace {
 		}
 	};
 
-	// Comparison extracts values from the List-Control
-	int CALLBACK SortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
-	{
-		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
-
-		TCHAR left[256] = _T(""), right[256] = _T("");
-		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left));
-		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right));
-
-		if (ps.m_Ascending)
-			return _tcscmp( left, right );
-		else
-			return _tcscmp( right, left );			
-	}
-
 	int CALLBACK SortFuncGroup(int leftId, int rightId, void* lParamSort)
 	{
 		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
@@ -832,7 +800,7 @@ namespace {
 		if (ps.m_Ascending)
 			return _tcscmp( left, right );
 		else
-			return _tcscmp( right, left );	
+			return _tcscmp( right, left );
 	}
 }
 
