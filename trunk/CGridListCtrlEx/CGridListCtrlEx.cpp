@@ -368,6 +368,11 @@ int CGridListCtrlEx::GetFocusRow() const
 	return GetNextItem(-1, LVNI_FOCUSED);
 }
 
+void  CGridListCtrlEx::SetFocusRow(int nRow)
+{
+	SetItemState(nRow, LVIS_FOCUSED, LVIS_FOCUSED);
+}
+
 bool CGridListCtrlEx::IsRowSelected(int nRow) const
 {
 	return (GetItemState(nRow, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
@@ -914,7 +919,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 					// Select row found
 					SelectRow(i, true);
 					// Focus row found
-					SetItemState(i, LVIS_FOCUSED, LVIS_FOCUSED);	
+					SetFocusRow(i);
 					// Scroll to row found
 					EnsureVisible(i, FALSE);			
 					m_LastSearchRow = i;
@@ -1191,6 +1196,15 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	// as it might cause a row-repaint
 	m_FocusCell = nCol;
 	CListCtrl::OnLButtonDown(nFlags, point);
+
+	// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
+	if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
+	{
+		if (nRow!=GetFocusRow() && )
+		{
+			SetFocusRow(nRow);
+		}
+	}
 
 	// CListCtrl::OnLButtonDown() doesn't always cause a row-repaint
 	// call our own method to ensure the row is repainted
