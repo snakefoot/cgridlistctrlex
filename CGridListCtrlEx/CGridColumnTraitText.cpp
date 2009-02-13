@@ -48,7 +48,8 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			int nCol = pLVCD->iSubItem;
 			if (pLVCD->nmcd.uItemState & CDIS_SELECTED && owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
 			{
-				pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+				if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
+					pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
 			}
 
 			if (!owner.IsRowSelected(nRow) && owner.GetHotItem()!=nRow)

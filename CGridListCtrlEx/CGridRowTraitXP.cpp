@@ -52,6 +52,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				if (pLVCD->clrTextBk > RGB(255,255,255))
 					break;	// If a color is more than white, then it is invalid
 
+				if (pLVCD->clrText==0 && pLVCD->clrTextBk==0)
+					break;
+
+				if (pLVCD->iStateId!=0)
+					break;
+
 				backColor = pLVCD->clrTextBk;
 			}
 			else
