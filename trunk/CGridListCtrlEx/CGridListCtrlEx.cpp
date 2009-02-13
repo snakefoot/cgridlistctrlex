@@ -1191,6 +1191,10 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 
 	// Begin edit if the same cell is clicked twice
 	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && m_FocusCell==nCol;
+	if (GetKeyState(VK_CONTROL) < 0)
+		startEdit = false;
+	if (GetKeyState(VK_SHIFT) < 0)
+		startEdit = false;
 
 	// Update the focused cell before calling CListCtrl::OnLButtonDown()
 	// as it might cause a row-repaint
@@ -1202,6 +1206,10 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (nRow!=GetFocusRow())
 		{
+			if (GetKeyState(VK_CONTROL) < 0)
+				SelectRow(nRow, !IsRowSelected(nRow));
+			else
+				SelectRow(nRow, true);
 			SetFocusRow(nRow);
 		}
 	}
