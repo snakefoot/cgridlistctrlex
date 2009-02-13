@@ -1200,7 +1200,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
 	if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
 	{
-		if (nRow!=GetFocusRow() && )
+		if (nRow!=GetFocusRow())
 		{
 			SetFocusRow(nRow);
 		}
