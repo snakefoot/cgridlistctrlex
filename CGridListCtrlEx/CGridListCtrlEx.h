@@ -33,6 +33,7 @@ public:
 
 	// Row
 	int GetFocusRow() const;
+	void SetFocusRow(int nRow);
 	bool IsRowSelected(int nRow) const;
 	BOOL SelectRow(int nRow, bool bSelect);
 	virtual CGridRowTrait* GetRowTrait(int nRow);
