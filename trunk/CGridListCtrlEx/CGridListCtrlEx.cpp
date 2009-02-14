@@ -1206,11 +1206,12 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		if (nRow!=GetFocusRow())
 		{
-			if (GetKeyState(VK_CONTROL) < 0)
-				SelectRow(nRow, !IsRowSelected(nRow));
-			else
-				SelectRow(nRow, true);
 			SetFocusRow(nRow);
+			if (!(GetKeyState(VK_CONTROL) < 0) && !(GetKeyState(VK_SHIFT) < 0))
+			{
+				SelectRow(-1, false);
+				SelectRow(nRow, true);
+			}
 		}
 	}
 
