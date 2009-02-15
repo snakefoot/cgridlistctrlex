@@ -962,7 +962,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		CString result;
 		if (OnDisplayCellText(nRow, nCol, result))
 		{
-#ifdef __STDC_WANT_SECURE_LIB__
+#if __STDC_WANT_SECURE_LIB__
 			_tcsncpy_s(pNMW->item.pszText, pNMW->item.cchTextMax, static_cast<LPCTSTR>(result), result.GetLength() );
 #else
 			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
