@@ -29,7 +29,7 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const C
 
 	// Header-title must be unicode (Convert if necessary)
 #ifdef UNICODE
-	lg.pszHeader = (LPWSTR)strHeader.GetString();
+	lg.pszHeader = (LPWSTR)(LPCTSTR)strHeader;
 	lg.cchHeader = strHeader.GetLength();
 #else
 	CComBSTR header = strHeader;
@@ -570,7 +570,7 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& footer, DW
 	lg.mask = LVGF_FOOTER | LVGF_ALIGN;
 	lg.uAlign = dwAlign;
 #ifdef UNICODE
-	lg.pszFooter = (LPWSTR)footer.GetString();
+	lg.pszFooter = (LPWSTR)(LPCTSTR)footer;
 	lg.cchFooter = footer.GetLength();
 #else
 	CComBSTR bstrFooter = footer;
@@ -597,7 +597,7 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& task)
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_TASK;
 #ifdef UNICODE
-	lg.pszTask = (LPWSTR)task.GetString();
+	lg.pszTask = (LPWSTR)(LPCTSTR)task;
 	lg.cchTask = task.GetLength();
 #else
 	CComBSTR bstrTask = task;
@@ -624,7 +624,7 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& subtitle
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_SUBTITLE;
 #ifdef UNICODE
-	lg.pszSubtitle = (LPWSTR)subtitle.GetString();
+	lg.pszSubtitle = (LPWSTR)(LPCTSTR)subtitle;
 	lg.cchSubtitle = subtitle.GetLength();
 #else
 	CComBSTR bstrSubtitle = subtitle;
@@ -658,7 +658,7 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 		// Top description is drawn opposite the title image when there is
 		// a title image, no extended image, and uAlign==LVGA_HEADER_CENTER.
 		lg.mask |= LVGF_DESCRIPTIONTOP;
-		lg.pszDescriptionTop = topDesc;
+		lg.pszDescriptionTop = (LPWSTR)(LPCTSTR)topDesc;
 		lg.cchDescriptionTop = topDesc.GetLength();
 	}
 	if (!bottomDesc.IsEmpty())
@@ -666,7 +666,7 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 		// Bottom description is drawn under the top description text when there is
 		// a title image, no extended image, and uAlign==LVGA_HEADER_CENTER.
 		lg.mask |= LVGF_DESCRIPTIONBOTTOM;
-		lg.pszDescriptionBottom = bottomDesc;
+		lg.pszDescriptionBottom = (LPWSTR)(LPCTSTR)bottomDesc;
 		lg.cchDescriptionBottom = bottomDesc.GetLength();
 	}
 #else
@@ -705,9 +705,9 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 	pEmptyMarkup->dwFlags = EMF_CENTERED;
 
 #ifdef UNICODE
-	lstrcpyn(pEmptyMarkup->szMarkup, m_EmptyMarkupText.GetString(), sizeof(pEmptyMarkup->szMarkup));
+	lstrcpyn(pEmptyMarkup->szMarkup, (LPCTSTR)m_EmptyMarkupText, sizeof(pEmptyMarkup->szMarkup));
 #else
-	_mbstowcsz(pEmptyMarkup->szMarkup, m_EmptyMarkupText.GetString(), sizeof(pEmptyMarkup->szMarkup));
+	_mbstowcsz(pEmptyMarkup->szMarkup, (LPCTSTR)m_EmptyMarkupText, sizeof(pEmptyMarkup->szMarkup));
 #endif
 	*pResult = TRUE;
 
@@ -720,6 +720,7 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 #if _WIN32_WINNT >= 0x0600
 	NMLVLINK* pLinkInfo = (NMLVLINK*)pNMHDR;
 	int nGroupId = pLinkInfo->iSubItem;
+	nGroupId;	// Avoid unreferenced variable warning
 #endif
 	return FALSE;
 }

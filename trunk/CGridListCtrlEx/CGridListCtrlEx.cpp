@@ -774,6 +774,7 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 	if (IsThemeEnabled())
 	{
 #if (_WIN32_WINNT >= 0x501)
+		TRACE(_T("theme enabled\n"));
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			HDITEM hditem = {0};
@@ -951,7 +952,9 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		return FALSE;	// requesting invalid item
 
 	int nColItemData = GetColumnData(nCol);
+	nColItemData;	// Avoid unreferenced variable warning
 	int nRowItemData = (int)GetItemData(nRow);
+	nRowItemData;	// Avoid unreferenced variable warning
 
 	if(pNMW->item.mask & LVIF_TEXT)
 	{
@@ -959,7 +962,11 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		CString result;
 		if (OnDisplayCellText(nRow, nCol, result))
 		{
+#ifdef __STDC_WANT_SECURE_LIB__
+			_tcsncpy_s(pNMW->item.pszText, pNMW->item.cchTextMax, static_cast<LPCTSTR>(result), result.GetLength() );
+#else
 			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
+#endif
 		}
 	}
 
@@ -1038,7 +1045,7 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
 	pTI->rect = rcClient;
 
-	return pTI->uId; // Must return a unique value for each cell (Marks a new tooltip)
+	return (int)pTI->uId; // Must return a unique value for each cell (Marks a new tooltip)
 }
 
 BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
@@ -1125,8 +1132,9 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		return TRUE;	// Block message from reaching parent-dialog
 	}
 
-	int nRow = pDispInfo->item.iItem;
 	int nCol = pDispInfo->item.iSubItem;
+	int nRow = pDispInfo->item.iItem;
+	nRow;	// Avoid unreferenced variable warning
 
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
