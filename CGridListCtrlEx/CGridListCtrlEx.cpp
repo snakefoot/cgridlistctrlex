@@ -744,20 +744,20 @@ namespace {
 		CBrush *pOldBrush = memDC.SelectObject(&brush);
 		if (bAscending)
 		{
-			// Arrow pointing down
-			CPoint Pt[3];
-			Pt[0] = CPoint(10, 6);	// Right
-			Pt[1] = CPoint(4, 6);	// Left
-			Pt[2] = CPoint(7, 9);	// Bottom
-			memDC.Polygon(Pt, 3);
-		}
-		else
-		{
 			// Arrow pointing up
 			CPoint Pt[3];
 			Pt[0] = CPoint(7,  5);	// Top
 			Pt[1] = CPoint(4,  8);	// Left
 			Pt[2] = CPoint(10,  8);	// Right
+			memDC.Polygon(Pt, 3);
+		}
+		else
+		{
+			// Arrow pointing down
+			CPoint Pt[3];
+			Pt[0] = CPoint(10, 6);	// Right
+			Pt[1] = CPoint(4, 6);	// Left
+			Pt[2] = CPoint(7, 9);	// Bottom
 			memDC.Polygon(Pt, 3);
 		}
 		memDC.SelectObject(pOldBrush);
@@ -783,7 +783,7 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 			hditem.fmt &= ~(HDF_SORTDOWN|HDF_SORTUP);
 			if (i == colIndex)
 			{
-				hditem.fmt |= ascending ? HDF_SORTDOWN : HDF_SORTUP;
+				hditem.fmt |= ascending ? HDF_SORTUP : HDF_SORTDOWN;
 			}
 			VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 		}
