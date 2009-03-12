@@ -5,6 +5,9 @@
 
 #include "CGridColumnTrait.h"
 
+// MFC headers with group-support is only availabe from VS.NET 
+#if _MSC_VER >= 1300
+// WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 
 BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
@@ -845,3 +848,4 @@ void CGridListCtrlGroups::OnPaint()
 }
 
 #endif // _WIN32_WINNT >= 0x0501
+#endif // _MSC_VER >= 1300

@@ -6,12 +6,16 @@
 // License: Free to use for all
 //
 //! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
-//! Placed in its own file as all features requires _WIN32_WINNT > 0x0501
+//! Placed in its own file as all features requires _WIN32_WINNT >= 0x0501
+//! and needs _MSC_VER >= 1300 (VS.NET)
 //------------------------------------------------------------------------
 
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
+// MFC headers with group-support is only availabe from VS.NET 
+#if _MSC_VER >= 1300
+// WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 	CGridListCtrlGroups();
 
@@ -63,4 +67,5 @@ protected:
 
 	DECLARE_MESSAGE_MAP();
 #endif	
+#endif
 };
