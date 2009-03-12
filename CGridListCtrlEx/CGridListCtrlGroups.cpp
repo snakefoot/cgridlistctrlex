@@ -427,65 +427,51 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	CMenu menu;
 	VERIFY( menu.CreatePopupMenu() );
 
-	for( int i = GetColumnTraitSize()-1 ; i >= 0; --i)
-	{
-		CGridColumnTrait* pTrait = GetColumnTrait(i);
-		CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-
-		if (columnState.m_AlwaysHidden)
-			continue;	// Cannot be shown
-
-		UINT uFlags = MF_BYPOSITION | MF_STRING;
-
-		// Put check-box on context-menu
-		if (IsColumnVisible(i))
-			uFlags |= MF_CHECKED;
-		else
-			uFlags |= MF_UNCHECKED;
-
-		// Retrieve column-title
-		const CString& columnTitle = GetColumnHeading(i);
-
-		// +1 as zero is a reserved value in TrackPopupMenu() 
-		menu.InsertMenu(0, uFlags, i+1, static_cast<LPCTSTR>(columnTitle));
-	}
-
-	UINT uFlags = MF_BYPOSITION | MF_STRING;
-	if (IsGroupViewEnabled())
-	{
-		menu.InsertMenu(0, uFlags | MF_SEPARATOR, 0, _T(""));
-		menu.InsertMenu(0, uFlags, GetColumnTraitSize()+1, _T("Disable grouping"));
-	}
-
 	if (nCol!=-1)
 	{
-		if (!IsGroupViewEnabled())
-			menu.InsertMenu(0, uFlags | MF_SEPARATOR, 0, _T(""));
-
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(nCol);
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 3, CString(_T("Group by: ")) + columnTitle);
+	}
 
-		menu.InsertMenu(0, uFlags, GetColumnTraitSize()+2, CString(_T("Group by: ")) + columnTitle);
+	if (IsGroupViewEnabled())
+	{
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 4, _T("Disable grouping"));
+	}
+
+	CString title_editor;
+	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
+	{
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
+	}
+
+	CString title_picker;
+	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
+	{
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
+	}
+	else
+	{
+		if (menu.GetMenuItemCount()>0)
+			menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+
+		InternalColumnPicker(menu, 5);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
-	if (nResult!=0)
+	switch(nResult)
 	{
-		if (nResult <= GetColumnTraitSize())
+		case 0: break;
+		case 1:	m_pColumnEditor->OpenColumnEditor(*this, nCol); break;
+		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
+		case 3: GroupByColumn(nCol); break;
+		case 4: RemoveAllGroups(); EnableGroupView(FALSE); break;
+		default:
 		{
-			int nCol = nResult-1;
+			int nCol = nResult-5;
 			ShowColumn(nCol, !IsColumnVisible(nCol));
-		}
-		else
-		{
-			int nCmd = nResult - GetColumnTraitSize();
-			switch(nCmd)
-			{
-				case 1: RemoveAllGroups(); EnableGroupView(FALSE); break;
-				case 2: GroupByColumn(nCol); break;
-			}
-		}
+		} break;
 	}
 }
 

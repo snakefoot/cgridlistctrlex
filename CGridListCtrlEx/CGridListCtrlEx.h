@@ -15,6 +15,7 @@
 //!	- Clipboard (copy only)
 //------------------------------------------------------------------------
 
+class CGridColumnEditor;
 class CGridColumnTrait;
 class CGridRowTrait;
 
@@ -84,6 +85,8 @@ protected:
 	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
+	CGridColumnEditor* m_pColumnEditor;
+	int InternalColumnPicker(CMenu& menu, int offset);
 
 	// Maintaining row traits
 	CGridRowTrait* m_pDefaultRowTrait;
@@ -156,6 +159,7 @@ protected:
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderBeginResize(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderEndDrag(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
