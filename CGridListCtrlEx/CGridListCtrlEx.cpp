@@ -1069,12 +1069,16 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMHDR->code == TTN_NEEDTEXTA)
 		lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
 	else
-		_mbstowcsz(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText));
+#if __STDC_WANT_SECURE_LIB__
+		mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
+#else
+		mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
+#endif
 #else
 	if (pNMHDR->code == TTN_NEEDTEXTA)
 		_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
 	else
-		lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText));
+		lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
 #endif
 	return TRUE;
 }
