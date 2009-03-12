@@ -64,6 +64,7 @@ public:
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);
+	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol) { return GetColumnTrait(nCol); }
 
 	// DataModel callbacks
 	virtual bool OnDisplayCellText(int nRow, int nCol, CString& text) { return false; }

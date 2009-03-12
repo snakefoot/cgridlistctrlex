@@ -1088,7 +1088,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	if (nCol==-1 || nRow==-1)
 		return NULL;
 
-	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 	if (!columnState.m_Editable)
 		return NULL;
@@ -1140,7 +1140,7 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	int nRow = pDispInfo->item.iItem;
 	nRow;	// Avoid unreferenced variable warning
 
-	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 	if (!columnState.m_Editable)
 	{
@@ -1167,7 +1167,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	   (nCol != -1))
     {
 		// Label edit completed by user
-		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 		if (OnTraitEditComplete(pTrait, m_pEditor, pDispInfo))
 		{
 			*pResult = TRUE;	// Accept edit
@@ -1281,7 +1281,7 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			return;	// Everything is handled by the row-trait
 
 		int nCol = pLVCD->iSubItem;
-		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 		if (!pTrait->GetColumnState().m_Visible)
 		{
 			*pResult = CDRF_SKIPDEFAULT;
