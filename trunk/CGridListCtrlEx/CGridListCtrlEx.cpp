@@ -3,6 +3,7 @@
 
 #include <shlwapi.h>	// IsThemeEnabled
 
+#include "CGridColumnEditor.h"
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
 
@@ -17,6 +18,8 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
 	ON_NOTIFY_EX(HDN_BEGINTRACKA, 0, OnHeaderBeginResize)
 	ON_NOTIFY_EX(HDN_BEGINTRACKW, 0, OnHeaderBeginResize)
+	ON_NOTIFY_EX(HDN_ENDTRACKA, 0, OnHeaderEndResize)
+	ON_NOTIFY_EX(HDN_ENDTRACKW, 0, OnHeaderEndResize)
 	ON_NOTIFY_EX(HDN_BEGINDRAG, 0, OnHeaderBeginDrag)
 	ON_NOTIFY_EX(HDN_ENDDRAG, 0, OnHeaderEndDrag)
 	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKA, 0, OnHeaderDividerDblClick)
@@ -52,6 +55,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pGridFont(NULL)
 	,m_pCellFont(NULL)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
+	,m_pColumnEditor(new CGridColumnEditor)
 {}
 
 CGridListCtrlEx::~CGridListCtrlEx()
@@ -61,6 +65,9 @@ CGridListCtrlEx::~CGridListCtrlEx()
 
 	delete m_pDefaultRowTrait;
 	m_pDefaultRowTrait = NULL;
+
+	delete m_pColumnEditor;
+	m_pColumnEditor = NULL;
 
 	delete m_pGridFont;
 	m_pGridFont = NULL;
@@ -1480,13 +1487,9 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 {
 }
 
-void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
+int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 {
-	// Show context-menu with the option to show hide columns
-	CMenu menu;
-	VERIFY( menu.CreatePopupMenu() );
-
-	for( int i = GetColumnTraitSize()-1 ; i >= 0; --i)
+	for( int i = 0 ; i < GetColumnTraitSize(); ++i)
 	{
 		CGridColumnTrait* pTrait = GetColumnTrait(i);
 		CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
@@ -1506,15 +1509,48 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		const CString& columnTitle = GetColumnHeading(i);
 
 		// +1 as zero is a reserved value in TrackPopupMenu() 
-		menu.InsertMenu(0, uFlags, i+1, static_cast<LPCTSTR>(columnTitle));
+		menu.InsertMenu(menu.GetMenuItemCount(), uFlags, offset+i, static_cast<LPCTSTR>(columnTitle));
+	}
+	return GetColumnTraitSize();
+}
+
+void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
+{
+	// Show context-menu with the option to show hide columns
+	CMenu menu;
+	VERIFY( menu.CreatePopupMenu() );
+
+	CString title_editor;
+	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
+	{
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
+	}
+
+	CString title_picker;
+	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
+	{
+		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
+	}
+	else
+	{
+		if (menu.GetMenuItemCount()>0)
+			menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+
+		InternalColumnPicker(menu, 3);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
-	if (nResult!=0)
+	switch(nResult)
 	{
-		int nCol = nResult-1;
-		ShowColumn(nCol, !IsColumnVisible(nCol));
+		case 0: break;
+		case 1:	m_pColumnEditor->OpenColumnEditor(*this, nCol); break;
+		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
+		default:
+		{
+			int nCol = nResult-3;
+			ShowColumn(nCol, !IsColumnVisible(nCol));
+		} break;
 	}
 }
 
@@ -1558,6 +1594,12 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	m_pColumnEditor->OnColumnResize(*this);
+	return FALSE;
+}
+
 LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 {
 	// Check that column is allowed to be resized
@@ -1570,6 +1612,8 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 
 	if (!columnState.m_Resizable)
 		return FALSE;
+
+	m_pColumnEditor->OnColumnResize(*this);
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
@@ -1602,6 +1646,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		delete [] pOrderArray;
 	}
+	m_pColumnEditor->OnColumnDrag(*this);
 	return FALSE;
 }
 
