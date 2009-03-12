@@ -444,15 +444,10 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 			uFlags |= MF_UNCHECKED;
 
 		// Retrieve column-title
-		LVCOLUMN lvc = {0};
-		lvc.mask = LVCF_TEXT;
-		TCHAR sColText[256];
-		lvc.pszText = sColText;
-		lvc.cchTextMax = sizeof(sColText)-1;
-		VERIFY( GetColumn(i, &lvc) );
+		const CString& columnTitle = GetColumnHeading(i);
 
 		// +1 as zero is a reserved value in TrackPopupMenu() 
-		menu.InsertMenu(0, uFlags, i+1, lvc.pszText);
+		menu.InsertMenu(0, uFlags, i+1, static_cast<LPCTSTR>(columnTitle));
 	}
 
 	UINT uFlags = MF_BYPOSITION | MF_STRING;
@@ -468,14 +463,9 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 			menu.InsertMenu(0, uFlags | MF_SEPARATOR, 0, _T(""));
 
 		// Retrieve column-title
-		LVCOLUMN lvc = {0};
-		lvc.mask = LVCF_TEXT;
-		TCHAR sColText[256];
-		lvc.pszText = sColText;
-		lvc.cchTextMax = sizeof(sColText)-1;
-		VERIFY( GetColumn(nCol, &lvc) );
+		const CString& columnTitle = GetColumnHeading(nCol);
 
-		menu.InsertMenu(0, uFlags, GetColumnTraitSize()+2, CString(_T("Group by: ")) + lvc.pszText);
+		menu.InsertMenu(0, uFlags, GetColumnTraitSize()+2, CString(_T("Group by: ")) + columnTitle);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
