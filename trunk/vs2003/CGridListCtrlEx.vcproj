@@ -125,10 +125,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\CGridListCtrlExApp.cpp">
+				RelativePath="..\DemoApplication\CGridListCtrlExApp.cpp">
 			</File>
 			<File
-				RelativePath=".\CGridListCtrlExDlg.cpp">
+				RelativePath="..\DemoApplication\CGridListCtrlExDlg.cpp">
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp">
@@ -151,19 +151,19 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath=".\CGridListCtrlExApp.h">
+				RelativePath="..\DemoApplication\CGridListCtrlExApp.h">
 			</File>
 			<File
-				RelativePath=".\CGridListCtrlExDlg.h">
+				RelativePath="..\DemoApplication\CGridListCtrlExDlg.h">
 			</File>
 			<File
-				RelativePath=".\CListCtrl_DataModel.h">
+				RelativePath="..\DemoApplication\CListCtrl_DataModel.h">
 			</File>
 			<File
-				RelativePath=".\Resource.h">
+				RelativePath="..\DemoApplication\Resource.h">
 			</File>
 			<File
-				RelativePath=".\stdafx.h">
+				RelativePath="..\DemoApplication\stdafx.h">
 			</File>
 		</Filter>
 		<Filter
@@ -171,19 +171,35 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 			<File
-				RelativePath=".\res\CGridListCtrlEx.ico">
+				RelativePath="..\DemoApplication\res\CGridListCtrlEx.ico">
 			</File>
 			<File
-				RelativePath=".\CGridListCtrlEx.rc">
+				RelativePath="..\DemoApplication\CGridListCtrlEx.rc">
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalOptions="/d _VC60"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCResourceCompilerTool"
+						AdditionalOptions="/d _VC60"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\res\CGridListCtrlEx.rc2">
+				RelativePath="..\DemoApplication\res\CGridListCtrlEx.rc2">
 			</File>
 			<File
-				RelativePath=".\res\FLGDEN.ICO">
+				RelativePath="..\DemoApplication\res\FLGDEN.ICO">
 			</File>
 			<File
-				RelativePath=".\res\FLGSWED.ICO">
+				RelativePath="..\DemoApplication\res\FLGSWED.ICO">
 			</File>
 		</Filter>
 		<Filter
@@ -263,7 +279,7 @@
 			DeploymentContent="TRUE">
 		</File>
 		<File
-			RelativePath=".\ReadMe.txt">
+			RelativePath="..\DemoApplication\ReadMe.txt">
 		</File>
 	</Files>
 	<Globals>
