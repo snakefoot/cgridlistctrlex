@@ -32,6 +32,12 @@
 #define _WIN32_IE 0x0500	// Change this to the appropriate value to target IE 5.0 or later.
 #endif
 
+#if _MSC_VER < 1300
+#undef _WIN32_WINNT
+#define _WIN32_WINNT 0x0500	// Uncomment this if using VC6 without platform SDK
+#endif
+
+
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
 // turns off MFC's hiding of some common and often safely ignored warning messages
@@ -45,6 +51,8 @@
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
+
+#include <atlbase.h>
 
 #include <string>
 #include <vector>
