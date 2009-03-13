@@ -4,6 +4,7 @@
 #include <shlwapi.h>	// IsCommonControlsEnabled
 
 #include "CGridColumnTrait.h"
+#include "CGridColumnEditor.h"
 
 // MFC headers with group-support is only availabe from VS.NET 
 #if _MSC_VER >= 1300
