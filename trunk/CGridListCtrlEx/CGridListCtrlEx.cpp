@@ -78,75 +78,77 @@ CGridListCtrlEx::~CGridListCtrlEx()
 namespace {
 	bool IsCommonControlsEnabled()
 	{
+		bool commoncontrols = false;
+	
 		// Test if application has access to common controls
 		HMODULE hinstDll = ::LoadLibrary(_T("comctl32.dll"));
 		if (hinstDll)
 		{
 			DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
-			::FreeLibrary(hinstDll);
 			if (pDllGetVersion != NULL)
 			{
 				DLLVERSIONINFO dvi = {0};
 				dvi.cbSize = sizeof(dvi);
 				HRESULT hRes = pDllGetVersion ((DLLVERSIONINFO *) &dvi);
 				if (SUCCEEDED(hRes))
-					return dvi.dwMajorVersion >= 6;
+					commoncontrols = dvi.dwMajorVersion >= 6;
 			}
+			::FreeLibrary(hinstDll);
 		}
-		return false;
+		return commoncontrols;
 	}
 
 	bool IsThemeEnabled()
 	{
-		HMODULE hinstDll;
 		bool XPStyle = false;
 		bool (__stdcall *pIsAppThemed)();
 		bool (__stdcall *pIsThemeActive)();
 
 		// Test if operating system has themes enabled
-		hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
+		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
 		if (hinstDll)
 		{
 			(FARPROC&)pIsAppThemed = ::GetProcAddress(hinstDll, "IsAppThemed");
 			(FARPROC&)pIsThemeActive = ::GetProcAddress(hinstDll,"IsThemeActive");
-			::FreeLibrary(hinstDll);
 			if (pIsAppThemed != NULL && pIsThemeActive != NULL)
 			{
 				if (pIsAppThemed() && pIsThemeActive())
 				{
 					// Test if application has themes enabled by loading the proper DLL
-					return IsCommonControlsEnabled();
+					XPStyle = IsCommonControlsEnabled();
 				}
 			}
+			::FreeLibrary(hinstDll);
 		}
 		return XPStyle;
 	}
 
 	LRESULT EnableWindowTheme(HWND hwnd, LPCWSTR classList, LPCWSTR subApp, LPCWSTR idlist)
 	{
-		HMODULE hinstDll;
+		LRESULT lResult = S_FALSE;
+	
 		HRESULT (__stdcall *pSetWindowTheme)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList);
 		HANDLE (__stdcall *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList);
 		HRESULT (__stdcall *pCloseThemeData)(HANDLE hTheme);
 
-		hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
+		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
 		if (hinstDll)
 		{
 			(FARPROC&)pOpenThemeData = ::GetProcAddress(hinstDll, "OpenThemeData");
 			(FARPROC&)pCloseThemeData = ::GetProcAddress(hinstDll, "CloseThemeData");
 			(FARPROC&)pSetWindowTheme = ::GetProcAddress(hinstDll, "SetWindowTheme");
-			::FreeLibrary(hinstDll);
 			if (pSetWindowTheme && pOpenThemeData && pCloseThemeData)
 			{
 				HANDLE theme = pOpenThemeData(hwnd,classList);
 				if (theme!=NULL)
 				{
 					VERIFY(pCloseThemeData(theme)==S_OK);
-					return pSetWindowTheme(hwnd, subApp, idlist);
+					lResult = pSetWindowTheme(hwnd, subApp, idlist);
 				}
 			}
+			::FreeLibrary(hinstDll);
 		}
-		return S_FALSE;
+		return lResult;
 	}
 }
 
