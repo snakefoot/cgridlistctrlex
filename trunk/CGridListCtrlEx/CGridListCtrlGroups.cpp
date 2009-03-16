@@ -72,9 +72,12 @@ CString CGridListCtrlGroups::GetGroupHeader(int nGroupID)
 
 #ifdef UNICODE
 	return lg.pszHeader;
-#else
+#elif  _MSC_VER >= 1300
 	CComBSTR header( lg.pszHeader );
 	return (LPCTSTR)COLE2T(header);
+#else
+	USES_CONVERSION;
+	return W2A(lg.pszHeader);
 #endif
 }
 
@@ -894,6 +897,6 @@ AFX_INLINE BOOL CGridListCtrlGroups::IsGroupViewEnabled() const
 	ASSERT(::IsWindow(m_hWnd));
 	return ListView_IsGroupViewEnabled(m_hWnd);
 }
-#endif // _MSC_VER >= 1300
+#endif // _MSC_VER < 1300
 
 #endif // _WIN32_WINNT >= 0x0501
