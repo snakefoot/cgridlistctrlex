@@ -6,8 +6,6 @@
 #include "CGridColumnTrait.h"
 #include "CGridColumnEditor.h"
 
-// MFC headers with group-support is only availabe from VS.NET 
-#if _MSC_VER >= 1300
 // WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 
@@ -307,17 +305,16 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 		// Loop through all rows and find possible groups
 		for(int nRow=0; nRow<GetItemCount(); ++nRow)
 		{
-			const CString& cellText = GetItemText(nRow, nCol);
+			CString cellText = GetItemText(nRow, nCol);
 
 			int nGroupId = groups.FindKey(cellText);
 			if (nGroupId==-1)
 			{
 				CSimpleArray<int> rows;
-				rows.Add(nRow);
 				groups.Add(cellText, rows);
+				nGroupId = groups.FindKey(cellText);
 			}
-			else
-				groups.GetValueAt(nGroupId).Add(nRow);
+			groups.GetValueAt(nGroupId).Add(nRow);
 		}
 
 		// Look through all groups and assign rows to group
@@ -824,5 +821,79 @@ void CGridListCtrlGroups::OnPaint()
     CGridListCtrlEx::OnPaint();
 }
 
-#endif // _WIN32_WINNT >= 0x0501
+// MFC headers with group-support is only availabe from VS.NET 
+#if _MSC_VER < 1300
+
+AFX_INLINE LRESULT CGridListCtrlGroups::InsertGroup(int index, PLVGROUP pgrp)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_InsertGroup(m_hWnd, index, pgrp);
+}
+AFX_INLINE int CGridListCtrlGroups::SetGroupInfo(int iGroupId, PLVGROUP pgrp)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return (int)ListView_SetGroupInfo(m_hWnd, iGroupId, pgrp);
+}
+AFX_INLINE int CGridListCtrlGroups::GetGroupInfo(int iGroupId, PLVGROUP pgrp) const
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return (int)ListView_GetGroupInfo(m_hWnd, iGroupId, pgrp);
+}
+AFX_INLINE LRESULT CGridListCtrlGroups::RemoveGroup(int iGroupId)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_RemoveGroup(m_hWnd, iGroupId);
+}
+AFX_INLINE LRESULT CGridListCtrlGroups::MoveGroup(int iGroupId, int toIndex)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_MoveGroup(m_hWnd, iGroupId, toIndex);
+}
+AFX_INLINE LRESULT CGridListCtrlGroups::MoveItemToGroup(int idItemFrom, int idGroupTo)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_MoveItemToGroup(m_hWnd, idItemFrom, idGroupTo);
+}
+AFX_INLINE void CGridListCtrlGroups::SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	ListView_SetGroupMetrics(m_hWnd, pGroupMetrics);
+}
+AFX_INLINE void CGridListCtrlGroups::GetGroupMetrics(PLVGROUPMETRICS pGroupMetrics) const
+{
+	ASSERT(::IsWindow(m_hWnd));
+	ListView_GetGroupMetrics(m_hWnd, pGroupMetrics);
+}
+AFX_INLINE LRESULT CGridListCtrlGroups::EnableGroupView(BOOL fEnable)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_EnableGroupView(m_hWnd, fEnable);
+}
+AFX_INLINE BOOL CGridListCtrlGroups::SortGroups(PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return (BOOL)::SendMessage(m_hWnd, LVM_SORTGROUPS, (WPARAM)(LPARAM)_plv, (LPARAM)_pfnGroupCompare );
+}
+AFX_INLINE LRESULT CGridListCtrlGroups::InsertGroupSorted(PLVINSERTGROUPSORTED pStructInsert)
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_InsertGroupSorted(m_hWnd, pStructInsert);
+}
+AFX_INLINE void CGridListCtrlGroups::RemoveAllGroups()
+{
+	ASSERT(::IsWindow(m_hWnd));
+	ListView_RemoveAllGroups(m_hWnd);
+}
+AFX_INLINE BOOL CGridListCtrlGroups::HasGroup(int iGroupId) const
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return (BOOL)ListView_HasGroup(m_hWnd, iGroupId);
+}
+AFX_INLINE BOOL CGridListCtrlGroups::IsGroupViewEnabled() const
+{
+	ASSERT(::IsWindow(m_hWnd));
+	return ListView_IsGroupViewEnabled(m_hWnd);
+}
 #endif // _MSC_VER >= 1300
+
+#endif // _WIN32_WINNT >= 0x0501

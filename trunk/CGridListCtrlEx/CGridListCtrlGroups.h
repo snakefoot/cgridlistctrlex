@@ -13,8 +13,6 @@
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
-// MFC headers with group-support is only availabe from VS.NET 
-#if _MSC_VER >= 1300
 // WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 	CGridListCtrlGroups();
@@ -66,6 +64,24 @@ protected:
 	int m_GroupHeight;
 
 	DECLARE_MESSAGE_MAP();
-#endif	
-#endif
+
+public:
+// MFC headers with group-support is only availabe from VS.NET 
+#if _MSC_VER < 1300
+	LRESULT InsertGroup(int index, PLVGROUP pgrp);
+	int SetGroupInfo(int iGroupId, PLVGROUP pgrp);
+	int GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;	
+	LRESULT RemoveGroup(int iGroupId);	
+	LRESULT MoveGroup(int iGroupId, int toIndex);
+	LRESULT MoveItemToGroup(int idItemFrom, int idGroupTo);
+	void SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics);
+	void GetGroupMetrics(PLVGROUPMETRICS pGroupMetrics) const;
+	LRESULT EnableGroupView(BOOL fEnable);
+	BOOL SortGroups(PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv);
+	LRESULT InsertGroupSorted(PLVINSERTGROUPSORTED pStructInsert);
+	void RemoveAllGroups();
+	BOOL HasGroup(int iGroupId) const;
+	BOOL IsGroupViewEnabled() const;
+#endif	// _MSC_VER < 1300
+#endif	// _WIN32_WINNT >= 0x0501
 };
