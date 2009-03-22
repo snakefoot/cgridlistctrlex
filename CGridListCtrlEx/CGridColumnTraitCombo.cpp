@@ -132,11 +132,17 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, i
 {
 	VERIFY(m_pComboBox!=NULL);
 
+	m_pComboBox->SetRedraw(FALSE);
+	m_pComboBox->InitStorage(comboList.GetSize(), 32);
+
 	for(int i = 0; i < comboList.GetSize(); ++i)
 	{
 		int nIndex = m_pComboBox->AddString(comboList.GetValueAt(i));
 		m_pComboBox->SetItemData(nIndex, comboList.GetKeyAt(i));
 	}
+	m_pComboBox->SetRedraw(TRUE);
+	m_pComboBox->Invalidate();
+	m_pComboBox->UpdateWindow();
 	if (nCurSel!=-1)
 		m_pComboBox->SetCurSel(nCurSel);
 }
