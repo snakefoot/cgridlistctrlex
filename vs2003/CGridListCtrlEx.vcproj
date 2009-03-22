@@ -131,7 +131,7 @@
 				RelativePath="..\DemoApplication\CGridListCtrlExDlg.cpp">
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp">
+				RelativePath="..\DemoApplication\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
@@ -236,6 +236,9 @@
 			<Filter
 				Name="Header Files"
 				Filter="">
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditor.h">
+				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h">
 				</File>
