@@ -1002,7 +1002,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		if (OnDisplayCellText(nRow, nCol, result))
 		{
 #if __STDC_WANT_SECURE_LIB__
-			_tcsncpy_s(pNMW->item.pszText, pNMW->item.cchTextMax, static_cast<LPCTSTR>(result), result.GetLength() );
+			_tcscpy_s(pNMW->item.pszText, pNMW->item.cchTextMax, static_cast<LPCTSTR>(result) );
 #else
 			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
 #endif
@@ -1605,7 +1605,7 @@ int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSim
 			VERIFY( submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])) );
 		}
 
-		VERIFY( menu.AppendMenu(MF_POPUP, (UINT)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)) );
+		VERIFY( menu.AppendMenu(MF_POPUP, (UINT_PTR)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)) );
 	}
 	return profiles.GetSize();
 }
