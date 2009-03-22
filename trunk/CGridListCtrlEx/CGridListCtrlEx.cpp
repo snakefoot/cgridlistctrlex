@@ -43,6 +43,9 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+//------------------------------------------------------------------------
+//! Constructor 
+//------------------------------------------------------------------------
 CGridListCtrlEx::CGridListCtrlEx()
 	:m_FocusCell(-1)
 	,m_SortCol(-1)
@@ -59,6 +62,9 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pColumnEditor(new CGridColumnEditor)
 {}
 
+//------------------------------------------------------------------------
+//! Destructor
+//------------------------------------------------------------------------
 CGridListCtrlEx::~CGridListCtrlEx()
 {
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
@@ -76,6 +82,11 @@ CGridListCtrlEx::~CGridListCtrlEx()
 	m_pCellFont = NULL;
 }
 
+//------------------------------------------------------------------------
+//! Sets the interface for handling column state persistence for the list control
+//! 
+//! @param pColumnEditor The new column state interface handler
+//------------------------------------------------------------------------
 void CGridListCtrlEx::SetupColumnConfig(CGridColumnEditor* pColumnEditor)
 {
 	ASSERT(pColumnEditor!=NULL);
@@ -161,6 +172,12 @@ namespace {
 	}
 }
 
+//------------------------------------------------------------------------
+//! Activate visual style for the list control (XP/Vista Theme)
+//! 
+//! @param bValue Specifies whether the visual styles should be enabled or not
+//! @return S_FALSE if visual styles could not be enabled
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 {
 	if (!IsThemeEnabled())
@@ -201,6 +218,9 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 	return rc;
 }
 
+//------------------------------------------------------------------------
+//! Configures the initial style of the list control when the it is created
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnCreateStyle()
 {
 	// Will be called twice when placed inside a CView
@@ -233,6 +253,11 @@ void CGridListCtrlEx::OnCreateStyle()
         pToolTipCtrl->Activate(FALSE);
 }
 
+//------------------------------------------------------------------------
+//! WM_CREATE message handler. Called when inside a CView.
+//!
+//! @param lpCreateStruct Pointer to a CREATESTRUCT structure that contains information about the list control object being created. 
+//------------------------------------------------------------------------
 int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	// Will not be called when placed inside a CDialog
@@ -243,6 +268,10 @@ int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return rc;
 }
 
+//------------------------------------------------------------------------
+//! Normally used for subclassing controls, but here used to configure
+//! initial style when list control is created.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::PreSubclassWindow()
 {
 	// Changes made to style will not having any effect when placed in a CView
@@ -250,6 +279,18 @@ void CGridListCtrlEx::PreSubclassWindow()
 	OnCreateStyle();
 }
 
+
+//------------------------------------------------------------------------
+//! Inserts a new column in the list control, and gives the option to customize the column using a trait
+//!  
+//! @param nCol Index of the new column
+//! @param columnHeader Title of the new column
+//! @param nFormat Text alignment of the new column
+//! @param nWidth Width of the new column
+//! @param nSubItem Unique identifier used to recognize the column independent of index
+//! @param pTrait Column trait interface for the new column
+//! @return The index of the new column if successful or -1 otherwise.
+//------------------------------------------------------------------------
 int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
 {
 	if (pTrait!=NULL)
@@ -287,6 +328,8 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, i
 //! and to get the uniform look, then it should be hidden away.
 //!	 - It has a special margin, which no other column has
 //!  - When dragged to another position than the first, then it looses it special margin
+//!
+//! @return The index of the new column if successful or -1 otherwise.
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InsertHiddenLabelColumn()
 {
@@ -298,6 +341,11 @@ int CGridListCtrlEx::InsertHiddenLabelColumn()
 	return InsertColumnTrait(0, _T(""), LVCFMT_LEFT, -1, -1, pColumTrait);
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the header control of a list control.
+//!
+//! @return A pointer to the header control, used by the list control.
+//------------------------------------------------------------------------
 const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 {
 	ASSERT(::IsWindow(m_hWnd));
@@ -309,11 +357,21 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 		return (const CHeaderCtrl*) CHeaderCtrl::FromHandle(hWnd);
 }
 
+//------------------------------------------------------------------------
+//! Retrieves a count of the items in a header control.
+//!
+//! @return Number of header control items if successful; otherwise – 1.
+//------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnCount() const
 {
 	return GetHeaderCtrl()->GetItemCount();
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the font used to draw cells in the list control
+//!
+//! @return A pointer to the current font used by the list control.
+//------------------------------------------------------------------------
 CFont* CGridListCtrlEx::GetCellFont()
 {
 	if (m_pCellFont==NULL)
@@ -325,6 +383,8 @@ CFont* CGridListCtrlEx::GetCellFont()
 //! Takes the current font and increases the font with the given margin
 //! multiplier. Increases the row-height but keeps the cell font intact.
 //! Gives more room for the grid-cell editors and their border.
+//!
+//! @param margin Multiplier for how much to increase the font size
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetCellMargin(double margin)
 {
@@ -354,6 +414,9 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 //------------------------------------------------------------------------
 //! The column version of GetItemData(), one can specify an unique
 //! identifier when using InsertColumn()
+//!
+//! @param nCol Index of the column
+//! @return Unique identifier of the column specified
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnData(int nCol) const
 {
@@ -365,6 +428,9 @@ int CGridListCtrlEx::GetColumnData(int nCol) const
 
 //------------------------------------------------------------------------
 //! Get column position in the CHeaderCtrl's display order array
+//!
+//! @param nCol Index of the column
+//! @return Column offset is in left-to-right order. For example, zero indicates the leftmost column.
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnOrder(int nCol) const
 {
@@ -374,6 +440,12 @@ int CGridListCtrlEx::GetColumnOrder(int nCol) const
 	return lvc.iOrder;
 }
 
+//------------------------------------------------------------------------
+//! Retrieve column title of a column in the list control 
+//!
+//! @param nCol Index of the column
+//! @return Column header text of the specified column
+//------------------------------------------------------------------------
 CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 {
 	// Retrieve column-title
@@ -386,21 +458,44 @@ CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 	return lvc.pszText;
 }
 
+//------------------------------------------------------------------------
+//! Retrieve row with the LVIS_FOCUSED state flag set
+//!
+//! @return The index of the row if successful, or -1 otherwise.
+//------------------------------------------------------------------------
 int CGridListCtrlEx::GetFocusRow() const
 {
 	return GetNextItem(-1, LVNI_FOCUSED);
 }
 
+//------------------------------------------------------------------------
+//! Sets LVIS_FOCUSED state flag for the specified row
+//!
+//! @param nRow The index of the row
+//------------------------------------------------------------------------
 void  CGridListCtrlEx::SetFocusRow(int nRow)
 {
 	SetItemState(nRow, LVIS_FOCUSED, LVIS_FOCUSED);
 }
 
+//------------------------------------------------------------------------
+//! Checks if the LVIS_SELECTED state flag set for the specified row
+//!
+//! @param nRow The index of the row
+//! @return True if the row is selected
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::IsRowSelected(int nRow) const
 {
 	return (GetItemState(nRow, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 }
 
+//------------------------------------------------------------------------
+//! Sets the LVIS_SELECTED state flag for the specified row
+//!
+//! @param nRow The index of the row. -1 means all rows
+//! @param bSelect Whether row should be selected or not
+//! @return Nonzero if successful; otherwise zero.
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 {
 	return SetItemState(nRow, bSelect ? LVIS_SELECTED : 0, LVIS_SELECTED);
@@ -411,6 +506,12 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 //!	- It doesn't return entire row-rect when using LVIR_BOUNDS for label-column (nCol==0)
 //!	- It supports LVIR_LABEL for sub-items (nCol>0)
 //! - It supports LVIR_BOUNDS when column width is less than subitem image width
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param nCode Determines the portion of the bounding rectangle (of the list view subitem) to be retrieved.
+//!	@param rect Reference to a CRect object that contains the coordinates of the cell's bounding rectangle.
+//! @return Nonzero if successful; otherwise zero.
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 {
@@ -460,6 +561,14 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! Replicates the SubItemHitTest() but in a const version. Finds the cell
+//! below the given mouse cursor position.
+//!
+//! @param pt The position to hit test, in client coordinates. 
+//! @param nRow The index of the row (Returns -1 if no row)
+//! @param nCol The index of the column (Returns -1 if no column)
+//------------------------------------------------------------------------
 void CGridListCtrlEx::CellHitTest(const CPoint& pt, int& nRow, int& nCol) const
 {
 	nRow = -1;
@@ -473,6 +582,13 @@ void CGridListCtrlEx::CellHitTest(const CPoint& pt, int& nRow, int& nCol) const
 		nRow = -1;
 }
 
+//------------------------------------------------------------------------
+//! Checks if the current cell is using callback to retrieve its text value
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Returns true if the cell is using call back to retrieve its text value
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 {
 	if (GetStyle() & LVS_OWNERDATA)
@@ -486,6 +602,13 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 	return lvi.pszText == LPSTR_TEXTCALLBACK;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the icon index of the specified cell
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Index of the cell's icon in the control's image list.
+//------------------------------------------------------------------------
 int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 {
 	LV_ITEM lvi = {0};
@@ -496,6 +619,14 @@ int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 	return lvi.iImage;
 }
 
+//------------------------------------------------------------------------
+//! Sets the icon of the specified cell
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param nImageId The icon index in the list control image list
+//! @return Nonzero if successful; otherwise zero.
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 {
 	LV_ITEM lvitem = {0};
@@ -506,11 +637,11 @@ BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 	return SetItem(&lvitem);
 }
 
-CGridColumnTrait* CGridListCtrlEx::GetCellColumnTrait(int nRow, int nCol)
-{
-	return GetColumnTrait(nCol);
-}
-
+//------------------------------------------------------------------------
+//! Shifts the cell focus left or right in the same row
+//!
+//! @param right Specifies whether the cell focus should be left or right
+//------------------------------------------------------------------------
 void CGridListCtrlEx::MoveFocusCell(bool right)
 {
 	if (GetItemCount()<=0)
@@ -571,7 +702,11 @@ void CGridListCtrlEx::MoveFocusCell(bool right)
 	UpdateFocusCell(m_FocusCell);
 }
 
-// Force redraw of focus row, so the focus cell becomes visible
+//------------------------------------------------------------------------
+//! Force redraw of focus row, so the focus cell becomes visible
+//!
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
 void CGridListCtrlEx::UpdateFocusCell(int nCol)
 {
 	m_FocusCell = nCol;	// Update focus cell before starting re-draw
@@ -589,6 +724,10 @@ void CGridListCtrlEx::UpdateFocusCell(int nCol)
 //! Scrolls the view, so the column because visible
 //!
 //! http://www.codeguru.com/cpp/controls/listview/columns/article.php/c931/
+//!
+//! @param nCol The index of the column
+//! @param bPartialOK Is partially visible good enough ?
+//! @return Nonzero if successful; otherwise zero.
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 {
@@ -633,6 +772,11 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the column index of the first visible column
+//!
+//! @return Column index of the first visible column (-1 if no visible columns)
+//------------------------------------------------------------------------
 int CGridListCtrlEx::GetFirstVisibleColumn()
 {
 	int nColCount = GetHeaderCtrl()->GetItemCount();
@@ -647,6 +791,16 @@ int CGridListCtrlEx::GetFirstVisibleColumn()
 	return -1;
 }
 
+//------------------------------------------------------------------------
+//! Changes the visible state of column.
+//! Hides a column by resizing the column width to zero and moving it to
+//! the outer left in the column order. Shows a column by returning it to
+//! its original position.
+//!
+//! @param nCol The index of the column
+//! @param bShow Specifies whether the column should be shown or hidden
+//! @return Nonzero if successful; otherwise zero.
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 {
 	SetRedraw(FALSE);
@@ -726,6 +880,13 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! Resizes the width of a column according the contents of the cells below
+//!
+//! @param nCol The index of the column
+//! @param includeHeader Include the column header text the column width calculation
+//! @return Nonzero if successful; otherwise zero.
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool includeHeader)
 {
 	if (nCol == -1)
@@ -798,7 +959,13 @@ namespace {
 	}
 }
 
-void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
+//------------------------------------------------------------------------
+//! Puts a sort-icon in the column header of the specified column
+//!
+//! @param nCol The index of the column
+//! @param ascending Should the arrow be up or down 
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SetSortArrow(int nCol, bool ascending)
 {
 	if (IsThemeEnabled())
 	{
@@ -810,7 +977,7 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 			hditem.mask = HDI_FORMAT;
 			VERIFY( GetHeaderCtrl()->GetItem( i, &hditem ) );
 			hditem.fmt &= ~(HDF_SORTDOWN|HDF_SORTUP);
-			if (i == colIndex)
+			if (i == nCol)
 			{
 				hditem.fmt |= ascending ? HDF_SORTUP : HDF_SORTDOWN;
 			}
@@ -835,7 +1002,7 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 				hditem.fmt &= ~(HDF_BITMAP|HDF_BITMAP_ON_RIGHT);
 				VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 			}
-			if (i == colIndex)
+			if (i == nCol)
 			{
 				hditem.fmt |= HDF_BITMAP|HDF_BITMAP_ON_RIGHT;
 				//UINT bitmapID = m_Ascending ? IDB_DOWNARROW : IDB_UPARROW; 
@@ -848,6 +1015,13 @@ void CGridListCtrlEx::SetSortArrow(int colIndex, bool ascending)
 	}
 }
 
+//------------------------------------------------------------------------
+//! WM_KEYDOWN message handler for performing keyboard navigation
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// Catch event before the parent listctrl gets it to avoid extra scrolling
@@ -1411,6 +1585,19 @@ void CGridListCtrlEx::SetDefaultRowTrait(CGridRowTrait* pRowTrait)
 bool CGridListCtrlEx::IsColumnVisible(int nCol)
 {
 	return GetColumnTrait(nCol)->GetColumnState().m_Visible;
+}
+
+//------------------------------------------------------------------------
+//! Retrieves the column trait of a specified cell.
+//! Makes it possible to override the column trait of a singel cell
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return The column trait pointer of the cell
+//------------------------------------------------------------------------
+CGridColumnTrait* CGridListCtrlEx::GetCellColumnTrait(int nRow, int nCol)
+{
+	return GetColumnTrait(nCol);
 }
 
 CGridColumnTrait* CGridListCtrlEx::GetColumnTrait(int nCol)
