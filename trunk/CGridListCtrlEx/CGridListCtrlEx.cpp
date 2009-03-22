@@ -506,6 +506,11 @@ BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 	return SetItem(&lvitem);
 }
 
+CGridColumnTrait* CGridListCtrlEx::GetCellColumnTrait(int nRow, int nCol)
+{
+	return GetColumnTrait(nCol);
+}
+
 void CGridListCtrlEx::MoveFocusCell(bool right)
 {
 	if (GetItemCount()<=0)
@@ -957,6 +962,16 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
+bool CGridListCtrlEx::OnDisplayCellText(int nRow, int nCol, CString& text)
+{
+	return false;
+}
+
+bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& imageId)
+{
+	return false;
+}
+
 //------------------------------------------------------------------------
 //! Handles the LVN_GETDISPINFO message, which is sent when details are
 //! needed for an item that specifies callback.
@@ -1107,6 +1122,16 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	return TRUE;
 }
 
+CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol)
+{
+	return pEditor;
+}
+
+bool CGridListCtrlEx::OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI)
+{
+	return true;
+}
+
 CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 {
 	if (nCol==-1 || nRow==-1)
@@ -1147,6 +1172,11 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	m_pEditor->ShowWindow(SW_SHOW);
 	m_pEditor->SetFocus();
 	return m_pEditor;
+}
+
+bool CGridListCtrlEx::IsCellEditorOpen() const
+{
+	return m_pEditor!=NULL;
 }
 
 BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
@@ -1282,6 +1312,30 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	}
 
 	CListCtrl::OnRButtonDown(nFlags, point);
+}
+
+bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background)
+{
+	return false;
+}
+
+bool CGridListCtrlEx::OnDisplayCellFont(int nRow, int nCol, LOGFONT& font)
+{
+	return false;
+}
+
+bool CGridListCtrlEx::OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background)
+{
+	return false;
+}
+
+bool CGridListCtrlEx::OnDisplayRowFont(int nRow, LOGFONT& font)
+{
+	return false;
+}
+
+void CGridListCtrlEx::OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
+{
 }
 
 //------------------------------------------------------------------------

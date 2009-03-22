@@ -64,20 +64,21 @@ public:
 	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual CWnd* EditCell(int nRow, int nCol);
+	bool IsCellEditorOpen() const;
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);
-	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol) { return GetColumnTrait(nCol); }
+	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol);
 
 	// DataModel callbacks
-	virtual bool OnDisplayCellText(int nRow, int nCol, CString& text) { return false; }
-	virtual bool OnDisplayCellImage(int nRow, int nCol, int& imageId) { return false; }
-	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background) { return false; }
-	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font) { return false; }
+	virtual bool OnDisplayCellText(int nRow, int nCol, CString& text);
+	virtual bool OnDisplayCellImage(int nRow, int nCol, int& imageId);
 	virtual bool OnDisplayCellTooltip(const CPoint& pt) const;
 	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& text);
-	virtual bool OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background) { return false; } 
-	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font) { return false; }
+	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background);
+	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font);
+	virtual bool OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background);
+	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font);
 	virtual bool OnDisplayToClipboard(CString& result);
 	virtual bool OnDisplayToClipboard(int nRow, CString& text);
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& text);
@@ -123,9 +124,9 @@ protected:
 	CString m_EmptyMarkupText;
 
 	// Global column trait methods
-	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult) {}
-	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol) { return pEditor; }
-	virtual bool OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI) { return true; }
+	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
+	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol);
+	virtual bool OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers
 	virtual void OnContextMenuGrid(CWnd* pWnd, CPoint point);
