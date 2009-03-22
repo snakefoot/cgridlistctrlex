@@ -65,7 +65,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				if (!(owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT))
 					break;	// No drawing of selection color without full-row-select
 
-				if (owner.GetFocus()!=&owner)
+				if (owner.GetFocus()!=&owner && !owner.IsCellEditorOpen())
 				{
 					// Selection color is different when not having focus
 					if (owner.GetStyle() & LVS_SHOWSELALWAYS)
