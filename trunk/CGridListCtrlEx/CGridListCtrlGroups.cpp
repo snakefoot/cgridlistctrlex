@@ -432,31 +432,42 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	{
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(nCol);
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 3, CString(_T("Group by: ")) + columnTitle);
+		menu.AppendMenu(MF_STRING, 3, CString(_T("Group by: ")) + columnTitle);
 	}
 
 	if (IsGroupViewEnabled())
 	{
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 4, _T("Disable grouping"));
+		menu.AppendMenu(MF_STRING, 4, _T("Disable grouping"));
 	}
 
 	CString title_editor;
 	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
 	{
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
+		menu.AppendMenu(MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
 	}
 
 	CString title_picker;
 	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
 	{
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
+		menu.AppendMenu(MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
 	}
 	else
 	{
 		if (menu.GetMenuItemCount()>0)
-			menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
 
-		InternalColumnPicker(menu, 5);
+		InternalColumnPicker(menu, 6);
+	}
+
+	CSimpleArray<CString> profiles;
+	InternalColumnProfileSwitcher(menu, GetColumnCount() + 7, profiles);
+
+	CString title_resetdefault;
+	if (m_pColumnEditor->HasColumnsDefault(*this, title_resetdefault))
+	{
+		if (profiles.GetSize()==0)
+			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
+		menu.AppendMenu(MF_STRING, 5, title_resetdefault);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
@@ -468,10 +479,19 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
 		case 3: GroupByColumn(nCol); break;
 		case 4: RemoveAllGroups(); EnableGroupView(FALSE); break;
+		case 5: m_pColumnEditor->ResetColumnsDefault(*this); break;
 		default:
 		{
-			int nCol = nResult-5;
-			ShowColumn(nCol, !IsColumnVisible(nCol));
+			int nCol = nResult-6;
+			if (nCol < GetColumnCount())
+			{
+				ShowColumn(nCol, !IsColumnVisible(nCol));
+			}
+			else
+			{
+				int nProfile = nResult-GetColumnCount()-7;
+				m_pColumnEditor->SwichColumnProfile(*this, profiles[nProfile]);
+			}
 		} break;
 	}
 }

@@ -43,6 +43,7 @@ public:
 	// Column
 	const CHeaderCtrl* GetHeaderCtrl() const;
 	CHeaderCtrl* GetHeaderCtrl() { return CListCtrl::GetHeaderCtrl(); }
+	int GetColumnCount() const;
 	int GetColumnData(int nCol) const;
 	int GetColumnOrder(int nCol) const;
 	CString GetColumnHeading(int nCol) const;
@@ -56,6 +57,7 @@ public:
 	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	virtual CGridColumnTrait* GetColumnTrait(int nCol);
 	virtual int GetColumnTraitSize() const;
+	virtual void SetupColumnConfig(CGridColumnEditor* pColumnEditor);
 
 	// Cell / Subitem 
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
@@ -87,6 +89,7 @@ protected:
 	virtual void DeleteColumnTrait(int nCol);
 	CGridColumnEditor* m_pColumnEditor;
 	int InternalColumnPicker(CMenu& menu, int offset);
+	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 
 	// Maintaining row traits
 	CGridRowTrait* m_pDefaultRowTrait;
@@ -169,6 +172,7 @@ protected:
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual afx_msg void OnPaint();
+	virtual afx_msg void OnKillFocus(CWnd* pNewWnd);
 	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 
