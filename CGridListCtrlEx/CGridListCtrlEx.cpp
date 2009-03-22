@@ -37,7 +37,8 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar
 	ON_WM_PAINT()		// OnPaint
-	ON_WM_CREATE()
+	ON_WM_CREATE()		// OnCreate
+	ON_WM_KILLFOCUS()	// OnKillFocus
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -73,6 +74,14 @@ CGridListCtrlEx::~CGridListCtrlEx()
 	m_pGridFont = NULL;
 	delete m_pCellFont;
 	m_pCellFont = NULL;
+}
+
+void CGridListCtrlEx::SetupColumnConfig(CGridColumnEditor* pColumnEditor)
+{
+	ASSERT(pColumnEditor!=NULL);
+	delete m_pColumnEditor;
+	m_pColumnEditor = pColumnEditor;
+	m_pColumnEditor->OnColumnSetup(*this);
 }
 
 namespace {
@@ -298,6 +307,11 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 		return NULL;
 	else
 		return (const CHeaderCtrl*) CHeaderCtrl::FromHandle(hWnd);
+}
+
+int CGridListCtrlEx::GetColumnCount() const
+{
+	return GetHeaderCtrl()->GetItemCount();
 }
 
 CFont* CGridListCtrlEx::GetCellFont()
@@ -635,7 +649,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 
-	int nColCount = GetHeaderCtrl()->GetItemCount();
+	int nColCount = GetColumnCount();
 	int* pOrderArray = new int[nColCount];
 	VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 	if (bShow)
@@ -701,6 +715,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 		columnState.m_Visible = false;
 		columnState.m_OrgWidth = orgWidth;
 	}
+	m_pColumnEditor->OnColumnPick(*this);
 	SetRedraw(TRUE);
 	Invalidate(FALSE);
 	return TRUE;
@@ -1499,7 +1514,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 		if (columnState.m_AlwaysHidden)
 			continue;	// Cannot be shown
 
-		UINT uFlags = MF_BYPOSITION | MF_STRING;
+		UINT uFlags = MF_STRING;
 
 		// Put check-box on context-menu
 		if (IsColumnVisible(i))
@@ -1509,11 +1524,36 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
-
-		// +1 as zero is a reserved value in TrackPopupMenu() 
-		menu.InsertMenu(menu.GetMenuItemCount(), uFlags, offset+i, static_cast<LPCTSTR>(columnTitle));
+		VERIFY( menu.AppendMenu(uFlags, offset+i, static_cast<LPCTSTR>(columnTitle)) );
 	}
+
 	return GetColumnTraitSize();
+}
+
+int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles)
+{
+	CString title_profiles;
+	CString active_profile = m_pColumnEditor->HasColumnProfiles(*this, profiles, title_profiles);
+	if (profiles.GetSize()>0)
+	{
+		menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
+
+		CMenu submenu;
+		submenu.CreatePopupMenu();
+		for(int i=0;i<profiles.GetSize();++i)
+		{
+			UINT uFlags = MF_STRING;
+			// Put check-box on context-menu
+			if (active_profile==profiles[i])
+				uFlags |= MF_CHECKED;
+			else
+				uFlags |= MF_UNCHECKED;
+			VERIFY( submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])) );
+		}
+
+		VERIFY( menu.AppendMenu(MF_POPUP, (UINT)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)) );
+	}
+	return profiles.GetSize();
 }
 
 void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
@@ -1525,20 +1565,31 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	CString title_editor;
 	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
 	{
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
+		menu.AppendMenu(MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
 	}
 
 	CString title_picker;
 	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
 	{
-		menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
+		menu.AppendMenu(MF_STRING, 2, static_cast<LPCTSTR>(title_picker));
 	}
 	else
 	{
 		if (menu.GetMenuItemCount()>0)
-			menu.InsertMenu(menu.GetMenuItemCount(), MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
+			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
 
-		InternalColumnPicker(menu, 3);
+		InternalColumnPicker(menu, 4);
+	}
+
+	CSimpleArray<CString> profiles;
+	InternalColumnProfileSwitcher(menu, GetColumnCount() + 5, profiles);
+
+	CString title_resetdefault;
+	if (m_pColumnEditor->HasColumnsDefault(*this, title_resetdefault))
+	{
+		if (profiles.GetSize()==0)
+			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
+		menu.AppendMenu(MF_STRING, 3, title_resetdefault);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
@@ -1548,10 +1599,19 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		case 0: break;
 		case 1:	m_pColumnEditor->OpenColumnEditor(*this, nCol); break;
 		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
+		case 3: m_pColumnEditor->ResetColumnsDefault(*this); break;
 		default:
 		{
-			int nCol = nResult-3;
-			ShowColumn(nCol, !IsColumnVisible(nCol));
+			int nCol = nResult-4;
+			if (nCol < GetColumnCount())
+			{
+				ShowColumn(nCol, !IsColumnVisible(nCol));
+			}
+			else
+			{
+				int nProfile = nResult-GetColumnCount()-5;
+				m_pColumnEditor->SwichColumnProfile(*this, profiles[nProfile]);
+			}
 		} break;
 	}
 }
@@ -1621,6 +1681,11 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
 }
 
+void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
+{
+	m_pColumnEditor->OnOwnerKillFocus(*this);
+}
+
 BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if( GetFocus() != this )
@@ -1634,7 +1699,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMH->pitem->mask & HDI_ORDER)
 	{
 		// Correct iOrder so it is just after the last hidden column
-		int nColCount = GetHeaderCtrl()->GetItemCount();
+		int nColCount = GetColumnCount();
 		int* pOrderArray = new int[nColCount];
 		VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 
@@ -1648,7 +1713,6 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		delete [] pOrderArray;
 	}
-	m_pColumnEditor->OnColumnDrag(*this);
 	return FALSE;
 }
 
@@ -1774,7 +1838,7 @@ void CGridListCtrlEx::OnCopyToClipboard()
 		return;
 	}
 
-	// paste result
+	// Set new clipboard content
 #ifndef _UNICODE
 	if (SetClipboardData(CF_TEXT, hglbCopy)==NULL)
 	{
