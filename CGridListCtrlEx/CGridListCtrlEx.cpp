@@ -2120,6 +2120,16 @@ void CGridListCtrlEx::OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int 
 {
 }
 
+
+//------------------------------------------------------------------------
+//! HDN_DIVIDERDBLCLICK message handler called when double clicking the
+//! divider in the columns of the CHeaderCtrl. Used to prevent resizing
+//! of hidden columns.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the divider was double-clicked
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if( GetFocus() != this )
@@ -2130,6 +2140,14 @@ BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pRes
 	return TRUE;	// Don't let parent handle the event
 }
 
+//------------------------------------------------------------------------
+//! HDN_BEGINTRACK message handler called when resizing columns. Used to
+//! prevent resizing of hidden columns.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column being resized
+//! @param pResult Set to FALSE to allow tracking of the divider, or TRUE to prevent tracking
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if( GetFocus() != this )
@@ -2156,12 +2174,28 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! HDN_ENDTRACK message handler called after column resize. Used to
+//! persist the new column state.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	m_pColumnEditor->OnColumnResize(*this);
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! LVM_SETCOLUMNWIDTH message handler called when wanting to resize a column.
+//! Used to prevent resize of hidden columns.
+//!
+//! @param wParam The index of the column
+//! @param lParam New width of the column (High word)
+//! @return Nonzero indicates success. Zero indicates otherwise.
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 {
 	// Check that column is allowed to be resized
@@ -2181,11 +2215,25 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
 }
 
+//------------------------------------------------------------------------
+//! WM_KILLFOCUS message handler called when list control before loosing
+//! focus to other control. Used to persist the new column state.
+//!
+//! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
 	m_pColumnEditor->OnOwnerKillFocus(*this);
 }
 
+//------------------------------------------------------------------------
+//! HDN_BEGINDRAG message handler called when about to move a column to
+//! a new position. Used to ensure that any cell value editing is completed.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
+//! @param pResult Set to FALSE to allow header control to automatically manage column order. Set to TRUE if manually wanting to manage column order.
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if( GetFocus() != this )
@@ -2193,6 +2241,15 @@ BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! HDN_ENDDRAG message handler called after a column have been dragged,
+//! but before the column order has been updated. Used to ensure that
+//! visible columns are not dragged in between invisible columns.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
+//! @param pResult If the owner is performing external (manual) drag-and-drop management, it must be set to FALSE
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
@@ -2255,7 +2312,14 @@ namespace {
 	(BOOL)SNDMSG((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
 #endif
 
-bool CGridListCtrlEx::SortColumn(int columnIndex, bool ascending)
+//------------------------------------------------------------------------
+//! Changes the row sorting in regard to the specified column
+//!
+//! @param nCol The index of the column
+//! @param bAscending Should the arrow be up or down 
+//! @return True / false depending on whether sort is possible
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::SortColumn(int nCol, bool bAscending)
 {
 	// virtual lists cannot be sorted with this method
 	if (GetStyle() & LVS_OWNERDATA)
@@ -2271,6 +2335,14 @@ bool CGridListCtrlEx::SortColumn(int columnIndex, bool ascending)
 	return true;
 }
 
+//------------------------------------------------------------------------
+//! LVN_COLUMNCLICK message handler called when clicking a column header.
+//! Used to update the row sorting according to the clicked column.
+//!
+//! @param pNMHDR Pointer to an NMLISTVIEW structure specifying the column
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
@@ -2300,6 +2372,9 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;	// Let parent-dialog get chance
 }
 
+//------------------------------------------------------------------------
+//! Copies the contents of the selected rows into the global clipboard
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnCopyToClipboard()
 {
 	CString result;
@@ -2359,7 +2434,13 @@ void CGridListCtrlEx::OnCopyToClipboard()
 	CloseClipboard();
 }
 
-bool CGridListCtrlEx::OnDisplayToClipboard(CString& result)
+//------------------------------------------------------------------------
+//! Override this method to control what is placed in the global clipboard
+//!
+//! @param strResult Text to place in the clipboard
+//! @return Text is available for the clipboard
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult)
 {
 	if (GetSelectedCount()==1 && m_FocusCell!=-1)
 		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, result);
@@ -2385,7 +2466,15 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& result)
 	return true;
 }
 
-bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& line)
+//------------------------------------------------------------------------
+//! Override this method to control what to place in the clipboard for
+//! a single row.
+//!
+//! @param nRow The index of the row
+//! @param strResult Text to place in the clipboard
+//! @return Text is available for the clipboard
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 {
 	int nColCount = GetHeaderCtrl()->GetItemCount();
 	for(int i = 0; i < nColCount; ++i)
@@ -2403,7 +2492,16 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& line)
 	return true;
 }
 
-bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& text)
+//------------------------------------------------------------------------
+//! Override this method to control what to place in the clipboard for
+//! a single cell.
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param strResult Text to place in the clipboard
+//! @return Text is available for the clipboard
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& strResult)
 {
 	if (nRow==-1)
 		text = GetColumnHeading(nCol);
@@ -2412,16 +2510,31 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& text)
 	return true;
 }
 
+//------------------------------------------------------------------------
+//! WM_COPY message handler. Not sent by default, but just incase
+//!
+//! @param wParam Not used
+//! @param lParam Not used
+//! @return Not used
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlEx::OnCopy(WPARAM wParam, LPARAM lParam)
 {
 	OnCopyToClipboard();
 	return DefWindowProc(WM_COPY, wParam, lParam); 
 }
 
+//------------------------------------------------------------------------
+//! NM_CLICK message handler called when left-clicking in a cell
+//!
+//! @param pNMHDR Pointer to NMITEMACTIVATE structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMITEMACTIVATE* pItem = reinterpret_cast<NMITEMACTIVATE*>(pNMHDR);
 
+	// The iItem member of pItem is only valid if the icon or first-column label has been clicked
 	int nRow = pItem->iItem;
 	int nCol = pItem->iSubItem;
 
@@ -2429,10 +2542,18 @@ BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;	// Let parent-dialog get chance
 }
 
+//------------------------------------------------------------------------
+//! NM_DBLCLK message handler called when double-clicking in a cell
+//!
+//! @param pNMHDR Pointer to NMITEMACTIVATE structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnItemDblClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMITEMACTIVATE* pItem = reinterpret_cast<NMITEMACTIVATE*>(pNMHDR);
 
+	// The iItem member of pItem is only valid if the icon or first-column label has been clicked
 	int nRow = pItem->iItem;
 	int nCol = pItem->iSubItem;
 
@@ -2440,6 +2561,14 @@ BOOL CGridListCtrlEx::OnItemDblClick(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;	// Let parent-dialog get chance
 }
 
+//------------------------------------------------------------------------
+//! WM_HSCROLL message handler called when scrolling in the list control.
+//! Used to ensure that any cell value editing is completed.
+//!
+//! @param nSBCode Specifies a scroll-bar code that indicates the user's scrolling request
+//! @param nPos Specifies the scroll-box position if the scroll-bar code is SB_THUMBPOSITION or SB_THUMBTRACK (Can be negative)
+//! @param pScrollBar If the scroll message came from a scroll-bar control, contains a pointer to the control
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if( GetFocus() != this )
@@ -2447,6 +2576,14 @@ void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	 CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
 }
 
+//------------------------------------------------------------------------
+//! WM_VSCROLL message handler called when scrolling in the list control.
+//! Used to ensure that any cell value editing is completed.
+//!
+//! @param nSBCode Specifies a scroll-bar code that indicates the user's scrolling request
+//! @param nPos Specifies the scroll-box position if the scroll-bar code is SB_THUMBPOSITION or SB_THUMBTRACK (Can be negative)
+//! @param pScrollBar If the scroll message came from a scroll-bar control, contains a pointer to the control
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if( GetFocus() != this )
@@ -2454,11 +2591,20 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	 CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
-void CGridListCtrlEx::SetEmptyMarkupText(const CString& text)
+//------------------------------------------------------------------------
+//! Update the markup text displayed when the list control is empty
+//!
+//! @param strText Text to display when list control is empty
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SetEmptyMarkupText(const CString& strText)
 {
 	m_EmptyMarkupText = text;
 }
 
+//------------------------------------------------------------------------
+//! WM_PAINT message handler called when needing to redraw list control.
+//! Used to display text when the list control is empty
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnPaint()
 {
 	if (GetItemCount()==0 && !m_EmptyMarkupText.IsEmpty())
