@@ -2330,7 +2330,7 @@ bool CGridListCtrlEx::SortColumn(int nCol, bool bAscending)
 
 	// Uses SortItemsEx because it requires no knowledge of datamodel
 	//	- CListCtrl::SortItems() is faster with direct access to the datamodel
-	PARAMSORT paramsort(m_hWnd, columnIndex, ascending);
+	PARAMSORT paramsort(m_hWnd, nCol, bAscending);
 	ListView_SortItemsEx(m_hWnd, SortFunc, &paramsort);
 	return true;
 }
@@ -2443,25 +2443,25 @@ void CGridListCtrlEx::OnCopyToClipboard()
 bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult)
 {
 	if (GetSelectedCount()==1 && m_FocusCell!=-1)
-		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, result);
+		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, strResult);
 
 	POSITION pos = GetFirstSelectedItemPosition();
 	if (pos==NULL)
 		return false;
 
-	OnDisplayToClipboard(-1, result);
+	OnDisplayToClipboard(-1, strResult);
 
 	while(pos!=NULL)
 	{
 		int nRow = GetNextSelectedItem(pos);
 
-		CString line;
-		if (!OnDisplayToClipboard(nRow, line))
+		CString strLine;
+		if (!OnDisplayToClipboard(nRow, strLine))
 			continue;
 
-		if (!result.IsEmpty())
-			result += _T("\r\n");
-		result += line;
+		if (!strResult.IsEmpty())
+			strResult += _T("\r\n");
+		strResult += strLine;
 	}
 	return true;
 }
@@ -2482,12 +2482,12 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
 		if (!IsColumnVisible(nCol))
 			continue;
-		CString cellText;
-		if (!OnDisplayToClipboard(nRow, nCol, cellText))
+		CString strCellText;
+		if (!OnDisplayToClipboard(nRow, nCol, strCellText))
 			continue;
-		if (!line.IsEmpty())
-			line += _T("\t");
-		line += cellText;
+		if (!strResult.IsEmpty())
+			strResult += _T("\t");
+		strResult += strCellText;
 	}
 	return true;
 }
@@ -2504,9 +2504,9 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& strResult)
 {
 	if (nRow==-1)
-		text = GetColumnHeading(nCol);
+		strResult = GetColumnHeading(nCol);
 	else
-		text = GetItemText(nRow, nCol);
+		strResult = GetItemText(nRow, nCol);
 	return true;
 }
 
@@ -2598,7 +2598,7 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetEmptyMarkupText(const CString& strText)
 {
-	m_EmptyMarkupText = text;
+	m_EmptyMarkupText = strText;
 }
 
 //------------------------------------------------------------------------
