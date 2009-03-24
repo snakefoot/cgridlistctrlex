@@ -30,7 +30,7 @@ public:
 	inline bool UsingVisualStyle() const { return m_UsingVisualStyle; }
 	virtual CFont* GetCellFont();
 	virtual void SetCellMargin(double margin);
-	void SetEmptyMarkupText(const CString& text);
+	void SetEmptyMarkupText(const CString& strText);
 
 	// Row
 	int GetFocusRow() const;
@@ -109,7 +109,7 @@ protected:
 	// Maintaining row sorting
 	int m_SortCol;
 	bool m_Ascending;
-	virtual bool SortColumn(int columnIndex, bool ascending);
+	virtual bool SortColumn(int nCol, bool bAscending);
 
 	// Maintaining cell editing
 	CWnd* m_pEditor;
