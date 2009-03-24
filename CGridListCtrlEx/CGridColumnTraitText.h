@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
-// License: Free to use for all
+// License: Free to use for all (New BSD License)
 //
 //! CGridColumnTraitText provides customization of cell text and background
 //------------------------------------------------------------------------

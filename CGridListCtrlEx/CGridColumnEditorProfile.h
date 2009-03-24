@@ -2,7 +2,15 @@
 
 #include "CGridColumnEditor.h"
 
-// Independent of view-type and persistence-layer
+//------------------------------------------------------------------------
+// Author:  Rolf Kristensen	
+// Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
+// License: Free to use for all (New BSD License)
+//
+//! Implementation of the CGridColumnEditor interface, that supports
+//! persistance of the column state.
+//------------------------------------------------------------------------
+
 class CGridColumnConfig
 {
 protected:
