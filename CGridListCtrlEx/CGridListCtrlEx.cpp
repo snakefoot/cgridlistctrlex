@@ -284,14 +284,14 @@ void CGridListCtrlEx::PreSubclassWindow()
 //! Inserts a new column in the list control, and gives the option to customize the column using a trait
 //!  
 //! @param nCol Index of the new column
-//! @param columnHeader Title of the new column
+//! @param strColumnHeading Title of the new column
 //! @param nFormat Text alignment of the new column
 //! @param nWidth Width of the new column
 //! @param nSubItem Unique identifier used to recognize the column independent of index
 //! @param pTrait Column trait interface for the new column
 //! @return The index of the new column if successful or -1 otherwise.
 //------------------------------------------------------------------------
-int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
+int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
 {
 	if (pTrait!=NULL)
 	{
@@ -314,7 +314,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& columnHeading, i
 		}
 	}
 
-	int index = InsertColumn(nCol, static_cast<LPCTSTR>(columnHeading), nFormat, nWidth, nSubItem);
+	int index = InsertColumn(nCol, static_cast<LPCTSTR>(strColumnHeading), nFormat, nWidth, nSubItem);
 	if (index != -1)
 		VERIFY( index == nCol );
 	else
@@ -640,9 +640,9 @@ BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 //------------------------------------------------------------------------
 //! Shifts the cell focus left or right in the same row
 //!
-//! @param right Specifies whether the cell focus should be left or right
+//! @param bMoveRight Specifies whether the cell focus should be left or right
 //------------------------------------------------------------------------
-void CGridListCtrlEx::MoveFocusCell(bool right)
+void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 {
 	if (GetItemCount()<=0)
 	{
@@ -653,7 +653,7 @@ void CGridListCtrlEx::MoveFocusCell(bool right)
 	if (m_FocusCell == -1)
 	{
 		// Entire row already selected
-		if (right)
+		if (bMoveRight)
 		{
 			// Change to the first column in the current order
 			m_FocusCell = GetFirstVisibleColumn();
@@ -674,7 +674,7 @@ void CGridListCtrlEx::MoveFocusCell(bool right)
 		}
 
 		// Move to the following column
-		if (right)
+		if (bMoveRight)
 			nOrderIndex++;
 		else
 			nOrderIndex--;
@@ -686,10 +686,10 @@ void CGridListCtrlEx::MoveFocusCell(bool right)
 			if (IsColumnVisible(nCol))
 				m_FocusCell = nCol;
 			else
-			if (!right)
+			if (!bMoveRight)
 				m_FocusCell = -1;	// Entire row selection
 		}
-		else if (!right)
+		else if (!bMoveRight)
 			m_FocusCell = -1;	// Entire row selection
 	}
 
@@ -884,22 +884,22 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 //! Resizes the width of a column according the contents of the cells below
 //!
 //! @param nCol The index of the column
-//! @param includeHeader Include the column header text the column width calculation
+//! @param bIncludeHeader Include the column header text the column width calculation
 //! @return Nonzero if successful; otherwise zero.
 //------------------------------------------------------------------------
-BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool includeHeader)
+BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool bIncludeHeader)
 {
 	if (nCol == -1)
 	{
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount() ; ++i)
 		{
-			SetColumnWidthAuto(i, includeHeader);
+			SetColumnWidthAuto(i, bIncludeHeader);
 		}
 		return TRUE;
 	}
 	else
 	{
-		if (includeHeader)
+		if (bIncludeHeader)
 			return SetColumnWidth(nCol, LVSCW_AUTOSIZE_USEHEADER);
 		else
 			return SetColumnWidth(nCol, LVSCW_AUTOSIZE);
@@ -963,9 +963,9 @@ namespace {
 //! Puts a sort-icon in the column header of the specified column
 //!
 //! @param nCol The index of the column
-//! @param ascending Should the arrow be up or down 
+//! @param bAscending Should the arrow be up or down 
 //------------------------------------------------------------------------
-void CGridListCtrlEx::SetSortArrow(int nCol, bool ascending)
+void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 {
 	if (IsThemeEnabled())
 	{
@@ -979,7 +979,7 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool ascending)
 			hditem.fmt &= ~(HDF_SORTDOWN|HDF_SORTUP);
 			if (i == nCol)
 			{
-				hditem.fmt |= ascending ? HDF_SORTUP : HDF_SORTDOWN;
+				hditem.fmt |= bAscending ? HDF_SORTUP : HDF_SORTDOWN;
 			}
 			VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 		}
@@ -1007,7 +1007,7 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool ascending)
 				hditem.fmt |= HDF_BITMAP|HDF_BITMAP_ON_RIGHT;
 				//UINT bitmapID = m_Ascending ? IDB_DOWNARROW : IDB_UPARROW; 
 				//hditem.hbm = (HBITMAP)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(bitmapID), IMAGE_BITMAP, 0,0, LR_LOADMAP3DCOLORS);
-				hditem.hbm = CreateSortBitmap(ascending);
+				hditem.hbm = CreateSortBitmap(bAscending);
 				VERIFY( hditem.hbm!=NULL );
 				VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 			}
@@ -1063,7 +1063,13 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CListCtrl::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
-// Keyboard search with subitems
+//------------------------------------------------------------------------
+//! WM_CHAR message handler for performing keyboard search with subitems
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (m_FocusCell<=0)
@@ -1136,12 +1142,30 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 }
 
-bool CGridListCtrlEx::OnDisplayCellText(int nRow, int nCol, CString& text)
+//------------------------------------------------------------------------
+//! Override this method to provide text string when drawing cells
+//! Only called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param strResult Text string to display in the cell
+//! @return True if there is text string to display
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayCellText(int nRow, int nCol, CString& strText)
 {
 	return false;
 }
 
-bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& imageId)
+//------------------------------------------------------------------------
+//! Override this method to provide icon index when drawing cells
+//! Only called when using I_IMAGECALLBACK with SetCellImage()
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param nImageId The icon index in the list control image list
+//! @return True if there is an icon image to display
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& nImageId)
 {
 	return false;
 }
@@ -1151,10 +1175,14 @@ bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& imageId)
 //! needed for an item that specifies callback.
 //!		- Cell-Text, when item is using LPSTR_TEXTCALLBACK
 //!		- Cell-Image, when item is using I_IMAGECALLBACK
+//!
+//! @param pNMHDR Pointer to an NMLVDISPINFO structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NMLVDISPINFO* pNMW = (NMLVDISPINFO*)pNMHDR;
+	NMLVDISPINFO* pNMW = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
 	int nRow = pNMW->item.iItem;
 	int nCol = pNMW->item.iSubItem;
 
@@ -1212,27 +1240,42 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 //------------------------------------------------------------------------
 //! Called constantly while the mouse is moving over the list-control
+//!
+//! @param point Current mouse position relative to the upper-left corner of the window
 //! @return Start tooltip timer for displaying tooltip (true / false)
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& pt) const
+bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& point) const
 {
 	return true;
 }
 
 //------------------------------------------------------------------------
-//! Called after the tooltip timer has fired
+//! Called after the tooltip timer has fired. Override to display a custom
+//! tooltip text
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param strResult The text value to display in the tooltip
 //! @return Is tooltip available for current cell (true / false)
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& text)
+bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResult)
 {
 	if (nRow!=-1 && nCol!=-1)
 	{
-		text = GetItemText(nRow, nCol);	// Cell-ToolTip
+		strResult = GetItemText(nRow, nCol);	// Cell-ToolTip
 		return true;
 	}
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Called by the MFC framework to detemine whether a point is in the
+//! bounding rectangle of the specified tool.
+//!
+//! @param point Current mouse position relative to the upper-left corner of the window
+//! @param pTI A pointer to a TOOLINFO structure
+//! @return Window control ID of the tooltip control (-1 if no tooltip control was found)
+//------------------------------------------------------------------------
 #if defined(_WIN64)
 INT_PTR CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 #else
@@ -1258,9 +1301,17 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
 	pTI->rect = rcClient;
 
-	return (int)pTI->uId; // Must return a unique value for each cell (Marks a new tooltip)
+	return (int)pTI->uId; // Must return a unique value for each cell (Marks a new tooltip control)
 }
 
+//------------------------------------------------------------------------
+//! TTN_NEEDTEXT message handler called when the tooltip timer fires
+//!
+//! @param id Not used
+//! @param pNMHDR Pointer to an TOOLTIPTEXT structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	CPoint pt(GetMessagePos());
@@ -1276,8 +1327,8 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		return FALSE;
 
 	// Non-unicode applications can receive requests for tooltip-text in unicode
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA* pTTTA = reinterpret_cast<TOOLTIPTEXTA*>(pNMHDR);
+	TOOLTIPTEXTW* pTTTW = reinterpret_cast<TOOLTIPTEXTW*>(pNMHDR);
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)
 		lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
@@ -1296,16 +1347,40 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! Called when start editing a cell value
+//!
+//! @param pTrait Pointer to the column trait for the column
+//! @param pEditor Pointer to the cell editor created by the column trait
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Pointer to the cell editor (If NULL then block cell editing)
+//------------------------------------------------------------------------
 CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol)
 {
 	return pEditor;
 }
 
+//------------------------------------------------------------------------
+//! Called when compltede editing a cell value
+//!
+//! @param pTrait Pointer to the column trait for the column
+//! @param pEditor Pointer to the cell editor created by the column trait
+//! @param pLVDI Specifies the properties of the new cell value
+//! @return Is the new cell value accepted
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI)
 {
 	return true;
 }
 
+//------------------------------------------------------------------------
+//! Called when start editing a cell value
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Pointer to the cell editor (If NULL then block cell editing)
+//------------------------------------------------------------------------
 CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 {
 	if (nCol==-1 || nRow==-1)
@@ -1348,14 +1423,26 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	return m_pEditor;
 }
 
+//------------------------------------------------------------------------
+//! Checks if the cell value editor is open for a cell
+//!
+//! @return Is currently editing a cell value (true / false)
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::IsCellEditorOpen() const
 {
 	return m_pEditor!=NULL;
 }
 
+//------------------------------------------------------------------------
+//! LVN_BEGINLABELEDIT message handler called when start editing a cell
+//!
+//! @param pNMHDR Pointer to an LV_DISPINFO structure
+//! @param pResult Set to TRUE prevents the user from editing the label, else FALSE
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	LV_DISPINFO* pDispInfo = reinterpret_cast<LV_DISPINFO*>(pNMHDR);
 
 	// Parent Clistctrl might start a cell-edit on its own (Ignore this)
 	if (m_pEditor == NULL)
@@ -1380,9 +1467,16 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;	// Let parent-dialog get chance
 }
 
+//------------------------------------------------------------------------
+//! LVN_ENDLABELEDIT message handler called when completed a cell edit
+//!
+//! @param pNMHDR Pointer to an LV_DISPINFO structure
+//! @param pResult Set to TRUE accepts the cell edit, else FALSE
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	LV_DISPINFO* pDispInfo = reinterpret_cast<LV_DISPINFO*>(pNMHDR);
 
 	*pResult = FALSE;	// Reject edit by default
 
@@ -1413,6 +1507,14 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;		// Parent dialog should get a chance
 }
 
+//------------------------------------------------------------------------
+//! WM_LBUTTONDOWN message handler called when the user presses the left
+//! mouse button while the cursor is in the client area of a window.
+//! Used to activate the cell editor of the cell clicked using the mouse.
+//!
+//! @param nFlags Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.)
+//! @param point Mouse cursor position relative to the upper-left corner of the client area.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if( GetFocus() != this )
@@ -1468,6 +1570,14 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 }
 
+//------------------------------------------------------------------------
+//! WM_RBUTTONDOWN message handler called when the user presses the right
+//! mouse button while the cursor is in the client area of a window.
+//! Used to change focus to the cell clicked using the mouse.
+//!
+//! @param nFlags Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.)
+//! @param point Mouse cursor position relative to the upper-left corner of the client area.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	if( GetFocus() != this )
@@ -1488,38 +1598,81 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	CListCtrl::OnRButtonDown(nFlags, point);
 }
 
-bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background)
+//------------------------------------------------------------------------
+//! Override this method to change the colors used for drawing a cell
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param textColor The text color used when drawing the cell
+//! @param backColor The background color when drawing the cell
+//! @return Color is overrided
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor, COLORREF& backColor)
 {
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the font used for drawing a cell
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param font The font description to use for drawing the cell
+//! @return Font is overrided
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellFont(int nRow, int nCol, LOGFONT& font)
 {
 	return false;
 }
 
-bool CGridListCtrlEx::OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background)
+//------------------------------------------------------------------------
+//! Override this method to change the font used for drawing a row
+//!
+//! @param nRow The index of the row
+//! @param textColor The text color used when drawing the row
+//! @param backColor The background color when drawing the row
+//! @return Color is overrided
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor)
 {
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the font used for drawing a row
+//!
+//! @param nRow The index of the row
+//! @param font The font description to use for drawing the row
+//! @return Font is overrided
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayRowFont(int nRow, LOGFONT& font)
 {
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change how to draw a cell using a column trait
+//!
+//! @param pTrait Pointer to column trait
+//! @param pLVCD Pointer to custom draw cell properties
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
+	pTrait->OnCustomDraw(*this, pLVCD, pResult);
 }
 
 //------------------------------------------------------------------------
 //! Performs custom drawing of the CListCtrl
 //!  - Ensures the CGridColumnTrait's can do their thing
 //!  - Ensures that the focus rectangle is properly drawn
+//!
+//! @param pNMHDR Pointer to NMLVCUSTOMDRAW structure
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NMLVCUSTOMDRAW* pLVCD = (NMLVCUSTOMDRAW*)(pNMHDR);
+	NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 
 	*pResult = CDRF_DODEFAULT;
@@ -1539,7 +1692,6 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			*pResult = CDRF_SKIPDEFAULT;
 			return;
 		}
-		pTrait->OnCustomDraw(*this, pLVCD, pResult);
 		OnTraitCustomDraw(pTrait, pLVCD, pResult);
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the column-trait
@@ -1570,11 +1722,23 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the row trait for the specified row.
+//! Override this to provide a custom row trait for a certain row
+//!
+//! @param nRow The index of the row
+//! @return Pointer to row trait
+//------------------------------------------------------------------------
 CGridRowTrait* CGridListCtrlEx::GetRowTrait(int nRow)
 {
 	return m_pDefaultRowTrait;
 }
 
+//------------------------------------------------------------------------
+//! Sets the default row trait used by default for drawing rows
+//!
+//! @param pRowTrait Pointer to row trait
+//------------------------------------------------------------------------
 void CGridListCtrlEx::SetDefaultRowTrait(CGridRowTrait* pRowTrait)
 {
 	ASSERT(pRowTrait!=NULL);
@@ -1582,6 +1746,12 @@ void CGridListCtrlEx::SetDefaultRowTrait(CGridRowTrait* pRowTrait)
 	m_pDefaultRowTrait = pRowTrait;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the column visible state from the column trait
+//!
+//! @param nCol The index of the column
+//! @return Is the column visible or not (true / false)
+//------------------------------------------------------------------------
 bool CGridListCtrlEx::IsColumnVisible(int nCol)
 {
 	return GetColumnTrait(nCol)->GetColumnState().m_Visible;
@@ -1589,7 +1759,7 @@ bool CGridListCtrlEx::IsColumnVisible(int nCol)
 
 //------------------------------------------------------------------------
 //! Retrieves the column trait of a specified cell.
-//! Makes it possible to override the column trait of a singel cell
+//! Makes it possible to override the column trait of a single cell
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
@@ -1600,17 +1770,34 @@ CGridColumnTrait* CGridListCtrlEx::GetCellColumnTrait(int nRow, int nCol)
 	return GetColumnTrait(nCol);
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the column trait for the entire column
+//!
+//! @param nCol The index of the column
+//! @return The column trait pointer for the entire column
+//------------------------------------------------------------------------
 CGridColumnTrait* CGridListCtrlEx::GetColumnTrait(int nCol)
 {
 	VERIFY( nCol >=0 && nCol < m_ColumnTraits.GetSize() );
 	return m_ColumnTraits[nCol];
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the number of column traits registered
+//!
+//! @return The number or column traits
+//------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnTraitSize() const
 {
 	return m_ColumnTraits.GetSize();
 }
 
+//------------------------------------------------------------------------
+//! Internal maintenance function for the column trait container
+//!
+//! @param nCol The index of the new column to get a column trait
+//! @param pTrait The column trait of the new column
+//------------------------------------------------------------------------
 void CGridListCtrlEx::InsertColumnTrait(int nCol, CGridColumnTrait* pTrait)
 {
 	VERIFY( nCol >=0 && nCol <= m_ColumnTraits.GetSize() );
@@ -1633,12 +1820,25 @@ void CGridListCtrlEx::InsertColumnTrait(int nCol, CGridColumnTrait* pTrait)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Internal maintenance function for the column trait container
+//!
+//! @param nCol The index of the column just deleted
+//------------------------------------------------------------------------
 void CGridListCtrlEx::DeleteColumnTrait(int nCol)
 {
 	delete GetColumnTrait(nCol);
 	m_ColumnTraits.RemoveAt(nCol);
 }
 
+//------------------------------------------------------------------------
+//! LVM_DELETECOLUMN message handler to ensure the column trait
+//! container is updated when columns are removed.
+//!
+//! @param wParam The index of the column just deleted
+//! @param lParam Not used
+//! @return Whether the column was succesfully deleted
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlEx::OnDeleteColumn(WPARAM wParam, LPARAM lParam)
 {
 	// Let CListCtrl handle the event
@@ -1651,6 +1851,14 @@ LRESULT CGridListCtrlEx::OnDeleteColumn(WPARAM wParam, LPARAM lParam)
 	return lRet;
 }
 
+//------------------------------------------------------------------------
+//! LVM_INSERTCOLUMN message handler to ensure the column trait
+//! container is updated when columns are inserted.
+//!
+//! @param wParam The index of the column just inserted
+//! @param lParam Not used
+//! @return Whether the column was succesfully inserted
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 {
 	// Let CListCtrl handle the event
@@ -1667,6 +1875,13 @@ LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 	return lRet;
 }
 
+//------------------------------------------------------------------------
+//! WM_CONTEXTMENU message handler to show popup menu when mouse right
+//! click is used (or SHIFT+F10 on the keyboard)
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if( GetFocus() != this )
@@ -1686,9 +1901,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 		CPoint pt = point;
 		ScreenToClient(&pt);
 
-		CRect headerRect;
-		GetHeaderCtrl()->GetClientRect(&headerRect);
-		if (headerRect.PtInRect(pt))
+		if (pWnd==GetHeaderCtrl())
 		{
 			HDHITTESTINFO hdhti = {0};
 			hdhti.pt = pt;
@@ -1708,6 +1921,13 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when using the keyboard
+//! shortcut SHIFT+F10
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 {
 	int nCol = GetFocusCell();
@@ -1741,10 +1961,24 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu in client area with no rows
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 {
 }
 
+//------------------------------------------------------------------------
+//! Internal method to add all available columns to the context menu
+//!
+//! @param menu The popup context menu
+//! @param offset Start offset to use when adding new menu items to the context menu
+//! @return Number of menu items added to the context menu
+//------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 {
 	for( int i = 0 ; i < GetColumnTraitSize(); ++i)
@@ -1771,6 +2005,14 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 	return GetColumnTraitSize();
 }
 
+//------------------------------------------------------------------------
+//! Internal method to add all available column profiles to the context menu
+//!
+//! @param menu The popup context menu
+//! @param offset Start offset to use when adding new menu items to the context menu
+//! @param profiles List of column profiles that one can change between
+//! @return Number of menu items added to the context menu
+//------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles)
 {
 	CString title_profiles;
@@ -1797,6 +2039,14 @@ int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSim
 	return profiles.GetSize();
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu for the column headers
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 {
 	// Show context-menu with the option to show hide columns
@@ -1857,6 +2107,15 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu for a single cell
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//! @param nRol The index of the row
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol)
 {
 }
@@ -1866,7 +2125,7 @@ BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pRes
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
 
-	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
+	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 	SetColumnWidthAuto(pNMH->iItem);
 	return TRUE;	// Don't let parent handle the event
 }
@@ -1877,7 +2136,7 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		SetFocus();	// Force focus to finish editing
 
 	// Check that column is allowed to be resized
-	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
+	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 	int nCol = (int)pNMH->iItem;
 
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
@@ -1936,7 +2195,7 @@ BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 
 BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NMHEADER* pNMH = (NMHEADER*)pNMHDR;
+	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 	if (pNMH->pitem->mask & HDI_ORDER)
 	{
 		// Correct iOrder so it is just after the last hidden column

@@ -48,13 +48,13 @@ public:
 	int GetColumnOrder(int nCol) const;
 	CString GetColumnHeading(int nCol) const;
 	virtual BOOL EnsureColumnVisible(int nCol, bool bPartialOK);
-	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool includeHeader = false);
-	virtual void SetSortArrow(int colIndex, bool ascending);
+	virtual BOOL SetColumnWidthAuto(int nCol = -1, bool bIncludeHeader = false);
+	virtual void SetSortArrow(int nCol, bool bAscending);
 	virtual BOOL ShowColumn(int nCol, bool bShow);
 	virtual bool IsColumnVisible(int nCol);
 	virtual int GetFirstVisibleColumn();
 	virtual int InsertHiddenLabelColumn();
-	virtual int InsertColumnTrait(int nCol, const CString& columnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
+	virtual int InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	virtual CGridColumnTrait* GetColumnTrait(int nCol);
 	virtual int GetColumnTraitSize() const;
 	virtual void SetupColumnConfig(CGridColumnEditor* pColumnEditor);
@@ -71,17 +71,17 @@ public:
 	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol);
 
 	// DataModel callbacks
-	virtual bool OnDisplayCellText(int nRow, int nCol, CString& text);
-	virtual bool OnDisplayCellImage(int nRow, int nCol, int& imageId);
-	virtual bool OnDisplayCellTooltip(const CPoint& pt) const;
-	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& text);
-	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& text, COLORREF& background);
+	virtual bool OnDisplayCellText(int nRow, int nCol, CString& strResult);
+	virtual bool OnDisplayCellImage(int nRow, int nCol, int& nImageId);
+	virtual bool OnDisplayCellTooltip(const CPoint& point) const;
+	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& strResult);
+	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font);
-	virtual bool OnDisplayRowColor(int nRow, COLORREF& text, COLORREF& background);
+	virtual bool OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font);
-	virtual bool OnDisplayToClipboard(CString& result);
-	virtual bool OnDisplayToClipboard(int nRow, CString& text);
-	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& text);
+	virtual bool OnDisplayToClipboard(CString& strResult);
+	virtual bool OnDisplayToClipboard(int nRow, CString& strResult);
+	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
 
 protected:
 	// Maintaining column traits (and visible state)
@@ -97,7 +97,7 @@ protected:
 
 	// Maintaining cell/subitem focus
 	int m_FocusCell;
-	void MoveFocusCell(bool right);
+	void MoveFocusCell(bool bMoveRight);
 	void UpdateFocusCell(int nCol);
 
 	// Maintaining Keyboard search
