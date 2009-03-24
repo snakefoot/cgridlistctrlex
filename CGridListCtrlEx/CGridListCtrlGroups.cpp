@@ -559,7 +559,7 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 	}
 }
 
-BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& footer, DWORD dwAlign)
+BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter, DWORD dwAlign)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -570,10 +570,10 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& footer, DW
 	lg.mask = LVGF_FOOTER | LVGF_ALIGN;
 	lg.uAlign = dwAlign;
 #ifdef UNICODE
-	lg.pszFooter = (LPWSTR)(LPCTSTR)footer;
-	lg.cchFooter = footer.GetLength();
+	lg.pszFooter = (LPWSTR)(LPCTSTR)strFooter;
+	lg.cchFooter = strFooter.GetLength();
 #else
-	CComBSTR bstrFooter = footer;
+	CComBSTR bstrFooter = strFooter;
 	lg.pszFooter = bstrFooter;
 	lg.cchFooter = bstrFooter.Length();
 #endif
@@ -587,7 +587,7 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& footer, DW
 #endif
 }
 
-BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& task)
+BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -597,10 +597,10 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& task)
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_TASK;
 #ifdef UNICODE
-	lg.pszTask = (LPWSTR)(LPCTSTR)task;
-	lg.cchTask = task.GetLength();
+	lg.pszTask = (LPWSTR)(LPCTSTR)strTask;
+	lg.cchTask = strTask.GetLength();
 #else
-	CComBSTR bstrTask = task;
+	CComBSTR bstrTask = strTask;
 	lg.pszTask = bstrTask;
 	lg.cchTask = bstrTask.Length();
 #endif
@@ -614,7 +614,7 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& task)
 #endif
 }
 
-BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& subtitle)
+BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubtitle)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -624,10 +624,10 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& subtitle
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_SUBTITLE;
 #ifdef UNICODE
-	lg.pszSubtitle = (LPWSTR)(LPCTSTR)subtitle;
-	lg.cchSubtitle = subtitle.GetLength();
+	lg.pszSubtitle = (LPWSTR)(LPCTSTR)strSubtitle;
+	lg.cchSubtitle = strSubtitle.GetLength();
 #else
-	CComBSTR bstrSubtitle = subtitle;
+	CComBSTR bstrSubtitle = strSubtitle;
 	lg.pszSubtitle = bstrSubtitle;
 	lg.cchSubtitle = bstrSubtitle.Length();
 #endif
@@ -641,7 +641,7 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& subtitle
 #endif
 }
 
-BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc)
+BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CString& strTopDesc, const CString& strBottomDesc)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -653,32 +653,32 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 	lg.iTitleImage = nImage;	// Index of the title image in the control imagelist.
 
 #ifdef UNICODE
-	if (!topDesc.IsEmpty())
+	if (!strTopDesc.IsEmpty())
 	{
 		// Top description is drawn opposite the title image when there is
 		// a title image, no extended image, and uAlign==LVGA_HEADER_CENTER.
 		lg.mask |= LVGF_DESCRIPTIONTOP;
-		lg.pszDescriptionTop = (LPWSTR)(LPCTSTR)topDesc;
-		lg.cchDescriptionTop = topDesc.GetLength();
+		lg.pszDescriptionTop = (LPWSTR)(LPCTSTR)strTopDesc;
+		lg.cchDescriptionTop = strTopDesc.GetLength();
 	}
-	if (!bottomDesc.IsEmpty())
+	if (!strBottomDesc.IsEmpty())
 	{
 		// Bottom description is drawn under the top description text when there is
 		// a title image, no extended image, and uAlign==LVGA_HEADER_CENTER.
 		lg.mask |= LVGF_DESCRIPTIONBOTTOM;
-		lg.pszDescriptionBottom = (LPWSTR)(LPCTSTR)bottomDesc;
-		lg.cchDescriptionBottom = bottomDesc.GetLength();
+		lg.pszDescriptionBottom = (LPWSTR)(LPCTSTR)strBottomDesc;
+		lg.cchDescriptionBottom = strBottomDesc.GetLength();
 	}
 #else
-	CComBSTR bstrTopDesc = topDesc;
-	CComBSTR bstrBottomDesc = bottomDesc;
-	if (!topDesc.IsEmpty())
+	CComBSTR bstrTopDesc = strTopDesc;
+	CComBSTR bstrBottomDesc = strBottomDesc;
+	if (!strTopDesc.IsEmpty())
 	{
 		lg.mask |= LVGF_DESCRIPTIONTOP;
 		lg.pszDescriptionTop = bstrTopDesc;
 		lg.cchDescriptionTop = bstrTopDesc.Length();
 	}
-	if (!bottomDesc.IsEmpty())
+	if (!strBottomDesc.IsEmpty())
 	{
 		lg.mask |= LVGF_DESCRIPTIONBOTTOM;
 		lg.pszDescriptionBottom = bstrBottomDesc;
@@ -705,13 +705,17 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 	pEmptyMarkup->dwFlags = EMF_CENTERED;
 
 #ifdef UNICODE
-	lstrcpyn(pEmptyMarkup->szMarkup, (LPCTSTR)m_EmptyMarkupText, sizeof(pEmptyMarkup->szMarkup));
+	lstrcpyn(pEmptyMarkup->szMarkup, (LPCTSTR)m_EmptyMarkupText, sizeof(pEmptyMarkup->szMarkup)/sizeof(WCHAR));
 #else
-	_mbstowcsz(pEmptyMarkup->szMarkup, (LPCTSTR)m_EmptyMarkupText, sizeof(pEmptyMarkup->szMarkup));
+#if __STDC_WANT_SECURE_LIB__
+	mbstowcs_s(NULL, pEmptyMarkup->szMarkup, static_cast<LPCTSTR>(m_EmptyMarkupText), sizeof(pEmptyMarkup->szMarkup)/sizeof(WCHAR));
+#else
+	mbstowcs(pEmptyMarkup->szMarkup, static_cast<LPCTSTR>(m_EmptyMarkupText), sizeof(pEmptyMarkup->szMarkup)/sizeof(WCHAR));
+#endif
 #endif
 	*pResult = TRUE;
-
 #endif
+
 	return TRUE;
 }
 
@@ -737,6 +741,11 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 	}
 }
 
+bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& groupId)
+{
+	return false;
+}
+
 //------------------------------------------------------------------------
 //! Handles the LVN_GETDISPINFO message, which is sent when details are
 //! needed for an item that specifies callback.
@@ -758,7 +767,7 @@ BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Request group-id of the column (Virtual-list/LVS_OWNERDATA)
 		int result = -1;
-		if (CallbackCellGroup(nRow, nCol, result))
+		if (OnDisplayCellGroup(nRow, nCol, result))
 			pNMW->item.iGroupId = result;
 		else
 			pNMW->item.iGroupId = I_GROUPIDNONE;
@@ -805,13 +814,13 @@ namespace {
 	}
 }
 
-bool CGridListCtrlGroups::SortColumn(int columnIndex, bool ascending)
+bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	if (IsGroupViewEnabled())
 	{
-		PARAMSORT paramsort(m_hWnd, columnIndex, ascending);
+		PARAMSORT paramsort(m_hWnd, nCol, bAscending);
 
-		GroupByColumn(columnIndex);
+		GroupByColumn(nCol);
 
 		// Cannot use GetGroupInfo during sort
 		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
@@ -827,7 +836,7 @@ bool CGridListCtrlGroups::SortColumn(int columnIndex, bool ascending)
 
 	// Always sort the rows, so the handicapped GroupHitTest() will work
 	//	- Must ensure that the rows are reordered along with the groups.
-	return CGridListCtrlEx::SortColumn(columnIndex, ascending);
+	return CGridListCtrlEx::SortColumn(nCol, bAscending);
 }
 
 void CGridListCtrlGroups::OnPaint()

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
-// License: Free to use for all
+// License: Free to use for all (New BSD License)
 //
 //! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
 //! Placed in its own file as all features requires _WIN32_WINNT >= 0x0501
@@ -30,7 +30,7 @@ public:
 
 	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
 
-	virtual bool SortColumn(int columnIndex, bool ascending);
+	virtual bool SortColumn(int nCol, bool bAscending);
 
 	virtual BOOL HasGroupState(int nGroupID, DWORD dwState);
 	virtual BOOL SetGroupState(int nGroupID, DWORD dwState);
@@ -38,13 +38,13 @@ public:
 	virtual void CollapseAllGroups();
 	virtual void ExpandAllGroups();
 
-	virtual BOOL SetGroupFooter(int nGroupID, const CString& footer, DWORD dwAlign = 0);
-	virtual BOOL SetGroupTask(int nGroupID, const CString& task);
-	virtual BOOL SetGroupSubtitle(int nGroupID, const CString& subtitle);
-	virtual BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& topDesc, const CString& bottomDesc);
+	virtual BOOL SetGroupFooter(int nGroupID, const CString& strFooter, DWORD dwAlign = 0);
+	virtual BOOL SetGroupTask(int nGroupID, const CString& strTask);
+	virtual BOOL SetGroupSubtitle(int nGroupID, const CString& strSubtitle);
+	virtual BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& strTopDesc, const CString& strBottomDesc);
 
 	// DataModel callbacks
-	virtual bool CallbackCellGroup(int nRow, int nCol, int& groupId) { return false; }
+	virtual bool OnDisplayCellGroup(int nRow, int nCol, int& nGroupId);
 
 protected:
 	// Context Menu Handlers
