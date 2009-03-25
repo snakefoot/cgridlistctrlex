@@ -2216,8 +2216,8 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 }
 
 //------------------------------------------------------------------------
-//! WM_KILLFOCUS message handler called when list control before loosing
-//! focus to other control. Used to persist the new column state.
+//! WM_KILLFOCUS message handler called when list control is loosing focus
+//! to other control. Used to persist the new column state.
 //!
 //! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
 //------------------------------------------------------------------------
