@@ -86,43 +86,43 @@ public:
 
 protected:
 	// Maintaining column traits (and visible state)
-	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;
+	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;	//!< Column traits registered (One for each column)
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
-	CGridColumnEditor* m_pColumnEditor;
+	CGridColumnEditor* m_pColumnEditor;	//!< Column editor used to provide column state persistence
 	int InternalColumnPicker(CMenu& menu, int offset);
 	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 
 	// Maintaining row traits
-	CGridRowTrait* m_pDefaultRowTrait;
+	CGridRowTrait* m_pDefaultRowTrait;	//!< Default row trait used for special row drawing
 
 	// Maintaining cell/subitem focus
-	int m_FocusCell;
+	int m_FocusCell;			//!< Column currently having focus (-1 means entire row)
 	void MoveFocusCell(bool bMoveRight);
 	void UpdateFocusCell(int nCol);
 
 	// Maintaining Keyboard search
-	CString m_LastSearchString;
-	CTime	m_LastSearchTime;
-	int		m_LastSearchCell;
-	int		m_LastSearchRow;
+	CString m_LastSearchString;	//!< Last search criteria for keyboard search
+	CTime	m_LastSearchTime;	//!< Time of last search attempt for keyboard search
+	int		m_LastSearchCell;	//!< Last column used in keyboard search
+	int		m_LastSearchRow;	//!< Last row matched in keyboard search
 
 	// Maintaining row sorting
-	int m_SortCol;
-	bool m_Ascending;
+	int m_SortCol;				//!< Rows are sorted according to this column
+	bool m_Ascending;			//!< Rows are sorted ascending / descending
 	virtual bool SortColumn(int nCol, bool bAscending);
 
 	// Maintaining cell editing
-	CWnd* m_pEditor;
+	CWnd* m_pEditor;			//!< Cell value editor currently in use
 
-	bool m_UsingVisualStyle;
+	bool m_UsingVisualStyle;	//!< Vista Style has been enabled (alpha blend)
 
 	// Maintaining margin
-	CFont* m_pGridFont;
-	CFont* m_pCellFont;
-	double m_Margin;
+	CFont* m_pGridFont;			//!< Original font of the the list control
+	CFont* m_pCellFont;			//!< Current font to draw rows
+	double m_Margin;			//!< Current margin between original font and cell font
 
-	CString m_EmptyMarkupText;
+	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
 
 	// Global column trait methods
 	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
