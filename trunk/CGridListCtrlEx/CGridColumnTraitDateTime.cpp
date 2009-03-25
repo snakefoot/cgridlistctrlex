@@ -18,9 +18,9 @@ void CGridColumnTraitDateTime::Accept(CGridColumnTraitVisitor& visitor)
 	visitor.Visit(*this);
 }
 
-void CGridColumnTraitDateTime::SetFormat(const CString& format)
+void CGridColumnTraitDateTime::SetFormat(const CString& strFormat)
 {
-	m_Format = format;
+	m_Format = strFormat;
 }
 
 void CGridColumnTraitDateTime::SetParseDateTime(DWORD dwFlags, LCID lcid)
@@ -45,7 +45,7 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 		dwStyle = DTS_RIGHTALIGN;
 
 	// Create control to edit the cell
-	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol, m_Format, m_ParseDateTimeFlags, m_ParseDateTimeLCID);
+	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol);
 	VERIFY( pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0) );
 
 	// Configure font
@@ -98,12 +98,9 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol, const CString& format, DWORD formatFlags, LCID lcid)
+CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol)
 	:m_Row(nRow)
 	,m_Col(nCol)
-	,m_Format(format)
-	,m_FormatFlags(formatFlags)
-	,m_FormatLCID(lcid)
 	,m_Completed(false)
 {}
 
