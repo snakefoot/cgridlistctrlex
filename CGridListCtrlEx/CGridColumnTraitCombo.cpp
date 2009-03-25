@@ -5,7 +5,7 @@
 #include "CGridListCtrlEx.h"
 
 //------------------------------------------------------------------------
-// CGridColumnTraitCombo
+//! CGridColumnTraitCombo - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitCombo::CGridColumnTraitCombo()
 	:m_MaxItems(7)
@@ -14,41 +14,83 @@ CGridColumnTraitCombo::CGridColumnTraitCombo()
 	,m_pComboBox(NULL)
 {}
 
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridColumnTraitCombo::Accept(CGridColumnTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
-void CGridColumnTraitCombo::SetMaxItems(int items)
+//------------------------------------------------------------------------
+//! Set max height (in items) of the CComboBox when doing dropdown
+//!
+//! @param nMaxItems Max number of items to show at once in the dropdown list
+//------------------------------------------------------------------------
+void CGridColumnTraitCombo::SetMaxItems(int nMaxItems)
 {
-	m_MaxItems = items;
+	m_MaxItems = nMaxItems;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves max height (in items) of the CComboBox when doing dropdown
+//!
+//! @return Number of items
+//------------------------------------------------------------------------
 int CGridColumnTraitCombo::GetMaxItems() const
 {
 	return m_MaxItems;
 }
 
-void CGridColumnTraitCombo::SetMaxWidth(int width)
+//------------------------------------------------------------------------
+//! Set max width (in pixels) of the CComboBox when doing dropdown
+//!
+//! @param nMaxWidth Max pixels in width to show when expanding the dropdown list
+//------------------------------------------------------------------------
+void CGridColumnTraitCombo::SetMaxWidth(int nMaxWidth)
 {
-	m_MaxWidth = width;
+	m_MaxWidth = nMaxWidth;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves max width (in pixels) of the CComboBox when doing dropdown
+//!
+//! @return Number of items
+//------------------------------------------------------------------------
 int CGridColumnTraitCombo::GetMaxWidth() const
 {
 	return m_MaxWidth;
 }
 
+//------------------------------------------------------------------------
+//! Set style used when creating CComboBox for cell value editing
+//!
+//! @param dwStyle Style flags
+//------------------------------------------------------------------------
 void CGridColumnTraitCombo::SetStyle(DWORD dwStyle)
 {
 	m_ComboBoxStyle = dwStyle;
 }
 
+//------------------------------------------------------------------------
+//! Get style used when creating CComboBox for cell value editing
+//!
+//! @return Style flags
+//------------------------------------------------------------------------
 DWORD CGridColumnTraitCombo::GetStyle() const
 {
 	return m_ComboBoxStyle;
 }
 
+//------------------------------------------------------------------------
+//! Create a CComboBox as cell value editor
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param rect The rectangle where the inplace cell value editor should be placed
+//! @return Pointer to the cell editor to use
+//------------------------------------------------------------------------
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
 	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth);
@@ -59,6 +101,14 @@ CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRo
 	return pComboBox;
 }
 
+//------------------------------------------------------------------------
+//! Overrides OnEditBegin() to provide a CComboBox cell value editor
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+//------------------------------------------------------------------------
 CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Get position of the cell to edit
@@ -118,16 +168,32 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	return m_pComboBox;
 }
 
+//------------------------------------------------------------------------
+//! Overrides OnEditEnd() to ensure that temporary combobox variable
+//! is reset when cell value editing is completed.
+//------------------------------------------------------------------------
 void CGridColumnTraitCombo::OnEditEnd()
 {
 	m_pComboBox = NULL;		// CGridEditorComboBoxEdit automatically deletes itself
 }
 
-void CGridColumnTraitCombo::AddItem(int itemData, const CString& itemText)
+//------------------------------------------------------------------------
+//! Adds combobox item to the fixed combobox item-list
+//!
+//! @param nItemData Unique identifier of the item
+//! @param strItemText Text identifier of the item
+//------------------------------------------------------------------------
+void CGridColumnTraitCombo::AddItem(int nItemData, const CString& strItemText)
 {
-	m_ComboList.Add(itemData, itemText);
+	m_ComboList.Add(nItemData, strItemText);
 }
 
+//------------------------------------------------------------------------
+//! Fills the combobox with the items of the fixed item-list
+//!
+//! @param comboList List of CComboBox items
+//! @param nCurSel Unique identifier of the item currently selected
+//------------------------------------------------------------------------
 void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel)
 {
 	VERIFY(m_pComboBox!=NULL);
@@ -161,7 +227,13 @@ BEGIN_MESSAGE_MAP(CGridEditorComboBoxEdit, CEdit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-// Stoopid win95 accelerator key problem workaround - Matt Weagle.
+//------------------------------------------------------------------------
+//! Fills the combobox with the items of the fixed item-list
+//! Stoopid win95 accelerator key problem workaround - Matt Weagle.
+//!
+//! @param pMsg Points to a MSG structure that contains the message to process
+//! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
+//------------------------------------------------------------------------
 BOOL CGridEditorComboBoxEdit::PreTranslateMessage(MSG* pMsg)
 {
 	// Make sure that the keystrokes continue to the appropriate handlers
@@ -179,6 +251,12 @@ BOOL CGridEditorComboBoxEdit::PreTranslateMessage(MSG* pMsg)
 	return CEdit::PreTranslateMessage(pMsg);
 }
 
+//------------------------------------------------------------------------
+//! WM_KILLFOCUS message handler called when CEdit is loosing focus
+//! to other control. Used register that cell value editor should close.
+//!
+//! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
+//------------------------------------------------------------------------
 void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd) 
 {
 	CEdit::OnKillFocus(pNewWnd);
@@ -188,6 +266,14 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 		pOwner->SendMessage(WM_KEYUP, VK_RETURN, 0 + (((DWORD)0)<<16));
 }
 
+//------------------------------------------------------------------------
+//! WM_KEYDOWN message handler for registering keyboard keys that should
+//! make the cell value editor close.
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
 void CGridEditorComboBoxEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	if (nChar == VK_TAB || nChar == VK_RETURN || nChar == VK_ESCAPE)
@@ -219,6 +305,9 @@ BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+//------------------------------------------------------------------------
+//! CGridEditorComboBox - Constructor
+//------------------------------------------------------------------------
 CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidth)
 	:m_Row(nRow)
 	,m_Col(nCol)
@@ -226,6 +315,15 @@ CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidth)
 	,m_MaxWidth(nMaxWidth)
 {}
 
+//------------------------------------------------------------------------
+//! Creates the CComboBox control, and subclasses the internal CEdit control
+//! to implement special behavior for completing cell value editing.
+//!
+//! @param dwStyle Specifies the style of the combo box
+//! @param rect Points to the position and size of the combo box
+//! @param pParentWnd pecifies the combo box's parent window. It must not be NULL.
+//! @param nID Specifies the combo box's control ID.
+//------------------------------------------------------------------------
 BOOL CGridEditorComboBox::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID)
 {
 	BOOL bRes = CComboBox::Create(dwStyle, rect, pParentWnd, nID);
@@ -242,6 +340,11 @@ BOOL CGridEditorComboBox::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentW
 	return bRes;
 }
 
+//------------------------------------------------------------------------
+//! The cell value editor was closed and the entered should be saved.
+//!
+//! @param bSuccess Should the entered cell value be saved
+//------------------------------------------------------------------------
 void CGridEditorComboBox::EndEdit(bool bSuccess)
 {
 	// Avoid two messages if key-press is followed by kill-focus
@@ -273,6 +376,12 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	PostMessage(WM_CLOSE);
 }
 
+//------------------------------------------------------------------------
+//! WM_KILLFOCUS message handler called when CComboBox is loosing focus
+//! to other control. Used register that cell value editor should close.
+//!
+//! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnKillFocus(CWnd* pNewWnd)
 {
 	CComboBox::OnKillFocus(pNewWnd);
@@ -286,12 +395,21 @@ void CGridEditorComboBox::OnKillFocus(CWnd* pNewWnd)
 	EndEdit(true);
 }
 
+//------------------------------------------------------------------------
+//! WM_NCDESTROY message handler called when CComboBox window is about to
+//! be destroyed. Used to delete the inplace CComboBox editor object as well.
+//! This is necessary when the CComboBox is created dynamically.
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnNcDestroy()
 {
 	CComboBox::OnNcDestroy();
 	delete this;
 }
 
+//------------------------------------------------------------------------
+//! WM_DESTROY message handler called when CComboBox window is about to
+//! be destroyed. Used to unsubclass the internal CEdit control.
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnDestroy()
 {
 	if (!m_Completed)
@@ -303,6 +421,14 @@ void CGridEditorComboBox::OnDestroy()
 	CComboBox::OnDestroy();
 }
 
+//------------------------------------------------------------------------
+//! WM_KEYUP message handler called when a keyboard key is released.
+//! Used to mark the cell editing as completed.
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == VK_TAB || nChar == VK_RETURN)
@@ -320,6 +446,11 @@ void CGridEditorComboBox::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CComboBox::OnKeyUp(nChar, nRepCnt, nFlags);
 }
 
+//------------------------------------------------------------------------
+//! CBN_DROPDOWN message handler called when the CComboBox control
+//! is expanded into a dropdown list. Used to restrict the width of
+//! the dropdown list to the max width.
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnDropDown()
 {
 	int itemHeight = GetItemHeight(-1);
@@ -359,10 +490,19 @@ void CGridEditorComboBox::OnDropDown()
 	SetItemHeight(-1, itemHeight);
 }
 
+//------------------------------------------------------------------------
+//! CBN_CLOSEUP message handler called when the CComboBox control
+//! dropdown list is closed up.
+//------------------------------------------------------------------------
 void CGridEditorComboBox::OnCloseUp()
 {
 }
 
+//------------------------------------------------------------------------
+//! Called for a control so the control can process arrow-key and TAB-key input itself.
+//!
+//! @return Indication of which type of input the control wants to processs
+//------------------------------------------------------------------------
 UINT CGridEditorComboBox::OnGetDlgCode()
 {
 	return DLGC_WANTALLKEYS;
