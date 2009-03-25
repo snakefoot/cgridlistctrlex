@@ -33,8 +33,8 @@ public:
 	//!   - The edit control must delete itself when it looses focus
 	//!   - The edit control must send a LVN_ENDLABELEDIT message when edit is complete
 	//! @param owner The list control starting edit
-	//! @param nRow The index of the row
-	//! @param nCol The index of the column
+	//! @param nRow The index of the row for the cell to edit
+	//! @param nCol The index of the column for the cell to edit
 	//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol) { return NULL; }
 
