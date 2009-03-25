@@ -16,17 +16,17 @@ class CGridColumnTraitCombo : public CGridColumnTraitText
 public:
 	CGridColumnTraitCombo();
 
-	void SetMaxItems(int items);
+	void SetMaxItems(int nMaxItems);
 	int  GetMaxItems() const;
 
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle() const;
 
-	void SetMaxWidth(int width);
+	void SetMaxWidth(int nMaxWidth);
 	int  GetMaxWidth() const;
 
 	void LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel);
-	void AddItem(int itemData, const CString& itemText);
+	void AddItem(int nItemData, const CString& strItemText);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual void  OnEditEnd();
