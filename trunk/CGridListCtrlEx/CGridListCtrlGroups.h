@@ -1,15 +1,19 @@
-#include "CGridListCtrlEx.h"
+#pragma once
 
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-//
-//! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
-//! Placed in its own file as all features requires _WIN32_WINNT >= 0x0501
-//! and needs _MSC_VER >= 1300 (VS.NET)
 //------------------------------------------------------------------------
 
+#include "CGridListCtrlEx.h"
+
+//------------------------------------------------------------------------
+//! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
+//! This can be used to put rows into category groups.
+//!
+//! Placed in its own file as all features requires _WIN32_WINNT >= 0x0501
+//------------------------------------------------------------------------
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
