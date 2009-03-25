@@ -841,7 +841,7 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 		return FALSE;
 
 #if _WIN32_WINNT >= 0x0600
-	NMLVEMPTYMARKUP* pEmptyMarkup = (NMLVEMPTYMARKUP*)pNMHDR;
+	NMLVEMPTYMARKUP* pEmptyMarkup = reinterpret_cast<NMLVEMPTYMARKUP*>(pNMHDR);
 	pEmptyMarkup->dwFlags = EMF_CENTERED;
 
 #ifdef UNICODE
@@ -869,7 +869,7 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 #if _WIN32_WINNT >= 0x0600
-	NMLVLINK* pLinkInfo = (NMLVLINK*)pNMHDR;
+	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
 	int nGroupId = pLinkInfo->iSubItem;
 	nGroupId;	// Avoid unreferenced variable warning
 #endif
@@ -921,7 +921,7 @@ bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& nGroupId)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NMLVDISPINFO* pNMW = (NMLVDISPINFO*)pNMHDR;
+	NMLVDISPINFO* pNMW = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
 	int nRow = pNMW->item.iItem;
 	int nCol = pNMW->item.iSubItem;
 
