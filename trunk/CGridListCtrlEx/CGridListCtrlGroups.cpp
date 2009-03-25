@@ -16,10 +16,23 @@ BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 #endif
 END_MESSAGE_MAP()
 
+//------------------------------------------------------------------------
+//! Constructor 
+//------------------------------------------------------------------------
 CGridListCtrlGroups::CGridListCtrlGroups()
 	:m_GroupHeight(-1)
 {}
 
+//------------------------------------------------------------------------
+//! Inserts a group into the list view control.
+//!
+//! @param nIndex The insert position of the group
+//! @param nGroupID ID of the new group
+//! @param strHeader The group header title
+//! @param dwState Specifies the state of the group when inserted
+//! @param dwAlign Indicates the alignment of the header or footer text for the group
+//! @return Returns the index of the item that the group was added to, or -1 if the operation failed.
+//------------------------------------------------------------------------
 LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState /* = LVGS_NORMAL */, DWORD dwAlign /*= LVGA_HEADER_LEFT*/)
 {
 	LVGROUP lg = {0};
@@ -42,6 +55,13 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const C
 	return InsertGroup(nIndex, (PLVGROUP)&lg );
 }
 
+//------------------------------------------------------------------------
+//! Moves a row into a group
+//!
+//! @param nRow The index of the row
+//! @param nGroupID ID of the group
+//! @return Nonzero if successful; otherwise zero
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupID)
 {
 	//OBS! Rows not assigned to a group will not show in group-view
@@ -53,6 +73,12 @@ BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupID)
 	return SetItem( &lvItem );
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the group id of a row
+//!
+//! @param nRow The index of the row
+//! @return ID of the group
+//------------------------------------------------------------------------
 int CGridListCtrlGroups::GetRowGroupId(int nRow)
 {
 	LVITEM lvi = {0};
@@ -62,6 +88,12 @@ int CGridListCtrlGroups::GetRowGroupId(int nRow)
     return lvi.iGroupId;
 }
 
+//------------------------------------------------------------------------
+//! Retrieves the group header title of a group
+//!
+//! @param nGroupID ID of the group
+//! @return Group header title
+//------------------------------------------------------------------------
 CString CGridListCtrlGroups::GetGroupHeader(int nGroupID)
 {
 	LVGROUP lg = {0};
@@ -82,7 +114,10 @@ CString CGridListCtrlGroups::GetGroupHeader(int nGroupID)
 }
 
 //------------------------------------------------------------------------
-//! Windows Vista or higher is required to modify the state of a group
+//! Checks is it is possible to modify the collapse state of a group.
+//! This is only possible in Windows Vista.
+//!
+//! @return Groups can be collapsed (true / false)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::IsGroupStateEnabled()
 {
@@ -99,9 +134,16 @@ BOOL CGridListCtrlGroups::IsGroupStateEnabled()
 	return TRUE;
 }
 
-// Vista SDK - ListView_GetGroupState / LVM_GETGROUPSTATE
+//------------------------------------------------------------------------
+//! Checks whether a group has a certain state
+//!
+//! @param nGroupID ID of the group
+//! @param dwState Specifies the state to check
+//! @return The group has the state (true / false)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::HasGroupState(int nGroupID, DWORD dwState)
 {
+	// Vista SDK - ListView_GetGroupState / LVM_GETGROUPSTATE
 	LVGROUP lg = {0};
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_STATE;
@@ -112,9 +154,16 @@ BOOL CGridListCtrlGroups::HasGroupState(int nGroupID, DWORD dwState)
 	return lg.state==dwState;
 }
 
-// Vista SDK - ListView_SetGroupState / LVM_SETGROUPINFO
+//------------------------------------------------------------------------
+//! Updates the state of a group
+//!
+//! @param nGroupID ID of the group
+//! @param dwState Specifies the new state of the group
+//! @return The group state was updated (true / false)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
 {
+	// Vista SDK - ListView_SetGroupState / LVM_SETGROUPINFO
 	if (!IsGroupStateEnabled())
 		return FALSE;
 
@@ -138,6 +187,9 @@ BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
 
 //------------------------------------------------------------------------
 //! Find the group-id below the given point
+//!
+//! @param point Mouse position
+//! @return ID of the group
 //------------------------------------------------------------------------
 int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 {
@@ -262,6 +314,9 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 
 //------------------------------------------------------------------------
 //! Update the checkbox of the label column (first column)
+//!
+//! @param nGroupID ID of the group
+//! @param bChecked The new check box state
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
 {
@@ -277,6 +332,11 @@ void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Removes the group and all the rows part of the group
+//!
+//! @param nGroupID ID of the group
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 {
 	for (int nRow=0; nRow<GetItemCount(); ++nRow)
@@ -292,6 +352,9 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 
 //------------------------------------------------------------------------
 //! Create a group for each unique values within a column
+//!
+//! @param nCol The index of the column
+//! @return Succeeded in creating the group
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 {
@@ -342,6 +405,9 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! Collapse all groups
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::CollapseAllGroups()
 {
 	// Loop through all rows and find possible groups
@@ -358,6 +424,9 @@ void CGridListCtrlGroups::CollapseAllGroups()
 	}
 }
 
+//------------------------------------------------------------------------
+//! Expand all groups
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::ExpandAllGroups()
 {
 	// Loop through all rows and find possible groups
@@ -374,6 +443,13 @@ void CGridListCtrlGroups::ExpandAllGroups()
 	}
 }
 
+//------------------------------------------------------------------------
+//! WM_CONTEXTMENU message handler to show popup menu when mouse right
+//! click is used (or SHIFT+F10 on the keyboard)
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if ( IsGroupViewEnabled() )
@@ -416,6 +492,14 @@ namespace {
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu for the column headers
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 {
 	if (!IsCommonControlsEnabled())
@@ -496,6 +580,14 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu for the group headers
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//! @param nGroupID ID of the group
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGroupId)
 {
 	CMenu menu;
@@ -537,6 +629,13 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	}
 }
 
+//------------------------------------------------------------------------
+//! Override this method to change the context menu when activating context
+//! menu in client area with no rows
+//!
+//! @param pWnd Handle to the window in which the user right clicked the mouse
+//! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 {
 	if (IsGroupStateEnabled())
