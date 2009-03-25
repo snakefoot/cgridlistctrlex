@@ -35,11 +35,16 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
 
-	CSimpleMap<int,CString> m_ComboList;
-	CComboBox* m_pComboBox;
-	DWORD m_ComboBoxStyle;
-	int m_MaxItems;
-	int m_MaxWidth;
+	CSimpleMap<int,CString> m_ComboList;	//!< Fixed list of items in the combo-box
+	CComboBox* m_pComboBox;					//!< CComboBox currently open
+	DWORD m_ComboBoxStyle;					//!< Style to use when creating CComboBox
+	int m_MaxItems;							//!< Max height (in items) of the CComboBox when doing dropdown
+	int m_MaxWidth;							//!< Max width (in pixels) of the CComboBox when doing dropdown
+
+private:
+	// Private because they doesn't handle CSimpleMap
+	CGridColumnTraitCombo(const CGridColumnTraitCombo&);
+	CGridColumnTraitCombo& operator=(const CGridColumnTraitCombo& other);
 };
 
 //------------------------------------------------------------------------
@@ -84,9 +89,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP();
 
-	CGridEditorComboBoxEdit m_Edit;  // subclassed edit control
-	bool	m_Completed;
-	int		m_Row;
-	int		m_Col;
-	int		m_MaxWidth;
+	CGridEditorComboBoxEdit m_Edit;	//!< Subclassed edit control inside the CComboBox
+	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
+	int		m_Row;					//!< The index of the row being edited
+	int		m_Col;					//!< The index of the column being edited
+	int		m_MaxWidth;				//!< Max width (in pixels) of the CComboBox when doing dropdown
 };
