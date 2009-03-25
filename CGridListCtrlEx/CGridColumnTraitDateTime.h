@@ -4,12 +4,13 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-//
-//! CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor
 //------------------------------------------------------------------------
 
 #include "CGridColumnTraitText.h"
 
+//------------------------------------------------------------------------
+//! CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor
+//------------------------------------------------------------------------
 class CGridColumnTraitDateTime : public CGridColumnTraitText
 {
 public:

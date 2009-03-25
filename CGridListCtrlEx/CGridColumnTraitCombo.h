@@ -1,12 +1,14 @@
 #pragma once
 
-#include "CGridColumnTraitText.h"
-
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-//
+//------------------------------------------------------------------------
+
+#include "CGridColumnTraitText.h"
+
+//------------------------------------------------------------------------
 //! CGridColumnTraitCombo implements a CComboBox as cell-editor
 //------------------------------------------------------------------------
 class CGridColumnTraitCombo : public CGridColumnTraitText

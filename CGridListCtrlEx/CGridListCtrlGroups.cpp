@@ -14,6 +14,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 	ON_NOTIFY_REFLECT_EX(LVN_LINKCLICK, OnGroupTaskClick)	// Task-Link Click
 	ON_NOTIFY_REFLECT_EX(LVN_GETEMPTYMARKUP, OnGetEmptyMarkup)	// Request text to display when empty
 #endif
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 //------------------------------------------------------------------------
@@ -658,6 +659,14 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 	}
 }
 
+//------------------------------------------------------------------------
+//! Update the description text of the group footer
+//!
+//! @param nGroupID ID of the group
+//! @param strFooter The footer description text
+//! @param dwAlign Indicates the alignment of the footer text for the group
+//! @return Succeeded in updating the group footer
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter, DWORD dwAlign)
 {
 	if (!IsGroupStateEnabled())
@@ -686,6 +695,13 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter,
 #endif
 }
 
+//------------------------------------------------------------------------
+//! Update the task link of the group header
+//!
+//! @param nGroupID ID of the group
+//! @param strTask The task description text
+//! @return Succeeded in updating the group task
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
 {
 	if (!IsGroupStateEnabled())
@@ -713,6 +729,13 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
 #endif
 }
 
+//------------------------------------------------------------------------
+//! Update the subtitle in the group header
+//!
+//! @param nGroupID ID of the group
+//! @param strSubtitle The subtitle description text
+//! @return Succeeded in updating the group subtitle
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubtitle)
 {
 	if (!IsGroupStateEnabled())
@@ -740,6 +763,16 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubti
 #endif
 }
 
+//------------------------------------------------------------------------
+//! Update the image icon in the group header together with top and bottom
+//! description. Microsoft encourage people not to use this functionality.
+//!
+//! @param nGroupID ID of the group
+//! @param nImage Index of the title image in the control imagelist.
+//! @param strTopDesc Description text placed oppposite of the image
+//! @param strBottomDesc Description text placed below the top description
+//! @return Succeeded in updating the group image
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CString& strTopDesc, const CString& strBottomDesc)
 {
 	if (!IsGroupStateEnabled())
@@ -794,6 +827,14 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 #endif
 }
 
+//------------------------------------------------------------------------
+//! LVN_GETEMPTYMARKUP message handler to show markup text when the list
+//! control is empty.
+//!
+//! @param pNMHDR Pointer to NMLVEMPTYMARKUP structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if (m_EmptyMarkupText.IsEmpty())
@@ -818,6 +859,13 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 	return TRUE;
 }
 
+//------------------------------------------------------------------------
+//! LVN_LINKCLICK message handler called when a group task link is clicked
+//!
+//! @param pNMHDR Pointer to NMLVLINK structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 #if _WIN32_WINNT >= 0x0600
@@ -828,8 +876,17 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+//------------------------------------------------------------------------
+//! The framework calls this member function when the user double-clicks
+//! the left mouse button. Used to expand and collapse groups when double
+//! double click is used
+//!
+//! @param nFlags Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.)
+//! @param point Specifies the x- and y-coordinate of the cursor relative to the upper-left corner of the window.
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
+	CGridListCtrlEx::OnLButtonDblClk(nFlags, point);
 	int nGroupId = GroupHitTest(point);
 	if (nGroupId!=-1)
 	{
@@ -840,7 +897,15 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 	}
 }
 
-bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& groupId)
+//------------------------------------------------------------------------
+//! Override this method to provide the group a cell belongs to
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param nGroupId Text string to display in the cell
+//! @return True if the cell belongs to a group
+//------------------------------------------------------------------------
+bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& nGroupId)
 {
 	return false;
 }
@@ -849,6 +914,10 @@ bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& groupId)
 //! Handles the LVN_GETDISPINFO message, which is sent when details are
 //! needed for an item that specifies callback.
 //!		- Cell-Group, when item is using I_GROUPIDCALLBACK
+//!
+//! @param pNMHDR Pointer to an NMLVDISPINFO structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -873,6 +942,7 @@ BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	return CGridListCtrlEx::OnGetDispInfo(pNMHDR, pResult);
 }
+
 namespace {
 	struct PARAMSORT
 	{
@@ -913,6 +983,13 @@ namespace {
 	}
 }
 
+//------------------------------------------------------------------------
+//! Changes the row sorting in regard to the specified column
+//!
+//! @param nCol The index of the column
+//! @param bAscending Should the arrow be up or down 
+//! @return True / false depending on whether sort is possible
+//------------------------------------------------------------------------
 bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	if (IsGroupViewEnabled())
@@ -938,6 +1015,10 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 	return CGridListCtrlEx::SortColumn(nCol, bAscending);
 }
 
+//------------------------------------------------------------------------
+//! WM_PAINT message handler called when needing to redraw list control.
+//! Used to display text when the list control is empty
+//------------------------------------------------------------------------
 void CGridListCtrlGroups::OnPaint()
 {
 #if _WIN32_WINNT >= 0x0600
