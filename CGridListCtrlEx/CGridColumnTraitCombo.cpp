@@ -223,7 +223,7 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, i
 BEGIN_MESSAGE_MAP(CGridEditorComboBoxEdit, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorComboBoxEdit)
 	ON_WM_KILLFOCUS()
-	ON_WM_KEYDOWN()
+	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -267,14 +267,16 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 }
 
 //------------------------------------------------------------------------
-//! WM_KEYDOWN message handler for registering keyboard keys that should
+//! WM_CHAR message handler for registering keyboard keys that should
 //! make the cell value editor close.
+//!
+//! By overriding OnChar() then we can get rid of the Vista 'ping' when pressing the enter key
 //!
 //! @param nChar Specifies the virtual key code of the given key.
 //! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
 //! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
 //------------------------------------------------------------------------
-void CGridEditorComboBoxEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+void CGridEditorComboBoxEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	if (nChar == VK_TAB || nChar == VK_RETURN || nChar == VK_ESCAPE)
 	{
@@ -283,8 +285,7 @@ void CGridEditorComboBoxEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			pOwner->SendMessage(WM_KEYUP, nChar, nRepCnt + (((DWORD)nFlags)<<16));
 		return;
 	}
-
-	CEdit::OnKeyDown(nChar, nRepCnt, nFlags);
+	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 //------------------------------------------------------------------------
