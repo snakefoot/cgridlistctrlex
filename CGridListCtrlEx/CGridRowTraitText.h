@@ -1,16 +1,17 @@
 #pragma once
 
-#include "CGridRowTrait.h"
-
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-//
+//------------------------------------------------------------------------
+
+#include "CGridRowTrait.h"
+
+//------------------------------------------------------------------------
 //! CGridRowTraitText provides customization text and background at
 //! row-level
 //------------------------------------------------------------------------
-
 class CGridRowTraitText : public CGridRowTrait
 {
 public:
