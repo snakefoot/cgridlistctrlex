@@ -1171,7 +1171,7 @@ bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& nImageId)
 }
 
 //------------------------------------------------------------------------
-//! Handles the LVN_GETDISPINFO message, which is sent when details are
+//! LVN_GETDISPINFO message handler, which is called when details are
 //! needed for an item that specifies callback.
 //!		- Cell-Text, when item is using LPSTR_TEXTCALLBACK
 //!		- Cell-Image, when item is using I_IMAGECALLBACK
