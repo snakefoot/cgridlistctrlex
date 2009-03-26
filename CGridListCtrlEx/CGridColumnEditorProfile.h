@@ -1,16 +1,54 @@
 #pragma once
 
-#include "CGridColumnEditor.h"
-
 //------------------------------------------------------------------------
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-//
+//------------------------------------------------------------------------
+
+#include "CGridColumnEditor.h"
+
+class CGridColumnConfigProfiles;
+class CGridColumnConfig;
+
+//------------------------------------------------------------------------
 //! Implementation of the CGridColumnEditor interface, that supports
 //! persistance of the column state.
 //------------------------------------------------------------------------
+class CGridColumnEditorProfile : public CGridColumnEditor
+{
+protected:
+	CGridColumnConfigProfiles* m_pColumnConfig;
+	bool m_ApplyingConfiguration;
 
+	virtual void SaveColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config);
+	virtual void LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config);
+
+public:
+	explicit CGridColumnEditorProfile(const CString& viewname);
+	explicit CGridColumnEditorProfile(CGridColumnConfigProfiles* pColumnConfig);
+	virtual ~CGridColumnEditorProfile();
+
+	virtual bool HasColumnsDefault(CGridListCtrlEx& owner, CString& title);
+	virtual void ResetColumnsDefault(CGridListCtrlEx& owner);
+
+	virtual void AddColumnProfile(const CString& profile);
+	virtual void DeleteColumnProfile(const CString& profile);
+	virtual CString HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& title);
+	virtual void SwichColumnProfile(CGridListCtrlEx& owner, const CString& profile);
+
+	virtual void OnColumnSetup(CGridListCtrlEx& owner);
+	virtual void OnOwnerKillFocus(CGridListCtrlEx& owner);
+	virtual void OnColumnResize(CGridListCtrlEx& owner);
+	virtual void OnColumnPick(CGridListCtrlEx& owner);
+
+	virtual void LoadConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config);
+	virtual void SaveConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config);
+};
+
+//------------------------------------------------------------------------
+//! Abstract interface for persisting column configuration
+//------------------------------------------------------------------------
 class CGridColumnConfig
 {
 protected:
@@ -63,8 +101,12 @@ public:
 	virtual void RemoveCurrentConfig();
 };
 
-// Provides the ability to store an in-memory default-configuration
-// It will use the values in the default-config if nothing else can be found
+//------------------------------------------------------------------------
+//! Abstract interface for persisting column configuration, that can use
+//! an in-memory default-configuration.
+//!
+//! It will use the values in the default-config if nothing else can be found
+//------------------------------------------------------------------------
 class CGridColumnConfigDefault : public CGridColumnConfig
 {
 protected:
@@ -98,7 +140,10 @@ public:
 	virtual CString GetSetting(const CString& name, const CString& defval = _T("")) const;
 };
 
-// Provides the ability to change between multiple configurations for the same view
+//------------------------------------------------------------------------
+//! Abstract interface for persisting column configuration, that can switch
+//! between different column configuration profiles.
+//------------------------------------------------------------------------
 class CGridColumnConfigProfiles : public CGridColumnConfigDefault
 {
 protected:
@@ -120,6 +165,9 @@ public:
 	virtual void DeleteProfile(const CString& profile);
 };
 
+//------------------------------------------------------------------------
+//! Can persist the column configuration using CWinApp::WriteProfile()
+//------------------------------------------------------------------------
 class CGridColumnConfigWinApp : public CGridColumnConfigProfiles
 {
 protected:
@@ -129,35 +177,4 @@ protected:
 
 public:
 	CGridColumnConfigWinApp(const CString& viewname);
-};
-
-class CGridColumnEditorProfile : public CGridColumnEditor
-{
-protected:
-	CGridColumnConfigProfiles* m_pColumnConfig;
-	bool m_ApplyingConfiguration;
-
-	virtual void SaveColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config);
-	virtual void LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config);
-
-public:
-	explicit CGridColumnEditorProfile(const CString& viewname);
-	explicit CGridColumnEditorProfile(CGridColumnConfigProfiles* pColumnConfig);
-	virtual ~CGridColumnEditorProfile();
-
-	virtual bool HasColumnsDefault(CGridListCtrlEx& owner, CString& title);
-	virtual void ResetColumnsDefault(CGridListCtrlEx& owner);
-
-	virtual void AddColumnProfile(const CString& profile);
-	virtual void DeleteColumnProfile(const CString& profile);
-	virtual CString HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& title);
-	virtual void SwichColumnProfile(CGridListCtrlEx& owner, const CString& profile);
-
-	virtual void OnColumnSetup(CGridListCtrlEx& owner);
-	virtual void OnOwnerKillFocus(CGridListCtrlEx& owner);
-	virtual void OnColumnResize(CGridListCtrlEx& owner);
-	virtual void OnColumnPick(CGridListCtrlEx& owner);
-
-	virtual void LoadConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config);
-	virtual void SaveConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config);
 };
