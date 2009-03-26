@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="CGridListCtrlEx"
 	ProjectGUID="{9DF937BA-5B41-4F9F-94BA-6CFA1953AA7E}"
+	RootNamespace="CGridListCtrlEx"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -277,6 +278,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp"
 					>
 				</File>
@@ -312,6 +317,14 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.h"
+					>
+				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h"
 					>
