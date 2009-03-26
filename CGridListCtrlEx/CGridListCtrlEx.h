@@ -19,6 +19,7 @@ class CGridRowTrait;
 //!	- Cell tooltip
 //!	- Cell editing and customization through use of CGridColumnTrait's
 //!	- Clipboard (copy only)
+//! - Column state persistence (width, order, etc.)
 //------------------------------------------------------------------------
 class CGridListCtrlEx : public CListCtrl
 {
