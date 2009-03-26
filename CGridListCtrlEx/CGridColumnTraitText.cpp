@@ -4,17 +4,29 @@
 #include "CGridColumnTraitVisitor.h"
 #include "CGridListCtrlEx.h"
 
+//------------------------------------------------------------------------
+//! CGridColumnTraitText - Constructor
+//------------------------------------------------------------------------
 CGridColumnTraitText::CGridColumnTraitText()
 	:m_pOldFont(NULL)
 	,m_TextColor(COLORREF(-1))
 	,m_BackColor(COLORREF(-1))
 {}
 
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridColumnTraitText::Accept(CGridColumnTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
+//------------------------------------------------------------------------
+//! Changes the text color if one is specified
+//!
+//! @param textColor Current text color
+//! @return New text color was specified (true / false)
+//------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
 {
 	if (m_TextColor!=COLORREF(-1))
@@ -25,6 +37,12 @@ bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Changes the background color if one is specified
+//!
+//! @param textColor Current background color
+//! @return New background color was specified (true / false)
+//------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)
 {
 	if (m_BackColor!=COLORREF(-1))
@@ -35,6 +53,14 @@ bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Overrides the custom draw handler, to allow custom coloring of cells
+//! with this column trait.
+//!
+//! @param owner The list control drawing
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
+//------------------------------------------------------------------------
 void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
@@ -92,7 +118,11 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 }
 
 //------------------------------------------------------------------------
-//! Returns the proper row-height, which an editor should fit in
+//! Calculates the proper row-height according to font, which a cell value
+//! editor should fit in.
+//!
+//! @param owner The list control for the inplace cell value editor
+//! @return Height in pixels of the row.
 //------------------------------------------------------------------------
 int CGridColumnTraitText::GetCellFontHeight(CGridListCtrlEx& owner)
 {
@@ -108,7 +138,12 @@ int CGridColumnTraitText::GetCellFontHeight(CGridListCtrlEx& owner)
 }
 
 //------------------------------------------------------------------------
-//! Returns the proper rectangle, which an editor should fit in
+//! Returns the proper rectangle, which a cell value editor should fit in
+//!
+//! @param owner The list control for the inplace cell value editor
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Rectangle where the inplace cell value editor should be placed.
 //------------------------------------------------------------------------
 CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol)
 {
