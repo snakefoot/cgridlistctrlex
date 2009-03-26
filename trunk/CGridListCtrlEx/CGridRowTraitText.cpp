@@ -4,6 +4,9 @@
 #include "CGridRowTraitVisitor.h"
 #include "CGridListCtrlEx.h"
 
+//------------------------------------------------------------------------
+//! CGridRowTraitText - Constructor
+//------------------------------------------------------------------------
 CGridRowTraitText::CGridRowTraitText()
 	:m_pOldFont(NULL)
 	,m_TextColor((COLORREF)-1)
@@ -12,23 +15,45 @@ CGridRowTraitText::CGridRowTraitText()
 	,m_AltBackColor((COLORREF)-1)
 {}
 
+//------------------------------------------------------------------------
+//! Sets the same row coloring for all rows
+//!
+//! @param backColor The background color to use for all rows
+//! @param textColor The text color to use for all rows
+//------------------------------------------------------------------------
 void CGridRowTraitText::SetRowColor(COLORREF textColor, COLORREF backColor)
 {
 	m_TextColor = textColor;
 	m_BackColor = backColor;
 }
 
+//------------------------------------------------------------------------
+//! Activates alternate row coloring
+//!
+//! @param backColor The background color to use for every second row
+//! @param textColor The text color to use for every second row
+//------------------------------------------------------------------------
 void CGridRowTraitText::SetAltRowColor(COLORREF textColor, COLORREF backColor)
 {
 	m_AltTextColor = textColor;
 	m_AltBackColor = backColor;
 }
 
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridRowTraitText::Accept(CGridRowTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
+//------------------------------------------------------------------------
+//! Changes the text color if one is specified
+//!
+//! @param nRow The index of the row
+//! @param textColor Current text color
+//! @return New text color was specified (true / false)
+//------------------------------------------------------------------------
 bool CGridRowTraitText::UpdateTextColor(int nRow, COLORREF& textColor)
 {
 	if (m_AltTextColor!=COLORREF(-1) && nRow % 2)
@@ -46,6 +71,13 @@ bool CGridRowTraitText::UpdateTextColor(int nRow, COLORREF& textColor)
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Changes the background color if one is specified
+//!
+//! @param nRow The index of the row
+//! @param textColor Current background color
+//! @return New background color was specified (true / false)
+//------------------------------------------------------------------------
 bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
 {
 	if (m_AltBackColor!=COLORREF(-1) && nRow % 2)
@@ -63,6 +95,15 @@ bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
 	return false;
 }
 
+//------------------------------------------------------------------------
+//! Overrides the custom draw handler, to allow custom coloring of rows.
+//!		- Focus rectangle display
+//!		- Alternate row coloring
+//!
+//! @param owner The list control drawing
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
+//------------------------------------------------------------------------
 void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;

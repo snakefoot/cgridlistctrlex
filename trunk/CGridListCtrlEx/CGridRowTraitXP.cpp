@@ -5,12 +5,24 @@
 #include "CGridListCtrlEx.h"
 #include "CGridColumnTraitText.h"
 
-
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
+//------------------------------------------------------------------------
+//! Overrides the custom draw handler, to allow custom coloring of rows.
+//!		- Fix white background for icon images
+//!		- Fix white background between icon and cell text
+//!		- Fix drawing of column grid lines when slowly scrolling
+//!
+//! @param owner The list control drawing
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
+//------------------------------------------------------------------------
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	if (owner.UsingVisualStyle())
