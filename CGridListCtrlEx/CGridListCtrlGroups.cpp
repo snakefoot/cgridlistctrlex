@@ -28,17 +28,17 @@ CGridListCtrlGroups::CGridListCtrlGroups()
 //! Inserts a group into the list view control.
 //!
 //! @param nIndex The insert position of the group
-//! @param nGroupID ID of the new group
+//! @param nGroupId ID of the new group
 //! @param strHeader The group header title
 //! @param dwState Specifies the state of the group when inserted
 //! @param dwAlign Indicates the alignment of the header or footer text for the group
 //! @return Returns the index of the item that the group was added to, or -1 if the operation failed.
 //------------------------------------------------------------------------
-LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState /* = LVGS_NORMAL */, DWORD dwAlign /*= LVGA_HEADER_LEFT*/)
+LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupId, const CString& strHeader, DWORD dwState /* = LVGS_NORMAL */, DWORD dwAlign /*= LVGA_HEADER_LEFT*/)
 {
 	LVGROUP lg = {0};
 	lg.cbSize = sizeof(lg);
-	lg.iGroupId = nGroupID;
+	lg.iGroupId = nGroupId;
 	lg.state = dwState;
 	lg.mask = LVGF_GROUPID | LVGF_HEADER | LVGF_STATE | LVGF_ALIGN;
 	lg.uAlign = dwAlign;
@@ -60,17 +60,17 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupID, const C
 //! Moves a row into a group
 //!
 //! @param nRow The index of the row
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @return Nonzero if successful; otherwise zero
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupID)
+BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupId)
 {
 	//OBS! Rows not assigned to a group will not show in group-view
 	LVITEM lvItem = {0};
 	lvItem.mask = LVIF_GROUPID;
 	lvItem.iItem = nRow;
 	lvItem.iSubItem = 0;
-	lvItem.iGroupId = nGroupID;
+	lvItem.iGroupId = nGroupId;
 	return SetItem( &lvItem );
 }
 
@@ -92,16 +92,16 @@ int CGridListCtrlGroups::GetRowGroupId(int nRow)
 //------------------------------------------------------------------------
 //! Retrieves the group header title of a group
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @return Group header title
 //------------------------------------------------------------------------
-CString CGridListCtrlGroups::GetGroupHeader(int nGroupID)
+CString CGridListCtrlGroups::GetGroupHeader(int nGroupId)
 {
 	LVGROUP lg = {0};
 	lg.cbSize = sizeof(lg);
-	lg.iGroupId = nGroupID;
+	lg.iGroupId = nGroupId;
 	lg.mask = LVGF_HEADER | LVGF_GROUPID;
-	VERIFY( GetGroupInfo(nGroupID, (PLVGROUP)&lg) != -1 );
+	VERIFY( GetGroupInfo(nGroupId, (PLVGROUP)&lg) != -1 );
 
 #ifdef UNICODE
 	return lg.pszHeader;
@@ -138,18 +138,18 @@ BOOL CGridListCtrlGroups::IsGroupStateEnabled()
 //------------------------------------------------------------------------
 //! Checks whether a group has a certain state
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param dwState Specifies the state to check
 //! @return The group has the state (true / false)
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::HasGroupState(int nGroupID, DWORD dwState)
+BOOL CGridListCtrlGroups::HasGroupState(int nGroupId, DWORD dwState)
 {
 	// Vista SDK - ListView_GetGroupState / LVM_GETGROUPSTATE
 	LVGROUP lg = {0};
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_STATE;
 	lg.stateMask = dwState;
-	if ( GetGroupInfo(nGroupID, (PLVGROUP)&lg) == -1)
+	if ( GetGroupInfo(nGroupId, (PLVGROUP)&lg) == -1)
 		return FALSE;
 
 	return lg.state==dwState;
@@ -158,11 +158,11 @@ BOOL CGridListCtrlGroups::HasGroupState(int nGroupID, DWORD dwState)
 //------------------------------------------------------------------------
 //! Updates the state of a group
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param dwState Specifies the new state of the group
 //! @return The group state was updated (true / false)
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
+BOOL CGridListCtrlGroups::SetGroupState(int nGroupId, DWORD dwState)
 {
 	// Vista SDK - ListView_SetGroupState / LVM_SETGROUPINFO
 	if (!IsGroupStateEnabled())
@@ -176,11 +176,11 @@ BOOL CGridListCtrlGroups::SetGroupState(int nGroupID, DWORD dwState)
 
 #ifdef LVGS_COLLAPSIBLE
 	// Maintain LVGS_COLLAPSIBLE state
-	if (HasGroupState(nGroupID, LVGS_COLLAPSIBLE))
+	if (HasGroupState(nGroupId, LVGS_COLLAPSIBLE))
 		lg.state |= LVGS_COLLAPSIBLE;
 #endif
 
-	if (SetGroupInfo(nGroupID, (PLVGROUP)&lg)==-1)
+	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg)==-1)
 		return FALSE;
 
 	return TRUE;
@@ -316,7 +316,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 //------------------------------------------------------------------------
 //! Update the checkbox of the label column (first column)
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param bChecked The new check box state
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
@@ -336,7 +336,7 @@ void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
 //------------------------------------------------------------------------
 //! Removes the group and all the rows part of the group
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 {
@@ -587,7 +587,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 //!
 //! @param pWnd Handle to the window in which the user right clicked the mouse
 //! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGroupId)
 {
@@ -623,8 +623,8 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
 	switch(nResult)
 	{
-		case 1: SetGroupState(nGroupId,LVGS_NORMAL); break;
-		case 2: SetGroupState(nGroupId,LVGS_COLLAPSED); break;
+		case 1: SetGroupState(nGroupId, LVGS_NORMAL); break;
+		case 2: SetGroupState(nGroupId, LVGS_COLLAPSED); break;
 		case 3: CheckEntireGroup(nGroupId, true); break;
 		case 4: CheckEntireGroup(nGroupId, false); break;
 	}
@@ -662,12 +662,12 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 //! Update the description text of the group footer
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param strFooter The footer description text
 //! @param dwAlign Indicates the alignment of the footer text for the group
 //! @return Succeeded in updating the group footer
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter, DWORD dwAlign)
+BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupId, const CString& strFooter, DWORD dwAlign)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -686,7 +686,7 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter,
 	lg.cchFooter = bstrFooter.Length();
 #endif
 
-	if (SetGroupInfo(nGroupID, (PLVGROUP)&lg)==-1)
+	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg)==-1)
 		return FALSE;
 
 	return TRUE;
@@ -698,11 +698,11 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupID, const CString& strFooter,
 //------------------------------------------------------------------------
 //! Update the task link of the group header
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param strTask The task description text
 //! @return Succeeded in updating the group task
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
+BOOL CGridListCtrlGroups::SetGroupTask(int nGroupId, const CString& strTask)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -720,7 +720,7 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
 	lg.cchTask = bstrTask.Length();
 #endif
 
-	if (SetGroupInfo(nGroupID, (PLVGROUP)&lg)==-1)
+	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg)==-1)
 		return FALSE;
 
 	return TRUE;
@@ -732,11 +732,11 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupID, const CString& strTask)
 //------------------------------------------------------------------------
 //! Update the subtitle in the group header
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param strSubtitle The subtitle description text
 //! @return Succeeded in updating the group subtitle
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubtitle)
+BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupId, const CString& strSubtitle)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -754,7 +754,7 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubti
 	lg.cchSubtitle = bstrSubtitle.Length();
 #endif
 
-	if (SetGroupInfo(nGroupID, (PLVGROUP)&lg)==-1)
+	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg)==-1)
 		return FALSE;
 
 	return TRUE;
@@ -767,13 +767,13 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupID, const CString& strSubti
 //! Update the image icon in the group header together with top and bottom
 //! description. Microsoft encourage people not to use this functionality.
 //!
-//! @param nGroupID ID of the group
+//! @param nGroupId ID of the group
 //! @param nImage Index of the title image in the control imagelist.
 //! @param strTopDesc Description text placed oppposite of the image
 //! @param strBottomDesc Description text placed below the top description
 //! @return Succeeded in updating the group image
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CString& strTopDesc, const CString& strBottomDesc)
+BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupId, int nImage, const CString& strTopDesc, const CString& strBottomDesc)
 {
 	if (!IsGroupStateEnabled())
 		return FALSE;
@@ -818,7 +818,7 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupID, int nImage, const CSt
 	}
 #endif
 
-	if (SetGroupInfo(nGroupID, (PLVGROUP)&lg)==-1)
+	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg)==-1)
 		return FALSE;
 
 	return TRUE;

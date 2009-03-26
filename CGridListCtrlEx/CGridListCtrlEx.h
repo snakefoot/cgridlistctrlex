@@ -11,7 +11,7 @@ class CGridColumnTrait;
 class CGridRowTrait;
 
 //------------------------------------------------------------------------
-//! GridListCtrlEx extends the CListCtrl with the following functionality:
+//! CGridListCtrlEx extends the CListCtrl with several features.
 //!	- Sortable
 //!	- Simple column picker
 //!	- Cell navigation
@@ -19,7 +19,7 @@ class CGridRowTrait;
 //!	- Cell tooltip
 //!	- Cell editing and customization through use of CGridColumnTrait's
 //!	- Clipboard (copy only)
-//! - Column state persistence (width, order, etc.)
+//!	- Column state persistence (width, order, etc.)
 //------------------------------------------------------------------------
 class CGridListCtrlEx : public CListCtrl
 {

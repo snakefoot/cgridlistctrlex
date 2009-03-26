@@ -45,7 +45,7 @@ protected:
 
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 	afx_msg void OnNcDestroy();
-	virtual BOOL PreTranslateMessage(MSG* pMSG);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
 	int		m_Row;					//!< The index of the row being edited

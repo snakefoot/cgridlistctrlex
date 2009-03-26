@@ -326,8 +326,8 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 //! Inserts the label column (first column) with invisible state
 //! The label column behaves differently from the rest of the columns,
 //! and to get the uniform look, then it should be hidden away.
-//!	 - It has a special margin, which no other column has
-//!  - When dragged to another position than the first, then it looses it special margin
+//!	- It has a special margin, which no other column has
+//!	- When dragged to another position than the first, then it looses it special margin
 //!
 //! @return The index of the new column if successful or -1 otherwise.
 //------------------------------------------------------------------------
@@ -502,10 +502,10 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 }
 
 //------------------------------------------------------------------------
-//! Improved version of GetSubItemRect()
+//! Improved version of GetSubItemRect().
 //!	- It doesn't return entire row-rect when using LVIR_BOUNDS for label-column (nCol==0)
 //!	- It supports LVIR_LABEL for sub-items (nCol>0)
-//! - It supports LVIR_BOUNDS when column width is less than subitem image width
+//!	- It supports LVIR_BOUNDS when column width is less than subitem image width
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
@@ -1148,7 +1148,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
-//! @param strResult Text string to display in the cell
+//! @param strText Text string to display in the cell
 //! @return True if there is text string to display
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellText(int nRow, int nCol, CString& strText)
@@ -2113,7 +2113,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 //!
 //! @param pWnd Handle to the window in which the user right clicked the mouse
 //! @param point Position of the cursor, in screen coordinates, at the time of the mouse click.
-//! @param nRol The index of the row
+//! @param nRow The index of the row
 //! @param nCol The index of the column
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol)
