@@ -21,9 +21,9 @@ public:
 	bool UpdateBackColor(COLORREF& backColor);
 
 protected:
-	CFont*	m_pOldFont;		// Backup of the original font while drawing with this font
-	COLORREF m_TextColor;
-	COLORREF m_BackColor;
+	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with this font
+	COLORREF m_TextColor;	//!< Text color to use for this column
+	COLORREF m_BackColor;	//!< Background color to use for this column
 
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int GetCellFontHeight(CGridListCtrlEx& owner);
