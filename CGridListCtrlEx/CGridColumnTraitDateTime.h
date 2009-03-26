@@ -27,8 +27,8 @@ protected:
 	virtual CDateTimeCtrl* CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
 
 	CString m_Format;				//!< DateTime format used to display the date
-	DWORD	m_ParseDateTimeFlags;	//!< Indicates flags for locale settings and parsing (COleDateTime::ParseDateTime)
-	LCID	m_ParseDateTimeLCID;	//!< Indicates locale ID to use for the conversion. (COleDateTime::ParseDateTime)
+	DWORD	m_ParseDateTimeFlags;	//!< Flags for locale settings and parsing (COleDateTime::ParseDateTime)
+	LCID	m_ParseDateTimeLCID;	//!< Locale ID to use for the conversion. (COleDateTime::ParseDateTime)
 	DWORD	m_DateTimeCtrlStyle;	//!< Style to use when creating CDateTimeCtrl
 };
 

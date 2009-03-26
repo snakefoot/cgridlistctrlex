@@ -5,7 +5,7 @@
 #include "CGridListCtrlEx.h"
 
 //------------------------------------------------------------------------
-// CGridColumnTraitDateTime
+//! CGridColumnTraitDateTime - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitDateTime::CGridColumnTraitDateTime()
 	:m_ParseDateTimeFlags(0)
@@ -13,27 +13,55 @@ CGridColumnTraitDateTime::CGridColumnTraitDateTime()
 	,m_DateTimeCtrlStyle(0)
 {}
 
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridColumnTraitDateTime::Accept(CGridColumnTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
+//------------------------------------------------------------------------
+//! Set the DateTime format used to display the date
+//!
+//! @param strFormat Format string that defines the desired display
+//------------------------------------------------------------------------
 void CGridColumnTraitDateTime::SetFormat(const CString& strFormat)
 {
 	m_Format = strFormat;
 }
 
+//------------------------------------------------------------------------
+//! Set the flags for converting the datetime in text format to actual date.
+//!
+//! @param dwFlags Flags for locale settings and parsing
+//! @param lcid Locale ID to use for the conversion
+//------------------------------------------------------------------------
 void CGridColumnTraitDateTime::SetParseDateTime(DWORD dwFlags, LCID lcid)
 {
 	m_ParseDateTimeFlags = dwFlags;
 	m_ParseDateTimeLCID = lcid;
 }
 
+//------------------------------------------------------------------------
+//! Set style used when creating CDataTimeCtrl for cell value editing
+//!
+//! @param dwStyle Style flags
+//------------------------------------------------------------------------
 void CGridColumnTraitDateTime::SetStyle(DWORD dwStyle)
 {
 	m_DateTimeCtrlStyle = dwStyle;
 }
 
+//------------------------------------------------------------------------
+//! Create a CDateTimeCtrl as cell value editor
+//!
+//! @param owner The list control starting a cell edit
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param rect The rectangle where the inplace cell value editor should be placed
+//! @return Pointer to the cell editor to use
+//------------------------------------------------------------------------
 CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
 	// Get the text-style of the cell to edit
@@ -58,6 +86,14 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 	return pDateTimeCtrl;
 }
 
+//------------------------------------------------------------------------
+//! Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+//------------------------------------------------------------------------
 CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Convert cell-text to date/time format
@@ -89,7 +125,7 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 }
 
 //------------------------------------------------------------------------
-//! CGridEditorDateTimeCtrl (For internal use)
+// CGridEditorDateTimeCtrl (For internal use)
 //------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//{{AFX_MSG_MAP(CGridEditorDateTimeCtrl)
@@ -98,12 +134,23 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+//------------------------------------------------------------------------
+//! CGridEditorDateTimeCtrl - Constructor
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
 CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
 {}
 
+//------------------------------------------------------------------------
+//! The cell value editor was closed and the entered should be saved.
+//!
+//! @param bSuccess Should the entered cell value be saved
+//------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 {
 	// Avoid two messages if key-press is followed by kill-focus
@@ -135,6 +182,12 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	PostMessage(WM_CLOSE);
 }
 
+//------------------------------------------------------------------------
+//! WM_KILLFOCUS message handler called when CDateTimeCtrl is loosing focus
+//! to other control. Used register that cell value editor should close.
+//!
+//! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
+//------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 {
 	CDateTimeCtrl::OnKillFocus(pNewWnd);
@@ -142,12 +195,24 @@ void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 		EndEdit(true);
 }
 
+//------------------------------------------------------------------------
+//! WM_NCDESTROY message handler called when CDateTimeCtrl window is about to
+//! be destroyed. Used to delete the inplace CDateTimeCtrl editor object as well.
+//! This is necessary when the CDateTimeCtrl is created dynamically.
+//------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::OnNcDestroy()
 {
 	CDateTimeCtrl::OnNcDestroy();
 	delete this;
 }
 
+//------------------------------------------------------------------------
+//! Hook to proces windows messages before they are dispatched.
+//! Catch keyboard events that can should cause the cell value editor to close
+//!
+//! @param pMsg Points to a MSG structure that contains the message to process
+//! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
+//------------------------------------------------------------------------
 BOOL CGridEditorDateTimeCtrl::PreTranslateMessage(MSG* pMSG)
 {
 	switch(pMSG->message)
