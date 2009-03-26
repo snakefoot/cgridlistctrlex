@@ -5,18 +5,30 @@
 #include "CGridListCtrlEx.h"
 
 //------------------------------------------------------------------------
-// CGridColumnTraitEdit
+//! CGridColumnTraitEdit - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitEdit::CGridColumnTraitEdit()
 	:m_EditStyle(ES_AUTOHSCROLL | ES_NOHIDESEL | WS_BORDER)
 {
 }
 
+//------------------------------------------------------------------------
+//! Accept Visitor Pattern
+//------------------------------------------------------------------------
 void CGridColumnTraitEdit::Accept(CGridColumnTraitVisitor& visitor)
 {
 	visitor.Visit(*this);
 }
 
+//------------------------------------------------------------------------
+//! Create a CEdit as cell value editor
+//!
+//! @param owner The list control starting a cell edit
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param rect The rectangle where the inplace cell value editor should be placed
+//! @return Pointer to the cell editor to use
+//------------------------------------------------------------------------
 CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
 	// Get the text-style of the cell to edit
@@ -46,6 +58,14 @@ CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nC
 	return pEdit;
 }
 
+//------------------------------------------------------------------------
+//! Overrides OnEditBegin() to provide a CEdit cell value editor
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+//------------------------------------------------------------------------
 CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Get position of the cell to edit
@@ -71,12 +91,20 @@ BEGIN_MESSAGE_MAP(CGridEditorText, CEdit)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+//------------------------------------------------------------------------
+//! CGridEditorText - Constructor
+//------------------------------------------------------------------------
 CGridEditorText::CGridEditorText(int nRow, int nCol)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
 {}
 
+//------------------------------------------------------------------------
+//! The cell value editor was closed and the entered should be saved.
+//!
+//! @param bSuccess Should the entered cell value be saved
+//------------------------------------------------------------------------
 void CGridEditorText::EndEdit(bool bSuccess)
 {
 	// Avoid two messages if key-press is followed by kill-focus
@@ -107,18 +135,36 @@ void CGridEditorText::EndEdit(bool bSuccess)
 	PostMessage(WM_CLOSE);
 }
 
+//------------------------------------------------------------------------
+//! WM_KILLFOCUS message handler called when CEdit is loosing focus
+//! to other control. Used register that cell value editor should close.
+//!
+//! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
+//------------------------------------------------------------------------
 void CGridEditorText::OnKillFocus(CWnd *pNewWnd)
 {
 	CEdit::OnKillFocus(pNewWnd);
 	EndEdit(true);
 }
 
+//------------------------------------------------------------------------
+//! WM_NCDESTROY message handler called when CEdit window is about to
+//! be destroyed. Used to delete the inplace CEdit editor object as well.
+//! This is necessary when the CDateTimeCtrl is created dynamically.
+//------------------------------------------------------------------------
 void CGridEditorText::OnNcDestroy()
 {
 	CEdit::OnNcDestroy();
 	delete this;
 }
 
+//------------------------------------------------------------------------
+//! Hook to proces windows messages before they are dispatched.
+//! Catch keyboard events that can should cause the cell value editor to close
+//!
+//! @param pMsg Points to a MSG structure that contains the message to process
+//! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
+//------------------------------------------------------------------------
 BOOL CGridEditorText::PreTranslateMessage(MSG* pMSG)
 {
 	switch(pMSG->message)

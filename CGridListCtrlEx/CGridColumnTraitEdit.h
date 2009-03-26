@@ -24,7 +24,7 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual CEdit* CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
 
-	DWORD m_EditStyle;
+	DWORD m_EditStyle;				//!< Style to use when creating CEdit
 };
 
 //------------------------------------------------------------------------
@@ -41,9 +41,9 @@ protected:
 	afx_msg void OnNcDestroy();
 	virtual	BOOL PreTranslateMessage(MSG* pMSG);
 
-	int m_Row;
-	int m_Col;
-	bool m_Completed;
+	int		m_Row;					//!< The index of the row being edited
+	int		m_Col;					//!< The index of the column being edited
+	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
 
 	DECLARE_MESSAGE_MAP();
 };
