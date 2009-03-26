@@ -9,8 +9,8 @@
 class CGridListCtrlEx;
 
 //------------------------------------------------------------------------
-//! CGridColumnEditor specifies the interface for the column editor,
-//! which the CGridListCtrlEx is compatible with.
+//! CGridColumnEditor specifies the interface for the column editor
+//! that can work together with CGridListCtrlEx
 //------------------------------------------------------------------------
 class CGridColumnEditor
 {
