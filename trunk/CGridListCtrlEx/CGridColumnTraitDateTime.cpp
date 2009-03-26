@@ -213,13 +213,13 @@ void CGridEditorDateTimeCtrl::OnNcDestroy()
 //! @param pMsg Points to a MSG structure that contains the message to process
 //! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
 //------------------------------------------------------------------------
-BOOL CGridEditorDateTimeCtrl::PreTranslateMessage(MSG* pMSG)
+BOOL CGridEditorDateTimeCtrl::PreTranslateMessage(MSG* pMsg)
 {
-	switch(pMSG->message)
+	switch(pMsg->message)
 	{
 		case WM_KEYDOWN:
 		{
-			switch(pMSG->wParam)
+			switch(pMsg->wParam)
 			{
 				case VK_RETURN: EndEdit(true); return TRUE;
 				case VK_TAB: EndEdit(true); return FALSE;
@@ -229,5 +229,5 @@ BOOL CGridEditorDateTimeCtrl::PreTranslateMessage(MSG* pMSG)
 		};
 		case WM_MOUSEWHEEL: EndEdit(true); return FALSE;	// Don't steal event
 	}
-	return CDateTimeCtrl::PreTranslateMessage(pMSG);
+	return CDateTimeCtrl::PreTranslateMessage(pMsg);
 }

@@ -21,11 +21,11 @@ public:
 #if _WIN32_WINNT >= 0x0501
 	CGridListCtrlGroups();
 
-	virtual LRESULT InsertGroupHeader(int nIndex, int nGroupID, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
+	virtual LRESULT InsertGroupHeader(int nIndex, int nGroupId, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
 
-	virtual CString GetGroupHeader(int nGroupID);
+	virtual CString GetGroupHeader(int nGroupId);
 	virtual int GetRowGroupId(int nRow);
-	virtual BOOL SetRowGroupId(int nRow, int nGroupID);
+	virtual BOOL SetRowGroupId(int nRow, int nGroupId);
 	virtual int GroupHitTest(const CPoint& point);
 
 	virtual BOOL GroupByColumn(int nCol);
@@ -36,16 +36,16 @@ public:
 
 	virtual bool SortColumn(int nCol, bool bAscending);
 
-	virtual BOOL HasGroupState(int nGroupID, DWORD dwState);
-	virtual BOOL SetGroupState(int nGroupID, DWORD dwState);
+	virtual BOOL HasGroupState(int nGroupId, DWORD dwState);
+	virtual BOOL SetGroupState(int nGroupId, DWORD dwState);
 
 	virtual void CollapseAllGroups();
 	virtual void ExpandAllGroups();
 
-	virtual BOOL SetGroupFooter(int nGroupID, const CString& strFooter, DWORD dwAlign = 0);
-	virtual BOOL SetGroupTask(int nGroupID, const CString& strTask);
-	virtual BOOL SetGroupSubtitle(int nGroupID, const CString& strSubtitle);
-	virtual BOOL SetGroupTitleImage(int nGroupID, int nImage, const CString& strTopDesc, const CString& strBottomDesc);
+	virtual BOOL SetGroupFooter(int nGroupId, const CString& strFooter, DWORD dwAlign = 0);
+	virtual BOOL SetGroupTask(int nGroupId, const CString& strTask);
+	virtual BOOL SetGroupSubtitle(int nGroupId, const CString& strSubtitle);
+	virtual BOOL SetGroupTitleImage(int nGroupId, int nImage, const CString& strTopDesc, const CString& strBottomDesc);
 
 	// DataModel callbacks
 	virtual bool OnDisplayCellGroup(int nRow, int nCol, int& nGroupId);
@@ -65,7 +65,7 @@ protected:
 	virtual afx_msg void OnPaint();
 	//}}AFX_MSG
 
-	int m_GroupHeight;
+	int m_GroupHeight;	//!< Cache the height of a group, because it is hard to guess (Hack)
 
 	DECLARE_MESSAGE_MAP();
 

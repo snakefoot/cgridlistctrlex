@@ -21,6 +21,16 @@ void CGridColumnTraitEdit::Accept(CGridColumnTraitVisitor& visitor)
 }
 
 //------------------------------------------------------------------------
+//! Set style used when creating CEdit for cell value editing
+//!
+//! @param dwStyle Style flags
+//------------------------------------------------------------------------
+void CGridColumnTraitEdit::SetStyle(DWORD dwStyle)
+{
+	m_EditStyle = dwStyle;
+}
+
+//------------------------------------------------------------------------
 //! Create a CEdit as cell value editor
 //!
 //! @param owner The list control starting a cell edit
@@ -165,13 +175,13 @@ void CGridEditorText::OnNcDestroy()
 //! @param pMsg Points to a MSG structure that contains the message to process
 //! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
 //------------------------------------------------------------------------
-BOOL CGridEditorText::PreTranslateMessage(MSG* pMSG)
+BOOL CGridEditorText::PreTranslateMessage(MSG* pMsg)
 {
-	switch(pMSG->message)
+	switch(pMsg->message)
 	{
 		case WM_KEYDOWN:
 		{
-			switch(pMSG->wParam)
+			switch(pMsg->wParam)
 			{
 				case VK_RETURN: EndEdit(true); return TRUE;
 				case VK_TAB: EndEdit(true); return FALSE;
@@ -181,5 +191,5 @@ BOOL CGridEditorText::PreTranslateMessage(MSG* pMSG)
 		};
 		case WM_MOUSEWHEEL: EndEdit(true); return FALSE;	// Don't steal event
 	}
-	return CEdit::PreTranslateMessage(pMSG);
+	return CEdit::PreTranslateMessage(pMsg);
 }

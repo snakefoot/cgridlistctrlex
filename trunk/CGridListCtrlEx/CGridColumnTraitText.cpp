@@ -40,7 +40,7 @@ bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
 //------------------------------------------------------------------------
 //! Changes the background color if one is specified
 //!
-//! @param textColor Current background color
+//! @param backColor Current background color
 //! @return New background color was specified (true / false)
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)

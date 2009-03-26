@@ -75,7 +75,7 @@ bool CGridRowTraitText::UpdateTextColor(int nRow, COLORREF& textColor)
 //! Changes the background color if one is specified
 //!
 //! @param nRow The index of the row
-//! @param textColor Current background color
+//! @param backColor Current background color
 //! @return New background color was specified (true / false)
 //------------------------------------------------------------------------
 bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
