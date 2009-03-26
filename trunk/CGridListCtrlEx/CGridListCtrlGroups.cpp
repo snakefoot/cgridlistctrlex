@@ -911,7 +911,7 @@ bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& nGroupId)
 }
 
 //------------------------------------------------------------------------
-//! Handles the LVN_GETDISPINFO message, which is sent when details are
+//! LVN_GETDISPINFO message handler, which is called when details are
 //! needed for an item that specifies callback.
 //!		- Cell-Group, when item is using I_GROUPIDCALLBACK
 //!
