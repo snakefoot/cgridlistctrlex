@@ -85,7 +85,7 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 //------------------------------------------------------------------------
 //! Create a CComboBox as cell value editor
 //!
-//! @param owner The list control starting edit
+//! @param owner The list control starting a cell edit
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @param rect The rectangle where the inplace cell value editor should be placed
@@ -228,7 +228,7 @@ BEGIN_MESSAGE_MAP(CGridEditorComboBoxEdit, CEdit)
 END_MESSAGE_MAP()
 
 //------------------------------------------------------------------------
-//! Fills the combobox with the items of the fixed item-list
+//! Hook to proces windows messages before they are dispatched
 //! Stoopid win95 accelerator key problem workaround - Matt Weagle.
 //!
 //! @param pMsg Points to a MSG structure that contains the message to process
