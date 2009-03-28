@@ -116,7 +116,7 @@ protected:
 	class CGridColumnConfigLocal : public CGridColumnConfig
 	{
 	protected:
-		CSimpleMap<CString,CString> m_LocalSettings;	//! Default configuration
+		CSimpleMap<CString,CString> m_LocalSettings;	//!< Default configuration
 
 		// Persistence of settings
 		virtual CString ReadSetting(const CString& strSection, const CString& strName, const CString& strDefval) const;
