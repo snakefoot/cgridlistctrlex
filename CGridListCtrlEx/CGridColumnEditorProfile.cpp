@@ -367,7 +367,7 @@ void CGridColumnConfig::RemoveCurrentConfig()
 //! Retrieves a bool setting value for the view
 //!
 //! @param strName Name of setting
-//! @param bDefVal Default value to return if no value was found
+//! @param bDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 bool CGridColumnConfig::GetBoolSetting(const CString& strName, bool bDefval) const
@@ -408,7 +408,7 @@ void CGridColumnConfig::SetBoolSetting(const CString& strName, bool bValue)
 //! Retrieves an integer setting value for the view
 //!
 //! @param strName Name of setting
-//! @param nDefVal Default value to return if no value was found
+//! @param nDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 int CGridColumnConfig::GetIntSetting(const CString& strName, int nDefval) const
@@ -445,7 +445,7 @@ void CGridColumnConfig::SetIntSetting(const CString& strName, int nValue)
 //! Retrieves a float setting value for the view
 //!
 //! @param strName Name of setting
-//! @param nDefVal Default value to return if no value was found
+//! @param nDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 double CGridColumnConfig::GetFloatSetting(const CString& strName, double nDefval) const
@@ -650,7 +650,7 @@ LOGFONT CGridColumnConfig::GetLogFontSetting(const CString& strName) const
 //------------------------------------------------------------------------
 //! Converts a font setting value into a delimited string
 //!
-//! @param rect The setting value
+//! @param font The setting value
 //! @return The delimited string
 //------------------------------------------------------------------------
 CString CGridColumnConfig::ConvertLogFontSetting(const LOGFONT& font) const
