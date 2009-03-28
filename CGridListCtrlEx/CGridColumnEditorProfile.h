@@ -14,6 +14,10 @@ class CGridColumnConfig;
 //------------------------------------------------------------------------
 //! Implementation of the CGridColumnEditor interface, that supports
 //! persistance of the column state.
+//!
+//! - Persistence of column order and width for the visible columns.
+//! - Can reset the column configuration back to its default state.
+//! - Can switch between multiple column configuration profiles.
 //------------------------------------------------------------------------
 class CGridColumnEditorProfile : public CGridColumnEditor
 {

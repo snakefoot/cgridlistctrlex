@@ -11,6 +11,24 @@ class CGridColumnTrait;
 class CGridRowTrait;
 
 //------------------------------------------------------------------------
+//! \mainpage Introduction
+//! CGridListCtrlEx extends the CListCtrl from MFC. CGridListCtrlGroups
+//! extends CGridListCtrlEx even further to support categorization of rows in groups.
+//!
+//! CGridListCtrlEx makes use of different helper classes makes it easy
+//! to customize and extend it even further.
+//! 
+//! - CGridColumnTrait provides special behavior to the cells in a column
+//!		- CGridColumnTraitEdit Implements cell editing using CEdit
+//!		- CGridColumnTraitCombo Implements cell editing using CComboBox
+//!		- CGridColumnTraitDateTime Implements cell editing using CDateTimeCtrl
+//! - CGridRowTrait provides special behavior to rows
+//!		- CGridRowTraitXP Implements several improvement to the row drawing on WinXP
+//! - CGridColumnEditor provides column state persistence
+//!		- CGridColumnEditorProfile Implements persistence of column width and order of the visible columns
+//------------------------------------------------------------------------
+
+//------------------------------------------------------------------------
 //! CGridListCtrlEx extends the CListCtrl with several features.
 //!	- Sortable
 //!	- Simple column picker
