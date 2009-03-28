@@ -7,14 +7,14 @@
 //------------------------------------------------------------------------
 //! CGridColumnConfig
 //------------------------------------------------------------------------
-CString CGridColumnConfig::GetSetting(const CString& name, const CString& defval) const
+CString CGridColumnConfig::GetSetting(const CString& strName, const CString& strDefval) const
 {
-	return ReadSetting(GetSectionName(), name, defval);
+	return ReadSetting(GetSectionName(), strName, strDefval);
 }
 
-void CGridColumnConfig::SetSetting(const CString& name, const CString& value)
+void CGridColumnConfig::SetSetting(const CString& strName, const CString& strValue)
 {
-	WriteSetting(GetSectionName(), name, value);
+	WriteSetting(GetSectionName(), strName, strValue);
 }
 
 const CString& CGridColumnConfig::GetSectionName() const
@@ -27,76 +27,76 @@ void CGridColumnConfig::RemoveCurrentConfig()
 	RemoveSection(GetSectionName());
 }
 
-bool CGridColumnConfig::GetBoolSetting(const CString& name, bool defval) const
+bool CGridColumnConfig::GetBoolSetting(const CString& strName, bool bDefval) const
 {
-	const CString& value = GetSetting(name, ConvertBoolSetting(defval));
-	if (value==_T("TRUE"))
+	const CString& strValue = GetSetting(strName, ConvertBoolSetting(bDefval));
+	if (strValue==_T("TRUE"))
 		return true;
 	else
-	if (value==_T("FALSE"))
+	if (strValue==_T("FALSE"))
 		return false;
 	else
-		return defval;
+		return bDefval;
 }
 
-CString CGridColumnConfig::ConvertBoolSetting(bool value) const
+CString CGridColumnConfig::ConvertBoolSetting(bool bValue) const
 {
-	return value ? _T("TRUE") : _T("FALSE");
+	return bValue ? _T("TRUE") : _T("FALSE");
 }
 
-void CGridColumnConfig::SetBoolSetting(const CString& name, bool value)
+void CGridColumnConfig::SetBoolSetting(const CString& strName, bool bValue)
 {
-	SetSetting(name, ConvertBoolSetting(value));
+	SetSetting(strName, ConvertBoolSetting(bValue));
 }
 
-int CGridColumnConfig::GetIntSetting(const CString& name, int defval) const
+int CGridColumnConfig::GetIntSetting(const CString& strName, int nDefval) const
 {
-	const CString& value = GetSetting(name, ConvertIntSetting(defval));
+	const CString& value = GetSetting(strName, ConvertIntSetting(nDefval));
 	return _ttoi(value);
 }
 
-CString CGridColumnConfig::ConvertIntSetting(int value) const
+CString CGridColumnConfig::ConvertIntSetting(int nValue) const
 {
 	CString strValue;
-	strValue.Format(_T("%d"), value);
+	strValue.Format(_T("%d"), nValue);
 	return strValue;
 }
 
-void CGridColumnConfig::SetIntSetting(const CString& name, int value)
+void CGridColumnConfig::SetIntSetting(const CString& strName, int nValue)
 {
-	SetSetting(name, ConvertIntSetting(value));
+	SetSetting(strName, ConvertIntSetting(nValue));
 }
 
-double CGridColumnConfig::GetFloatSetting(const CString& name, double defval) const
+double CGridColumnConfig::GetFloatSetting(const CString& strName, double nDefval) const
 {
-	const CString& value = GetSetting(name, ConvertFloatSetting(defval));
+	const CString& value = GetSetting(strName, ConvertFloatSetting(nDefval));
 	return _tstof(value);
 }
 
-CString CGridColumnConfig::ConvertFloatSetting(double value, int decimals) const
+CString CGridColumnConfig::ConvertFloatSetting(double nValue, int nDecimals) const
 {
-	CString dblFormat;
-	dblFormat.Format(_T("%%.%df"), decimals);
+	CString strFormat;
+	strFormat.Format(_T("%%.%df"), nDecimals);
 
 	CString strValue;	
-	strValue.Format(dblFormat, value);
+	strValue.Format(strFormat, nValue);
 	return strValue;
 }
 
-void CGridColumnConfig::SetFloatSetting(const CString& name, double value, int decimals)
+void CGridColumnConfig::SetFloatSetting(const CString& strName, double nValue, int nDecimals)
 {
-	SetSetting(name, ConvertFloatSetting(value, decimals));
+	SetSetting(strName, ConvertFloatSetting(nValue, nDecimals));
 }
 
-void CGridColumnConfig::SplitArraySetting(const CString& strArray, CSimpleArray<CString>& values, const CString& delimiter) const
+void CGridColumnConfig::SplitArraySetting(const CString& strArray, CSimpleArray<CString>& values, const CString& strDelimiter) const
 {
-	// Perform tokenize using delimiter
+	// Perform tokenize using strDelimiter
 	int cur_pos = 0;
 	int prev_pos = 0;
 	int length = strArray.GetLength();
 	while(cur_pos < length)
 	{
-		cur_pos = strArray.Find(delimiter, prev_pos);
+		cur_pos = strArray.Find(strDelimiter, prev_pos);
 		if (cur_pos==-1)
 		{
 			CString value = strArray.Mid(prev_pos, length - prev_pos);
@@ -107,41 +107,41 @@ void CGridColumnConfig::SplitArraySetting(const CString& strArray, CSimpleArray<
 		{
 			CString value = strArray.Mid(prev_pos, cur_pos - prev_pos);
 			values.Add(value);
-			prev_pos = cur_pos + delimiter.GetLength();
+			prev_pos = cur_pos + strDelimiter.GetLength();
 		}
 	}
 }
 
-void CGridColumnConfig::GetArraySetting(const CString& name, CSimpleArray<CString>& values, const CString& delimiter) const
+void CGridColumnConfig::GetArraySetting(const CString& strName, CSimpleArray<CString>& values, const CString& strDelimiter) const
 {
-	const CString& strArray = GetSetting(name, _T(""));
+	const CString& strArray = GetSetting(strName, _T(""));
 	if (strArray.IsEmpty())
 		return;
 
-	SplitArraySetting(strArray, values, delimiter);
+	SplitArraySetting(strArray, values, strDelimiter);
 }
 
-CString CGridColumnConfig::ConvertArraySetting(const CSimpleArray<CString>& values, const CString& delimiter) const
+CString CGridColumnConfig::ConvertArraySetting(const CSimpleArray<CString>& values, const CString& strDelimiter) const
 {
 	CString strValue;
 	for(int i = 0; i < values.GetSize() ; ++i)
 	{
 		if (!strValue.IsEmpty())
-			strValue += delimiter;
+			strValue += strDelimiter;
 		strValue += values[i];
 	}
 	return strValue;
 }
 
-void CGridColumnConfig::SetArraySetting(const CString& name, const CSimpleArray<CString>& values, const CString& delimiter)
+void CGridColumnConfig::SetArraySetting(const CString& strName, const CSimpleArray<CString>& values, const CString& strDelimiter)
 {
-	SetSetting(name, ConvertArraySetting(values, delimiter));
+	SetSetting(strName, ConvertArraySetting(values, strDelimiter));
 }
 
-void CGridColumnConfig::GetArraySetting(const CString& name, CSimpleArray<int>& values, const CString& delimiter) const
+void CGridColumnConfig::GetArraySetting(const CString& strName, CSimpleArray<int>& values, const CString& strDelimiter) const
 {
 	CSimpleArray<CString> strArray;
-	GetArraySetting(name, strArray, delimiter);
+	GetArraySetting(strName, strArray, strDelimiter);
 	for(int i = 0 ; i < strArray.GetSize(); ++i)
 	{
 		int value = _ttoi(strArray[i]);
@@ -149,31 +149,31 @@ void CGridColumnConfig::GetArraySetting(const CString& name, CSimpleArray<int>& 
 	}
 }
 
-CString CGridColumnConfig::ConvertArraySetting(const CSimpleArray<int>& values, const CString& delimiter) const
+CString CGridColumnConfig::ConvertArraySetting(const CSimpleArray<int>& values, const CString& strDelimiter) const
 {
 	CString strValue;
 	CString strArray;
 	for(int i = 0; i < values.GetSize(); ++i)
 	{
 		if (!strArray.IsEmpty())
-			strArray += delimiter;
+			strArray += strDelimiter;
 		strValue.Format( _T("%d"), values[i]);
 		strArray += strValue;
 	}
 	return strArray;
 }
 
-void CGridColumnConfig::SetArraySetting(const CString& name, const CSimpleArray<int>& values, const CString& delimiter)
+void CGridColumnConfig::SetArraySetting(const CString& strName, const CSimpleArray<int>& values, const CString& strDelimiter)
 {
-	SetSetting(name, ConvertArraySetting(values, delimiter));
+	SetSetting(strName, ConvertArraySetting(values, strDelimiter));
 }
 
-LOGFONT CGridColumnConfig::GetLogFontSetting(const CString& name) const
+LOGFONT CGridColumnConfig::GetLogFontSetting(const CString& strName) const
 {
 	LOGFONT font = {0};
 
 	CSimpleArray<CString> strArray;
-	GetArraySetting(name, strArray);
+	GetArraySetting(strName, strArray);
 	if (strArray.GetSize() != 13)
 		return font;
 
@@ -201,47 +201,47 @@ CString CGridColumnConfig::ConvertLogFontSetting(const LOGFONT& font) const
 {
 	CSimpleArray<CString> strArray;
 
-	CString value(font.lfFaceName, sizeof(font.lfFaceName)/sizeof(TCHAR));
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfHeight);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfWidth);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfEscapement);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfOrientation);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfWeight);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfItalic);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfUnderline);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfStrikeOut);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfCharSet);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfOutPrecision);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfQuality);
-	strArray.Add(value);
-	value.Format(_T("%d"), font.lfPitchAndFamily);
-	strArray.Add(value);
+	CString strValue(font.lfFaceName, sizeof(font.lfFaceName)/sizeof(TCHAR));
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfHeight);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfWidth);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfEscapement);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfOrientation);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfWeight);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfItalic);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfUnderline);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfStrikeOut);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfCharSet);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfOutPrecision);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfQuality);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), font.lfPitchAndFamily);
+	strArray.Add(strValue);
 
 	return ConvertArraySetting(strArray);
 }
 
-void CGridColumnConfig::SetLogFontSetting(const CString& name, const LOGFONT& font)
+void CGridColumnConfig::SetLogFontSetting(const CString& strName, const LOGFONT& font)
 {
-	SetSetting(name, ConvertLogFontSetting(font));
+	SetSetting(strName, ConvertLogFontSetting(font));
 }
 
-CRect CGridColumnConfig::GetRectSetting(const CString& name, const CRect& defval) const
+CRect CGridColumnConfig::GetRectSetting(const CString& strName, const CRect& rectDefval) const
 {
 	CSimpleArray<CString> strArray;
-	GetArraySetting(name, strArray);
+	GetArraySetting(strName, strArray);
 	if (strArray.GetSize() != 4)
-		return defval;
+		return rectDefval;
 
 	CRect rect(0,0,0,0);
     rect.left = _ttoi(strArray[0]);
@@ -254,30 +254,30 @@ CRect CGridColumnConfig::GetRectSetting(const CString& name, const CRect& defval
 CString CGridColumnConfig::ConvertRectSetting(const RECT& rect) const
 {
 	CSimpleArray<CString> strArray;
-	CString value;
-	value.Format(_T("%d"), rect.left);
-	strArray.Add(value);
-	value.Format(_T("%d"), rect.top);
-	strArray.Add(value);
-	value.Format(_T("%d"), rect.right);
-	strArray.Add(value);
-	value.Format(_T("%d"), rect.bottom);
-	strArray.Add(value);
+	CString strValue;
+	strValue.Format(_T("%d"), rect.left);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), rect.top);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), rect.right);
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), rect.bottom);
+	strArray.Add(strValue);
 
 	return ConvertArraySetting(strArray);
 }
 
-void CGridColumnConfig::SetRectSetting(const CString& name, const RECT& rect)
+void CGridColumnConfig::SetRectSetting(const CString& strName, const RECT& rect)
 {
-	SetSetting(name, ConvertRectSetting(rect));
+	SetSetting(strName, ConvertRectSetting(rect));
 }
 
-COLORREF CGridColumnConfig::GetColorSetting(const CString& name, const COLORREF defval) const
+COLORREF CGridColumnConfig::GetColorSetting(const CString& strName, const COLORREF colorDefval) const
 {
 	CSimpleArray<CString> strArray;
-	GetArraySetting(name, strArray);
+	GetArraySetting(strName, strArray);
 	if (strArray.GetSize() != 3)
-		return defval;
+		return colorDefval;
 
 	int r = _ttoi(strArray[0]);
 	int g = _ttoi(strArray[1]);
@@ -289,27 +289,27 @@ COLORREF CGridColumnConfig::GetColorSetting(const CString& name, const COLORREF 
 CString CGridColumnConfig::ConvertColorSetting(COLORREF color) const
 {
 	CSimpleArray<CString> strArray;
-	CString value;
-	value.Format(_T("%d"), GetRValue(color));
-	strArray.Add(value);
-	value.Format(_T("%d"), GetGValue(color));
-	strArray.Add(value);
-	value.Format(_T("%d"), GetBValue(color));
-	strArray.Add(value);
+	CString strValue;
+	strValue.Format(_T("%d"), GetRValue(color));
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), GetGValue(color));
+	strArray.Add(strValue);
+	strValue.Format(_T("%d"), GetBValue(color));
+	strArray.Add(strValue);
 
 	return ConvertArraySetting(strArray);
 }
 
-void CGridColumnConfig::SetColorSetting(const CString& name, COLORREF color)
+void CGridColumnConfig::SetColorSetting(const CString& strName, COLORREF color)
 {
-	SetSetting(name, ConvertColorSetting(color));
+	SetSetting(strName, ConvertColorSetting(color));
 }
 
 //------------------------------------------------------------------------
 //! CGridColumnConfigDefault
 //------------------------------------------------------------------------
-CGridColumnConfigDefault::CGridColumnConfigLocal::CGridColumnConfigLocal(const CString& viewname)
-:CGridColumnConfig(viewname)
+CGridColumnConfigDefault::CGridColumnConfigLocal::CGridColumnConfigLocal(const CString& strViewName)
+:CGridColumnConfig(strViewName)
 {}
 
 CGridColumnConfigDefault::CGridColumnConfigLocal::CGridColumnConfigLocal(const CGridColumnConfigDefault::CGridColumnConfigLocal& other)
@@ -331,21 +331,21 @@ CGridColumnConfigDefault::CGridColumnConfigLocal& CGridColumnConfigDefault::CGri
 	return *this;
 }
 
-CString CGridColumnConfigDefault::CGridColumnConfigLocal::ReadSetting(const CString& section, const CString& setting, const CString& defval) const
+CString CGridColumnConfigDefault::CGridColumnConfigLocal::ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const
 {
 	for(int i = 0; i < m_LocalSettings.GetSize(); ++i)
-		if (m_LocalSettings.GetKeyAt(i)==setting)
+		if (m_LocalSettings.GetKeyAt(i)==strSetting)
 			return m_LocalSettings.GetValueAt(i);
 
-	return defval;
+	return strDefval;
 }
 
-void CGridColumnConfigDefault::CGridColumnConfigLocal::WriteSetting(const CString& section, const CString& setting, const CString& value)
+void CGridColumnConfigDefault::CGridColumnConfigLocal::WriteSetting(const CString& strSection, const CString& strSetting, const CString& strValue)
 {
-	m_LocalSettings.Add(setting, value);
+	m_LocalSettings.Add(strSetting, strValue);
 }
 
-void CGridColumnConfigDefault::CGridColumnConfigLocal::RemoveSection(const CString& section)
+void CGridColumnConfigDefault::CGridColumnConfigLocal::RemoveSection(const CString& strSection)
 {
 	m_LocalSettings.RemoveAll();
 }
@@ -361,60 +361,60 @@ void CGridColumnConfigDefault::CGridColumnConfigLocal::CopySettings(CGridColumnC
 		destination.SetSetting(m_LocalSettings.GetKeyAt(i), m_LocalSettings.GetValueAt(i));
 }
 
-CGridColumnConfigDefault::CGridColumnConfigDefault(const CString& viewname)
-:CGridColumnConfig(viewname)
-,m_DefaultSettings(viewname)
+CGridColumnConfigDefault::CGridColumnConfigDefault(const CString& strViewName)
+:CGridColumnConfig(strViewName)
+,m_DefaultSettings(strViewName)
 {}
 
-CString CGridColumnConfigDefault::GetSetting(const CString& name, const CString& defval) const
+CString CGridColumnConfigDefault::GetSetting(const CString& strName, const CString& strDefval) const
 {
-	return CGridColumnConfig::GetSetting(name, m_DefaultSettings.GetSetting(name, defval));
+	return CGridColumnConfig::GetSetting(strName, m_DefaultSettings.GetSetting(strName, strDefval));
 }
 
 //------------------------------------------------------------------------
 //! CGridColumnConfigProfiles
 //------------------------------------------------------------------------
-CGridColumnConfigProfiles::CGridColumnConfigProfiles(const CString& viewname)
-:CGridColumnConfigDefault(viewname)
+CGridColumnConfigProfiles::CGridColumnConfigProfiles(const CString& strViewName)
+:CGridColumnConfigDefault(strViewName)
 {
-	m_CurrentSection = viewname;
+	m_CurrentSection = strViewName;
 }
 
-void CGridColumnConfigProfiles::SplitSectionName(const CString& section, CString& view, CString& profile)
+void CGridColumnConfigProfiles::SplitSectionName(const CString& strSection, CString& strViewName, CString& strProfile)
 {
-	int pos_profile = section.Find(_T("__"));
+	int pos_profile = strSection.Find(_T("__"));
 	if (pos_profile > 0)
 	{
-		view = section.Mid(0, pos_profile);
-		profile = section.Mid(pos_profile+2);
+		strViewName = strSection.Mid(0, pos_profile);
+		strProfile = strSection.Mid(pos_profile+2);
 	}
 	else
 	{
-		view = section;
+		strViewName = strSection;
 	}
 }
 
-CString CGridColumnConfigProfiles::JoinSectionName(const CString& view, const CString& profile) const
+CString CGridColumnConfigProfiles::JoinSectionName(const CString& strViewName, const CString& strProfile) const
 {
-	if (profile.IsEmpty())
-		return view;
+	if (strProfile.IsEmpty())
+		return strViewName;
 	else
-		return view  + _T("__") + profile;
+		return strViewName  + _T("__") + strProfile;
 }
 
 const CString& CGridColumnConfigProfiles::GetSectionName() const
 {
 	if (m_CurrentSection==m_ViewName)
 	{
-		CString profile = ReadSetting(m_ViewName, _T("ActiveProfile"), _T(""));
-		if (profile.IsEmpty())
+		CString strProfile = ReadSetting(m_ViewName, _T("ActiveProfile"), _T(""));
+		if (strProfile.IsEmpty())
 		{
 			CSimpleArray<CString> profiles;
 			GetProfiles(profiles);
 			if (profiles.GetSize()>0)
-				profile = profiles[0];
+				strProfile = profiles[0];
 		}
-		m_CurrentSection = JoinSectionName(m_ViewName, profile);
+		m_CurrentSection = JoinSectionName(m_ViewName, strProfile);
 	}
 	return m_CurrentSection;
 }
@@ -427,50 +427,50 @@ void CGridColumnConfigProfiles::GetProfiles(CSimpleArray<CString>& profiles) con
 
 CString CGridColumnConfigProfiles::GetActiveProfile()
 {
-	CString view, profile;
-	SplitSectionName(m_CurrentSection, view, profile);
-	return profile;
+	CString strViewName, strProfile;
+	SplitSectionName(m_CurrentSection, strViewName, strProfile);
+	return strProfile;
 }
 
-void CGridColumnConfigProfiles::SetActiveProfile(const CString& profile)
+void CGridColumnConfigProfiles::SetActiveProfile(const CString& strProfile)
 {
-	// Make the new profile the active ones
-	WriteSetting(m_ViewName, _T("ActiveProfile"), profile);
-	m_CurrentSection = JoinSectionName(m_ViewName,profile);
-	if (profile.IsEmpty())
+	// Make the new strProfile the active ones
+	WriteSetting(m_ViewName, _T("ActiveProfile"), strProfile);
+	m_CurrentSection = JoinSectionName(m_ViewName,strProfile);
+	if (strProfile.IsEmpty())
 		return;
 
-	AddProfile(profile);
+	AddProfile(strProfile);
 }
 
-void CGridColumnConfigProfiles::AddProfile(const CString& profile)
+void CGridColumnConfigProfiles::AddProfile(const CString& strProfile)
 {
-	// Add the profile to the list if not already there
+	// Add the strProfile to the list if not already there
 	CSimpleArray<CString> profiles;
 	GetProfiles(profiles);
 	for(int i=0; i < profiles.GetSize(); ++i)
-		if (profiles[i]==profile)
+		if (profiles[i]==strProfile)
 			return;
 
-	CString noconst(profile);
+	CString noconst(strProfile);
 	profiles.Add(noconst);
 
 	WriteSetting(m_ViewName, _T("CurrentProfiles"), ConvertArraySetting(profiles, _T(", ")));
 }
 
-void CGridColumnConfigProfiles::DeleteProfile(const CString& profile)
+void CGridColumnConfigProfiles::DeleteProfile(const CString& strProfile)
 {
-	if (profile.IsEmpty())
+	if (strProfile.IsEmpty())
 		return;
 
 	// Remove any settings
-	RemoveSection(JoinSectionName(m_ViewName,profile));
+	RemoveSection(JoinSectionName(m_ViewName,strProfile));
 
-	// Remove the profile from the list
+	// Remove the strProfile from the list
 	CSimpleArray<CString> profiles;
 	GetProfiles(profiles);
 	for(int i=0; i < profiles.GetSize(); ++i)
-		if (profiles[i]==profile)
+		if (profiles[i]==strProfile)
 			profiles.RemoveAt(i);
 	WriteSetting(m_ViewName, _T("CurrentProfiles"), ConvertArraySetting(profiles, _T(", ")));
 }
@@ -479,7 +479,7 @@ void CGridColumnConfigProfiles::RemoveCurrentConfig()
 {
 	if (GetSectionName()==m_ViewName)
 	{
-		// Backup profile-settings and reset the other settings
+		// Backup strProfile-settings and reset the other settings
 		const CString& strProfiles = ReadSetting(m_ViewName, _T("CurrentProfiles"), _T(""));
 		const CString& activeProfile = ReadSetting(m_ViewName, _T("ActiveProfile"), _T(""));
 		CGridColumnConfigDefault::RemoveCurrentConfig();
@@ -493,31 +493,31 @@ void CGridColumnConfigProfiles::RemoveCurrentConfig()
 }
 
 
-CGridColumnConfigWinApp::CGridColumnConfigWinApp(const CString& viewname)
-	:CGridColumnConfigProfiles(viewname)
+CGridColumnConfigWinApp::CGridColumnConfigWinApp(const CString& strViewName)
+	:CGridColumnConfigProfiles(strViewName)
 {
 }
 
-CString CGridColumnConfigWinApp::ReadSetting(const CString& section, const CString& setting, const CString& defval) const
+CString CGridColumnConfigWinApp::ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const
 {
-	return AfxGetApp()->GetProfileString(section, setting, defval);
+	return AfxGetApp()->GetProfileString(strSection, strSetting, strDefval);
 }
 
-void CGridColumnConfigWinApp::WriteSetting(const CString& section, const CString& setting, const CString& value)
+void CGridColumnConfigWinApp::WriteSetting(const CString& strSection, const CString& strSetting, const CString& strValue)
 {
-	AfxGetApp()->WriteProfileString(section, setting, value);
+	AfxGetApp()->WriteProfileString(strSection, strSetting, strValue);
 }
 
-void CGridColumnConfigWinApp::RemoveSection(const CString& section)
+void CGridColumnConfigWinApp::RemoveSection(const CString& strSection)
 {
 	// Section is deleted when providing NULL as entry
-	AfxGetApp()->WriteProfileString(section, NULL, NULL);
+	AfxGetApp()->WriteProfileString(strSection, NULL, NULL);
 }
 
-CGridColumnEditorProfile::CGridColumnEditorProfile(const CString& viewname)
+CGridColumnEditorProfile::CGridColumnEditorProfile(const CString& strViewName)
 {
 	m_ApplyingConfiguration = false;
-	m_pColumnConfig = new CGridColumnConfigWinApp(viewname);
+	m_pColumnConfig = new CGridColumnConfigWinApp(strViewName);
 }
 
 CGridColumnEditorProfile::CGridColumnEditorProfile(CGridColumnConfigProfiles* pColumnConfig)
@@ -661,9 +661,9 @@ void CGridColumnEditorProfile::LoadColumnConfiguration(int nConfigCol, int nOwne
 	}
 }
 
-bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString& title)
+bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString& strTitle)
 {
-	title = _T("Reset columns");
+	strTitle = _T("Reset columns");
 	return m_pColumnConfig->HasDefaultSettings();
 }
 
@@ -673,27 +673,27 @@ void CGridColumnEditorProfile::ResetColumnsDefault(CGridListCtrlEx& owner)
 	LoadConfiguration(owner, *m_pColumnConfig);
 }
 
-void CGridColumnEditorProfile::AddColumnProfile(const CString& profile)
+void CGridColumnEditorProfile::AddColumnProfile(const CString& strProfile)
 {
-	m_pColumnConfig->AddProfile(profile);
+	m_pColumnConfig->AddProfile(strProfile);
 }
 
-void CGridColumnEditorProfile::DeleteColumnProfile(const CString& profile)
+void CGridColumnEditorProfile::DeleteColumnProfile(const CString& strProfile)
 {
-	m_pColumnConfig->DeleteProfile(profile);
+	m_pColumnConfig->DeleteProfile(strProfile);
 }
 
-CString CGridColumnEditorProfile::HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& title)
+CString CGridColumnEditorProfile::HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& strTitle)
 {
-	title = _T("Column Profiles");
+	strTitle = _T("Column Profiles");
 	m_pColumnConfig->GetProfiles(profiles);
 	return m_pColumnConfig->GetActiveProfile();
 }
 
-void CGridColumnEditorProfile::SwichColumnProfile(CGridListCtrlEx& owner, const CString& profile)
+void CGridColumnEditorProfile::SwichColumnProfile(CGridListCtrlEx& owner, const CString& strProfile)
 {
 	SaveConfiguration(owner, *m_pColumnConfig);
-	m_pColumnConfig->SetActiveProfile(profile);
+	m_pColumnConfig->SetActiveProfile(strProfile);
 	LoadConfiguration(owner, *m_pColumnConfig);
 }
 
