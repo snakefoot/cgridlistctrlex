@@ -52,11 +52,13 @@ public:
 class CGridColumnConfig
 {
 protected:
-	CString m_ViewName;
+	CString m_ViewName;		//!< Configuration name used when persisting the state (Translates into a section name)
 
-	// Persistence of settings
+	//! Pure virtual interface for reading setting from persisting layer
 	virtual CString ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const = 0;
+	//! Pure virtual interface for writing setting to persisting layer
 	virtual void WriteSetting(const CString& strSection, const CString& strSetting, const CString& strValue) = 0;
+	//! Pure virtual interface for removing setting section from persisting layer
 	virtual void RemoveSection(const CString& strSection) = 0;
 
 	// Converters
@@ -73,8 +75,8 @@ protected:
 	virtual const CString& GetSectionName() const;
 
 public:
-	explicit CGridColumnConfig(const CString& strViewName) : m_ViewName(strViewName) {}
-	virtual ~CGridColumnConfig() {}
+	explicit CGridColumnConfig(const CString& strViewName);
+	virtual ~CGridColumnConfig();
 
 	// Getters
 	virtual CString GetSetting(const CString& strName, const CString& strDefval = _T("")) const;
@@ -110,10 +112,11 @@ public:
 class CGridColumnConfigDefault : public CGridColumnConfig
 {
 protected:
+	//! Inner class that stores the default configuration in memory
 	class CGridColumnConfigLocal : public CGridColumnConfig
 	{
 	protected:
-		CSimpleMap<CString,CString> m_LocalSettings;
+		CSimpleMap<CString,CString> m_LocalSettings;	//! Default configuration
 
 		// Persistence of settings
 		virtual CString ReadSetting(const CString& strSection, const CString& strName, const CString& strDefval) const;
@@ -133,9 +136,9 @@ protected:
 public:
 	explicit CGridColumnConfigDefault(const CString& strViewName);
 
-	virtual CGridColumnConfig& GetDefaultConfig() { return m_DefaultSettings; }
-	virtual bool HasDefaultSettings() const { return m_DefaultSettings.HasDefaultSettings(); }
-	virtual void ResetSettingsDefault() { RemoveSection(GetSectionName()); m_DefaultSettings.CopySettings(*this); }
+	virtual CGridColumnConfig& GetDefaultConfig();
+	virtual bool HasDefaultSettings() const;
+	virtual void ResetSettingsDefault();
 
 	virtual CString GetSetting(const CString& strName, const CString& strDefval = _T("")) const;
 };
@@ -147,7 +150,7 @@ public:
 class CGridColumnConfigProfiles : public CGridColumnConfigDefault
 {
 protected:
-	mutable CString m_CurrentSection;
+	mutable CString m_CurrentSection;	//! Section name combined from the viewname and the current profile name
 	virtual const CString& GetSectionName() const;
 
 	virtual void SplitSectionName(const CString& strSection, CString& strViewName, CString& strProfile);
