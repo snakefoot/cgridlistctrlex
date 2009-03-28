@@ -31,23 +31,174 @@ Inherits <a class="el" href="class_c_grid_column_config_profiles.html">CGridColu
 <a href="class_c_grid_column_config_win_app-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="357e9dfd094977aaf42ab66711e95ba6"></a><!-- doxytag: member="CGridColumnConfigWinApp::CGridColumnConfigWinApp" ref="357e9dfd094977aaf42ab66711e95ba6" args="(const CString &amp;viewname)" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><b>CGridColumnConfigWinApp</b> (const CString &amp;viewname)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_win_app.html#a51c660392ea9b317167bf450ea02ac3">CGridColumnConfigWinApp</a> (const CString &amp;strViewName)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config_win_app.html" title="Can persist the column configuration using CWinApp::WriteProfile().">CGridColumnConfigWinApp</a> - Constructor.  <a href="#a51c660392ea9b317167bf450ea02ac3"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="201bc41d39fcb8daca3acbac47558ad8"></a><!-- doxytag: member="CGridColumnConfigWinApp::ReadSetting" ref="201bc41d39fcb8daca3acbac47558ad8" args="(const CString &amp;section, const CString &amp;setting, const CString &amp;defval) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ReadSetting</b> (const CString &amp;section, const CString &amp;setting, const CString &amp;defval) const </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_win_app.html#98df77e8c936266ff5176d9dc518b7a1">ReadSetting</a> (const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strDefval) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5c0d982563b759bb4cb95919d63ffbd2"></a><!-- doxytag: member="CGridColumnConfigWinApp::WriteSetting" ref="5c0d982563b759bb4cb95919d63ffbd2" args="(const CString &amp;section, const CString &amp;setting, const CString &amp;value)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>WriteSetting</b> (const CString &amp;section, const CString &amp;setting, const CString &amp;value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implements an interface for reading the setting value CWinApp profile.  <a href="#98df77e8c936266ff5176d9dc518b7a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_win_app.html#780cc3431edad05f8b79329fc9dae2e6">WriteSetting</a> (const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strValue)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0c7894405be0976931cc9e06cc5783c9"></a><!-- doxytag: member="CGridColumnConfigWinApp::RemoveSection" ref="0c7894405be0976931cc9e06cc5783c9" args="(const CString &amp;section)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveSection</b> (const CString &amp;section)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implements an interface for writing the setting value to CWinApp profile.  <a href="#780cc3431edad05f8b79329fc9dae2e6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_win_app.html#5fd92a75d4d671e3dc5ec37e3ebaf491">RemoveSection</a> (const CString &amp;strSection)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Implements an interface for removing the setting section from memory.  <a href="#5fd92a75d4d671e3dc5ec37e3ebaf491"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Can persist the column configuration using CWinApp::WriteProfile(). </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 02:51:26 2009 for CGridListCtrlEx by&nbsp;
+Can persist the column configuration using CWinApp::WriteProfile(). <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" name="a51c660392ea9b317167bf450ea02ac3"></a><!-- doxytag: member="CGridColumnConfigWinApp::CGridColumnConfigWinApp" ref="a51c660392ea9b317167bf450ea02ac3" args="(const CString &amp;strViewName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CGridColumnConfigWinApp::CGridColumnConfigWinApp           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strViewName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<a class="el" href="class_c_grid_column_config_win_app.html" title="Can persist the column configuration using CWinApp::WriteProfile().">CGridColumnConfigWinApp</a> - Constructor. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strViewName</em>&nbsp;</td><td>Name to identify and persist the configuration </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="98df77e8c936266ff5176d9dc518b7a1"></a><!-- doxytag: member="CGridColumnConfigWinApp::ReadSetting" ref="98df77e8c936266ff5176d9dc518b7a1" args="(const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strDefval) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfigWinApp::ReadSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSetting</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDefval</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implements an interface for reading the setting value CWinApp profile. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strSection</em>&nbsp;</td><td>Name of section </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strSetting</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+<p>Implements <a class="el" href="class_c_grid_column_config.html#bfdf1449c5dee1573d4bd4d448b3586a">CGridColumnConfig</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="5fd92a75d4d671e3dc5ec37e3ebaf491"></a><!-- doxytag: member="CGridColumnConfigWinApp::RemoveSection" ref="5fd92a75d4d671e3dc5ec37e3ebaf491" args="(const CString &amp;strSection)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfigWinApp::RemoveSection           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSection</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implements an interface for removing the setting section from memory. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strSection</em>&nbsp;</td><td>Name of section </td></tr>
+  </table>
+</dl>
+
+<p>Implements <a class="el" href="class_c_grid_column_config.html#29c3999b2353964f9946d19f004bcf5c">CGridColumnConfig</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="780cc3431edad05f8b79329fc9dae2e6"></a><!-- doxytag: member="CGridColumnConfigWinApp::WriteSetting" ref="780cc3431edad05f8b79329fc9dae2e6" args="(const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfigWinApp::WriteSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSetting</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strValue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Implements an interface for writing the setting value to CWinApp profile. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strSection</em>&nbsp;</td><td>Name of section </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strSetting</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strValue</em>&nbsp;</td><td>New setting value </td></tr>
+  </table>
+</dl>
+
+<p>Implements <a class="el" href="class_c_grid_column_config.html#74628c9615f77e07e7ea1e9c138e3f41">CGridColumnConfig</a>.</p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Mar 28 18:38:29 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

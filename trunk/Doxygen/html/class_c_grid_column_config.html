@@ -24,122 +24,1181 @@
 <h1>CGridColumnConfig Class Reference</h1><!-- doxytag: class="CGridColumnConfig" -->Abstract interface for persisting column configuration.  
 <a href="#_details">More...</a>
 <p>
-Inherited by <a class="el" href="class_c_grid_column_config_default.html">CGridColumnConfigDefault</a>, and CGridColumnConfigDefault::CGridColumnConfigDefault::CGridColumnConfigLocal.
+Inherited by <a class="el" href="class_c_grid_column_config_default.html">CGridColumnConfigDefault</a>, and <a class="el" href="class_c_grid_column_config_default_1_1_c_grid_column_config_local.html">CGridColumnConfigDefault::CGridColumnConfigDefault::CGridColumnConfigLocal</a>.
 <p>
 
 <p>
 <a href="class_c_grid_column_config-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="306411cb5eb4713548bcac6a27914996"></a><!-- doxytag: member="CGridColumnConfig::CGridColumnConfig" ref="306411cb5eb4713548bcac6a27914996" args="(const CString &amp;name)" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><b>CGridColumnConfig</b> (const CString &amp;name)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#deb1633111bed7e4da10abe7722a3cd3">CGridColumnConfig</a> (const CString &amp;strViewName)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ed3e3caf3be4037f752602620983a89e"></a><!-- doxytag: member="CGridColumnConfig::GetSetting" ref="ed3e3caf3be4037f752602620983a89e" args="(const CString &amp;name, const CString &amp;defval=_T(&quot;&quot;)) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#ed3e3caf3be4037f752602620983a89e">GetSetting</a> (const CString &amp;name, const CString &amp;defval=_T(&quot;&quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config.html" title="Abstract interface for persisting column configuration.">CGridColumnConfig</a> - Constructor.  <a href="#deb1633111bed7e4da10abe7722a3cd3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9bcaa328cd6a34b5e3bb49b52149955a"></a><!-- doxytag: member="CGridColumnConfig::~CGridColumnConfig" ref="9bcaa328cd6a34b5e3bb49b52149955a" args="()" -->
+virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#9bcaa328cd6a34b5e3bb49b52149955a">~CGridColumnConfig</a> ()</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config.html" title="Abstract interface for persisting column configuration.">CGridColumnConfig</a>. <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6840ce06ac6a161fdd9e18121fcf9654"></a><!-- doxytag: member="CGridColumnConfig::GetBoolSetting" ref="6840ce06ac6a161fdd9e18121fcf9654" args="(const CString &amp;name, bool defval=false) const " -->
-virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetBoolSetting</b> (const CString &amp;name, bool defval=false) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config.html" title="Abstract interface for persisting column configuration.">CGridColumnConfig</a> - Destructor. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#32fa4cf32e10738e95496ddd08cb98e3">GetSetting</a> (const CString &amp;strName, const CString &amp;strDefval=_T(&quot;&quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d399219e186e95ff35e5fb7d452f7ca9"></a><!-- doxytag: member="CGridColumnConfig::GetIntSetting" ref="d399219e186e95ff35e5fb7d452f7ca9" args="(const CString &amp;name, int defval=0) const " -->
-virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetIntSetting</b> (const CString &amp;name, int defval=0) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a setting value for the view.  <a href="#32fa4cf32e10738e95496ddd08cb98e3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#39f11aa558714c809a1777fb72acfd1e">GetBoolSetting</a> (const CString &amp;strName, bool bDefval=false) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1c17f7184400cd778f6227383c07d520"></a><!-- doxytag: member="CGridColumnConfig::GetFloatSetting" ref="1c17f7184400cd778f6227383c07d520" args="(const CString &amp;name, double defval=0.0) const " -->
-virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFloatSetting</b> (const CString &amp;name, double defval=0.0) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a bool setting value for the view.  <a href="#39f11aa558714c809a1777fb72acfd1e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#e2debb030c3b962ac2c2d0240ba6a973">GetIntSetting</a> (const CString &amp;strName, int nDefval=0) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4a2f1b5c981e237e5c9ced05269c5dc0"></a><!-- doxytag: member="CGridColumnConfig::GetLogFontSetting" ref="4a2f1b5c981e237e5c9ced05269c5dc0" args="(const CString &amp;name) const " -->
-virtual LOGFONT&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetLogFontSetting</b> (const CString &amp;name) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves an integer setting value for the view.  <a href="#e2debb030c3b962ac2c2d0240ba6a973"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#3b1b780ca13fc85762e61e33e2b326e7">GetFloatSetting</a> (const CString &amp;strName, double nDefval=0.0) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="13967eadb5071556b433d9a18e6e33ad"></a><!-- doxytag: member="CGridColumnConfig::GetRectSetting" ref="13967eadb5071556b433d9a18e6e33ad" args="(const CString &amp;name, const CRect &amp;defval=CRect(0, 0, 0, 0)) const " -->
-virtual CRect&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetRectSetting</b> (const CString &amp;name, const CRect &amp;defval=CRect(0, 0, 0, 0)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a float setting value for the view.  <a href="#3b1b780ca13fc85762e61e33e2b326e7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual LOGFONT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#70852b1f5f5091ca329aa2601fb3b152">GetLogFontSetting</a> (const CString &amp;strName) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="71d41a51b3e13dba0209023497a78b52"></a><!-- doxytag: member="CGridColumnConfig::GetColorSetting" ref="71d41a51b3e13dba0209023497a78b52" args="(const CString &amp;name, const COLORREF defval=RGB(0, 0, 0)) const " -->
-virtual COLORREF&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetColorSetting</b> (const CString &amp;name, const COLORREF defval=RGB(0, 0, 0)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a font setting value for the view.  <a href="#70852b1f5f5091ca329aa2601fb3b152"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CRect&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#51fe42aa1126fcd348d7d0bb05539f4e">GetRectSetting</a> (const CString &amp;strName, const CRect &amp;rectDefval=CRect(0, 0, 0, 0)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e0d7d788d5658863ee667f7347d23e3c"></a><!-- doxytag: member="CGridColumnConfig::GetArraySetting" ref="e0d7d788d5658863ee667f7347d23e3c" args="(const CString &amp;name, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const " -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetArraySetting</b> (const CString &amp;name, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a rectangle setting value for the view.  <a href="#51fe42aa1126fcd348d7d0bb05539f4e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual COLORREF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#66748610433b23435d81b4efdfc3a174">GetColorSetting</a> (const CString &amp;strName, const COLORREF colorDefval=RGB(0, 0, 0)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6e22954064b357d1d04239efb96616c3"></a><!-- doxytag: member="CGridColumnConfig::GetArraySetting" ref="6e22954064b357d1d04239efb96616c3" args="(const CString &amp;name, CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const " -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetArraySetting</b> (const CString &amp;name, CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a color setting value for the view.  <a href="#66748610433b23435d81b4efdfc3a174"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#2306899ff208069784b23eaaa5181527">GetArraySetting</a> (const CString &amp;strName, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6d3faf90a8013beae8c1acc77a456cad"></a><!-- doxytag: member="CGridColumnConfig::SetSetting" ref="6d3faf90a8013beae8c1acc77a456cad" args="(const CString &amp;name, const CString &amp;value)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetSetting</b> (const CString &amp;name, const CString &amp;value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a string-array setting value for the view.  <a href="#2306899ff208069784b23eaaa5181527"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#5320a17ee68d81aaa28855d3a0f77761">GetArraySetting</a> (const CString &amp;strName, CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="02fd22d125b696246caa8da9f72a1331"></a><!-- doxytag: member="CGridColumnConfig::SetBoolSetting" ref="02fd22d125b696246caa8da9f72a1331" args="(const CString &amp;name, bool value)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetBoolSetting</b> (const CString &amp;name, bool value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a integer-array setting value for the view.  <a href="#5320a17ee68d81aaa28855d3a0f77761"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#2135f13a7ad67c22f7533d9970891743">SetSetting</a> (const CString &amp;strName, const CString &amp;strValue)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="84226b4bf74af2654df7cd21012f8e17"></a><!-- doxytag: member="CGridColumnConfig::SetIntSetting" ref="84226b4bf74af2654df7cd21012f8e17" args="(const CString &amp;name, int value)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetIntSetting</b> (const CString &amp;name, int value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates a setting value for the view.  <a href="#2135f13a7ad67c22f7533d9970891743"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#e0e6940f8b8d2b772fb90dbc385a5afe">SetBoolSetting</a> (const CString &amp;strName, bool bValue)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="13fcbb353d21cba6828a4571671f2a79"></a><!-- doxytag: member="CGridColumnConfig::SetFloatSetting" ref="13fcbb353d21cba6828a4571671f2a79" args="(const CString &amp;name, double value, int decimals=6)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetFloatSetting</b> (const CString &amp;name, double value, int decimals=6)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a bool setting.  <a href="#e0e6940f8b8d2b772fb90dbc385a5afe"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#baa5eb9acf7d86b4ac834664f63c9928">SetIntSetting</a> (const CString &amp;strName, int nValue)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7814f86ffcd9a4c609f5b82056437228"></a><!-- doxytag: member="CGridColumnConfig::SetArraySetting" ref="7814f86ffcd9a4c609f5b82056437228" args="(const CString &amp;name, const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;))" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetArraySetting</b> (const CString &amp;name, const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of an integer setting.  <a href="#baa5eb9acf7d86b4ac834664f63c9928"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#57a5713c5af075619b3141c511c67154">SetFloatSetting</a> (const CString &amp;strName, double nValue, int nDecimals=6)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ff0a733a43ae03dc3c5317948d28970a"></a><!-- doxytag: member="CGridColumnConfig::SetArraySetting" ref="ff0a733a43ae03dc3c5317948d28970a" args="(const CString &amp;name, const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;))" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetArraySetting</b> (const CString &amp;name, const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a float setting.  <a href="#57a5713c5af075619b3141c511c67154"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#b24b76ce978ff352762930d958b6bd0e">SetArraySetting</a> (const CString &amp;strName, const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;))</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9e773b0d83454208bad4df71ad40516a"></a><!-- doxytag: member="CGridColumnConfig::SetLogFontSetting" ref="9e773b0d83454208bad4df71ad40516a" args="(const CString &amp;name, const LOGFONT &amp;font)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetLogFontSetting</b> (const CString &amp;name, const LOGFONT &amp;font)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a string-array setting.  <a href="#b24b76ce978ff352762930d958b6bd0e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#716a854cace62542218616c508297248">SetArraySetting</a> (const CString &amp;strName, const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;))</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="44376347bd95501e2934e49ac0183f76"></a><!-- doxytag: member="CGridColumnConfig::SetRectSetting" ref="44376347bd95501e2934e49ac0183f76" args="(const CString &amp;name, const RECT &amp;rect)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetRectSetting</b> (const CString &amp;name, const RECT &amp;rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of an integer-array setting.  <a href="#716a854cace62542218616c508297248"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#3fdbbd8e8cf3f52576b7485664d8e113">SetLogFontSetting</a> (const CString &amp;strName, const LOGFONT &amp;font)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d7ce3268c4be69767fbf68a748e4b435"></a><!-- doxytag: member="CGridColumnConfig::SetColorSetting" ref="d7ce3268c4be69767fbf68a748e4b435" args="(const CString &amp;name, COLORREF color)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetColorSetting</b> (const CString &amp;name, COLORREF color)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a font setting.  <a href="#3fdbbd8e8cf3f52576b7485664d8e113"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#8c443b7ae7e157094cf0b3c1c6e6bd39">SetRectSetting</a> (const CString &amp;strName, const RECT &amp;rect)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a rectangle setting.  <a href="#8c443b7ae7e157094cf0b3c1c6e6bd39"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#d7087c08c599a08983f894101d606d5b">SetColorSetting</a> (const CString &amp;strName, COLORREF color)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the value of a color setting.  <a href="#d7087c08c599a08983f894101d606d5b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c17e76e3f017fff4a90d47e6a8a8879d"></a><!-- doxytag: member="CGridColumnConfig::RemoveCurrentConfig" ref="c17e76e3f017fff4a90d47e6a8a8879d" args="()" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveCurrentConfig</b> ()</td></tr>
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#c17e76e3f017fff4a90d47e6a8a8879d">RemoveCurrentConfig</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes the current configuration. <br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fef3a9b79dc91bf8cdb27fd546486c7a"></a><!-- doxytag: member="CGridColumnConfig::ReadSetting" ref="fef3a9b79dc91bf8cdb27fd546486c7a" args="(const CString &amp;section, const CString &amp;setting, const CString &amp;defval) const =0" -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ReadSetting</b> (const CString &amp;section, const CString &amp;setting, const CString &amp;defval) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bfdf1449c5dee1573d4bd4d448b3586a"></a><!-- doxytag: member="CGridColumnConfig::ReadSetting" ref="bfdf1449c5dee1573d4bd4d448b3586a" args="(const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strDefval) const =0" -->
+virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#bfdf1449c5dee1573d4bd4d448b3586a">ReadSetting</a> (const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strDefval) const =0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="67c376a8bfd623182d17724df97cf3b8"></a><!-- doxytag: member="CGridColumnConfig::WriteSetting" ref="67c376a8bfd623182d17724df97cf3b8" args="(const CString &amp;section, const CString &amp;setting, const CString &amp;value)=0" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>WriteSetting</b> (const CString &amp;section, const CString &amp;setting, const CString &amp;value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pure virtual interface for reading setting from persisting layer. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="74628c9615f77e07e7ea1e9c138e3f41"></a><!-- doxytag: member="CGridColumnConfig::WriteSetting" ref="74628c9615f77e07e7ea1e9c138e3f41" args="(const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strValue)=0" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#74628c9615f77e07e7ea1e9c138e3f41">WriteSetting</a> (const CString &amp;strSection, const CString &amp;strSetting, const CString &amp;strValue)=0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a0a15fd0006e75fedc2904e399257449"></a><!-- doxytag: member="CGridColumnConfig::RemoveSection" ref="a0a15fd0006e75fedc2904e399257449" args="(const CString &amp;section)=0" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveSection</b> (const CString &amp;section)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pure virtual interface for writing setting to persisting layer. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="29c3999b2353964f9946d19f004bcf5c"></a><!-- doxytag: member="CGridColumnConfig::RemoveSection" ref="29c3999b2353964f9946d19f004bcf5c" args="(const CString &amp;strSection)=0" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#29c3999b2353964f9946d19f004bcf5c">RemoveSection</a> (const CString &amp;strSection)=0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4a3aff2f60ce435975f1be45bd759c3c"></a><!-- doxytag: member="CGridColumnConfig::ConvertBoolSetting" ref="4a3aff2f60ce435975f1be45bd759c3c" args="(bool value) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertBoolSetting</b> (bool value) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Pure virtual interface for removing setting section from persisting layer. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#9547fc542070067cd8d12ccf6c7a26aa">ConvertBoolSetting</a> (bool bValue) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f92edf7bef5fafd57838b7d2a070717a"></a><!-- doxytag: member="CGridColumnConfig::ConvertIntSetting" ref="f92edf7bef5fafd57838b7d2a070717a" args="(int value) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertIntSetting</b> (int value) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a bool setting to a string value.  <a href="#9547fc542070067cd8d12ccf6c7a26aa"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#8aec6e18f4c15d7358fe07c4d1c4d735">ConvertIntSetting</a> (int nValue) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8e0ba3faf56524c5a545a2218ef25dde"></a><!-- doxytag: member="CGridColumnConfig::ConvertFloatSetting" ref="8e0ba3faf56524c5a545a2218ef25dde" args="(double value, int decimals=6) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertFloatSetting</b> (double value, int decimals=6) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts an integer setting to a string value.  <a href="#8aec6e18f4c15d7358fe07c4d1c4d735"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#c9d01eea8bbe19527db28b350dba8635">ConvertFloatSetting</a> (double nValue, int nDecimals=6) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9ee1fdf64f82dbb5e77a6a0f65aef962"></a><!-- doxytag: member="CGridColumnConfig::ConvertArraySetting" ref="9ee1fdf64f82dbb5e77a6a0f65aef962" args="(const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertArraySetting</b> (const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a float setting to a string value.  <a href="#c9d01eea8bbe19527db28b350dba8635"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#aff62c3be99cfba39c59055625a2bbd0">ConvertArraySetting</a> (const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d8acc659464474b8d25f9507e21a09e8"></a><!-- doxytag: member="CGridColumnConfig::ConvertArraySetting" ref="d8acc659464474b8d25f9507e21a09e8" args="(const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertArraySetting</b> (const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a string-array setting value into a delimited string.  <a href="#aff62c3be99cfba39c59055625a2bbd0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#bec4be32963ccd78616ad24e964f5b82">ConvertArraySetting</a> (const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="af1e5bbec15353846d225f42e9c2b232"></a><!-- doxytag: member="CGridColumnConfig::ConvertLogFontSetting" ref="af1e5bbec15353846d225f42e9c2b232" args="(const LOGFONT &amp;font) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertLogFontSetting</b> (const LOGFONT &amp;font) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts an integer-array setting value into a delimited string.  <a href="#bec4be32963ccd78616ad24e964f5b82"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#af1e5bbec15353846d225f42e9c2b232">ConvertLogFontSetting</a> (const LOGFONT &amp;font) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8dc2df7b316ec0cdb53fe32b43908567"></a><!-- doxytag: member="CGridColumnConfig::ConvertRectSetting" ref="8dc2df7b316ec0cdb53fe32b43908567" args="(const RECT &amp;rect) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertRectSetting</b> (const RECT &amp;rect) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a font setting value into a delimited string.  <a href="#af1e5bbec15353846d225f42e9c2b232"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#8dc2df7b316ec0cdb53fe32b43908567">ConvertRectSetting</a> (const RECT &amp;rect) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0ac4d1d9bb5147c2f61b4009c350da51"></a><!-- doxytag: member="CGridColumnConfig::ConvertColorSetting" ref="0ac4d1d9bb5147c2f61b4009c350da51" args="(COLORREF color) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>ConvertColorSetting</b> (COLORREF color) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a rectangle setting value into a delimited string.  <a href="#8dc2df7b316ec0cdb53fe32b43908567"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#0ac4d1d9bb5147c2f61b4009c350da51">ConvertColorSetting</a> (COLORREF color) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8f9c28aef7936b81094d4ad5f3e1dbca"></a><!-- doxytag: member="CGridColumnConfig::SplitArraySetting" ref="8f9c28aef7936b81094d4ad5f3e1dbca" args="(const CString &amp;strArray, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const " -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SplitArraySetting</b> (const CString &amp;strArray, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;delimiter=_T(&quot;, &quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a color setting value into a delimited string.  <a href="#0ac4d1d9bb5147c2f61b4009c350da51"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#cf182e6739ca62bb02d31ba83cb7194e">SplitArraySetting</a> (const CString &amp;strArray, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="732c817d324c4a34088945c1ea46058e"></a><!-- doxytag: member="CGridColumnConfig::GetSectionName" ref="732c817d324c4a34088945c1ea46058e" args="() const " -->
-virtual const CString &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetSectionName</b> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Splits a delimited string into a string-array.  <a href="#cf182e6739ca62bb02d31ba83cb7194e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const CString &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#732c817d324c4a34088945c1ea46058e">GetSectionName</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the current section name to store the settings.  <a href="#732c817d324c4a34088945c1ea46058e"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5c288aa6b6a536d2b1c44f1b660cfe2a"></a><!-- doxytag: member="CGridColumnConfig::m_ViewName" ref="5c288aa6b6a536d2b1c44f1b660cfe2a" args="" -->
-CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_ViewName</b></td></tr>
+CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config.html#5c288aa6b6a536d2b1c44f1b660cfe2a">m_ViewName</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Configuration name used when persisting the state (Translates into a section name). <br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Abstract interface for persisting column configuration. </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 09:27:53 2009 for CGridListCtrlEx by&nbsp;
+Abstract interface for persisting column configuration. <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" name="deb1633111bed7e4da10abe7722a3cd3"></a><!-- doxytag: member="CGridColumnConfig::CGridColumnConfig" ref="deb1633111bed7e4da10abe7722a3cd3" args="(const CString &amp;strViewName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CGridColumnConfig::CGridColumnConfig           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strViewName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [explicit]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<a class="el" href="class_c_grid_column_config.html" title="Abstract interface for persisting column configuration.">CGridColumnConfig</a> - Constructor. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strViewName</em>&nbsp;</td><td>Name to identify and persist the configuration </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="bec4be32963ccd78616ad24e964f5b82"></a><!-- doxytag: member="CGridColumnConfig::ConvertArraySetting" ref="bec4be32963ccd78616ad24e964f5b82" args="(const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CSimpleArray&lt; int &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts an integer-array setting value into a delimited string. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>Integer-array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for combining the values of an array to a string </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The string-array combined into a single string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="aff62c3be99cfba39c59055625a2bbd0"></a><!-- doxytag: member="CGridColumnConfig::ConvertArraySetting" ref="aff62c3be99cfba39c59055625a2bbd0" args="(const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a string-array setting value into a delimited string. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>String-array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for combining the values of an array to a string </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The string-array combined into a single string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="9547fc542070067cd8d12ccf6c7a26aa"></a><!-- doxytag: member="CGridColumnConfig::ConvertBoolSetting" ref="9547fc542070067cd8d12ccf6c7a26aa" args="(bool bValue) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertBoolSetting           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a bool setting to a string value. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>The setting value </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The setting value as string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="0ac4d1d9bb5147c2f61b4009c350da51"></a><!-- doxytag: member="CGridColumnConfig::ConvertColorSetting" ref="0ac4d1d9bb5147c2f61b4009c350da51" args="(COLORREF color) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertColorSetting           </td>
+          <td>(</td>
+          <td class="paramtype">COLORREF&nbsp;</td>
+          <td class="paramname"> <em>color</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a color setting value into a delimited string. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>color</em>&nbsp;</td><td>The setting value </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The delimited string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="c9d01eea8bbe19527db28b350dba8635"></a><!-- doxytag: member="CGridColumnConfig::ConvertFloatSetting" ref="c9d01eea8bbe19527db28b350dba8635" args="(double nValue, int nDecimals=6) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertFloatSetting           </td>
+          <td>(</td>
+          <td class="paramtype">double&nbsp;</td>
+          <td class="paramname"> <em>nValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nDecimals</em> = <code>6</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a float setting to a string value. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nValue</em>&nbsp;</td><td>The setting value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nDecimals</em>&nbsp;</td><td>The number of decimals to persist </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The setting value as string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8aec6e18f4c15d7358fe07c4d1c4d735"></a><!-- doxytag: member="CGridColumnConfig::ConvertIntSetting" ref="8aec6e18f4c15d7358fe07c4d1c4d735" args="(int nValue) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertIntSetting           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nValue</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts an integer setting to a string value. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nValue</em>&nbsp;</td><td>The setting value </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The setting value as string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="af1e5bbec15353846d225f42e9c2b232"></a><!-- doxytag: member="CGridColumnConfig::ConvertLogFontSetting" ref="af1e5bbec15353846d225f42e9c2b232" args="(const LOGFONT &amp;font) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertLogFontSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const LOGFONT &amp;&nbsp;</td>
+          <td class="paramname"> <em>font</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a font setting value into a delimited string. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>font</em>&nbsp;</td><td>The setting value </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The delimited string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8dc2df7b316ec0cdb53fe32b43908567"></a><!-- doxytag: member="CGridColumnConfig::ConvertRectSetting" ref="8dc2df7b316ec0cdb53fe32b43908567" args="(const RECT &amp;rect) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::ConvertRectSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const RECT &amp;&nbsp;</td>
+          <td class="paramname"> <em>rect</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Converts a rectangle setting value into a delimited string. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The setting value </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The delimited string </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="5320a17ee68d81aaa28855d3a0f77761"></a><!-- doxytag: member="CGridColumnConfig::GetArraySetting" ref="5320a17ee68d81aaa28855d3a0f77761" args="(const CString &amp;strName, CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::GetArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CSimpleArray&lt; int &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a integer-array setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>integer-array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for splitting a single string into an array </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="2306899ff208069784b23eaaa5181527"></a><!-- doxytag: member="CGridColumnConfig::GetArraySetting" ref="2306899ff208069784b23eaaa5181527" args="(const CString &amp;strName, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::GetArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a string-array setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>String-array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for splitting a single string into an array </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="39f11aa558714c809a1777fb72acfd1e"></a><!-- doxytag: member="CGridColumnConfig::GetBoolSetting" ref="39f11aa558714c809a1777fb72acfd1e" args="(const CString &amp;strName, bool bDefval=false) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnConfig::GetBoolSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bDefval</em> = <code>false</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a bool setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="66748610433b23435d81b4efdfc3a174"></a><!-- doxytag: member="CGridColumnConfig::GetColorSetting" ref="66748610433b23435d81b4efdfc3a174" args="(const CString &amp;strName, const COLORREF colorDefval=RGB(0, 0, 0)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">COLORREF CGridColumnConfig::GetColorSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const COLORREF&nbsp;</td>
+          <td class="paramname"> <em>colorDefval</em> = <code>RGB(0,0,0)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a color setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>colorDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="3b1b780ca13fc85762e61e33e2b326e7"></a><!-- doxytag: member="CGridColumnConfig::GetFloatSetting" ref="3b1b780ca13fc85762e61e33e2b326e7" args="(const CString &amp;strName, double nDefval=0.0) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double CGridColumnConfig::GetFloatSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&nbsp;</td>
+          <td class="paramname"> <em>nDefval</em> = <code>0.0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a float setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="e2debb030c3b962ac2c2d0240ba6a973"></a><!-- doxytag: member="CGridColumnConfig::GetIntSetting" ref="e2debb030c3b962ac2c2d0240ba6a973" args="(const CString &amp;strName, int nDefval=0) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CGridColumnConfig::GetIntSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nDefval</em> = <code>0</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves an integer setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="70852b1f5f5091ca329aa2601fb3b152"></a><!-- doxytag: member="CGridColumnConfig::GetLogFontSetting" ref="70852b1f5f5091ca329aa2601fb3b152" args="(const CString &amp;strName) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LOGFONT CGridColumnConfig::GetLogFontSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a font setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="51fe42aa1126fcd348d7d0bb05539f4e"></a><!-- doxytag: member="CGridColumnConfig::GetRectSetting" ref="51fe42aa1126fcd348d7d0bb05539f4e" args="(const CString &amp;strName, const CRect &amp;rectDefval=CRect(0, 0, 0, 0)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CRect CGridColumnConfig::GetRectSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CRect &amp;&nbsp;</td>
+          <td class="paramname"> <em>rectDefval</em> = <code>CRect(0,0,0,0)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a rectangle setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rectDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="732c817d324c4a34088945c1ea46058e"></a><!-- doxytag: member="CGridColumnConfig::GetSectionName" ref="732c817d324c4a34088945c1ea46058e" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const CString &amp; CGridColumnConfig::GetSectionName           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves the current section name to store the settings. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Current section name </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_config_profiles.html#05d9844a7038416f453ad51f5e593667">CGridColumnConfigProfiles</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="32fa4cf32e10738e95496ddd08cb98e3"></a><!-- doxytag: member="CGridColumnConfig::GetSetting" ref="32fa4cf32e10738e95496ddd08cb98e3" args="(const CString &amp;strName, const CString &amp;strDefval=_T(&quot;&quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfig::GetSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDefval</em> = <code>_T(&quot;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_config_default.html#fc12c1bdc7f274137d4e156a5204bc1b">CGridColumnConfigDefault</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="716a854cace62542218616c508297248"></a><!-- doxytag: member="CGridColumnConfig::SetArraySetting" ref="716a854cace62542218616c508297248" args="(const CString &amp;strName, const CSimpleArray&lt; int &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CSimpleArray&lt; int &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of an integer-array setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>The integer array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for combining the values of an array to a string </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b24b76ce978ff352762930d958b6bd0e"></a><!-- doxytag: member="CGridColumnConfig::SetArraySetting" ref="b24b76ce978ff352762930d958b6bd0e" args="(const CString &amp;strName, const CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;))" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a string-array setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>The new string array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter for combining the values of an array to a string </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="e0e6940f8b8d2b772fb90dbc385a5afe"></a><!-- doxytag: member="CGridColumnConfig::SetBoolSetting" ref="e0e6940f8b8d2b772fb90dbc385a5afe" args="(const CString &amp;strName, bool bValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetBoolSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a bool setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>The new setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="d7087c08c599a08983f894101d606d5b"></a><!-- doxytag: member="CGridColumnConfig::SetColorSetting" ref="d7087c08c599a08983f894101d606d5b" args="(const CString &amp;strName, COLORREF color)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetColorSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">COLORREF&nbsp;</td>
+          <td class="paramname"> <em>color</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a color setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>color</em>&nbsp;</td><td>The new setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="57a5713c5af075619b3141c511c67154"></a><!-- doxytag: member="CGridColumnConfig::SetFloatSetting" ref="57a5713c5af075619b3141c511c67154" args="(const CString &amp;strName, double nValue, int nDecimals=6)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetFloatSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&nbsp;</td>
+          <td class="paramname"> <em>nValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nDecimals</em> = <code>6</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a float setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nValue</em>&nbsp;</td><td>The new setting value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nDecimals</em>&nbsp;</td><td>The number of decimals to persist </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="baa5eb9acf7d86b4ac834664f63c9928"></a><!-- doxytag: member="CGridColumnConfig::SetIntSetting" ref="baa5eb9acf7d86b4ac834664f63c9928" args="(const CString &amp;strName, int nValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetIntSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nValue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of an integer setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nValue</em>&nbsp;</td><td>The new setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="3fdbbd8e8cf3f52576b7485664d8e113"></a><!-- doxytag: member="CGridColumnConfig::SetLogFontSetting" ref="3fdbbd8e8cf3f52576b7485664d8e113" args="(const CString &amp;strName, const LOGFONT &amp;font)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetLogFontSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const LOGFONT &amp;&nbsp;</td>
+          <td class="paramname"> <em>font</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a font setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>font</em>&nbsp;</td><td>The new setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8c443b7ae7e157094cf0b3c1c6e6bd39"></a><!-- doxytag: member="CGridColumnConfig::SetRectSetting" ref="8c443b7ae7e157094cf0b3c1c6e6bd39" args="(const CString &amp;strName, const RECT &amp;rect)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetRectSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const RECT &amp;&nbsp;</td>
+          <td class="paramname"> <em>rect</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates the value of a rectangle setting. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>The setting name </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The new setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="2135f13a7ad67c22f7533d9970891743"></a><!-- doxytag: member="CGridColumnConfig::SetSetting" ref="2135f13a7ad67c22f7533d9970891743" args="(const CString &amp;strName, const CString &amp;strValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SetSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strValue</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Updates a setting value for the view. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strValue</em>&nbsp;</td><td>New setting value </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="cf182e6739ca62bb02d31ba83cb7194e"></a><!-- doxytag: member="CGridColumnConfig::SplitArraySetting" ref="cf182e6739ca62bb02d31ba83cb7194e" args="(const CString &amp;strArray, CSimpleArray&lt; CString &gt; &amp;values, const CString &amp;strDelimiter=_T(&quot;, &quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfig::SplitArraySetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strArray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDelimiter</em> = <code>_T(&quot;,&nbsp;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Splits a delimited string into a string-array. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strArray</em>&nbsp;</td><td>The delimited string </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>values</em>&nbsp;</td><td>The string array </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDelimiter</em>&nbsp;</td><td>The delimiter </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Mar 28 18:38:29 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

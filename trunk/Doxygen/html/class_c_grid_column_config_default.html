@@ -33,35 +33,171 @@ Inherited by <a class="el" href="class_c_grid_column_config_profiles.html">CGrid
 <a href="class_c_grid_column_config_default-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><b>CGridColumnConfigLocal</b></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default_1_1_c_grid_column_config_local.html">CGridColumnConfigLocal</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Inner class that stores the default configuration in memory.  <a href="class_c_grid_column_config_default_1_1_c_grid_column_config_local.html#_details">More...</a><br></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="86dacc5f20ab98d12b2a555a6005534f"></a><!-- doxytag: member="CGridColumnConfigDefault::CGridColumnConfigDefault" ref="86dacc5f20ab98d12b2a555a6005534f" args="(const CString &amp;viewname)" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><b>CGridColumnConfigDefault</b> (const CString &amp;viewname)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#33ff007d09d2ca6667e382d94e4569dc">CGridColumnConfigDefault</a> (const CString &amp;strViewName)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="04bd87ce5c1dc12c67a105f110b12c5b"></a><!-- doxytag: member="CGridColumnConfigDefault::GetDefaultConfig" ref="04bd87ce5c1dc12c67a105f110b12c5b" args="()" -->
-virtual <a class="el" href="class_c_grid_column_config.html">CGridColumnConfig</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetDefaultConfig</b> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config_default.html" title="Abstract interface for persisting column configuration, that can use an in-memory...">CGridColumnConfigDefault</a> - Constructor.  <a href="#33ff007d09d2ca6667e382d94e4569dc"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="class_c_grid_column_config.html">CGridColumnConfig</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#ffb3079188fe59c73b8e467fdc094b0d">GetDefaultConfig</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="70e37a7d78b27eb9a13757724cd09817"></a><!-- doxytag: member="CGridColumnConfigDefault::HasDefaultSettings" ref="70e37a7d78b27eb9a13757724cd09817" args="() const " -->
-virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasDefaultSettings</b> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieve the in memory default configuration.  <a href="#ffb3079188fe59c73b8e467fdc094b0d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#3aaa88df1a0dc64ae70694072532b5e4">HasDefaultSettings</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8b1c7387d1dce1fbf3bbebb54db954f3"></a><!-- doxytag: member="CGridColumnConfigDefault::ResetSettingsDefault" ref="8b1c7387d1dce1fbf3bbebb54db954f3" args="()" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>ResetSettingsDefault</b> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Contains default configuration.  <a href="#3aaa88df1a0dc64ae70694072532b5e4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#cc281fd2621354ab575432998ee601df">ResetSettingsDefault</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fa0cd8dd9d8744d121763cba7c923281"></a><!-- doxytag: member="CGridColumnConfigDefault::GetSetting" ref="fa0cd8dd9d8744d121763cba7c923281" args="(const CString &amp;name, const CString &amp;defval=_T(&quot;&quot;)) const " -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#fa0cd8dd9d8744d121763cba7c923281">GetSetting</a> (const CString &amp;name, const CString &amp;defval=_T(&quot;&quot;)) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Resets the current configuration by deleting it and restoring it from the in memory default configuration.  <a href="#cc281fd2621354ab575432998ee601df"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#fc12c1bdc7f274137d4e156a5204bc1b">GetSetting</a> (const CString &amp;strName, const CString &amp;strDefval=_T(&quot;&quot;)) const </td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config.html" title="Abstract interface for persisting column configuration.">CGridColumnConfig</a>. <br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a setting value for the view.  <a href="#fc12c1bdc7f274137d4e156a5204bc1b"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="18b84c8629dc3051ca7fbeb283c4662d"></a><!-- doxytag: member="CGridColumnConfigDefault::m_DefaultSettings" ref="18b84c8629dc3051ca7fbeb283c4662d" args="" -->
-CGridColumnConfigLocal&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_DefaultSettings</b></td></tr>
+<a class="el" href="class_c_grid_column_config_default_1_1_c_grid_column_config_local.html">CGridColumnConfigLocal</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_default.html#18b84c8629dc3051ca7fbeb283c4662d">m_DefaultSettings</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default configuration stored in memory. <br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Abstract interface for persisting column configuration, that can use an in-memory default-configuration. 
 <p>
-It will use the values in the default-config if nothing else can be found </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 02:51:26 2009 for CGridListCtrlEx by&nbsp;
+It will use the values in the default-config if nothing else can be found <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" name="33ff007d09d2ca6667e382d94e4569dc"></a><!-- doxytag: member="CGridColumnConfigDefault::CGridColumnConfigDefault" ref="33ff007d09d2ca6667e382d94e4569dc" args="(const CString &amp;strViewName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CGridColumnConfigDefault::CGridColumnConfigDefault           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strViewName</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [explicit]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+<a class="el" href="class_c_grid_column_config_default.html" title="Abstract interface for persisting column configuration, that can use an in-memory...">CGridColumnConfigDefault</a> - Constructor. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strViewName</em>&nbsp;</td><td>Name to identify and persist the configuration </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="ffb3079188fe59c73b8e467fdc094b0d"></a><!-- doxytag: member="CGridColumnConfigDefault::GetDefaultConfig" ref="ffb3079188fe59c73b8e467fdc094b0d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_c_grid_column_config.html">CGridColumnConfig</a> &amp; CGridColumnConfigDefault::GetDefaultConfig           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieve the in memory default configuration. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Default configuration </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="fc12c1bdc7f274137d4e156a5204bc1b"></a><!-- doxytag: member="CGridColumnConfigDefault::GetSetting" ref="fc12c1bdc7f274137d4e156a5204bc1b" args="(const CString &amp;strName, const CString &amp;strDefval=_T(&quot;&quot;)) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridColumnConfigDefault::GetSetting           </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strDefval</em> = <code>_T(&quot;&quot;)</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Retrieves a setting value for the view. 
+<p>
+If the value is not available then it returns the value from the default configuration.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strName</em>&nbsp;</td><td>Name of setting </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strDefval</em>&nbsp;</td><td>Default value to return if no value was found </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Value of the setting </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_config.html#32fa4cf32e10738e95496ddd08cb98e3">CGridColumnConfig</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="3aaa88df1a0dc64ae70694072532b5e4"></a><!-- doxytag: member="CGridColumnConfigDefault::HasDefaultSettings" ref="3aaa88df1a0dc64ae70694072532b5e4" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnConfigDefault::HasDefaultSettings           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const<code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Contains default configuration. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Default configuration available (true/false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="cc281fd2621354ab575432998ee601df"></a><!-- doxytag: member="CGridColumnConfigDefault::ResetSettingsDefault" ref="cc281fd2621354ab575432998ee601df" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnConfigDefault::ResetSettingsDefault           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Resets the current configuration by deleting it and restoring it from the in memory default configuration. 
+<p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Mar 28 18:38:29 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

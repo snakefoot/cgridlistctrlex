@@ -31,46 +31,469 @@ Inherited by <a class="el" href="class_c_grid_column_editor_profile.html">CGridC
 <a href="class_c_grid_column_editor-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ea59aa459ed0e4c4aa352b46b9380c6e"></a><!-- doxytag: member="CGridColumnEditor::HasColumnEditor" ref="ea59aa459ed0e4c4aa352b46b9380c6e" args="(CGridListCtrlEx &amp;owner, int nCol, CString &amp;title)" -->
-virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasColumnEditor</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol, CString &amp;title)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cc0b56b59a720ac28707dc900b9a2650"></a><!-- doxytag: member="CGridColumnEditor::~CGridColumnEditor" ref="cc0b56b59a720ac28707dc900b9a2650" args="()" -->
+virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#cc0b56b59a720ac28707dc900b9a2650">~CGridColumnEditor</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d0eb1926040a73ddff81b35e2dae0242"></a><!-- doxytag: member="CGridColumnEditor::OpenColumnEditor" ref="d0eb1926040a73ddff81b35e2dae0242" args="(CGridListCtrlEx &amp;owner, int nCol)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OpenColumnEditor</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Destructor. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#1cff617b2248208499bd849134bd5671">HasColumnEditor</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol, CString &amp;strTitle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5fddff67488631f1273416c4372d63a4"></a><!-- doxytag: member="CGridColumnEditor::HasColumnPicker" ref="5fddff67488631f1273416c4372d63a4" args="(CGridListCtrlEx &amp;owner, CString &amp;title)" -->
-virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasColumnPicker</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CString &amp;title)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is there a column configuration editor available for this column ?  <a href="#1cff617b2248208499bd849134bd5671"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#d0eb1926040a73ddff81b35e2dae0242">OpenColumnEditor</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bf833d05fb59e4a94ddc28a9f8abe0f8"></a><!-- doxytag: member="CGridColumnEditor::OpenColumnPicker" ref="bf833d05fb59e4a94ddc28a9f8abe0f8" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OpenColumnPicker</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open the column configuration editor for the column.  <a href="#d0eb1926040a73ddff81b35e2dae0242"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#affa2098f59245250e6ca0bac68f751d">HasColumnPicker</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CString &amp;strTitle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="40b0d8726d3d494767ed1c859a80b21b"></a><!-- doxytag: member="CGridColumnEditor::HasColumnsDefault" ref="40b0d8726d3d494767ed1c859a80b21b" args="(CGridListCtrlEx &amp;owner, CString &amp;title)" -->
-virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasColumnsDefault</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CString &amp;title)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is there a column picker available that can add / remove columns.  <a href="#affa2098f59245250e6ca0bac68f751d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#bf833d05fb59e4a94ddc28a9f8abe0f8">OpenColumnPicker</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b04c57c44f990517c78d0553bbc2fd03"></a><!-- doxytag: member="CGridColumnEditor::ResetColumnsDefault" ref="b04c57c44f990517c78d0553bbc2fd03" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>ResetColumnsDefault</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open the column picker for the list control.  <a href="#bf833d05fb59e4a94ddc28a9f8abe0f8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#3100af566ca9e5a7087312bc103cc510">HasColumnsDefault</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CString &amp;strTitle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3879fb652f9043f707ae874691c573b"></a><!-- doxytag: member="CGridColumnEditor::HasColumnProfiles" ref="a3879fb652f9043f707ae874691c573b" args="(CGridListCtrlEx &amp;owner, CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;title)" -->
-virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasColumnProfiles</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;title)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is it possible to reset the column configuration to its default configuration ?  <a href="#3100af566ca9e5a7087312bc103cc510"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#b04c57c44f990517c78d0553bbc2fd03">ResetColumnsDefault</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4a35dee51872d309ce383009be9c17ec"></a><!-- doxytag: member="CGridColumnEditor::SwichColumnProfile" ref="4a35dee51872d309ce383009be9c17ec" args="(CGridListCtrlEx &amp;owner, const CString &amp;profile)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SwichColumnProfile</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, const CString &amp;profile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset the column configuration to its default configuration.  <a href="#b04c57c44f990517c78d0553bbc2fd03"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#034a545b79d0db2137cad8bd2a4e7a7a">HasColumnProfiles</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;strTitle)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="332b3d193ac98c83bad3c32705f5664d"></a><!-- doxytag: member="CGridColumnEditor::OnColumnSetup" ref="332b3d193ac98c83bad3c32705f5664d" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnColumnSetup</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is it possible to switch between multiple column configurations ?  <a href="#034a545b79d0db2137cad8bd2a4e7a7a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#f7be3df33df60822f1b899b90787c991">SwichColumnProfile</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, const CString &amp;strProfile)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d2e0a93acfb71a5668b48162a07deb06"></a><!-- doxytag: member="CGridColumnEditor::OnOwnerKillFocus" ref="d2e0a93acfb71a5668b48162a07deb06" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnOwnerKillFocus</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch to different column configurations profile.  <a href="#f7be3df33df60822f1b899b90787c991"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#332b3d193ac98c83bad3c32705f5664d">OnColumnSetup</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="72ee9fd9544c258a164ddd5c8139d6fa"></a><!-- doxytag: member="CGridColumnEditor::OnColumnResize" ref="72ee9fd9544c258a164ddd5c8139d6fa" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnColumnResize</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when the column configuration is setup for the list control.  <a href="#332b3d193ac98c83bad3c32705f5664d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#d2e0a93acfb71a5668b48162a07deb06">OnOwnerKillFocus</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c9e7803f244fa4c20d1b92b2b03feead"></a><!-- doxytag: member="CGridColumnEditor::OnColumnPick" ref="c9e7803f244fa4c20d1b92b2b03feead" args="(CGridListCtrlEx &amp;owner)" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnColumnPick</b> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when the list control looses focus to another control.  <a href="#d2e0a93acfb71a5668b48162a07deb06"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#72ee9fd9544c258a164ddd5c8139d6fa">OnColumnResize</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called after a column has been resized.  <a href="#72ee9fd9544c258a164ddd5c8139d6fa"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_editor.html#c9e7803f244fa4c20d1b92b2b03feead">OnColumnPick</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called after a column has been added / removed.  <a href="#c9e7803f244fa4c20d1b92b2b03feead"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-<a class="el" href="class_c_grid_column_editor.html" title="CGridColumnEditor specifies the interface for the column editor that can work together...">CGridColumnEditor</a> specifies the interface for the column editor that can work together with <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a>. </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 09:27:53 2009 for CGridListCtrlEx by&nbsp;
+<a class="el" href="class_c_grid_column_editor.html" title="CGridColumnEditor specifies the interface for the column editor that can work together...">CGridColumnEditor</a> specifies the interface for the column editor that can work together with <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a>. <hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="1cff617b2248208499bd849134bd5671"></a><!-- doxytag: member="CGridColumnEditor::HasColumnEditor" ref="1cff617b2248208499bd849134bd5671" args="(CGridListCtrlEx &amp;owner, int nCol, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CGridColumnEditor::HasColumnEditor           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Is there a column configuration editor available for this column ? 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Column editor available (true / false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="affa2098f59245250e6ca0bac68f751d"></a><!-- doxytag: member="CGridColumnEditor::HasColumnPicker" ref="affa2098f59245250e6ca0bac68f751d" args="(CGridListCtrlEx &amp;owner, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CGridColumnEditor::HasColumnPicker           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Is there a column picker available that can add / remove columns. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Column picker available (true / false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="034a545b79d0db2137cad8bd2a4e7a7a"></a><!-- doxytag: member="CGridColumnEditor::HasColumnProfiles" ref="034a545b79d0db2137cad8bd2a4e7a7a" args="(CGridListCtrlEx &amp;owner, CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual CString CGridColumnEditor::HasColumnProfiles           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>profiles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Is it possible to switch between multiple column configurations ? 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>profiles</em>&nbsp;</td><td>List of available column profiles </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Name of the current column profile </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#986d9c58fb8e6c35949d75eb235e45a4">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="3100af566ca9e5a7087312bc103cc510"></a><!-- doxytag: member="CGridColumnEditor::HasColumnsDefault" ref="3100af566ca9e5a7087312bc103cc510" args="(CGridListCtrlEx &amp;owner, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool CGridColumnEditor::HasColumnsDefault           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Is it possible to reset the column configuration to its default configuration ? 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Default column configuration is available (true / false) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#8ce484c34453b6c706194c6793d498aa">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="c9e7803f244fa4c20d1b92b2b03feead"></a><!-- doxytag: member="CGridColumnEditor::OnColumnPick" ref="c9e7803f244fa4c20d1b92b2b03feead" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OnColumnPick           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called after a column has been added / removed. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#67c53159075cb965d709cf056f4b5764">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="72ee9fd9544c258a164ddd5c8139d6fa"></a><!-- doxytag: member="CGridColumnEditor::OnColumnResize" ref="72ee9fd9544c258a164ddd5c8139d6fa" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OnColumnResize           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called after a column has been resized. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#c78216e2a37eb71f6c246c03ace945b4">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="332b3d193ac98c83bad3c32705f5664d"></a><!-- doxytag: member="CGridColumnEditor::OnColumnSetup" ref="332b3d193ac98c83bad3c32705f5664d" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OnColumnSetup           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called when the column configuration is setup for the list control. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#fc92a772f95450334a53590b9042c7e1">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="d2e0a93acfb71a5668b48162a07deb06"></a><!-- doxytag: member="CGridColumnEditor::OnOwnerKillFocus" ref="d2e0a93acfb71a5668b48162a07deb06" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OnOwnerKillFocus           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called when the list control looses focus to another control. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#641d70aa3e3f71e39a3b7cee8b5a2d50">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="d0eb1926040a73ddff81b35e2dae0242"></a><!-- doxytag: member="CGridColumnEditor::OpenColumnEditor" ref="d0eb1926040a73ddff81b35e2dae0242" args="(CGridListCtrlEx &amp;owner, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OpenColumnEditor           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Open the column configuration editor for the column. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="bf833d05fb59e4a94ddc28a9f8abe0f8"></a><!-- doxytag: member="CGridColumnEditor::OpenColumnPicker" ref="bf833d05fb59e4a94ddc28a9f8abe0f8" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::OpenColumnPicker           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Open the column picker for the list control. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the column </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b04c57c44f990517c78d0553bbc2fd03"></a><!-- doxytag: member="CGridColumnEditor::ResetColumnsDefault" ref="b04c57c44f990517c78d0553bbc2fd03" args="(CGridListCtrlEx &amp;owner)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::ResetColumnsDefault           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Reset the column configuration to its default configuration. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#09ac691c146a3738d7ff767f1097ac72">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="f7be3df33df60822f1b899b90787c991"></a><!-- doxytag: member="CGridColumnEditor::SwichColumnProfile" ref="f7be3df33df60822f1b899b90787c991" args="(CGridListCtrlEx &amp;owner, const CString &amp;strProfile)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnEditor::SwichColumnProfile           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strProfile</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Switch to different column configurations profile. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control with the columns </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strProfile</em>&nbsp;</td><td>List of available column profiles </td></tr>
+  </table>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_editor_profile.html#3ec33343310e271dd799c3192b26e794">CGridColumnEditorProfile</a>.</p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Mar 28 18:38:29 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
