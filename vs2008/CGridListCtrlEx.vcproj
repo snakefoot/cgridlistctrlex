@@ -276,6 +276,10 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp"
 					>
 				</File>
@@ -311,6 +315,14 @@
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.h"
+					>
+				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h"
 					>
