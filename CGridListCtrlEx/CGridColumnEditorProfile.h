@@ -131,7 +131,7 @@ protected:
 		bool HasDefaultSettings() const;
 		void CopySettings(CGridColumnConfig& destination) const;
 	};
-	CGridColumnConfigLocal m_DefaultSettings;
+	CGridColumnConfigLocal m_DefaultSettings;	//!< Default configuration stored in memory
 
 public:
 	explicit CGridColumnConfigDefault(const CString& strViewName);
@@ -150,7 +150,7 @@ public:
 class CGridColumnConfigProfiles : public CGridColumnConfigDefault
 {
 protected:
-	mutable CString m_CurrentSection;	//! Section name combined from the viewname and the current profile name
+	mutable CString m_CurrentSection;	//!< Section name combined from the viewname and the current profile name
 	virtual const CString& GetSectionName() const;
 
 	virtual void SplitSectionName(const CString& strSection, CString& strViewName, CString& strProfile);

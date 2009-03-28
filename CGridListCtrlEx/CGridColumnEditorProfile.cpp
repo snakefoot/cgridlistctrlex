@@ -164,6 +164,7 @@ void CGridColumnEditorProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridCo
 //! @param nConfigCol The column index in the persisting interface
 //! @param nOwnerCol The column index in the owner list control
 //! @param owner The list control
+//! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
 void CGridColumnEditorProfile::SaveColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
@@ -178,6 +179,7 @@ void CGridColumnEditorProfile::SaveColumnConfiguration(int nConfigCol, int nOwne
 //! @param nConfigCol The column index in the persisting interface
 //! @param nOwnerCol The column index in the owner list control
 //! @param owner The list control
+//! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
 void CGridColumnEditorProfile::LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
@@ -324,7 +326,7 @@ CGridColumnConfig::~CGridColumnConfig()
 //! Retrieves a setting value for the view
 //!
 //! @param strName Name of setting
-//! @param strDefVal Default value to return if no value was found
+//! @param strDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 CString CGridColumnConfig::GetSetting(const CString& strName, const CString& strDefval) const
@@ -686,11 +688,10 @@ CString CGridColumnConfig::ConvertLogFontSetting(const LOGFONT& font) const
 }
 
 //------------------------------------------------------------------------
-//! Updates the value of a float setting
+//! Updates the value of a font setting
 //!
 //! @param strName The setting name
-//! @param nValue The setting value
-//! @param nDecimals The number of decimals to persist
+//! @param font The new setting value
 //------------------------------------------------------------------------
 void CGridColumnConfig::SetLogFontSetting(const CString& strName, const LOGFONT& font)
 {
@@ -776,7 +777,7 @@ COLORREF CGridColumnConfig::GetColorSetting(const CString& strName, const COLORR
 //------------------------------------------------------------------------
 //! Converts a color setting value into a delimited string
 //!
-//! @param rect The setting value
+//! @param color The setting value
 //! @return The delimited string
 //------------------------------------------------------------------------
 CString CGridColumnConfig::ConvertColorSetting(COLORREF color) const
@@ -845,7 +846,7 @@ CGridColumnConfigDefault::CGridColumnConfigLocal& CGridColumnConfigDefault::CGri
 //!
 //! @param strSection Name of section
 //! @param strSetting Name of setting
-//! @param strDefVal Default value to return if no value was found
+//! @param strDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 CString CGridColumnConfigDefault::CGridColumnConfigLocal::ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const
@@ -915,7 +916,7 @@ CGridColumnConfigDefault::CGridColumnConfigDefault(const CString& strViewName)
 //! then it returns the value from the default configuration.
 //!
 //! @param strName Name of setting
-//! @param strDefVal Default value to return if no value was found
+//! @param strDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 CString CGridColumnConfigDefault::GetSetting(const CString& strName, const CString& strDefval) const
@@ -1141,7 +1142,7 @@ CGridColumnConfigWinApp::CGridColumnConfigWinApp(const CString& strViewName)
 //!
 //! @param strSection Name of section
 //! @param strSetting Name of setting
-//! @param strDefVal Default value to return if no value was found
+//! @param strDefval Default value to return if no value was found
 //! @return Value of the setting
 //------------------------------------------------------------------------
 CString CGridColumnConfigWinApp::ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const
