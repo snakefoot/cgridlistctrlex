@@ -41,7 +41,15 @@ public:
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol) { return NULL; }
 
 	//! Override OnEditEnd() in case one need to change state after a cell-edit.
-	virtual void  OnEditEnd() {}
+	virtual void OnEditEnd() {}
+
+	//! Override OnSortRows() to provide your own special row sorting
+	//!
+	//! @param owner The list control
+	//! @param nCol The index of the column to sort according to
+	//! @param bAscending Perform sorting in ascending or descending order
+	//! @return Can rows be sorted according to specified column (true / false)
+	virtual bool OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAscending) { return false; }
 
 	//! Override Accept() and update CGridColumnTraitVisitor for new column-trait classes.
 	//!   - Will enable the use of the visitor-pattern ex. for serialization of column-traits

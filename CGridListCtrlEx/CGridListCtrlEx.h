@@ -4,6 +4,18 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
+// Version: 1.5
+//
+// Change History:
+//	1.5 - Added column manager CGridColumnManager (2009-03-29)
+//		  Added support for groups on VC6 with platform SDK
+//		  Added sample projects for the different versions of Visual Studio
+//		  Improved documentation through Doxygen comments
+//	1.4 - Added clipboard support (2008-11-07)
+//	1.3 - Added support for compiling on VC6 (2008-10-09)
+//	1.2 - Added row traits and CGridRowTraitXP (2008-09-24)
+//	1.1 - Added support for groups with CGridListCtrlGroups (2008-09-18)
+//	1.0 - Initial Release (2008-09-04)
 //------------------------------------------------------------------------
 
 class CGridColumnManager;
@@ -15,7 +27,7 @@ class CGridRowTrait;
 //! CGridListCtrlEx extends the CListCtrl from MFC. CGridListCtrlGroups
 //! extends CGridListCtrlEx even further to support categorization of rows in groups.
 //!
-//! CGridListCtrlEx makes use of different helper classes makes it easy
+//! CGridListCtrlEx makes use of different helper classes that makes it easy
 //! to customize and extend it even further.
 //! 
 //! - CGridColumnTrait provides special behavior to the cells in a column
