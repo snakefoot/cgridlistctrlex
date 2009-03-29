@@ -3,7 +3,7 @@
 
 #include <shlwapi.h>	// IsThemeEnabled
 
-#include "CGridColumnEditor.h"
+#include "CGridColumnManager.h"
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
 
@@ -59,7 +59,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pGridFont(NULL)
 	,m_pCellFont(NULL)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
-	,m_pColumnEditor(new CGridColumnEditor)
+	,m_pColumnManager(new CGridColumnManager)
 {}
 
 //------------------------------------------------------------------------
@@ -73,8 +73,8 @@ CGridListCtrlEx::~CGridListCtrlEx()
 	delete m_pDefaultRowTrait;
 	m_pDefaultRowTrait = NULL;
 
-	delete m_pColumnEditor;
-	m_pColumnEditor = NULL;
+	delete m_pColumnManager;
+	m_pColumnManager = NULL;
 
 	delete m_pGridFont;
 	m_pGridFont = NULL;
@@ -85,14 +85,14 @@ CGridListCtrlEx::~CGridListCtrlEx()
 //------------------------------------------------------------------------
 //! Sets the interface for handling column state persistence for the list control
 //! 
-//! @param pColumnEditor The new column state interface handler
+//! @param pColumnManager The new column state interface handler
 //------------------------------------------------------------------------
-void CGridListCtrlEx::SetupColumnConfig(CGridColumnEditor* pColumnEditor)
+void CGridListCtrlEx::SetupColumnConfig(CGridColumnManager* pColumnManager)
 {
-	ASSERT(pColumnEditor!=NULL);
-	delete m_pColumnEditor;
-	m_pColumnEditor = pColumnEditor;
-	m_pColumnEditor->OnColumnSetup(*this);
+	ASSERT(pColumnManager!=NULL);
+	delete m_pColumnManager;
+	m_pColumnManager = pColumnManager;
+	m_pColumnManager->OnColumnSetup(*this);
 }
 
 namespace {
@@ -874,7 +874,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 		columnState.m_Visible = false;
 		columnState.m_OrgWidth = orgWidth;
 	}
-	m_pColumnEditor->OnColumnPick(*this);
+	m_pColumnManager->OnColumnPick(*this);
 	SetRedraw(TRUE);
 	Invalidate(FALSE);
 	return TRUE;
@@ -2016,7 +2016,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles)
 {
 	CString title_profiles;
-	CString active_profile = m_pColumnEditor->HasColumnProfiles(*this, profiles, title_profiles);
+	CString active_profile = m_pColumnManager->HasColumnProfiles(*this, profiles, title_profiles);
 	if (profiles.GetSize()>0)
 	{
 		menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
@@ -2054,13 +2054,13 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	VERIFY( menu.CreatePopupMenu() );
 
 	CString title_editor;
-	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
+	if (m_pColumnManager->HasColumnEditor(*this, nCol, title_editor))
 	{
 		menu.AppendMenu(MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
 	}
 
 	CString title_picker;
-	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
+	if (m_pColumnManager->HasColumnPicker(*this, title_picker))
 	{
 		menu.AppendMenu(MF_STRING, 2, static_cast<LPCTSTR>(title_picker));
 	}
@@ -2076,7 +2076,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	InternalColumnProfileSwitcher(menu, GetColumnCount() + 5, profiles);
 
 	CString title_resetdefault;
-	if (m_pColumnEditor->HasColumnsDefault(*this, title_resetdefault))
+	if (m_pColumnManager->HasColumnsDefault(*this, title_resetdefault))
 	{
 		if (profiles.GetSize()==0)
 			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
@@ -2088,9 +2088,9 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	switch(nResult)
 	{
 		case 0: break;
-		case 1:	m_pColumnEditor->OpenColumnEditor(*this, nCol); break;
-		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
-		case 3: m_pColumnEditor->ResetColumnsDefault(*this); break;
+		case 1:	m_pColumnManager->OpenColumnEditor(*this, nCol); break;
+		case 2: m_pColumnManager->OpenColumnPicker(*this); break;
+		case 3: m_pColumnManager->ResetColumnsDefault(*this); break;
 		default:
 		{
 			int nCol = nResult-4;
@@ -2101,7 +2101,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 			else
 			{
 				int nProfile = nResult-GetColumnCount()-5;
-				m_pColumnEditor->SwichColumnProfile(*this, profiles[nProfile]);
+				m_pColumnManager->SwichColumnProfile(*this, profiles[nProfile]);
 			}
 		} break;
 	}
@@ -2184,7 +2184,7 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	m_pColumnEditor->OnColumnResize(*this);
+	m_pColumnManager->OnColumnResize(*this);
 	return FALSE;
 }
 
@@ -2209,7 +2209,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	if (!columnState.m_Resizable)
 		return FALSE;
 
-	m_pColumnEditor->OnColumnResize(*this);
+	m_pColumnManager->OnColumnResize(*this);
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
@@ -2223,7 +2223,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
-	m_pColumnEditor->OnOwnerKillFocus(*this);
+	m_pColumnManager->OnOwnerKillFocus(*this);
 }
 
 //------------------------------------------------------------------------

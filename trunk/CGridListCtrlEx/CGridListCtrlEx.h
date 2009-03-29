@@ -6,7 +6,7 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
-class CGridColumnEditor;
+class CGridColumnManager;
 class CGridColumnTrait;
 class CGridRowTrait;
 
@@ -24,8 +24,8 @@ class CGridRowTrait;
 //!		- CGridColumnTraitDateTime Implements cell editing using CDateTimeCtrl
 //! - CGridRowTrait provides special behavior to rows
 //!		- CGridRowTraitXP Implements several improvement to the row drawing on WinXP
-//! - CGridColumnEditor provides column state persistence
-//!		- CGridColumnEditorProfile Implements persistence of column width and order of the visible columns
+//! - CGridColumnManager provides column state persistence
+//!		- CGridColumnManagerProfile Implements persistence of column width and order of the visible columns
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -77,7 +77,7 @@ public:
 	virtual int InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	virtual CGridColumnTrait* GetColumnTrait(int nCol);
 	virtual int GetColumnTraitSize() const;
-	virtual void SetupColumnConfig(CGridColumnEditor* pColumnEditor);
+	virtual void SetupColumnConfig(CGridColumnManager* pColumnManager);
 
 	// Cell / Subitem 
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
@@ -108,7 +108,7 @@ protected:
 	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;	//!< Column traits registered (One for each column)
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
-	CGridColumnEditor* m_pColumnEditor;	//!< Column editor used to provide column state persistence
+	CGridColumnManager* m_pColumnManager;	//!< Column manager used to provide column state persistence
 	int InternalColumnPicker(CMenu& menu, int offset);
 	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 

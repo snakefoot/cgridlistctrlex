@@ -4,7 +4,7 @@
 #include <shlwapi.h>	// IsCommonControlsEnabled
 
 #include "CGridColumnTrait.h"
-#include "CGridColumnEditor.h"
+#include "CGridColumnManager.h"
 
 // WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
@@ -526,13 +526,13 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	}
 
 	CString title_editor;
-	if (m_pColumnEditor->HasColumnEditor(*this, nCol, title_editor))
+	if (m_pColumnManager->HasColumnEditor(*this, nCol, title_editor))
 	{
 		menu.AppendMenu(MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
 	}
 
 	CString title_picker;
-	if (m_pColumnEditor->HasColumnPicker(*this, title_picker))
+	if (m_pColumnManager->HasColumnPicker(*this, title_picker))
 	{
 		menu.AppendMenu(MF_STRING, 2, static_cast<LPCTSTR>(title_picker));		
 	}
@@ -548,7 +548,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	InternalColumnProfileSwitcher(menu, GetColumnCount() + 7, profiles);
 
 	CString title_resetdefault;
-	if (m_pColumnEditor->HasColumnsDefault(*this, title_resetdefault))
+	if (m_pColumnManager->HasColumnsDefault(*this, title_resetdefault))
 	{
 		if (profiles.GetSize()==0)
 			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
@@ -560,11 +560,11 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	switch(nResult)
 	{
 		case 0: break;
-		case 1:	m_pColumnEditor->OpenColumnEditor(*this, nCol); break;
-		case 2: m_pColumnEditor->OpenColumnPicker(*this); break;
+		case 1:	m_pColumnManager->OpenColumnEditor(*this, nCol); break;
+		case 2: m_pColumnManager->OpenColumnPicker(*this); break;
 		case 3: GroupByColumn(nCol); break;
 		case 4: RemoveAllGroups(); EnableGroupView(FALSE); break;
-		case 5: m_pColumnEditor->ResetColumnsDefault(*this); break;
+		case 5: m_pColumnManager->ResetColumnsDefault(*this); break;
 		default:
 		{
 			int nCol = nResult-6;
@@ -575,7 +575,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 			else
 			{
 				int nProfile = nResult-GetColumnCount()-7;
-				m_pColumnEditor->SwichColumnProfile(*this, profiles[nProfile]);
+				m_pColumnManager->SwichColumnProfile(*this, profiles[nProfile]);
 			}
 		} break;
 	}

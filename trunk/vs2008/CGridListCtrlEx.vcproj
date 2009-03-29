@@ -276,7 +276,7 @@
 				Name="Source Files"
 				>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.cpp"
+					RelativePath="..\CGridListCtrlEx\CGridColumnManagerProfile.cpp"
 					>
 				</File>
 				<File
@@ -316,11 +316,11 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnEditor.h"
+					RelativePath="..\CGridListCtrlEx\CGridColumnManager.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnEditorProfile.h"
+					RelativePath="..\CGridListCtrlEx\CGridColumnManagerProfile.h"
 					>
 				</File>
 				<File

@@ -6,20 +6,20 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
-#include "CGridColumnEditor.h"
+#include "CGridColumnManager.h"
 
 class CGridColumnConfigProfiles;
 class CGridColumnConfig;
 
 //------------------------------------------------------------------------
-//! Implementation of the CGridColumnEditor interface, that supports
+//! Implementation of the CGridColumnManager interface, that supports
 //! persistance of the column state.
 //!
 //! - Persistence of column order and width for the visible columns.
 //! - Can reset the column configuration back to its default state.
 //! - Can switch between multiple column configuration profiles.
 //------------------------------------------------------------------------
-class CGridColumnEditorProfile : public CGridColumnEditor
+class CGridColumnManagerProfile : public CGridColumnManager
 {
 protected:
 	CGridColumnConfigProfiles* m_pColumnConfig;	//!< Interface for persisting the column configuration
@@ -29,9 +29,9 @@ protected:
 	virtual void LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config);
 
 public:
-	explicit CGridColumnEditorProfile(const CString& strViewName);
-	explicit CGridColumnEditorProfile(CGridColumnConfigProfiles* pColumnConfig);
-	virtual ~CGridColumnEditorProfile();
+	explicit CGridColumnManagerProfile(const CString& strViewName);
+	explicit CGridColumnManagerProfile(CGridColumnConfigProfiles* pColumnConfig);
+	virtual ~CGridColumnManagerProfile();
 
 	virtual bool HasColumnsDefault(CGridListCtrlEx& owner, CString& strTitle);
 	virtual void ResetColumnsDefault(CGridListCtrlEx& owner);
