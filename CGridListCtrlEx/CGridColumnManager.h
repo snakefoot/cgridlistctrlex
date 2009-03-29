@@ -9,14 +9,14 @@
 class CGridListCtrlEx;
 
 //------------------------------------------------------------------------
-//! CGridColumnEditor specifies the interface for the column editor
-//! that can work together with CGridListCtrlEx
+//! CGridColumnManager specifies the interface for the management of columns
+//! for the CGridListCtrlEx
 //------------------------------------------------------------------------
-class CGridColumnEditor
+class CGridColumnManager
 {
 public:
 	//! Destructor
-	virtual ~CGridColumnEditor() {}
+	virtual ~CGridColumnManager() {}
 
 	//! Is there a column configuration editor available for this column ?
 	//!

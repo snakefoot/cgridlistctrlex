@@ -1,35 +1,35 @@
 #include "stdafx.h"
-#include "CGridColumnEditorProfile.h"
+#include "CGridColumnManagerProfile.h"
 
 #include "CGridListCtrlEx.h"
 #include "CGridColumnTrait.h"
 
 //------------------------------------------------------------------------
-//! CGridColumnEditorProfile - Constructor
+//! CGridColumnManagerProfile - Constructor
 //!
 //! @param strViewName Name to identify and persist the configuration
 //------------------------------------------------------------------------
-CGridColumnEditorProfile::CGridColumnEditorProfile(const CString& strViewName)
+CGridColumnManagerProfile::CGridColumnManagerProfile(const CString& strViewName)
 {
 	m_ApplyingConfiguration = false;
 	m_pColumnConfig = new CGridColumnConfigWinApp(strViewName);
 }
 
 //------------------------------------------------------------------------
-//! CGridColumnEditorProfile - Constructor
+//! CGridColumnManagerProfile - Constructor
 //!
 //! @param pColumnConfig Interface for persisting the configuration
 //------------------------------------------------------------------------
-CGridColumnEditorProfile::CGridColumnEditorProfile(CGridColumnConfigProfiles* pColumnConfig)
+CGridColumnManagerProfile::CGridColumnManagerProfile(CGridColumnConfigProfiles* pColumnConfig)
 {
 	m_ApplyingConfiguration = false;
 	m_pColumnConfig = pColumnConfig;
 }
 
 //------------------------------------------------------------------------
-//! CGridColumnEditorProfile - Destructor
+//! CGridColumnManagerProfile - Destructor
 //------------------------------------------------------------------------
-CGridColumnEditorProfile::~CGridColumnEditorProfile()
+CGridColumnManagerProfile::~CGridColumnManagerProfile()
 {
 	delete m_pColumnConfig;
 	m_pColumnConfig = NULL;
@@ -41,7 +41,7 @@ CGridColumnEditorProfile::~CGridColumnEditorProfile()
 //! @param owner The list control
 //! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::SaveConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config)
+void CGridColumnManagerProfile::SaveConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
 	if (m_ApplyingConfiguration)
 		return;
@@ -80,7 +80,7 @@ void CGridColumnEditorProfile::SaveConfiguration(CGridListCtrlEx& owner, CGridCo
 //! @param owner The list control
 //! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config)
+void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
 	if (!m_pColumnConfig->HasDefaultConfig())
 	{
@@ -166,7 +166,7 @@ void CGridColumnEditorProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridCo
 //! @param owner The list control
 //! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::SaveColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
+void CGridColumnManagerProfile::SaveColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
 	CString colSetting;
 	colSetting.Format(_T("ColumnWidth_%d"), nConfigCol);
@@ -181,7 +181,7 @@ void CGridColumnEditorProfile::SaveColumnConfiguration(int nConfigCol, int nOwne
 //! @param owner The list control
 //! @param config The interface for persisting the configuration
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
+void CGridColumnManagerProfile::LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
 	CString colSetting;
 	if (owner.GetColumnTrait(nOwnerCol)->GetColumnState().m_Resizable)
@@ -199,7 +199,7 @@ void CGridColumnEditorProfile::LoadColumnConfiguration(int nConfigCol, int nOwne
 //! @param strTitle Title to show in the context menu when right-clicking the column
 //! @return Default column configuration is available (true / false)
 //------------------------------------------------------------------------
-bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString& strTitle)
+bool CGridColumnManagerProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString& strTitle)
 {
 	strTitle = _T("Reset columns");
 	return m_pColumnConfig->HasDefaultConfig();
@@ -210,7 +210,7 @@ bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString
 //!
 //! @param owner The list control with the columns
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::ResetColumnsDefault(CGridListCtrlEx& owner)
+void CGridColumnManagerProfile::ResetColumnsDefault(CGridListCtrlEx& owner)
 {
 	m_pColumnConfig->ResetConfigDefault();
 	LoadConfiguration(owner, *m_pColumnConfig);
@@ -221,7 +221,7 @@ void CGridColumnEditorProfile::ResetColumnsDefault(CGridListCtrlEx& owner)
 //!
 //! @param strProfile Name of the profile
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::AddColumnProfile(const CString& strProfile)
+void CGridColumnManagerProfile::AddColumnProfile(const CString& strProfile)
 {
 	m_pColumnConfig->AddProfile(strProfile);
 }
@@ -231,7 +231,7 @@ void CGridColumnEditorProfile::AddColumnProfile(const CString& strProfile)
 //!
 //! @param strProfile Name of the profile
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::DeleteColumnProfile(const CString& strProfile)
+void CGridColumnManagerProfile::DeleteColumnProfile(const CString& strProfile)
 {
 	m_pColumnConfig->DeleteProfile(strProfile);
 }
@@ -244,7 +244,7 @@ void CGridColumnEditorProfile::DeleteColumnProfile(const CString& strProfile)
 //! @param strTitle Title to show in the context menu when right-clicking the column
 //! @return Name of the current column profile
 //------------------------------------------------------------------------
-CString CGridColumnEditorProfile::HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& strTitle)
+CString CGridColumnManagerProfile::HasColumnProfiles(CGridListCtrlEx& owner, CSimpleArray<CString>& profiles, CString& strTitle)
 {
 	strTitle = _T("Column Profiles");
 	m_pColumnConfig->GetProfiles(profiles);
@@ -257,7 +257,7 @@ CString CGridColumnEditorProfile::HasColumnProfiles(CGridListCtrlEx& owner, CSim
 //! @param owner The list control with the columns
 //! @param strProfile List of available column profiles
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::SwichColumnProfile(CGridListCtrlEx& owner, const CString& strProfile)
+void CGridColumnManagerProfile::SwichColumnProfile(CGridListCtrlEx& owner, const CString& strProfile)
 {
 	// Save the current configuration before switching to the new one
 	SaveConfiguration(owner, *m_pColumnConfig);
@@ -270,7 +270,7 @@ void CGridColumnEditorProfile::SwichColumnProfile(CGridListCtrlEx& owner, const 
 //!
 //! @param owner The list control with the columns
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::OnColumnSetup(CGridListCtrlEx& owner)
+void CGridColumnManagerProfile::OnColumnSetup(CGridListCtrlEx& owner)
 {
 	LoadConfiguration(owner, *m_pColumnConfig);
 }
@@ -280,7 +280,7 @@ void CGridColumnEditorProfile::OnColumnSetup(CGridListCtrlEx& owner)
 //!
 //! @param owner The list control with the columns
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::OnOwnerKillFocus(CGridListCtrlEx& owner)
+void CGridColumnManagerProfile::OnOwnerKillFocus(CGridListCtrlEx& owner)
 {
 	SaveConfiguration(owner, *m_pColumnConfig);
 }
@@ -290,7 +290,7 @@ void CGridColumnEditorProfile::OnOwnerKillFocus(CGridListCtrlEx& owner)
 //!
 //! @param owner The list control with the columns
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::OnColumnResize(CGridListCtrlEx& owner)
+void CGridColumnManagerProfile::OnColumnResize(CGridListCtrlEx& owner)
 {
 	SaveConfiguration(owner, *m_pColumnConfig);
 }
@@ -300,7 +300,7 @@ void CGridColumnEditorProfile::OnColumnResize(CGridListCtrlEx& owner)
 //!
 //! @param owner The list control with the columns
 //------------------------------------------------------------------------
-void CGridColumnEditorProfile::OnColumnPick(CGridListCtrlEx& owner)
+void CGridColumnManagerProfile::OnColumnPick(CGridListCtrlEx& owner)
 {
 	SaveConfiguration(owner, *m_pColumnConfig);
 }
