@@ -177,11 +177,11 @@ bool CGridColumnTraitText::OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAs
 //! Compares two cell values according to specified sort order
 //!
 //! @param pszLeftValue Left cell value
-//! @param pszLeftValue Right cell value
+//! @param pszRightValue Right cell value
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitText::CompareCellValues(LPCTSTR pszLeftValue, const CString& pszRightValue, bool bAscending)
+int CGridColumnTraitText::CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
 	if (m_SortFormatNumber)
 	{

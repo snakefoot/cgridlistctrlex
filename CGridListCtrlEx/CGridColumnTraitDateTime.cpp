@@ -128,11 +128,11 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 //! Compares two cell values according to specified sort order
 //!
 //! @param pszLeftValue Left cell value
-//! @param pszLeftValue Right cell value
+//! @param pszRightValue Right cell value
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitDateTime::CompareCellValues(LPCTSTR pszLeftValue, const CString& pszRightValue, bool bAscending)
+int CGridColumnTraitDateTime::CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
 	COleDateTime leftDate;
 	if(leftDate.ParseDateTime(pszLeftValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
