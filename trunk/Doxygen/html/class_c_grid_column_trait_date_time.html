@@ -47,6 +47,9 @@ Inherits <a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTra
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#cba95b50bdbaeb960807e443f0dc3aa2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#cba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#cba95b50bdbaeb960807e443f0dc3aa2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#af1b7d276a852360f33388c8e579320d">CompareCellValues</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#af1b7d276a852360f33388c8e579320d"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ae5d750254c2499806fa7af709d32e7e"></a><!-- doxytag: member="CGridColumnTraitDateTime::Accept" ref="ae5d750254c2499806fa7af709d32e7e" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#ae5d750254c2499806fa7af709d32e7e">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -75,6 +78,53 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="class_c_grid_column_trait_date_time.html" title="CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor.">CGridColumnTraitDateTime</a> implements a CDateTimeCtrl as cell-editor. <hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="af1b7d276a852360f33388c8e579320d"></a><!-- doxytag: member="CGridColumnTraitDateTime::CompareCellValues" ref="af1b7d276a852360f33388c8e579320d" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CGridColumnTraitDateTime::CompareCellValues           </td>
+          <td>(</td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszLeftValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszRightValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Compares two cell values according to specified sort order. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pszLeftValue</em>&nbsp;</td><td>Left cell value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pszRightValue</em>&nbsp;</td><td>Right cell value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_text.html#9eddd5fda699703aef726f24c25ae347">CGridColumnTraitText</a>.</p>
+
+</div>
+</div><p>
 <a class="anchor" name="513db893fdc200c67ba2dc19565fa5ee"></a><!-- doxytag: member="CGridColumnTraitDateTime::CreateDateTimeCtrl" ref="513db893fdc200c67ba2dc19565fa5ee" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, const CRect &amp;rect)" -->
 <div class="memitem">
 <div class="memproto">
@@ -266,7 +316,7 @@ Set style used when creating CDataTimeCtrl for cell value editing.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 02:51:26 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Mar 30 00:58:04 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
