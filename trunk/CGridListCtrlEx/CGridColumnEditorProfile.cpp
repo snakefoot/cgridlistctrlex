@@ -82,7 +82,7 @@ void CGridColumnEditorProfile::SaveConfiguration(CGridListCtrlEx& owner, CGridCo
 //------------------------------------------------------------------------
 void CGridColumnEditorProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
-	if (!m_pColumnConfig->HasDefaultSettings())
+	if (!m_pColumnConfig->HasDefaultConfig())
 	{
 		SaveConfiguration(owner, m_pColumnConfig->GetDefaultConfig());
 	}
@@ -202,7 +202,7 @@ void CGridColumnEditorProfile::LoadColumnConfiguration(int nConfigCol, int nOwne
 bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString& strTitle)
 {
 	strTitle = _T("Reset columns");
-	return m_pColumnConfig->HasDefaultSettings();
+	return m_pColumnConfig->HasDefaultConfig();
 }
 
 //------------------------------------------------------------------------
@@ -212,7 +212,7 @@ bool CGridColumnEditorProfile::HasColumnsDefault(CGridListCtrlEx& owner, CString
 //------------------------------------------------------------------------
 void CGridColumnEditorProfile::ResetColumnsDefault(CGridListCtrlEx& owner)
 {
-	m_pColumnConfig->ResetSettingsDefault();
+	m_pColumnConfig->ResetConfigDefault();
 	LoadConfiguration(owner, *m_pColumnConfig);
 }
 
@@ -885,7 +885,7 @@ void CGridColumnConfigDefault::CGridColumnConfigLocal::RemoveSection(const CStri
 //!
 //! @return Default configuration available (true/false)
 //------------------------------------------------------------------------
-bool CGridColumnConfigDefault::CGridColumnConfigLocal::HasDefaultSettings() const
+bool CGridColumnConfigDefault::CGridColumnConfigLocal::HasSettings() const
 {
 	return m_LocalSettings.GetSize() > 0;
 }
@@ -908,7 +908,7 @@ void CGridColumnConfigDefault::CGridColumnConfigLocal::CopySettings(CGridColumnC
 //------------------------------------------------------------------------
 CGridColumnConfigDefault::CGridColumnConfigDefault(const CString& strViewName)
 :CGridColumnConfig(strViewName)
-,m_DefaultSettings(strViewName)
+,m_DefaultConfig(strViewName)
 {}
 
 //------------------------------------------------------------------------
@@ -921,7 +921,7 @@ CGridColumnConfigDefault::CGridColumnConfigDefault(const CString& strViewName)
 //------------------------------------------------------------------------
 CString CGridColumnConfigDefault::GetSetting(const CString& strName, const CString& strDefval) const
 {
-	return CGridColumnConfig::GetSetting(strName, m_DefaultSettings.GetSetting(strName, strDefval));
+	return CGridColumnConfig::GetSetting(strName, m_DefaultConfig.GetSetting(strName, strDefval));
 }
 
 //------------------------------------------------------------------------
@@ -931,7 +931,7 @@ CString CGridColumnConfigDefault::GetSetting(const CString& strName, const CStri
 //------------------------------------------------------------------------
 CGridColumnConfig& CGridColumnConfigDefault::GetDefaultConfig()
 {
-	return m_DefaultSettings;
+	return m_DefaultConfig;
 }
 
 //------------------------------------------------------------------------
@@ -939,19 +939,19 @@ CGridColumnConfig& CGridColumnConfigDefault::GetDefaultConfig()
 //!
 //! @return Default configuration available (true/false)
 //------------------------------------------------------------------------
-bool CGridColumnConfigDefault::HasDefaultSettings() const
+bool CGridColumnConfigDefault::HasDefaultConfig() const
 {
-	return m_DefaultSettings.HasDefaultSettings();
+	return m_DefaultConfig.HasSettings();
 }
 
 //------------------------------------------------------------------------
 //! Resets the current configuration by deleting it and restoring it
 //! from the in memory default configuration.
 //------------------------------------------------------------------------
-void CGridColumnConfigDefault::ResetSettingsDefault()
+void CGridColumnConfigDefault::ResetConfigDefault()
 {
 	RemoveSection(GetSectionName());
-	m_DefaultSettings.CopySettings(*this);
+	m_DefaultConfig.CopySettings(*this);
 }
 
 //------------------------------------------------------------------------

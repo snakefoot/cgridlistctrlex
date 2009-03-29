@@ -132,17 +132,17 @@ protected:
 		CGridColumnConfigLocal(const CGridColumnConfigLocal& other);
 		CGridColumnConfigLocal& operator=(const CGridColumnConfigLocal& other);
 
-		bool HasDefaultSettings() const;
+		bool HasSettings() const;
 		void CopySettings(CGridColumnConfig& destination) const;
 	};
-	CGridColumnConfigLocal m_DefaultSettings;	//!< Default configuration stored in memory
+	CGridColumnConfigLocal m_DefaultConfig;	//!< Default configuration stored in memory
 
 public:
 	explicit CGridColumnConfigDefault(const CString& strViewName);
 
 	virtual CGridColumnConfig& GetDefaultConfig();
-	virtual bool HasDefaultSettings() const;
-	virtual void ResetSettingsDefault();
+	virtual bool HasDefaultConfig() const;
+	virtual void ResetConfigDefault();
 
 	virtual CString GetSetting(const CString& strName, const CString& strDefval = _T("")) const;
 };
