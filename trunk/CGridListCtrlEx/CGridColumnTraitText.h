@@ -23,7 +23,7 @@ public:
 
 	void SetSortFormatNumber(bool bValue);
 
-	virtual int CompareCellValues(LPCTSTR pszLeftValue, const CString& pszRightValue, bool bAscending);
+	virtual int CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
 protected:
 	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with this font
