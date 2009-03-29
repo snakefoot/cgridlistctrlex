@@ -5,6 +5,8 @@
 #include "CGridListCtrlExApp.h"
 #include "CGridListCtrlExDlg.h"
 
+
+#include "..\CGridListCtrlEx\CGridColumnEditorProfile.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 #include "..\CGridListCtrlEx\CGridRowTraitXP.h"
@@ -159,6 +161,11 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 	m_ListCtrl.SetCellImage(1, 3, 0);
 	m_ListCtrl.SetCellImage(2, 3, 0);
 	m_ListCtrl.SetCellImage(3, 3, 1);
+
+	CGridColumnEditorProfile* pColumnProfile = new CGridColumnEditorProfile(_T("Sample List"));
+	pColumnProfile->AddColumnProfile(_T("Default"));
+	pColumnProfile->AddColumnProfile(_T("Special"));
+	m_ListCtrl.SetupColumnConfig(pColumnProfile);
 	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
