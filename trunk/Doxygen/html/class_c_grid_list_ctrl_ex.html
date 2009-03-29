@@ -120,9 +120,9 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#9d9e631c62b9fc3d8404c8b746143129">GetColumnTraitSize</a> () const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the number of column traits registered.  <a href="#9d9e631c62b9fc3d8404c8b746143129"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#fbe0ccc05a9099267347835e1c01bd07">SetupColumnConfig</a> (<a class="el" href="class_c_grid_column_editor.html">CGridColumnEditor</a> *pColumnEditor)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#44d39cf6e73f44cbc591da6a1a346f2b">SetupColumnConfig</a> (<a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *pColumnManager)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling column state persistence for the list control.  <a href="#fbe0ccc05a9099267347835e1c01bd07"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling column state persistence for the list control.  <a href="#44d39cf6e73f44cbc591da6a1a346f2b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#7971391fd8c58022aa70c09f674b1695">CellHitTest</a> (const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Replicates the SubItemHitTest() but in a const version.  <a href="#7971391fd8c58022aa70c09f674b1695"></a><br></td></tr>
@@ -331,10 +331,10 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 CSimpleArray&lt; <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#47187177b304ce1cabffab461358bca2">m_ColumnTraits</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column traits registered (One for each column). <br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f0dcd459ec1c60fdc39b7d0bd0febe9c"></a><!-- doxytag: member="CGridListCtrlEx::m_pColumnEditor" ref="f0dcd459ec1c60fdc39b7d0bd0febe9c" args="" -->
-<a class="el" href="class_c_grid_column_editor.html">CGridColumnEditor</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#f0dcd459ec1c60fdc39b7d0bd0febe9c">m_pColumnEditor</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="130f27e1cfdde55b7ab8fb529be353c5"></a><!-- doxytag: member="CGridListCtrlEx::m_pColumnManager" ref="130f27e1cfdde55b7ab8fb529be353c5" args="" -->
+<a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#130f27e1cfdde55b7ab8fb529be353c5">m_pColumnManager</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column editor used to provide column state persistence. <br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column manager used to provide column state persistence. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8653b2be7338788ae297e8320c2411f8"></a><!-- doxytag: member="CGridListCtrlEx::m_pDefaultRowTrait" ref="8653b2be7338788ae297e8320c2411f8" args="" -->
 <a class="el" href="class_c_grid_row_trait.html">CGridRowTrait</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#8653b2be7338788ae297e8320c2411f8">m_pDefaultRowTrait</a></td></tr>
 
@@ -3498,15 +3498,15 @@ Puts a sort-icon in the column header of the specified column.
 
 </div>
 </div><p>
-<a class="anchor" name="fbe0ccc05a9099267347835e1c01bd07"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="fbe0ccc05a9099267347835e1c01bd07" args="(CGridColumnEditor *pColumnEditor)" -->
+<a class="anchor" name="44d39cf6e73f44cbc591da6a1a346f2b"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="44d39cf6e73f44cbc591da6a1a346f2b" args="(CGridColumnManager *pColumnManager)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CGridListCtrlEx::SetupColumnConfig           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_column_editor.html">CGridColumnEditor</a> *&nbsp;</td>
-          <td class="paramname"> <em>pColumnEditor</em>          </td>
+          <td class="paramtype"><a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *&nbsp;</td>
+          <td class="paramname"> <em>pColumnManager</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [virtual]</code></td>
         </tr>
@@ -3519,7 +3519,7 @@ Sets the interface for handling column state persistence for the list control.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pColumnEditor</em>&nbsp;</td><td>The new column state interface handler </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pColumnManager</em>&nbsp;</td><td>The new column state interface handler </td></tr>
   </table>
 </dl>
 
@@ -3632,7 +3632,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Mar 26 02:51:26 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 29 22:14:58 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
