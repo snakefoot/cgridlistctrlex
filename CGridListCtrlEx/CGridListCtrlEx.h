@@ -15,6 +15,7 @@
 //	1.3 - Added support for compiling on VC6 (2008-10-09)
 //	1.2 - Added row traits and CGridRowTraitXP (2008-09-24)
 //	1.1 - Added support for groups with CGridListCtrlGroups (2008-09-18)
+//		  Added support for CDateTimeCtrl as cell editor
 //	1.0 - Initial Release (2008-09-04)
 //------------------------------------------------------------------------
 
