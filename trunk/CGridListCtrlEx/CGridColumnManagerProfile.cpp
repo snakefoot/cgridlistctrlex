@@ -146,10 +146,12 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 				pOrderArray[--nColOrder] = nCol;
 			}
 		}
+
+		// Only update the column configuration if there are visible columns
+		owner.SetColumnOrderArray(nColCount, pOrderArray);
 	}
 
 	ASSERT(nColOrder==0);	// All entries in the order-array must be set
-	owner.SetColumnOrderArray(nColCount, pOrderArray);
 	delete [] pOrderArray;
 
 	m_ApplyingConfiguration = false;
