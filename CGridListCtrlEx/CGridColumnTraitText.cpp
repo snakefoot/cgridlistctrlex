@@ -118,61 +118,6 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 	}
 }
 
-namespace {
-	struct PARAMSORT
-	{
-		PARAMSORT(HWND hWnd, CGridColumnTraitText* pTrait, int nCol, bool bAscending)
-			:m_hWnd(hWnd)
-			,m_pTrait(pTrait)
-			,m_ColumnIndex(nCol)
-			,m_Ascending(bAscending)
-		{}
-
-		HWND m_hWnd;
-		int  m_ColumnIndex;
-		bool m_Ascending;
-		CGridColumnTraitText* m_pTrait;
-	};
-
-	// Comparison extracts values from the List-Control
-	int CALLBACK SortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
-	{
-		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
-
-		TCHAR left[256] = _T(""), right[256] = _T("");
-		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left));
-		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right));
-
-		return ps.m_pTrait->CompareCellValues(left, right, ps.m_Ascending);
-	}
-}
-
-// Define does not exist on VC6
-#ifndef ListView_SortItemsEx
-	#ifndef LVM_SORTITEMSEX
-		#define LVM_SORTITEMSEX          (LVM_FIRST + 81)
-	#endif
-	#define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
-	(BOOL)SNDMSG((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
-#endif
-
-//------------------------------------------------------------------------
-//! Performs row sorting according to the cell contents
-//!
-//! @param owner The list control
-//! @param nCol The index of the column to sort according to
-//! @param bAscending Perform sorting in ascending or descending order
-//! @return Can rows be sorted according to specified column (true / false)
-//------------------------------------------------------------------------
-bool CGridColumnTraitText::OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAscending)
-{
-	// Uses SortItemsEx because it requires no knowledge of datamodel
-	//	- CListCtrl::SortItems() is faster with direct access to the datamodel
-	PARAMSORT paramsort(owner.m_hWnd, this, nCol, bAscending);
-	ListView_SortItemsEx(owner.m_hWnd, SortFunc, &paramsort);
-	return true;
-}
-
 //------------------------------------------------------------------------
 //! Compares two cell values according to specified sort order
 //!
@@ -181,7 +126,7 @@ bool CGridColumnTraitText::OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAs
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitText::CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
+int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
 	if (m_SortFormatNumber)
 	{

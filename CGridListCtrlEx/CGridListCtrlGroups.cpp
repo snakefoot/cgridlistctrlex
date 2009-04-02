@@ -946,15 +946,17 @@ BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 namespace {
 	struct PARAMSORT
 	{
-		PARAMSORT(HWND hWnd, int columnIndex, bool ascending)
+		PARAMSORT(HWND hWnd, int nCol, bool bAscending, CGridColumnTrait* pTrait)
 			:m_hWnd(hWnd)
-			,m_ColumnIndex(columnIndex)
-			,m_Ascending(ascending)
+			,m_pTrait(pTrait)
+			,m_ColumnIndex(nCol)
+			,m_Ascending(bAscending)
 		{}
 
 		HWND m_hWnd;
 		int  m_ColumnIndex;
 		bool m_Ascending;
+		CGridColumnTrait* m_pTrait;
 		CSimpleMap<int,CString> m_GroupNames;
 
 		const CString& LookupGroupName(int nGroupId)
@@ -976,10 +978,7 @@ namespace {
 		const CString& left = ps.LookupGroupName(leftId);
 		const CString& right = ps.LookupGroupName(rightId);
 
-		if (ps.m_Ascending)
-			return _tcscmp( left, right );
-		else
-			return _tcscmp( right, left );
+		return ps.m_pTrait->OnSortRows(left, right, ps.m_Ascending);
 	}
 }
 
@@ -994,7 +993,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	if (IsGroupViewEnabled())
 	{
-		PARAMSORT paramsort(m_hWnd, nCol, bAscending);
+		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
 
 		GroupByColumn(nCol);
 

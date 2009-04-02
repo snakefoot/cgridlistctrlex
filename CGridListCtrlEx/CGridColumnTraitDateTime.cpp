@@ -132,7 +132,7 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitDateTime::CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
+int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
 	COleDateTime leftDate;
 	if(leftDate.ParseDateTime(pszLeftValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
