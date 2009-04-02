@@ -21,7 +21,7 @@ public:
 	void SetStyle(DWORD dwStyle);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
-	virtual int CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
+	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);

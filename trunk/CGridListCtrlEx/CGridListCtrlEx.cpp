@@ -2273,6 +2273,44 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	return FALSE;
 }
 
+namespace {
+	struct PARAMSORT
+	{
+		PARAMSORT(HWND hWnd, int nCol, bool bAscending, CGridColumnTrait* pTrait)
+			:m_hWnd(hWnd)
+			,m_pTrait(pTrait)
+			,m_ColumnIndex(nCol)
+			,m_Ascending(bAscending)
+		{}
+
+		HWND m_hWnd;
+		int  m_ColumnIndex;
+		bool m_Ascending;
+		CGridColumnTrait* m_pTrait;
+	};
+
+	// Comparison extracts values from the List-Control
+	int CALLBACK SortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+	{
+		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
+
+		TCHAR left[256] = _T(""), right[256] = _T("");
+		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left));
+		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right));
+
+		return ps.m_pTrait->OnSortRows(left, right, ps.m_Ascending);
+	}
+}
+
+// Define does not exist on VC6
+#ifndef ListView_SortItemsEx
+	#ifndef LVM_SORTITEMSEX
+		#define LVM_SORTITEMSEX          (LVM_FIRST + 81)
+	#endif
+	#define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
+	(BOOL)SNDMSG((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
+#endif
+
 //------------------------------------------------------------------------
 //! Changes the row sorting in regard to the specified column
 //!
@@ -2289,8 +2327,11 @@ bool CGridListCtrlEx::SortColumn(int nCol, bool bAscending)
 	if (GetItemCount()<=0)
 		return true;
 
-	CGridColumnTrait* pColumnTrait = GetColumnTrait(nCol);
-	return pColumnTrait->OnSortRows(*this, nCol, bAscending);
+	// Uses SortItemsEx because it requires no knowledge of datamodel
+	//	- CListCtrl::SortItems() is faster with direct access to the datamodel
+	PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
+	ListView_SortItemsEx(m_hWnd, SortFunc, &paramsort);
+	return true;
 }
 
 //------------------------------------------------------------------------

@@ -45,11 +45,11 @@ public:
 
 	//! Override OnSortRows() to provide your own special row sorting
 	//!
-	//! @param owner The list control
-	//! @param nCol The index of the column to sort according to
+	//! @param pszLeftValue Left cell value
+	//! @param pszRightValue Right cell value
 	//! @param bAscending Perform sorting in ascending or descending order
-	//! @return Can rows be sorted according to specified column (true / false)
-	virtual bool OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAscending) { return false; }
+	//! @return Is left value less than right value (-1) or equal (0) or larger (1)
+	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending) { return 0; }
 
 	//! Override Accept() and update CGridColumnTraitVisitor for new column-trait classes.
 	//!   - Will enable the use of the visitor-pattern ex. for serialization of column-traits

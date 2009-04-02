@@ -16,14 +16,12 @@ class CGridColumnTraitText : public CGridColumnTrait
 public:
 	CGridColumnTraitText();
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
-	virtual bool OnSortRows(CGridListCtrlEx& owner, int nCol, bool bAscending);
+	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
 	bool UpdateTextColor(COLORREF& textColor);
 	bool UpdateBackColor(COLORREF& backColor);
 
 	void SetSortFormatNumber(bool bValue);
-
-	virtual int CompareCellValues(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
 protected:
 	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with this font
