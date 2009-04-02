@@ -40,9 +40,9 @@ Inherited by <a class="el" href="class_c_grid_column_trait_combo.html">CGridColu
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#3a3e262526ce3c363311289a25092fe5">OnCustomDraw</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides the custom draw handler, to allow custom coloring of cells with this column trait.  <a href="#3a3e262526ce3c363311289a25092fe5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#8d06f5182838b1b612dd1c7cd4c99c98">OnSortRows</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol, bool bAscending)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a93469a61a6ae6f4c0ef32f7e3393b3c">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs row sorting according to the cell contents.  <a href="#8d06f5182838b1b612dd1c7cd4c99c98"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#a93469a61a6ae6f4c0ef32f7e3393b3c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#500631f1f439f0a063ec918a7a2b1640">UpdateTextColor</a> (COLORREF &amp;textColor)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the text color if one is specified.  <a href="#500631f1f439f0a063ec918a7a2b1640"></a><br></td></tr>
@@ -52,9 +52,6 @@ Inherited by <a class="el" href="class_c_grid_column_trait_combo.html">CGridColu
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#fdb6c2f36cf8cdb44c62afa69c736d84">SetSortFormatNumber</a> (bool bValue)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should cell values be compared as numbers when sorting.  <a href="#fdb6c2f36cf8cdb44c62afa69c736d84"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#9eddd5fda699703aef726f24c25ae347">CompareCellValues</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#9eddd5fda699703aef726f24c25ae347"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="105b61e35243056a6ebab4e5677fdfa5"></a><!-- doxytag: member="CGridColumnTraitText::Accept" ref="105b61e35243056a6ebab4e5677fdfa5" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#105b61e35243056a6ebab4e5677fdfa5">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -86,53 +83,6 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="class_c_grid_column_trait_text.html" title="CGridColumnTraitText provides customization of cell text and background.">CGridColumnTraitText</a> provides customization of cell text and background. <hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="9eddd5fda699703aef726f24c25ae347"></a><!-- doxytag: member="CGridColumnTraitText::CompareCellValues" ref="9eddd5fda699703aef726f24c25ae347" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CGridColumnTraitText::CompareCellValues           </td>
-          <td>(</td>
-          <td class="paramtype">LPCTSTR&nbsp;</td>
-          <td class="paramname"> <em>pszLeftValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LPCTSTR&nbsp;</td>
-          <td class="paramname"> <em>pszRightValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Compares two cell values according to specified sort order. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pszLeftValue</em>&nbsp;</td><td>Left cell value </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pszRightValue</em>&nbsp;</td><td>Right cell value </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
-  </table>
-</dl>
-<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
-
-<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#af1b7d276a852360f33388c8e579320d">CGridColumnTraitDateTime</a>.</p>
-
-</div>
-</div><p>
 <a class="anchor" name="19ff02b544c5c11126fa95fb4d2a9f4f"></a><!-- doxytag: member="CGridColumnTraitText::GetCellEditRect" ref="19ff02b544c5c11126fa95fb4d2a9f4f" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
@@ -252,21 +202,21 @@ Overrides the custom draw handler, to allow custom coloring of cells with this c
 
 </div>
 </div><p>
-<a class="anchor" name="8d06f5182838b1b612dd1c7cd4c99c98"></a><!-- doxytag: member="CGridColumnTraitText::OnSortRows" ref="8d06f5182838b1b612dd1c7cd4c99c98" args="(CGridListCtrlEx &amp;owner, int nCol, bool bAscending)" -->
+<a class="anchor" name="a93469a61a6ae6f4c0ef32f7e3393b3c"></a><!-- doxytag: member="CGridColumnTraitText::OnSortRows" ref="a93469a61a6ae6f4c0ef32f7e3393b3c" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CGridColumnTraitText::OnSortRows           </td>
+          <td class="memname">int CGridColumnTraitText::OnSortRows           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>owner</em>, </td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszLeftValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em>, </td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszRightValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -284,18 +234,20 @@ Overrides the custom draw handler, to allow custom coloring of cells with this c
 <div class="memdoc">
 
 <p>
-Performs row sorting according to the cell contents. 
+Compares two cell values according to specified sort order. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column to sort according to </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pszLeftValue</em>&nbsp;</td><td>Left cell value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pszRightValue</em>&nbsp;</td><td>Right cell value </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
   </table>
 </dl>
-<dl class="return" compact><dt><b>Returns:</b></dt><dd>Can rows be sorted according to specified column (true / false) </dd></dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#8269df75e5fcab0cf7b118a2aa4186a8">CGridColumnTrait</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#2e3d1fc0f5e0f41a985bffedfec3eb30">CGridColumnTrait</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#a95b405d67aeb3312719b018b4f193dc">CGridColumnTraitDateTime</a>.</p>
 
 </div>
 </div><p>
@@ -383,7 +335,7 @@ Changes the text color if one is specified.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Mar 30 00:58:04 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 2 21:57:01 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
