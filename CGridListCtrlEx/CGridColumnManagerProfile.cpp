@@ -454,7 +454,11 @@ void CGridColumnConfig::SetIntSetting(const CString& strName, int nValue)
 double CGridColumnConfig::GetFloatSetting(const CString& strName, double nDefval) const
 {
 	const CString& value = GetSetting(strName, ConvertFloatSetting(nDefval));
-	return _tstof(value);
+#ifdef _UNICODE
+	return wcstod(value, NULL);
+#else
+	return strtod(value, NULL);
+#endif
 }
 
 //------------------------------------------------------------------------
