@@ -158,7 +158,7 @@ protected:
 
 	// Global column trait methods
 	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
-	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol);
+	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, int nRow, int nCol);
 	virtual bool OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers

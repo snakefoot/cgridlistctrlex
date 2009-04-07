@@ -1351,14 +1351,17 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 //! Called when start editing a cell value
 //!
 //! @param pTrait Pointer to the column trait for the column
-//! @param pEditor Pointer to the cell editor created by the column trait
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, CWnd* pEditor, int nRow, int nCol)
+CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, int nRow, int nCol)
 {
-	return pEditor;
+	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
+	if (!columnState.m_Editable)
+		return NULL;
+
+	return pTrait->OnEditBegin(*this, nRow, nCol);
 }
 
 //------------------------------------------------------------------------
@@ -1387,15 +1390,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 		return NULL;
 
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-	if (!columnState.m_Editable)
-		return NULL;
-
-	m_pEditor = pTrait->OnEditBegin(*this, nRow, nCol);
-	if (m_pEditor==NULL)
-		return NULL;
-
-	m_pEditor = OnTraitEditBegin(pTrait, m_pEditor, nRow, nCol);
+	m_pEditor = OnTraitEditBegin(pTrait, nRow, nCol);
 	if (m_pEditor==NULL)
 		return NULL;
 
@@ -1412,6 +1407,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	if (GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
 	{
 		// Parent didn't want to start edit
+		pTrait->OnEditEnd();
 		m_pEditor->PostMessage(WM_CLOSE);
 		m_pEditor = NULL;
 		return NULL;
@@ -1454,14 +1450,7 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	int nCol = pDispInfo->item.iSubItem;
 	int nRow = pDispInfo->item.iItem;
 	nRow;	// Avoid unreferenced variable warning
-
-	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-	if (!columnState.m_Editable)
-	{
-		*pResult = TRUE;// Block for edit
-		return FALSE;	// Allow message to reach parent-dialog
-	}
+	nCol;	// Avoid unreferenced variable warning
 
 	*pResult = FALSE;// Accept editing
 	return FALSE;	// Let parent-dialog get chance
