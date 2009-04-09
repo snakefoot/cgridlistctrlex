@@ -721,7 +721,7 @@ void CGridListCtrlEx::UpdateFocusCell(int nCol)
 }
 
 //------------------------------------------------------------------------
-//! Scrolls the view, so the column because visible
+//! Scrolls the view, so the column becomes visible
 //!
 //! http://www.codeguru.com/cpp/controls/listview/columns/article.php/c931/
 //!
