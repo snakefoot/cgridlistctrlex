@@ -92,7 +92,7 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieve column title of a column in the list control.  <a href="#d98e055a8eae5cfe2852bf3fca6b5266"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#02e7f426f417219ba2f170e955d4d333">EnsureColumnVisible</a> (int nCol, bool bPartialOK)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scrolls the view, so the column because visible.  <a href="#02e7f426f417219ba2f170e955d4d333"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Scrolls the view, so the column becomes visible.  <a href="#02e7f426f417219ba2f170e955d4d333"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#2216362cef0fe68b4ced43dbf58ea672">SetColumnWidthAuto</a> (int nCol=-1, bool bIncludeHeader=false)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Resizes the width of a column according the contents of the cells below.  <a href="#2216362cef0fe68b4ced43dbf58ea672"></a><br></td></tr>
@@ -208,9 +208,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#538683f433c340b9f3aaf56013452c65">OnTraitCustomDraw</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change how to draw a cell using a column trait.  <a href="#538683f433c340b9f3aaf56013452c65"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#b411f26f8d5e13c8cef12fea91139625">OnTraitEditBegin</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, CWnd *pEditor, int nRow, int nCol)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ea06ee4685e7e61e554e8ebfd5f00549">OnTraitEditBegin</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, int nRow, int nCol)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when start editing a cell value.  <a href="#b411f26f8d5e13c8cef12fea91139625"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when start editing a cell value.  <a href="#ea06ee4685e7e61e554e8ebfd5f00549"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#f797891a7d99adf457c0642387b3f6bc">OnTraitEditComplete</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when compltede editing a cell value.  <a href="#f797891a7d99adf457c0642387b3f6bc"></a><br></td></tr>
@@ -562,7 +562,7 @@ Activate visual style for the list control (XP/Vista Theme).
 <div class="memdoc">
 
 <p>
-Scrolls the view, so the column because visible. 
+Scrolls the view, so the column becomes visible. 
 <p>
 <a href="http://www.codeguru.com/cpp/controls/listview/columns/article.php/c931/">http://www.codeguru.com/cpp/controls/listview/columns/article.php/c931/</a><p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -3068,7 +3068,7 @@ Override this method to change how to draw a cell using a column trait.
 
 </div>
 </div><p>
-<a class="anchor" name="b411f26f8d5e13c8cef12fea91139625"></a><!-- doxytag: member="CGridListCtrlEx::OnTraitEditBegin" ref="b411f26f8d5e13c8cef12fea91139625" args="(CGridColumnTrait *pTrait, CWnd *pEditor, int nRow, int nCol)" -->
+<a class="anchor" name="ea06ee4685e7e61e554e8ebfd5f00549"></a><!-- doxytag: member="CGridListCtrlEx::OnTraitEditBegin" ref="ea06ee4685e7e61e554e8ebfd5f00549" args="(CGridColumnTrait *pTrait, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -3077,12 +3077,6 @@ Override this method to change how to draw a cell using a column trait.
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td>
           <td class="paramname"> <em>pTrait</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CWnd *&nbsp;</td>
-          <td class="paramname"> <em>pEditor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3111,7 +3105,6 @@ Called when start editing a cell value.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to the column trait for the column </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pEditor</em>&nbsp;</td><td>Pointer to the cell editor created by the column trait </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
   </table>
@@ -3632,7 +3625,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 2 21:57:02 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 9 18:35:08 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
