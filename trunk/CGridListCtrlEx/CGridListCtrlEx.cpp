@@ -29,6 +29,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT_EX(LVN_COLUMNCLICK, OnHeaderClick)	// Column Click
 	ON_NOTIFY_REFLECT_EX(NM_CLICK, OnItemClick)				// Cell Click
 	ON_NOTIFY_REFLECT_EX(NM_DBLCLK, OnItemDblClick)			// Cell Double Click
+	ON_NOTIFY_REFLECT_EX(LVN_ODFINDITEM, OnOwnerDataFindItem)	// Owner Data Find Item
 	ON_WM_CONTEXTMENU()	// OnContextMenu
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
@@ -1063,6 +1064,63 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //------------------------------------------------------------------------
+//! Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list)
+//!
+//! @param nCol Column where the search is performed
+//! @param nStartRow Row index at which the search will start
+//! @param strSearch String to search for
+//! @return Row index matching the specified search string
+//------------------------------------------------------------------------
+int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& strSearch)
+{
+	int nRowCount = GetItemCount();
+
+	// Perform the search loop twice
+	//	- First search from current position down to bottom
+	//	- Then search from top to current position
+	for(int j = 0; j < 2; ++j)
+	{
+		for(int i = nStartRow + 1; i < nRowCount; ++i)
+		{
+			CString cellText = GetItemText(i, nCol);
+			if (cellText.GetLength()>=strSearch.GetLength())
+			{
+				cellText = cellText.Left(strSearch.GetLength());
+				if (cellText.CompareNoCase(strSearch)==0)
+					return i;
+			}
+		}
+		nRowCount = nStartRow;
+		nStartRow = -1;
+	}
+
+	return -1;
+}
+
+//------------------------------------------------------------------------
+//! LVN_ODFINDITEM message handler for performing keyboard search when
+//! LVS_OWNERDATA (virtual list)
+//!
+//! @param pNMHDR Pointer to NMLVFINDITEM structure
+//! @param pResult Set to the row-index matching the keyboard search (-1 for no match)
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMLVFINDITEM* pFindItem = reinterpret_cast<NMLVFINDITEM*>(pNMHDR);
+
+	*pResult = -1;
+
+	if (pFindItem->lvfi.flags & LVFI_STRING)
+	{
+		*pResult = OnKeyboardSearch(0, pFindItem->iStart-1, pFindItem->lvfi.psz);
+		return TRUE;
+	}
+
+	return FALSE;	// Allow parent to handle message
+}
+
+//------------------------------------------------------------------------
 //! WM_CHAR message handler for performing keyboard search with subitems
 //!
 //! @param nChar Specifies the virtual key code of the given key.
@@ -1075,6 +1133,12 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		// Use the default keyboard search in the label-column
 		CListCtrl::OnChar(nChar, nRepCnt, nFlags);
+		return;
+	}
+
+	if (GetKeyState(VK_CONTROL) < 0)
+	{
+		m_LastSearchString = _T("");
 		return;
 	}
 
@@ -1109,36 +1173,18 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	int nCol = m_FocusCell;
 	if (nCol < 0)
 		nCol = GetFirstVisibleColumn();
-	int nRowCount = GetItemCount();
 
-	// Perform the search loop twice
-	//	- First search from current position down to bottom
-	//	- Then search from top to current position
-	for(int j = 0; j < 2; ++j)
+	m_LastSearchRow = OnKeyboardSearch(nCol, nRow, m_LastSearchString);
+	if (m_LastSearchRow!=-1)
 	{
-		for(int i = nRow + 1; i < nRowCount; ++i)
-		{
-			CString cellText = GetItemText(i, nCol);
-			if (cellText.GetLength()>=m_LastSearchString.GetLength())
-			{
-				cellText = cellText.Left(m_LastSearchString.GetLength());
-				if (cellText.CompareNoCase(m_LastSearchString)==0)
-				{
-					// De-select all other rows
-					SelectRow(-1, false);
-					// Select row found
-					SelectRow(i, true);
-					// Focus row found
-					SetFocusRow(i);
-					// Scroll to row found
-					EnsureVisible(i, FALSE);			
-					m_LastSearchRow = i;
-					return;
-				}
-			}
-		}
-		nRowCount = nRow;
-		nRow = -1;
+		// De-select all other rows
+		SelectRow(-1, false);
+		// Select row found
+		SelectRow(m_LastSearchRow, true);
+		// Focus row found
+		SetFocusRow(m_LastSearchRow);
+		// Scroll to row found
+		EnsureVisible(m_LastSearchRow, FALSE);
 	}
 }
 
