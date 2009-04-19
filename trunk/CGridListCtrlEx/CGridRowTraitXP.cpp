@@ -27,17 +27,13 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 {
 	if (owner.UsingVisualStyle())
 	{
+		// Perform standard drawing
 		CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
 		return;
 	}
-
+	
 	// We are using classic- or XP-style
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
-
-	// Perform standard drawing
-	CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
-	if (*pResult & CDRF_SKIPDEFAULT)
-		return;
 
 	// Repair the standard drawing
 	switch (pLVCD->nmcd.dwDrawStage)
@@ -54,19 +50,16 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			// Fix CListCtrl selection drawing bug with white margin between icon and text
 			int nCol = pLVCD->iSubItem;
 
-			if (!owner.IsColumnVisible(nCol))
+			if (CRect(pLVCD->nmcd.rc)==CRect(0,0,0,0))
+				break;
+
+			int nImage = owner.GetCellImage(nRow, nCol);
+			if (nImage < 0)
 				break;
 
 			COLORREF backColor = COLORREF(-1);
 			if (!owner.IsRowSelected(nRow))
 			{
-				// Redraw with the given background color
-				if (pLVCD->clrTextBk > RGB(255,255,255))
-					break;	// If a color is more than white, then it is invalid
-
-				if (CRect(pLVCD->nmcd.rc)==CRect(0,0,0,0))
-					break;
-
 				backColor = pLVCD->clrTextBk;
 			}
 			else
@@ -89,10 +82,6 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
 			}
 
-			int nImage = owner.GetCellImage(nRow, nCol);
-			if (nImage < 0)
-				break;
-
 			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 
 			CRect rcIcon, rcCell;
@@ -100,7 +89,8 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			VERIFY( owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
 
 			rcCell.right = rcIcon.right + 2;
-			pDC->FillSolidRect(&rcCell, backColor);
+			CBrush brush(backColor);
+			pDC->FillRect(&rcCell, &brush);
 
 			// Draw icon
 			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
@@ -151,4 +141,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 #endif
 		} break;
 	}
+
+	// Perform standard drawing
+	CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
 }
