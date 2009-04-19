@@ -188,6 +188,9 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				}
 			}
 
+			if (CRect(pLVCD->nmcd.rc)==CRect(0,0,0,0))
+				break;
+
 			if (owner.GetFocusRow()!=nRow)
 				break;
 
