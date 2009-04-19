@@ -41,7 +41,7 @@ Inherited by <a class="el" href="class_c_grid_list_ctrl_groups.html">CGridListCt
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Destructor. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#8a60d10b7db4b90183ee6256e86ea7c1">EnableVisualStyles</a> (bool bValue)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Activate visual style for the list control (XP/Vista Theme).  <a href="#8a60d10b7db4b90183ee6256e86ea7c1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Activate visual style for the list control (Vista Theme).  <a href="#8a60d10b7db4b90183ee6256e86ea7c1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="752d019b863d1acab0e6cc3631948d73"></a><!-- doxytag: member="CGridListCtrlEx::UsingVisualStyle" ref="752d019b863d1acab0e6cc3631948d73" args="() const " -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>UsingVisualStyle</b> () const </td></tr>
 
@@ -80,7 +80,7 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#c7aa622d55475024541b3cf6564ba611">GetColumnCount</a> () const </td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves a count of the items in a header control.  <a href="#c7aa622d55475024541b3cf6564ba611"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the number of columns from the header control.  <a href="#c7aa622d55475024541b3cf6564ba611"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#68641446f8ca2fd5e5e66d9785f3409c">GetColumnData</a> (int nCol) const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The column version of GetItemData(), one can specify an unique identifier when using InsertColumn().  <a href="#68641446f8ca2fd5e5e66d9785f3409c"></a><br></td></tr>
@@ -134,7 +134,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#741660fd09e66a673a406cebd0dec3e3">EditCell</a> (int nRow, int nCol)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when start editing a cell value.  <a href="#741660fd09e66a673a406cebd0dec3e3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Starts the edit of a cell and sends a message to the parent window.  <a href="#741660fd09e66a673a406cebd0dec3e3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#6318b3e79b0be4091411b752a329cc6e">IsCellEditorOpen</a> () const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if the cell value editor is open for a cell.  <a href="#6318b3e79b0be4091411b752a329cc6e"></a><br></td></tr>
@@ -158,10 +158,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide icon index when drawing cells Only called when using I_IMAGECALLBACK with <a class="el" href="class_c_grid_list_ctrl_ex.html#2bef9cfbde01f35920492848f52b1ef7" title="Sets the icon of the specified cell.">SetCellImage()</a>.  <a href="#027823c5282b5a67f3521116e52bba8b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#5ae0f01158ff0cb9880dbdc160e6605d">OnDisplayCellTooltip</a> (const CPoint &amp;point) const </td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called constantly while the mouse is moving over the list-control.  <a href="#5ae0f01158ff0cb9880dbdc160e6605d"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method if wanting to specify whether a tooltip is available.  <a href="#5ae0f01158ff0cb9880dbdc160e6605d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#665fa20b96c262ea092fec7b8c12993f">OnDisplayCellTooltip</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called after the tooltip timer has fired.  <a href="#665fa20b96c262ea092fec7b8c12993f"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a cell.  <a href="#665fa20b96c262ea092fec7b8c12993f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#abde4aaff8912c9b05378c4991aca7ba">OnDisplayCellColor</a> (int nRow, int nCol, COLORREF &amp;textColor, COLORREF &amp;backColor)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the colors used for drawing a cell.  <a href="#abde4aaff8912c9b05378c4991aca7ba"></a><br></td></tr>
@@ -183,6 +183,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#85b10f6e13a1ea358a23b8ec463f0593">OnDisplayToClipboard</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what to place in the clipboard for a single cell.  <a href="#85b10f6e13a1ea358a23b8ec463f0593"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#3e164b1264b6d69f63a906af2af48c48">OnOwnerDataDisplayCheckbox</a> (int nRow)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display checkbox state for LVS_OWNERDATA (virtual list).  <a href="#3e164b1264b6d69f63a906af2af48c48"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#610c81efd6d9f108afe22670c7ebcc54">OnOwnerDataToggleCheckBox</a> (int nRow)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react toggle check for LVS_OWNERDATA (virtual list).  <a href="#610c81efd6d9f108afe22670c7ebcc54"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#99ec9f3c4879d6c609e2a2bbbe6b2016">OnKeyboardSearch</a> (int nCol, int nStartRow, const CString &amp;strSearch)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list).  <a href="#99ec9f3c4879d6c609e2a2bbbe6b2016"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#e182fc1595ecdad45f8209f10af10492">InsertColumnTrait</a> (int nCol, <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait)</td></tr>
 
@@ -210,10 +219,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change how to draw a cell using a column trait.  <a href="#538683f433c340b9f3aaf56013452c65"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ea06ee4685e7e61e554e8ebfd5f00549">OnTraitEditBegin</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, int nRow, int nCol)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when start editing a cell value.  <a href="#ea06ee4685e7e61e554e8ebfd5f00549"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#ea06ee4685e7e61e554e8ebfd5f00549"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#f797891a7d99adf457c0642387b3f6bc">OnTraitEditComplete</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when compltede editing a cell value.  <a href="#f797891a7d99adf457c0642387b3f6bc"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#f797891a7d99adf457c0642387b3f6bc"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#3531144d2f29c51989154b7a348b73b9">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the context menu when activating context menu in client area with no rows.  <a href="#3531144d2f29c51989154b7a348b73b9"></a><br></td></tr>
@@ -273,7 +282,7 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#2f52131c002ac1840375ee53e1392487">OnCustomDraw</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl<ul>
-<li>Ensures the CGridColumnTrait's can do their thing</li><li>Ensures that the focus rectangle is properly drawn. </li></ul>
+<li>Ensures the CGridColumnTrait's can do their thing. </li></ul>
  <a href="#2f52131c002ac1840375ee53e1392487"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#775ae32ee0f42784b73aeba7ff0e3087">OnSetColumnWidth</a> (WPARAM wParam, LPARAM lParam)</td></tr>
 
@@ -305,6 +314,9 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#5b5c171fbec8c4870f8c2bf6363a9820">OnEndLabelEdit</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_ENDLABELEDIT message handler called when completed a cell edit.  <a href="#5b5c171fbec8c4870f8c2bf6363a9820"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#b0c8e56a41390bc9d20b18de6058d300">OnOwnerDataFindItem</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_ODFINDITEM message handler for performing keyboard search when LVS_OWNERDATA (virtual list).  <a href="#b0c8e56a41390bc9d20b18de6058d300"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#5906df0b41e263ab9dbbc1642b7b5785">OnHScroll</a> (UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_HSCROLL message handler called when scrolling in the list control.  <a href="#5906df0b41e263ab9dbbc1642b7b5785"></a><br></td></tr>
@@ -496,7 +508,7 @@ Internal maintenance function for the column trait container.
 <div class="memdoc">
 
 <p>
-Called when start editing a cell value. 
+Starts the edit of a cell and sends a message to the parent window. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -525,7 +537,7 @@ Called when start editing a cell value.
 <div class="memdoc">
 
 <p>
-Activate visual style for the list control (XP/Vista Theme). 
+Activate visual style for the list control (Vista Theme). 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -745,7 +757,7 @@ Improved version of GetSubItemRect().
 <div class="memdoc">
 
 <p>
-Retrieves a count of the items in a header control. 
+Retrieves the number of columns from the header control. 
 <p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>Number of header control items if successful; otherwise – 1. </dd></dl>
 
@@ -1362,6 +1374,7 @@ Shifts the cell focus left or right in the same row.
 <p>
 LVN_BEGINLABELEDIT message handler called when start editing a cell. 
 <p>
+Blocks cell edit events from the parent CListCtrl for the label column.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an LV_DISPINFO structure </td></tr>
@@ -1722,7 +1735,7 @@ Called when inside a CView.<p>
 
 <p>
 Performs custom drawing of the CListCtrl<ul>
-<li>Ensures the CGridColumnTrait's can do their thing</li><li>Ensures that the focus rectangle is properly drawn. </li></ul>
+<li>Ensures the CGridColumnTrait's can do their thing. </li></ul>
 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -1991,9 +2004,9 @@ Override this method to provide text string when drawing cells Only called when 
 <div class="memdoc">
 
 <p>
-Called after the tooltip timer has fired. 
+Override this method to display a custom tooltip text when holding the mouse over a cell. 
 <p>
-Override to display a custom tooltip text<p>
+Called after the tooltip timer has fired.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
@@ -2022,8 +2035,9 @@ Override to display a custom tooltip text<p>
 <div class="memdoc">
 
 <p>
-Called constantly while the mouse is moving over the list-control. 
+Override this method if wanting to specify whether a tooltip is available. 
 <p>
+Called constantly while the mouse is moving over the list-control.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Current mouse position relative to the upper-left corner of the window </td></tr>
@@ -2255,6 +2269,7 @@ Override this method to control what is placed in the global clipboard.
 <p>
 LVN_ENDLABELEDIT message handler called when completed a cell edit. 
 <p>
+Makes it possible to validate input, and reject invalid values.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an LV_DISPINFO structure </td></tr>
@@ -2683,6 +2698,7 @@ LVM_INSERTCOLUMN message handler to ensure the column trait container is updated
 <p>
 NM_CLICK message handler called when left-clicking in a cell. 
 <p>
+Just to show how to catch the single click event.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMITEMACTIVATE structure </td></tr>
@@ -2721,6 +2737,7 @@ NM_CLICK message handler called when left-clicking in a cell.
 <p>
 NM_DBLCLK message handler called when double-clicking in a cell. 
 <p>
+Just to show how to catch the double click event.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMITEMACTIVATE structure </td></tr>
@@ -2728,6 +2745,51 @@ NM_DBLCLK message handler called when double-clicking in a cell.
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="99ec9f3c4879d6c609e2a2bbbe6b2016"></a><!-- doxytag: member="CGridListCtrlEx::OnKeyboardSearch" ref="99ec9f3c4879d6c609e2a2bbbe6b2016" args="(int nCol, int nStartRow, const CString &amp;strSearch)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CGridListCtrlEx::OnKeyboardSearch           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nStartRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strSearch</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list). 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>Column where the search is performed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nStartRow</em>&nbsp;</td><td>Row index at which the search will start </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strSearch</em>&nbsp;</td><td>String to search for </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Row index matching the specified search string </dd></dl>
 
 </div>
 </div><p>
@@ -2836,6 +2898,100 @@ Used to activate the cell editor of the cell clicked using the mouse.<p>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nFlags</em>&nbsp;</td><td>Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.) </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Mouse cursor position relative to the upper-left corner of the client area. </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="3e164b1264b6d69f63a906af2af48c48"></a><!-- doxytag: member="CGridListCtrlEx::OnOwnerDataDisplayCheckbox" ref="3e164b1264b6d69f63a906af2af48c48" args="(int nRow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnOwnerDataDisplayCheckbox           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to display checkbox state for LVS_OWNERDATA (virtual list). 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The row index being displayed </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is row checked ? </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="b0c8e56a41390bc9d20b18de6058d300"></a><!-- doxytag: member="CGridListCtrlEx::OnOwnerDataFindItem" ref="b0c8e56a41390bc9d20b18de6058d300" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnOwnerDataFindItem           </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+LVN_ODFINDITEM message handler for performing keyboard search when LVS_OWNERDATA (virtual list). 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMLVFINDITEM structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Set to the row-index matching the keyboard search (-1 for no match) </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="610c81efd6d9f108afe22670c7ebcc54"></a><!-- doxytag: member="CGridListCtrlEx::OnOwnerDataToggleCheckBox" ref="610c81efd6d9f108afe22670c7ebcc54" args="(int nRow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnOwnerDataToggleCheckBox           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to react toggle check for LVS_OWNERDATA (virtual list). 
+<p>
+Remember to force a redraw to ensure the new checkbox state is displayed.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The row index where the checkbox should be toggled </td></tr>
   </table>
 </dl>
 
@@ -3100,8 +3256,9 @@ Override this method to change how to draw a cell using a column trait.
 <div class="memdoc">
 
 <p>
-Called when start editing a cell value. 
+Override this method to control whether cell editing is allowed for a cell. 
 <p>
+Called when start editing a cell value<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to the column trait for the column </td></tr>
@@ -3145,8 +3302,9 @@ Called when start editing a cell value.
 <div class="memdoc">
 
 <p>
-Called when compltede editing a cell value. 
+Override this method to validate the new value after a cell edit. 
 <p>
+Called when completed editing of a cell value<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to the column trait for the column </td></tr>
@@ -3625,7 +3783,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 9 18:35:08 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 20 00:08:15 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
