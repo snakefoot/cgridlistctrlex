@@ -2679,7 +2679,26 @@ void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
-	 CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
+	
+	CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
+
+	if (!UsingVisualStyle())
+	{
+		// Only when using the mouse to scroll
+		if ((::GetKeyState(VK_LBUTTON) & 0x8000)!=0)
+		{
+			// Fix CListCtrl grid drawing bug where vertical grid-border disappears
+			//	- To reproduce the bug one needs atleast 2 columns:
+			//		1) Resize the second column so a scrollbar appears
+			//		2) Scroll to the right so the first column disappear
+			//		3) When scrolling slowly to the left, the right border of first column is not drawn
+			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
+			{
+				Invalidate();
+				UpdateWindow();
+			}
+		}
+	}
 }
 
 //------------------------------------------------------------------------
@@ -2694,7 +2713,22 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
-	 CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
+
+	CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
+
+	if (!UsingVisualStyle())
+	{
+		// Only when using the mouse to scroll
+		if ((::GetKeyState(VK_LBUTTON) & 0x8000)!=0)
+		{
+			// Fix bug where it doesn't erase the background properly
+			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
+			{
+				Invalidate();
+				UpdateWindow();
+			}
+		}
+	}
 }
 
 //------------------------------------------------------------------------

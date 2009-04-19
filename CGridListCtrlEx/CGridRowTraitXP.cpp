@@ -17,7 +17,6 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 //! Overrides the custom draw handler, to allow custom coloring of rows.
 //!		- Fix white background for icon images
 //!		- Fix white background between icon and cell text
-//!		- Fix drawing of column grid lines when slowly scrolling
 //!
 //! @param owner The list control drawing
 //! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
@@ -60,6 +59,10 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			COLORREF backColor = COLORREF(-1);
 			if (!owner.IsRowSelected(nRow))
 			{
+				// Redraw with the given background color
+				if (pLVCD->clrTextBk > RGB(255,255,255))
+					break;	// If a color is more than white, then it is invalid
+
 				backColor = pLVCD->clrTextBk;
 			}
 			else
@@ -100,45 +103,6 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 								rcIcon.TopLeft(),  
 								ILD_BLEND50 );
 			pImageList->SetBkColor(oldBkColor);
-		} break;
-
-		case CDDS_ITEMPOSTPAINT:
-		{
-			// Fix CListCtrl grid drawing bug where vertical grid-border disappears
-			//	- To reproduce the bug one needs atleast 2 columns:
-			//		1) Resize the second column so a scrollbar appears
-			//		2) Scroll to the right so the first column disappear
-			//		3) When scrolling slowly to the left, the right border of first column is not drawn
-#if (_WIN32_WINNT >= 0x501)
-			if ( (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
-			  && (owner.GetExtendedStyle() & LVS_EX_DOUBLEBUFFER)
-			   )
-			{
-				CRect rcVisibleRect;
-				owner.GetClientRect(rcVisibleRect);
-
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-				CPen Pen;
-				Pen.CreatePen(PS_SOLID, 1, ::GetSysColor(COLOR_BTNFACE));
-				CPen* pOldPen = pDC->SelectObject(&Pen);
-
-				// Loop through the columns without regard of display order
-				int nColCount = owner.GetHeaderCtrl()->GetItemCount();
-				for(int nCol = 0; nCol < nColCount; ++nCol)
-				{
-					CRect rcCell;
-					VERIFY( owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
-					if (rcCell.right==0 && rcCell.left!=rcCell.right)
-					{
-						// Only redraw when the border is about to show, and the column has a width
-						pDC->MoveTo(rcCell.right, rcCell.top);
-						pDC->LineTo(rcCell.right, rcCell.bottom);
-					}
-				}
-
-				pDC->SelectObject(pOldPen);
-			}
-#endif
 		} break;
 	}
 
