@@ -1059,8 +1059,44 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		{
 			EditCell(GetFocusRow(), m_FocusCell);
 		} break;
+		case VK_SPACE:
+		{
+			// Toggle checkbox for virtual list with checkbox style
+			if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
+			{
+				int nFocusRow = GetFocusRow();
+				if (nFocusRow != -1)
+					OnOwnerDataToggleCheckBox(nFocusRow);
+			}
+		} break;
 	}
 	CListCtrl::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+//------------------------------------------------------------------------
+//! Override this method to display checkbox state for LVS_OWNERDATA (virtual list).
+//!
+//! @param nRow The row index being displayed
+//! @return Is row checked ?
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnOwnerDataDisplayCheckbox(int nRow)
+{
+	return false;
+}
+
+//------------------------------------------------------------------------
+//! Override this method to react toggle check for LVS_OWNERDATA (virtual list).
+//! Remember to force a redraw to ensure the new checkbox state is displayed.
+//!
+//! @param nRow The row index where the checkbox should be toggled
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnOwnerDataToggleCheckBox(int nRow)
+{
+	nRow;	// Avoid unreferenced variable warning
+
+	// Force redraw so the new checkbox value is displayed
+	Invalidate();
+	UpdateWindow();
 }
 
 //------------------------------------------------------------------------
@@ -1270,6 +1306,18 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 #else
 			pNMW->item.iImage = I_IMAGECALLBACK;
 #endif
+		}
+
+		// Support checkboxes when using LVS_OWNERDATA (virtual list)
+		if (nCol==0)
+		{
+			if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
+			{
+				pNMW->item.mask |= LVIF_STATE;
+				pNMW->item.stateMask = LVIS_STATEIMAGEMASK;
+				bool bChecked = OnOwnerDataDisplayCheckbox(nRow);
+				pNMW->item.state = bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1);
+			}
 		}
 	}
 
@@ -2577,7 +2625,25 @@ BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
 	int nRow = pItem->iItem;
 	int nCol = pItem->iSubItem;
 
+	// Toggle checkbox for virtual list with checkbox style
+	if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
+	{
+		// Verify that the checkbox-area was clicked
+		CellHitTest(pItem->ptAction, nRow, nCol);
+		if (nRow!=-1)
+		{
+			// Checkbox area is between the item-bounds and the item-icon
+			CRect iconRect, itemRect;
+			GetCellRect(nRow, nCol, LVIR_ICON, iconRect);
+			GetCellRect(nRow, nCol, LVIR_BOUNDS, itemRect);
+			CRect checkboxRect(itemRect.left, itemRect.top, iconRect.left, itemRect.bottom);
+			if (checkboxRect.PtInRect(pItem->ptAction))
+				OnOwnerDataToggleCheckBox(nRow);
+		}
+	}
+
 	CellHitTest(pItem->ptAction, nRow, nCol);
+
 	return FALSE;	// Let parent-dialog get chance
 }
 
