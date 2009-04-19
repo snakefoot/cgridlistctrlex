@@ -503,6 +503,7 @@ namespace {
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 {
+	// Only Windows XP and above supports groups
 	if (!IsCommonControlsEnabled())
 	{
 		CGridListCtrlEx::OnContextMenuHeader(pWnd, point, nCol);
@@ -878,8 +879,8 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 //------------------------------------------------------------------------
 //! The framework calls this member function when the user double-clicks
-//! the left mouse button. Used to expand and collapse groups when double
-//! double click is used
+//! the left mouse button. Used to expand and collapse groups when group
+//! header is clicked.
 //!
 //! @param nFlags Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.)
 //! @param point Specifies the x- and y-coordinate of the cursor relative to the upper-left corner of the window.
@@ -898,7 +899,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 }
 
 //------------------------------------------------------------------------
-//! Override this method to provide the group a cell belongs to
+//! Override this method to provide the group a cell belongs to.
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
