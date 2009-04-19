@@ -115,6 +115,7 @@ public:
 	virtual bool OnDisplayToClipboard(CString& strResult);
 	virtual bool OnDisplayToClipboard(int nRow, CString& strResult);
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
+	virtual int  OnKeyboardSearch(int nCol, int nStartRow, const CString& strSearch);
 
 protected:
 	// Maintaining column traits (and visible state)
@@ -202,6 +203,7 @@ protected:
 	virtual afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnBeginLabelEdit(NMHDR* pNMHDR,LRESULT* pResult);
 	virtual afx_msg BOOL OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
