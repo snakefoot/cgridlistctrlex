@@ -1085,15 +1085,13 @@ bool CGridListCtrlEx::OnOwnerDataDisplayCheckbox(int nRow)
 }
 
 //------------------------------------------------------------------------
-//! Override this method to react toggle check for LVS_OWNERDATA (virtual list).
+//! Override this method to react to check box being toggled for LVS_OWNERDATA (virtual list).
 //! Remember to force a redraw to ensure the new checkbox state is displayed.
 //!
 //! @param nRow The row index where the checkbox should be toggled
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnOwnerDataToggleCheckBox(int nRow)
 {
-	nRow;	// Avoid unreferenced variable warning
-
 	// Force redraw so the new checkbox value is displayed
 	Invalidate();
 	UpdateWindow();
@@ -1751,7 +1749,7 @@ void CGridListCtrlEx::OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW
 }
 
 //------------------------------------------------------------------------
-//! Performs custom drawing of the CListCtrl
+//! Performs custom drawing of the CListCtrl.
 //!  - Ensures the CGridColumnTrait's can do their thing
 //!
 //! @param pNMHDR Pointer to NMLVCUSTOMDRAW structure
