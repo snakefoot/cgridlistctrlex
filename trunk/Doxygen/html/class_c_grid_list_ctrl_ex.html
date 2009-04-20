@@ -188,7 +188,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display checkbox state for LVS_OWNERDATA (virtual list).  <a href="#3e164b1264b6d69f63a906af2af48c48"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#610c81efd6d9f108afe22670c7ebcc54">OnOwnerDataToggleCheckBox</a> (int nRow)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react toggle check for LVS_OWNERDATA (virtual list).  <a href="#610c81efd6d9f108afe22670c7ebcc54"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react to check box being toggled for LVS_OWNERDATA (virtual list).  <a href="#610c81efd6d9f108afe22670c7ebcc54"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#99ec9f3c4879d6c609e2a2bbbe6b2016">OnKeyboardSearch</a> (int nCol, int nStartRow, const CString &amp;strSearch)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list).  <a href="#99ec9f3c4879d6c609e2a2bbbe6b2016"></a><br></td></tr>
@@ -281,9 +281,7 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_RBUTTONDOWN message handler called when the user presses the right mouse button while the cursor is in the client area of a window.  <a href="#ff337d340df97fc6e7ae503a0f41c1b5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#2f52131c002ac1840375ee53e1392487">OnCustomDraw</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl<ul>
-<li>Ensures the CGridColumnTrait's can do their thing. </li></ul>
- <a href="#2f52131c002ac1840375ee53e1392487"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl.  <a href="#2f52131c002ac1840375ee53e1392487"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#775ae32ee0f42784b73aeba7ff0e3087">OnSetColumnWidth</a> (WPARAM wParam, LPARAM lParam)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVM_SETCOLUMNWIDTH message handler called when wanting to resize a column.  <a href="#775ae32ee0f42784b73aeba7ff0e3087"></a><br></td></tr>
@@ -1734,9 +1732,10 @@ Called when inside a CView.<p>
 <div class="memdoc">
 
 <p>
-Performs custom drawing of the CListCtrl<ul>
-<li>Ensures the CGridColumnTrait's can do their thing. </li></ul>
-
+Performs custom drawing of the CListCtrl. 
+<p>
+<ul>
+<li>Ensures the CGridColumnTrait's can do their thing</li></ul>
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -2986,7 +2985,7 @@ LVN_ODFINDITEM message handler for performing keyboard search when LVS_OWNERDATA
 <div class="memdoc">
 
 <p>
-Override this method to react toggle check for LVS_OWNERDATA (virtual list). 
+Override this method to react to check box being toggled for LVS_OWNERDATA (virtual list). 
 <p>
 Remember to force a redraw to ensure the new checkbox state is displayed.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -3783,7 +3782,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 20 00:08:15 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Apr 20 16:25:49 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
