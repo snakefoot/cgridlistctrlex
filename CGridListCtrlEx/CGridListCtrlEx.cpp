@@ -1712,7 +1712,7 @@ bool CGridListCtrlEx::OnDisplayCellFont(int nRow, int nCol, LOGFONT& font)
 }
 
 //------------------------------------------------------------------------
-//! Override this method to change the font used for drawing a row
+//! Override this method to change the color used for drawing a row
 //!
 //! @param nRow The index of the row
 //! @param textColor The text color used when drawing the row
