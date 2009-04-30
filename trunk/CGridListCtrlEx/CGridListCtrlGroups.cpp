@@ -115,7 +115,7 @@ CString CGridListCtrlGroups::GetGroupHeader(int nGroupId)
 }
 
 //------------------------------------------------------------------------
-//! Checks is it is possible to modify the collapse state of a group.
+//! Checks if it is possible to modify the collapse state of a group.
 //! This is only possible in Windows Vista.
 //!
 //! @return Groups can be collapsed (true / false)
