@@ -57,8 +57,6 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_LastSearchRow(-1)
 	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
-	,m_pGridFont(NULL)
-	,m_pCellFont(NULL)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
 	,m_pColumnManager(new CGridColumnManager)
 {}
@@ -76,11 +74,6 @@ CGridListCtrlEx::~CGridListCtrlEx()
 
 	delete m_pColumnManager;
 	m_pColumnManager = NULL;
-
-	delete m_pGridFont;
-	m_pGridFont = NULL;
-	delete m_pCellFont;
-	m_pCellFont = NULL;
 }
 
 //------------------------------------------------------------------------
@@ -375,9 +368,9 @@ int CGridListCtrlEx::GetColumnCount() const
 //------------------------------------------------------------------------
 CFont* CGridListCtrlEx::GetCellFont()
 {
-	if (m_pCellFont==NULL)
+	if (m_CellFont.GetSafeHandle()==NULL)
 		return GetFont();
-	return m_pCellFont;
+	return &m_CellFont;
 }
 
 //------------------------------------------------------------------------
@@ -393,23 +386,17 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 
 	LOGFONT lf = {0};
 	VERIFY(GetFont()->GetLogFont(&lf)!=0);
-
-	delete m_pCellFont;
-	m_pCellFont = new CFont;
-	VERIFY( m_pCellFont->CreateFontIndirect(&lf) );
+	VERIFY( m_CellFont.CreateFontIndirect(&lf) );
 
 	lf.lfHeight = (int)(lf.lfHeight * m_Margin);
 	lf.lfWidth = (int)(lf.lfWidth * m_Margin);
-	delete m_pGridFont;
-	m_pGridFont = NULL;
-	m_pGridFont = new CFont();
-	VERIFY( m_pGridFont->CreateFontIndirect(&lf) );
+	VERIFY( m_GridFont.CreateFontIndirect(&lf) );
 
-	CListCtrl::SetFont(m_pGridFont);
-	GetHeaderCtrl()->SetFont(m_pCellFont);
+	CListCtrl::SetFont(&m_GridFont);
+	GetHeaderCtrl()->SetFont(&m_CellFont);
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
 	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
-		pToolTipCtrl->SetFont(m_pCellFont);
+		pToolTipCtrl->SetFont(&m_CellFont);
 }
 
 //------------------------------------------------------------------------
