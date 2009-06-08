@@ -24,7 +24,7 @@ public:
 	void SetSortFormatNumber(bool bValue);
 
 protected:
-	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with this font
+	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with specified font
 	COLORREF m_TextColor;	//!< Text color to use for this column
 	COLORREF m_BackColor;	//!< Background color to use for this column
 	bool m_SortFormatNumber;//!< Column contains integers

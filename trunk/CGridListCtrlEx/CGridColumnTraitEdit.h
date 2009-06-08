@@ -28,7 +28,7 @@ protected:
 };
 
 //------------------------------------------------------------------------
-//! CGridEditorText (For internal use)
+//! CEdit for inplace edit. For internal use by CGridColumnTraitEdit
 //------------------------------------------------------------------------
 class CGridEditorText : public CEdit
 {
