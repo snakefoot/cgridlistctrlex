@@ -153,8 +153,8 @@ protected:
 	bool m_UsingVisualStyle;	//!< Vista Style has been enabled (alpha blend)
 
 	// Maintaining margin
-	CFont* m_pGridFont;			//!< Original font of the the list control
-	CFont* m_pCellFont;			//!< Current font to draw rows
+	CFont m_GridFont;			//!< Original font of the the list control
+	CFont m_CellFont;			//!< Current font to draw rows
 	double m_Margin;			//!< Current margin between original font and cell font
 
 	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
