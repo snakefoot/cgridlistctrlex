@@ -48,7 +48,7 @@ private:
 };
 
 //------------------------------------------------------------------------
-//! CGridEditorComboBoxEdit (For internal use) 
+//! CEdit inside CComboBox for inplace edit. For internal use by CGridColumnTraitCombo
 //
 // Taken from "MFC Grid control" credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx
@@ -65,7 +65,7 @@ protected:
 };
 
 //------------------------------------------------------------------------
-//! CGridEditorComboBox (For internal use)
+//! CComboBox for inplace edit. For internal use by CGridColumnTraitCombo
 //
 // Taken from "MFC Grid control" credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx

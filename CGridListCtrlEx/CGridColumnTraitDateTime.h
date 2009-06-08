@@ -34,7 +34,7 @@ protected:
 };
 
 //------------------------------------------------------------------------
-//! CGridEditorDateTimeCtrl (For internal use)
+//! CDateTimeCtrl for inplace edit. For internal use by CGridColumnTraitDateTime
 //------------------------------------------------------------------------
 class CGridEditorDateTimeCtrl : public CDateTimeCtrl
 {
