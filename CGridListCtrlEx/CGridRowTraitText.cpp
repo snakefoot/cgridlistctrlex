@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------
 CGridRowTraitText::CGridRowTraitText()
 	:m_pOldFont(NULL)
+	,m_FontAllocated(false)
 	,m_TextColor((COLORREF)-1)
 	,m_BackColor((COLORREF)-1)
 	,m_AltTextColor((COLORREF)-1)
@@ -134,6 +135,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				CFont* pNewFont = new CFont;
 				VERIFY( pNewFont->CreateFontIndirect(&newFont) );
 				m_pOldFont = pDC->SelectObject(pNewFont);
+				m_FontAllocated = true;
 				*pResult |= CDRF_NOTIFYPOSTPAINT;	// We need to restore the original font
 				*pResult |= CDRF_NEWFONT;
 			}
@@ -182,8 +184,9 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				// Restore the original font
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = pDC->SelectObject(m_pOldFont);
-				if (pNewFont!=owner.GetCellFont())
+				if (m_FontAllocated)
 				{
+					m_FontAllocated = false;
 					delete pNewFont;
 				}
 			}
