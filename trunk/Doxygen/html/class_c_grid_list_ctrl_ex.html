@@ -105,6 +105,15 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#09811da39862290d7c0dc4a2a955c019">IsColumnVisible</a> (int nCol)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column visible state from the column trait.  <a href="#09811da39862290d7c0dc4a2a955c019"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#45778b09577d376073a883d243502034">IsColumnResizable</a> (int nCol)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if a column is allowed to be resized.  <a href="#45778b09577d376073a883d243502034"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#4f0d1cfed1833f6c28b504668d280752">IsColumnAlwaysVisible</a> (int nCol)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if a column is fixed to be always visible.  <a href="#4f0d1cfed1833f6c28b504668d280752"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#6903fae110bdfa193b9666bf14a76a2b">IsColumnAlwaysHidden</a> (int nCol)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if a column is fixed to be always hidden.  <a href="#6903fae110bdfa193b9666bf14a76a2b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#67405a8b0250212e8c180f7f298221af">GetFirstVisibleColumn</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column index of the first visible column.  <a href="#67405a8b0250212e8c180f7f298221af"></a><br></td></tr>
@@ -1258,6 +1267,90 @@ Checks if the current cell is using callback to retrieve its text value.
 Checks if the cell value editor is open for a cell. 
 <p>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>Is currently editing a cell value (true / false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="6903fae110bdfa193b9666bf14a76a2b"></a><!-- doxytag: member="CGridListCtrlEx::IsColumnAlwaysHidden" ref="6903fae110bdfa193b9666bf14a76a2b" args="(int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::IsColumnAlwaysHidden           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks if a column is fixed to be always hidden. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is the column always visible (true / false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="4f0d1cfed1833f6c28b504668d280752"></a><!-- doxytag: member="CGridListCtrlEx::IsColumnAlwaysVisible" ref="4f0d1cfed1833f6c28b504668d280752" args="(int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::IsColumnAlwaysVisible           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks if a column is fixed to be always visible. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is the column always visible (true / false) </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="45778b09577d376073a883d243502034"></a><!-- doxytag: member="CGridListCtrlEx::IsColumnResizable" ref="45778b09577d376073a883d243502034" args="(int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::IsColumnResizable           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks if a column is allowed to be resized. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Can the column be resized or not (true / false) </dd></dl>
 
 </div>
 </div><p>
@@ -3782,7 +3875,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Jun 9 00:20:25 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jul 23 23:18:57 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
