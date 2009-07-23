@@ -359,7 +359,11 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 {
+	CWaitCursor waitCursor;
+
 	SetSortArrow(-1, false);
+
+	SetRedraw(FALSE);
 
 	RemoveAllGroups();
 
@@ -400,9 +404,14 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 				VERIFY( SetRowGroupId(groupRows[groupRow], nGroupId) );
 			}
 		}
+
+		SetRedraw(TRUE);
+		Invalidate(FALSE);
 		return TRUE;
 	}
 
+	SetRedraw(TRUE);
+	Invalidate(FALSE);
 	return FALSE;
 }
 
@@ -992,8 +1001,17 @@ namespace {
 //------------------------------------------------------------------------
 bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
+	CWaitCursor waitCursor;
+
+	// Always sort the rows, so the handicapped GroupHitTest() will work
+	//	- Must ensure that the rows are reordered along with the groups.
+	if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
+		return false;
+
 	if (IsGroupViewEnabled())
 	{
+		SetRedraw(FALSE);
+
 		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
 
 		GroupByColumn(nCol);
@@ -1006,13 +1024,15 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 				paramsort.m_GroupNames.Add(nGroupId, GetGroupHeader(nGroupId));
 		}
 
+		SetRedraw(TRUE);
+		Invalidate(FALSE);
+
 		// Avoid bug in CListCtrl::SortGroups() which differs from ListView_SortGroups
-		ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort);
+		if (!ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort))
+			return false;
 	}
 
-	// Always sort the rows, so the handicapped GroupHitTest() will work
-	//	- Must ensure that the rows are reordered along with the groups.
-	return CGridListCtrlEx::SortColumn(nCol, bAscending);
+	return true;
 }
 
 //------------------------------------------------------------------------
