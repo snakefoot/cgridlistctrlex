@@ -109,7 +109,7 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 			if (nColData==owner.GetColumnData(nCol))
 			{
 				// Column still exists
-				if (owner.GetColumnTrait(nCol)->GetColumnState().m_AlwaysHidden)
+				if (owner.IsColumnAlwaysHidden(nCol))
 					continue;
 
 				CGridColumnTrait::ColumnState& columnState = owner.GetColumnTrait(nCol)->GetColumnState();
@@ -118,6 +118,29 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 				pOrderArray[--nColOrder] = nCol;
 				break;
 			}
+		}
+	}
+
+	// Are there any always visible columns, that we must ensure are visible ?
+	for(int nCol = nColCount-1; nCol >= 0; --nCol)
+	{
+		if (!owner.IsColumnAlwaysVisible(nCol))
+			continue;
+
+		bool visible = false;
+		for(int i = nColOrder; i < nColCount; ++i)
+		{
+			if (pOrderArray[i]==nCol)
+			{
+				visible = true;
+				break;
+			}
+		}
+		if (!visible)
+		{
+			CGridColumnTrait::ColumnState& columnState = owner.GetColumnTrait(nCol)->GetColumnState();
+			columnState.m_Visible = true;
+			pOrderArray[--nColOrder] = nCol;
 		}
 	}
 
@@ -187,7 +210,7 @@ void CGridColumnManagerProfile::SaveColumnConfiguration(int nConfigCol, int nOwn
 void CGridColumnManagerProfile::LoadColumnConfiguration(int nConfigCol, int nOwnerCol, CGridListCtrlEx& owner, CGridColumnConfig& config)
 {
 	CString colSetting;
-	if (owner.GetColumnTrait(nOwnerCol)->GetColumnState().m_Resizable)
+	if (owner.IsColumnResizable(nOwnerCol))
 	{
 		colSetting.Format(_T("ColumnWidth_%d"), nConfigCol);
 		int width = config.GetIntSetting(colSetting);

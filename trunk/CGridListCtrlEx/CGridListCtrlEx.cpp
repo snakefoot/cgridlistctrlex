@@ -791,10 +791,16 @@ int CGridListCtrlEx::GetFirstVisibleColumn()
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 {
-	SetRedraw(FALSE);
+	if (!bShow && IsColumnAlwaysVisible(nCol))
+		return FALSE;
+
+	if (bShow && IsColumnAlwaysHidden(nCol))
+		return FALSE;
 
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
+
+	SetRedraw(FALSE);
 
 	int nColCount = GetColumnCount();
 	int* pOrderArray = new int[nColCount];
@@ -1830,6 +1836,39 @@ bool CGridListCtrlEx::IsColumnVisible(int nCol)
 }
 
 //------------------------------------------------------------------------
+//! Checks if a column is allowed to be resized
+//!
+//! @param nCol The index of the column
+//! @return Can the column be resized or not (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::IsColumnResizable(int nCol)
+{
+	return GetColumnTrait(nCol)->GetColumnState().m_Resizable;
+}
+
+//------------------------------------------------------------------------
+//! Checks if a column is fixed to be always visible
+//!
+//! @param nCol The index of the column
+//! @return Is the column always visible (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::IsColumnAlwaysVisible(int nCol)
+{
+	return GetColumnTrait(nCol)->GetColumnState().m_AlwaysVisible;
+}
+
+//------------------------------------------------------------------------
+//! Checks if a column is fixed to be always hidden
+//!
+//! @param nCol The index of the column
+//! @return Is the column always visible (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::IsColumnAlwaysHidden(int nCol)
+{
+	return GetColumnTrait(nCol)->GetColumnState().m_AlwaysHidden;
+}
+
+//------------------------------------------------------------------------
 //! Retrieves the column trait of a specified cell.
 //! Makes it possible to override the column trait of a single cell
 //!
@@ -2053,12 +2092,9 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 {
-	for( int i = 0 ; i < GetColumnTraitSize(); ++i)
+	for( int i = 0 ; i < GetColumnCount(); ++i)
 	{
-		CGridColumnTrait* pTrait = GetColumnTrait(i);
-		CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-
-		if (columnState.m_AlwaysHidden)
+		if (IsColumnAlwaysHidden(i))
 			continue;	// Cannot be shown
 
 		UINT uFlags = MF_STRING;
@@ -2068,6 +2104,9 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 			uFlags |= MF_CHECKED;
 		else
 			uFlags |= MF_UNCHECKED;
+
+		if (IsColumnAlwaysVisible(i))
+			uFlags |= MF_DISABLED;
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
@@ -2229,15 +2268,13 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 	int nCol = (int)pNMH->iItem;
 
-	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-	if (!columnState.m_Visible)
+	if (!IsColumnVisible(nCol))
 	{
 		*pResult = TRUE;	// Block resize
 		return TRUE;		// Block event
 	}
 
-	if (!columnState.m_Resizable)
+	if (!IsColumnResizable(nCol))
 	{
 		*pResult = TRUE;	// Block resize
 		return TRUE;		// Block event
@@ -2272,13 +2309,11 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 {
 	// Check that column is allowed to be resized
 	int nCol = (int)wParam;
-	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 
-	if (!columnState.m_Visible)
+	if (!IsColumnVisible(nCol))
 		return FALSE;
 
-	if (!columnState.m_Resizable)
+	if (!IsColumnResizable(nCol))
 		return FALSE;
 
 	m_pColumnManager->OnColumnResize(*this);
@@ -2398,6 +2433,8 @@ bool CGridListCtrlEx::SortColumn(int nCol, bool bAscending)
 
 	if (GetItemCount()<=0)
 		return true;
+
+	CWaitCursor waitCursor;
 
 	// Uses SortItemsEx because it requires no knowledge of datamodel
 	//	- CListCtrl::SortItems() is faster with direct access to the datamodel
