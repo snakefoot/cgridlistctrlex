@@ -85,6 +85,9 @@ public:
 	virtual void SetSortArrow(int nCol, bool bAscending);
 	virtual BOOL ShowColumn(int nCol, bool bShow);
 	virtual bool IsColumnVisible(int nCol);
+	virtual bool IsColumnResizable(int nCol);
+	virtual bool IsColumnAlwaysVisible(int nCol);
+	virtual bool IsColumnAlwaysHidden(int nCol);
 	virtual int GetFirstVisibleColumn();
 	virtual int InsertHiddenLabelColumn();
 	virtual int InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);

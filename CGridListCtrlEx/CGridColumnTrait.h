@@ -63,6 +63,7 @@ public:
 			,m_OrgWidth(0)
 			,m_OrgPosition(-1)
 			,m_AlwaysHidden(false)
+			,m_AlwaysVisible(false)
 			,m_Sortable(true)
 			,m_Editable(true)
 			,m_Resizable(true)
@@ -72,6 +73,7 @@ public:
 		int  m_OrgWidth;	//!< Width it had before being hidden
 		int  m_OrgPosition;	//!< Position it had before being hidden
 		bool m_AlwaysHidden;//!< Column can never be visible
+		bool m_AlwaysVisible;//!< Column can never be hidden
 		bool m_Sortable;	//!< Rows can be sorted according to column
 		bool m_Editable;	//!< Cells in the column can be edited
 		bool m_Resizable;	//!< Column width is resizable
