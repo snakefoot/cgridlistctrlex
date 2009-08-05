@@ -82,7 +82,14 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 						break;	// no drawing of selection color when not in focus
 				}
 				else
-					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+				{
+#if(WINVER >= 0x0500)
+					if (pLVCD->nmcd.uItemState & CDIS_HOT)
+						backColor = ::GetSysColor(COLOR_HOTLIGHT);
+					else
+#endif
+						backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+				}
 			}
 
 			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
