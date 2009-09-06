@@ -582,7 +582,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 			EnsureVisible(0,FALSE);
 			RemoveAllGroups();
 			EnableGroupView(FALSE);
-			Scroll(CSize(0,pos));j
+			Scroll(CSize(0,pos));
 		} break;
 		case 5: m_pColumnManager->ResetColumnsDefault(*this); break;
 		default:
