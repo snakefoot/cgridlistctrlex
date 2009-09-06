@@ -573,7 +573,17 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		case 1:	m_pColumnManager->OpenColumnEditor(*this, nCol); break;
 		case 2: m_pColumnManager->OpenColumnPicker(*this); break;
 		case 3: GroupByColumn(nCol); break;
-		case 4: RemoveAllGroups(); EnableGroupView(FALSE); break;
+		case 4:
+		{
+			// Very strange problem when disabling group mode, then scrollbars are not updated
+			// If placed in the bottom and disables group mode, then suddenly there is a strange offset
+			//	- Quick fix scroll to top, and then fix scroll bars afterwards
+			int pos = GetScrollPos(SB_VERT);
+			EnsureVisible(0,FALSE);
+			RemoveAllGroups();
+			EnableGroupView(FALSE);
+			Scroll(CSize(0,pos));j
+		} break;
 		case 5: m_pColumnManager->ResetColumnsDefault(*this); break;
 		default:
 		{
