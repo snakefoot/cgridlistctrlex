@@ -2,10 +2,92 @@
 #include "CGridListCtrlEx.h"
 
 #include <shlwapi.h>	// IsThemeEnabled
+#include <afxole.h>		// 
 
 #include "CGridColumnManager.h"
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
+
+template<class T>
+class COleDropTargetWnd : public COleDropTarget
+{
+		T* m_pWnd;
+		bool m_DragSource;
+		bool m_DragDestination;
+
+	public:
+		COleDropTargetWnd()
+			:m_pWnd(NULL)
+			,m_DragSource(false)
+			,m_DragDestination(false)
+		{}
+
+		BOOL Register(T* pWnd)
+		{
+			if (m_pWnd!=NULL)
+			{
+				ASSERT(m_pWnd==pWnd);
+				return TRUE;	// Already registered
+			}
+
+			if (COleDropTarget::Register(pWnd)==FALSE)
+				return FALSE;
+
+			m_pWnd = pWnd;
+			return TRUE;
+		}
+
+		bool IsDragSource() const { return m_DragSource; }
+		bool IsDragDestination() const { return m_DragDestination; }
+		void SetDragSource(bool value) { m_DragSource = value; m_DragDestination = false; }
+
+		virtual DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+		{
+			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
+			m_DragDestination = true;
+			return m_pWnd->OnDragEnter(pDataObject, dwKeyState, point);
+		}
+
+		virtual DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+		{
+			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
+			return m_pWnd->OnDragOver(pDataObject, dwKeyState, point);
+		}
+
+		virtual void OnDragLeave(CWnd* pWnd)
+		{
+			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
+			m_DragDestination = false;
+			m_pWnd->OnDragLeave();
+		}
+
+		virtual BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+		{
+			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
+			m_DragDestination = false;
+			return m_pWnd->OnDrop(pDataObject, dropEffect, point);
+		}
+};
+
+template<class T>
+class COleDataSourceWnd : public COleDataSource
+{
+	COleDropTargetWnd<T>* m_pTarget;
+
+public:
+	COleDataSourceWnd(COleDropTargetWnd<T>* pTarget)
+		:m_pTarget(pTarget)
+	{
+		if (m_pTarget!=NULL)
+			m_pTarget->SetDragSource(true);
+	}
+
+	~COleDataSourceWnd()
+	{
+		if (m_pTarget!=NULL)
+			m_pTarget->SetDragSource(false);
+	}
+};
 
 BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	//{{AFX_MSG_MAP(CGridListCtrlEx)
@@ -30,6 +112,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT_EX(NM_CLICK, OnItemClick)				// Cell Click
 	ON_NOTIFY_REFLECT_EX(NM_DBLCLK, OnItemDblClick)			// Cell Double Click
 	ON_NOTIFY_REFLECT_EX(LVN_ODFINDITEM, OnOwnerDataFindItem)	// Owner Data Find Item
+	ON_NOTIFY_REFLECT_EX(LVN_BEGINDRAG, OnBeginDrag)		// Begin Drag Dropb
 	ON_WM_CONTEXTMENU()	// OnContextMenu
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
@@ -56,6 +139,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
 	,m_EmptyMarkupText(_T("There are no items to show in this view."))
+	,m_pOleDropTarget(NULL)
 	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
 	,m_pColumnManager(new CGridColumnManager)
@@ -74,6 +158,9 @@ CGridListCtrlEx::~CGridListCtrlEx()
 
 	delete m_pColumnManager;
 	m_pColumnManager = NULL;
+
+	delete m_pOleDropTarget;
+	m_pOleDropTarget = NULL;
 }
 
 //------------------------------------------------------------------------
@@ -87,6 +174,20 @@ void CGridListCtrlEx::SetupColumnConfig(CGridColumnManager* pColumnManager)
 	delete m_pColumnManager;
 	m_pColumnManager = pColumnManager;
 	m_pColumnManager->OnColumnSetup(*this);
+}
+
+//------------------------------------------------------------------------
+//! Checks if the current OS version against the requested OS version
+//!
+//! @param requestOS The full version number of the OS required (Ex 0x0600)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::CheckOSVersion(WORD requestOS)
+{
+	OSVERSIONINFO osver = {0};
+	osver.dwOSVersionInfoSize = sizeof(osver);
+	GetVersionEx(&osver);
+	WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+	return requestOS <= fullver;
 }
 
 namespace {
@@ -180,11 +281,7 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 		return S_FALSE;
 	}
 
-	OSVERSIONINFO osver = {0};
-	osver.dwOSVersionInfoSize = sizeof(osver);
-	GetVersionEx(&osver);
-	WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
-	if (fullver < 0x0600)
+	if (!CheckOSVersion(0x0600))
 	{
 		m_UsingVisualStyle = false;
 		return S_FALSE;
@@ -201,7 +298,8 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 		// OBS! Focus retangle is not painted properly without double-buffering
 		m_UsingVisualStyle = true;
 #if (_WIN32_WINNT >= 0x501)
-		SetExtendedStyle(LVS_EX_DOUBLEBUFFER | GetExtendedStyle());
+		if (CheckOSVersion(0x501))
+			SetExtendedStyle(LVS_EX_DOUBLEBUFFER | GetExtendedStyle());
 #endif
 	}
 	else
@@ -226,13 +324,14 @@ void CGridListCtrlEx::OnCreateStyle()
 		DebugBreak();	// CListCtrl must be created without style LVS_OWNERDRAWFIXED
 
 	ModifyStyle(0, LVS_SHOWSELALWAYS);
-
+	
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_HEADERDRAGDROP);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_GRIDLINES);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_SUBITEMIMAGES);
 #if (_WIN32_WINNT >= 0x501)
-	SetExtendedStyle(GetExtendedStyle() | LVS_EX_DOUBLEBUFFER);
+	if (CheckOSVersion(0x501))
+		SetExtendedStyle(GetExtendedStyle() | LVS_EX_DOUBLEBUFFER);
 #endif
 	
 	// Enable Vista-look if possible
@@ -245,6 +344,8 @@ void CGridListCtrlEx::OnCreateStyle()
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
 	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
         pToolTipCtrl->Activate(FALSE);
+
+	RegisterDropTarget();
 }
 
 //------------------------------------------------------------------------
@@ -310,7 +411,10 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 
 	int index = InsertColumn(nCol, static_cast<LPCTSTR>(strColumnHeading), nFormat, nWidth, nSubItem);
 	if (index != -1)
+	{
 		VERIFY( index == nCol );
+		GetColumnTrait(nCol)->OnInsertColumn(*this, nCol);
+	}
 	else
 		DeleteColumnTrait(nCol);
 	return index;
@@ -1621,6 +1725,14 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	// as it might cause a row-repaint
 	m_FocusCell = nCol;
 	CListCtrl::OnLButtonDown(nFlags, point);
+	// LVN_BEGINDRAG message can be fired when calling parent OnLButtonDown(),
+	// this should not result in a start edit operation
+	if (m_FocusCell != nCol)
+	{
+		m_FocusCell = nCol;
+		startEdit = false;
+	}
+
 
 	// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
 	if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
@@ -1714,6 +1826,9 @@ bool CGridListCtrlEx::OnDisplayCellFont(int nRow, int nCol, LOGFONT& font)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor)
 {
+	if (OnDisplayDragOverRowColor(nRow, textColor, backColor))
+		return true;
+
 	return false;
 }
 
@@ -1730,6 +1845,51 @@ bool CGridListCtrlEx::OnDisplayRowFont(int nRow, LOGFONT& font)
 }
 
 //------------------------------------------------------------------------
+//! Override this method to react to mouse over event during drag drop
+//!
+//! @param nRow The index of the row
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
+{
+	if (UsingVisualStyle())
+		return;
+
+	SetItemState(-1, 0, LVIS_DROPHILITED | LVIS_FOCUSED);
+	if (nRow!=-1)
+	{
+		SetItemState(nRow, LVIS_DROPHILITED | LVIS_FOCUSED, LVIS_DROPHILITED | LVIS_FOCUSED);
+	}
+}
+
+//------------------------------------------------------------------------
+//! Override this method to change the color used when dragging over a row
+//!
+//! @param nRow The index of the row
+//! @param textColor The text color used when drawing the row
+//! @param backColor The background color when drawing the row
+//! @return Color is overrided
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayDragOverRowColor(int nRow, COLORREF& textColor, COLORREF& backColor)
+{
+	if (UsingVisualStyle())
+		return false;
+
+	if (m_pOleDropTarget==NULL ||! m_pOleDropTarget->IsDragDestination())
+		return false;
+
+	bool isRowDrop = (GetItemState(nRow, LVIS_DROPHILITED) & LVIS_DROPHILITED) == LVIS_DROPHILITED;
+	if (isRowDrop)
+	{
+		SetItemState(-1, 0, LVIS_DROPHILITED);
+		backColor = ::GetSysColor(COLOR_HOTLIGHT);
+		textColor = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
+		return true;
+	}
+
+	return false;
+}
+
+//------------------------------------------------------------------------
 //! Override this method to change how to draw a cell using a column trait.
 //!
 //! @param pTrait Pointer to column trait
@@ -1738,6 +1898,11 @@ bool CGridListCtrlEx::OnDisplayRowFont(int nRow, LOGFONT& font)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
+	if (!pTrait->GetColumnState().m_Visible)
+	{
+		*pResult = CDRF_SKIPDEFAULT;
+		return;
+	}
 	pTrait->OnCustomDraw(*this, pLVCD, pResult);
 }
 
@@ -1765,11 +1930,6 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 		int nCol = pLVCD->iSubItem;
 		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-		if (!pTrait->GetColumnState().m_Visible)
-		{
-			*pResult = CDRF_SKIPDEFAULT;
-			return;
-		}
 		OnTraitCustomDraw(pTrait, pLVCD, pResult);
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the column-trait
@@ -2546,9 +2706,10 @@ void CGridListCtrlEx::OnCopyToClipboard()
 //! Override this method to control what is placed in the global clipboard
 //!
 //! @param strResult Text to place in the clipboard
+//! @param includeHeader Include column headers when copying to clipboard
 //! @return Text is available for the clipboard
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult)
+bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeader)
 {
 	if (GetSelectedCount()==1 && m_FocusCell!=-1)
 		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, strResult);
@@ -2557,7 +2718,8 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult)
 	if (pos==NULL)
 		return false;
 
-	OnDisplayToClipboard(-1, strResult);
+	if (includeHeader)
+		OnDisplayToClipboard(-1, strResult);
 
 	while(pos!=NULL)
 	{
@@ -2629,6 +2791,360 @@ LRESULT CGridListCtrlEx::OnCopy(WPARAM wParam, LPARAM lParam)
 {
 	OnCopyToClipboard();
 	return DefWindowProc(WM_COPY, wParam, lParam); 
+}
+
+namespace {
+	class CMyOleDropSource : public COleDropSource
+	{
+		CImageList* m_pDragImage;
+
+	public:
+		explicit CMyOleDropSource(CImageList* pDragImage)
+			:m_pDragImage(pDragImage)
+		{}
+
+		~CMyOleDropSource()
+		{
+			if (m_pDragImage!=NULL)
+			{
+				::ReleaseCapture();
+				m_pDragImage->DragLeave(CWnd::FromHandle(GetDesktopWindow()));
+				m_pDragImage->EndDrag();
+				m_pDragImage->DeleteImageList();
+				delete m_pDragImage;
+			}
+		}
+
+		virtual SCODE GiveFeedback(DROPEFFECT dropEffect)
+		{
+			return COleDropSource::GiveFeedback(dropEffect);
+		}
+
+		virtual SCODE QueryContinueDrag(BOOL bEscapePressed, DWORD dwKeyState)
+		{
+			if (m_pDragImage!=NULL)
+			{
+				CPoint ptDropPoint;
+				::GetCursorPos(&ptDropPoint);
+				m_pDragImage->DragMove(ptDropPoint);
+			}
+			return COleDropSource::QueryContinueDrag(bEscapePressed, dwKeyState);
+		}
+	};
+}
+
+//------------------------------------------------------------------------
+//! LVN_BEGINDRAG message handler called when performing left-click drag.
+//! Used to perform drag drop from the list control.
+//!
+//! @param pNMHDR Pointer to an NMLISTVIEW structure specifying the column
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// Update cell focus to show what is being dragged
+	UpdateFocusCell(m_FocusCell);
+
+	int nRow = GetFocusRow();
+
+	// Notify that drag operation was started (don't start edit),
+	// also it will ensure the entire row is dragged (and not a single cell)
+	m_FocusCell = -1;
+
+	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
+
+	COleDataSourceWnd<CGridListCtrlEx> oleDataSource(m_pOleDropTarget);
+	DROPEFFECT dropEffect = DoDragDrop(oleDataSource);
+	OnDisplayDragOverRow(-1);
+	if (dropEffect==DROPEFFECT_NONE)
+	{
+		SetFocusRow(nRow);
+		return FALSE;
+	}
+
+	return FALSE;
+}
+
+//------------------------------------------------------------------------
+//! Takes the contents of the selected rows, and starts a drag-drop operation
+//!
+//! @param oleDataSource Cache for placing the data selected for drag-drop operation
+//! @return Drop effect generated by the drag-and-drop operation; otherwise DROPEFFECT_NONE
+//------------------------------------------------------------------------
+DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource)
+{
+	if (GetSelectedCount()<1)
+		return DROPEFFECT_NONE;
+
+	CString result;
+	if (!OnDisplayToClipboard(result))
+		return DROPEFFECT_NONE;
+
+	int nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+
+	// Allocate a global memory object for the text.
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
+	if (hglbCopy==NULL)
+		return FALSE;
+
+	// Lock the handle to the memory object
+	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+	if (lptstrCopy==NULL)
+		return DROPEFFECT_NONE;
+
+	// Copy the text to the memory object.
+	memcpy(lptstrCopy, result, nlength);
+	if (GlobalUnlock(hglbCopy)!=NO_ERROR)
+		return DROPEFFECT_NONE;
+
+#ifndef _UNICODE
+	oleDataSource.CacheGlobalData(CF_TEXT,hglbCopy);
+#else
+	oleDataSource.CacheGlobalData(CF_UNICODETEXT,hglbCopy);
+#endif
+
+	DROPEFFECT dropEffect = oleDataSource.DoDragDrop();
+	GlobalFree(hglbCopy);
+	return dropEffect;
+}
+
+//------------------------------------------------------------------------
+//! Registers the CListCtrl as a valid OLE drag drop target
+//!
+//! @return Nonzero if successful; otherwise zero.
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::RegisterDropTarget()
+{
+	if (m_pOleDropTarget!=NULL)
+		return TRUE;
+	
+	m_pOleDropTarget = new COleDropTargetWnd<CGridListCtrlEx>;
+	if (!m_pOleDropTarget->Register(this))
+	{
+		// Was AfxOleInit() called in derived CWinApp::InitInstance() ?
+		delete m_pOleDropTarget;
+		m_pOleDropTarget = NULL;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when the cursor is first dragged into the window.
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dwKeyState Contains the state of the modifier keys (MK_SHIFT, MK_CONTROL, etc.)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return The effect that would result if a drop were attempted at the location specified by point.
+//------------------------------------------------------------------------
+DROPEFFECT CGridListCtrlEx::OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+{
+	return DROPEFFECT_MOVE;
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when the cursor is dragged over the window.
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dwKeyState Contains the state of the modifier keys (MK_SHIFT, MK_CONTROL, etc.)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return The effect that would result if a drop were attempted at the location specified by point.
+//------------------------------------------------------------------------
+DROPEFFECT CGridListCtrlEx::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+{
+	CPoint pt(GetMessagePos());
+	ScreenToClient(&pt);
+
+	// Use screen position and scroll bars instead
+	int nRow, nCol;
+	CellHitTest(pt, nRow, nCol);
+
+	if (GetItemCount()>0)
+	{
+		// Check if we need to perform auto scroll
+		CRect gridRect;
+		GetClientRect(&gridRect);
+
+		CRect headerRect;
+		GetHeaderCtrl()->GetClientRect(&headerRect);
+
+		CRect cellRect;
+		GetCellRect(0, 0, LVIR_BOUNDS, cellRect);
+
+		int minPos, maxPos;
+		GetScrollRange(SB_VERT, &minPos, &maxPos);
+		int scrollPos = GetScrollPos(SB_VERT);
+
+		if (pt.y < gridRect.top+cellRect.Height()+headerRect.Height())
+		{
+			if (scrollPos > minPos)
+			{
+				Sleep(100);
+				Scroll(CSize(0,cellRect.Height()*-1));
+				UpdateWindow();
+				return DROPEFFECT_SCROLL;
+			}
+		}
+		else
+		if (pt.y > gridRect.bottom-cellRect.Height())
+		{
+			Sleep(100);
+			Scroll(CSize(0,cellRect.Height()));
+			// For some strange reason, then GetScrollPos() never returns
+			// a value near maxPos. Instead we check if scrollpos changed
+			// to detect if we are at the bottom.
+			if (GetScrollPos(SB_VERT)!=scrollPos)
+			{
+				UpdateWindow();
+				return DROPEFFECT_SCROLL;
+			}
+		}
+	}
+
+	OnDisplayDragOverRow(nRow);
+	return DROPEFFECT_MOVE;
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when the cursor leaves the window while a dragging operation is in effect.
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnDragLeave()
+{
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when a drop operation is to occur
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dropEffect The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return Nonzero if the drop is successful; otherwise 0
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+{
+	if (m_pOleDropTarget->IsDragSource())
+		return OnDropSelf(pDataObject, dropEffect, point);
+	else
+		return OnDropExternal(pDataObject, dropEffect, point);
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when a drop operation is to occur, where the
+//! origin is the CGridListCtrlEx itself
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dropEffect The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return Nonzero if the drop is successful; otherwise 0
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+{
+	// Internal drag (Change item position)
+	int nRow, nCol;
+	CellHitTest(point, nRow, nCol);
+	if (MoveSelectedRows(nRow))
+	{
+		EnsureVisible(nRow, FALSE);
+		SetFocusRow(nRow);
+	}
+	return TRUE;
+}
+
+//------------------------------------------------------------------------
+//! Called by the framework when a drop operation is to occur, where the
+//! origin is an external source
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dropEffect The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return Nonzero if the drop is successful; otherwise 0
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnDropExternal(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+{
+	return FALSE;
+}
+
+namespace {
+	struct PARAMMOVESORT
+	{
+		PARAMMOVESORT(HWND hWnd, int nRow)
+			:m_hWnd(hWnd)
+			,m_nRow(nRow)
+		{}
+
+		HWND m_hWnd;
+		int m_nRow;
+	};
+
+	// Comparison extracts values from the List-Control
+	int CALLBACK MoveSortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+	{
+		PARAMMOVESORT& ps = *(PARAMMOVESORT*)lParamSort;
+
+		// If part of selection, then it must be moved
+		bool selected1 = (ListView_GetItemState(ps.m_hWnd,lParam1,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		bool selected2 = (ListView_GetItemState(ps.m_hWnd,lParam2,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		if (selected1 && selected2)
+			return lParam1 - lParam2;
+		else
+		if (selected1)
+		{
+			if (lParam2 >= ps.m_nRow)
+				return 0;
+			else
+				return 1;
+		}
+		else
+		if (selected2)
+		{
+			if (lParam1 >= ps.m_nRow)
+				return 1;
+			else
+				return 0;
+		}
+		return lParam1 - lParam2;
+	}
+}
+
+//------------------------------------------------------------------------
+//! Inserts the selected rows before the specified row
+//!
+//! @param nDropRow Insert the selected rows before this row
+//! @return Was rows rearranged ? (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::MoveSelectedRows(int nDropRow)
+{
+	// All selected rows should be place above this row (pushing the row down)
+	if (GetStyle() & LVS_OWNERDATA)
+		return false;
+
+	POSITION pos = GetFirstSelectedItemPosition();
+	if (pos==NULL)
+		return false;
+	
+	int nFirstSelectedRow = GetNextSelectedItem(pos);
+
+	if (GetSelectedCount()==1)
+	{
+		// Do nothing if dragging a single row without moving position
+		if (nFirstSelectedRow==nDropRow)
+			return false;
+
+		// Do nothing if dropping a single row on the following row
+		if (nFirstSelectedRow==nDropRow-1)
+			return false;
+	}
+
+	// Check if dropping in the bottom of the list
+	if (nDropRow==-1)
+		nDropRow = GetItemCount();
+
+	// Uses SortItemsEx because it requires no knowledge of datamodel
+	CWaitCursor waitCursor;
+	PARAMMOVESORT paramsort(m_hWnd, nDropRow);
+	ListView_SortItemsEx(m_hWnd, MoveSortFunc, &paramsort);
+	return true;
 }
 
 //------------------------------------------------------------------------

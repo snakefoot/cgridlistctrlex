@@ -18,6 +18,13 @@ public:
 	//! Destructor
 	virtual ~CGridColumnTrait() {}
 
+	//! Override OnInsertColumn() to provide your own special styling of the column,
+	//! after column has been added.
+	//!
+	//! @param owner The list control adding column
+	//! @param nCol The index of the column just added
+	virtual void OnInsertColumn(CGridListCtrlEx& owner, int nCol) {}
+
 	//! Override OnCustomDraw() to provide your own special cell-drawing.
 	//!   - Must handle selection drawing
 	//!   - Must handle focus drawing

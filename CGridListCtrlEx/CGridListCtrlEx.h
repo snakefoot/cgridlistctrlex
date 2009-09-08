@@ -4,9 +4,12 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 1.5
+// Version: 1.6
 //
 // Change History:
+//	1.6 - Added OLE drag and drop support (2009-08-10)
+//		  Added support for checkboxes with LVS_OWNERDATA
+//		  Added better support for keyboard search with LVS_OWNERDATA
 //	1.5 - Added column manager CGridColumnManager (2009-03-29)
 //		  Added support for groups on VC6 with platform SDK
 //		  Added sample projects for the different versions of Visual Studio
@@ -19,9 +22,11 @@
 //	1.0 - Initial Release (2008-09-04)
 //------------------------------------------------------------------------
 
+class COleDataSource;
 class CGridColumnManager;
 class CGridColumnTrait;
 class CGridRowTrait;
+template<class T> class COleDropTargetWnd;
 
 //------------------------------------------------------------------------
 //! \mainpage Introduction
@@ -49,8 +54,9 @@ class CGridRowTrait;
 //!	- Keyboard search navigation
 //!	- Cell tooltip
 //!	- Cell editing and customization through use of CGridColumnTrait's
-//!	- Clipboard (copy only)
-//!	- Column state persistence (width, order, etc.)
+//! - Clipboard (copy only)
+//! - OLE Drag and drop
+//! - Column state persistence (width, order, etc.)
 //------------------------------------------------------------------------
 class CGridListCtrlEx : public CListCtrl
 {
@@ -64,6 +70,7 @@ public:
 	virtual CFont* GetCellFont();
 	virtual void SetCellMargin(double margin);
 	void SetEmptyMarkupText(const CString& strText);
+	static bool CheckOSVersion(WORD requestOS);
 
 	// Row
 	int GetFocusRow() const;
@@ -115,7 +122,9 @@ public:
 	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font);
 	virtual bool OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font);
-	virtual bool OnDisplayToClipboard(CString& strResult);
+	virtual void OnDisplayDragOverRow(int nRow);
+	virtual bool OnDisplayDragOverRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
+	virtual bool OnDisplayToClipboard(CString& strResult, bool includeHeader = true);
 	virtual bool OnDisplayToClipboard(int nRow, CString& strResult);
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
 	virtual bool OnOwnerDataDisplayCheckbox(int nRow);
@@ -161,6 +170,19 @@ protected:
 	double m_Margin;			//!< Current margin between original font and cell font
 
 	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
+
+	// Maintaining drag drop
+	COleDropTargetWnd<CGridListCtrlEx>* m_pOleDropTarget;	//!< Maintains OLE drag drop target
+	friend class COleDropTargetWnd<CGridListCtrlEx>;
+	virtual BOOL RegisterDropTarget();
+	virtual DROPEFFECT DoDragDrop(COleDataSource& oleDataSource);
+	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
+	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
+	virtual void OnDragLeave();
+	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
+	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
+	virtual BOOL OnDropExternal(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
+	virtual bool MoveSelectedRows(int nDropRow);
 
 	// Global column trait methods
 	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
@@ -215,6 +237,7 @@ protected:
 	virtual afx_msg void OnPaint();
 	virtual afx_msg void OnKillFocus(CWnd* pNewWnd);
 	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
+	virtual afx_msg BOOL OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
