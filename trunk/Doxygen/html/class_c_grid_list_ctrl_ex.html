@@ -31,8 +31,8 @@ Inherited by <a class="el" href="class_c_grid_list_ctrl_groups.html">CGridListCt
 <a href="class_c_grid_list_ctrl_ex-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="182460896572fd3205df7d416e1bd3fe"></a><!-- doxytag: member="CGridListCtrlEx::CGridListCtrlEx" ref="182460896572fd3205df7d416e1bd3fe" args="()" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#182460896572fd3205df7d416e1bd3fe">CGridListCtrlEx</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="749bc14e37eedac3297172d3d06e41a4"></a><!-- doxytag: member="CGridListCtrlEx::CGridListCtrlEx" ref="749bc14e37eedac3297172d3d06e41a4" args="()" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#749bc14e37eedac3297172d3d06e41a4">CGridListCtrlEx</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="aaf9bbb7f20e63af595118df681a4df1"></a><!-- doxytag: member="CGridListCtrlEx::~CGridListCtrlEx" ref="aaf9bbb7f20e63af595118df681a4df1" args="()" -->
@@ -183,9 +183,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#abebd6790025d9915a79966d1fa2463a">OnDisplayRowFont</a> (int nRow, LOGFONT &amp;font)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the font used for drawing a row.  <a href="#abebd6790025d9915a79966d1fa2463a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#d8ec0ec5272a054776a16c7f70ab5f87">OnDisplayToClipboard</a> (CString &amp;strResult)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#61188bc28c09714dc1f032bf31497c36">OnDisplayDragOverRow</a> (int nRow)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what is placed in the global clipboard.  <a href="#d8ec0ec5272a054776a16c7f70ab5f87"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react to mouse over event during drag drop.  <a href="#61188bc28c09714dc1f032bf31497c36"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#3414cf599a7f79c06064da62bc5237a7">OnDisplayDragOverRowColor</a> (int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the color used when dragging over a row.  <a href="#3414cf599a7f79c06064da62bc5237a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#604d3de5047b6a9255635778ea5445c2">OnDisplayToClipboard</a> (CString &amp;strResult, bool includeHeader=true)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what is placed in the global clipboard.  <a href="#604d3de5047b6a9255635778ea5445c2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#1e229f9b9cf4235ddaf94bf0432bedf5">OnDisplayToClipboard</a> (int nRow, CString &amp;strResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what to place in the clipboard for a single row.  <a href="#1e229f9b9cf4235ddaf94bf0432bedf5"></a><br></td></tr>
@@ -201,6 +207,10 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#99ec9f3c4879d6c609e2a2bbbe6b2016">OnKeyboardSearch</a> (int nCol, int nStartRow, const CString &amp;strSearch)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list).  <a href="#99ec9f3c4879d6c609e2a2bbbe6b2016"></a><br></td></tr>
+<tr><td colspan="2"><br><h2>Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#2451ed9a7fe48440fba9a5d057e89f57">CheckOSVersion</a> (WORD requestOS)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if the current OS version against the requested OS version.  <a href="#2451ed9a7fe48440fba9a5d057e89f57"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#e182fc1595ecdad45f8209f10af10492">InsertColumnTrait</a> (int nCol, <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait)</td></tr>
 
@@ -223,6 +233,34 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#6b6c3198a95f54920fc9af1c4be79f2d">SortColumn</a> (int nCol, bool bAscending)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the row sorting in regard to the specified column.  <a href="#6b6c3198a95f54920fc9af1c4be79f2d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#e3281e846c31faae6d3c83c87cf85041">RegisterDropTarget</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Registers the CListCtrl as a valid OLE drag drop target.  <a href="#e3281e846c31faae6d3c83c87cf85041"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual DROPEFFECT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#78ba0b9ffd142b985c8de76039de4fe8">DoDragDrop</a> (COleDataSource &amp;oleDataSource)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Takes the contents of the selected rows, and starts a drag-drop operation.  <a href="#78ba0b9ffd142b985c8de76039de4fe8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual DROPEFFECT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#8b2b21b089d2cd3d62f95ed97f30f052">OnDragEnter</a> (COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when the cursor is first dragged into the window.  <a href="#8b2b21b089d2cd3d62f95ed97f30f052"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual DROPEFFECT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#32c02282e6285f5855965d56780c7fad">OnDragOver</a> (COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when the cursor is dragged over the window.  <a href="#32c02282e6285f5855965d56780c7fad"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4e4d84b7b76b6f4d3a4150536556ebe0"></a><!-- doxytag: member="CGridListCtrlEx::OnDragLeave" ref="4e4d84b7b76b6f4d3a4150536556ebe0" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#4e4d84b7b76b6f4d3a4150536556ebe0">OnDragLeave</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when the cursor leaves the window while a dragging operation is in effect. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#7155f4841e7fd2ace78f04b1d649fa1e">OnDrop</a> (COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when a drop operation is to occur.  <a href="#7155f4841e7fd2ace78f04b1d649fa1e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#deebd2fcd929052df87c1cc539595855">OnDropSelf</a> (COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when a drop operation is to occur, where the origin is the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> itself.  <a href="#deebd2fcd929052df87c1cc539595855"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#beba811ba43eb786a236cdc78406ba4b">OnDropExternal</a> (COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when a drop operation is to occur, where the origin is an external source.  <a href="#beba811ba43eb786a236cdc78406ba4b"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#6a4dbab19210ae5059da11ff8a0606d0">MoveSelectedRows</a> (int nDropRow)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Inserts the selected rows before the specified row.  <a href="#6a4dbab19210ae5059da11ff8a0606d0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#538683f433c340b9f3aaf56013452c65">OnTraitCustomDraw</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change how to draw a cell using a column trait.  <a href="#538683f433c340b9f3aaf56013452c65"></a><br></td></tr>
@@ -342,6 +380,9 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#d864df4e9a0040291651fede870127f0">OnCopy</a> (WPARAM wParam, LPARAM lParam)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_COPY message handler.  <a href="#d864df4e9a0040291651fede870127f0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#587752a4addb6e81c848583ae8c1e3a4">OnBeginDrag</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_BEGINDRAG message handler called when performing left-click drag.  <a href="#587752a4addb6e81c848583ae8c1e3a4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="32b25b0a99f902b476d445cdce4265f1"></a><!-- doxytag: member="CGridListCtrlEx::DECLARE_MESSAGE_MAP" ref="32b25b0a99f902b476d445cdce4265f1" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 
@@ -410,12 +451,24 @@ double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#b501c48ca1a9293cd19e65b0288fe137">m_EmptyMarkupText</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Text to display when list control is empty. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1b6850ebba844579d6424e46563a9363"></a><!-- doxytag: member="CGridListCtrlEx::m_pOleDropTarget" ref="1b6850ebba844579d6424e46563a9363" args="" -->
+COleDropTargetWnd<br class="typebreak">
+&lt; <a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#1b6850ebba844579d6424e46563a9363">m_pOleDropTarget</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Maintains OLE drag drop target. <br></td></tr>
+<tr><td colspan="2"><br><h2>Friends</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9a4befb6ad58d2b8265e280033db137f"></a><!-- doxytag: member="CGridListCtrlEx::COleDropTargetWnd&lt; CGridListCtrlEx &gt;" ref="9a4befb6ad58d2b8265e280033db137f" args="" -->
+class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt; CGridListCtrlEx &gt;</b></td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> extends the CListCtrl with several features. 
 <p>
 <ul>
-<li>Sortable</li><li>Simple column picker</li><li>Cell navigation</li><li>Keyboard search navigation</li><li>Cell tooltip</li><li>Cell editing and customization through use of CGridColumnTrait's</li><li>Clipboard (copy only)</li><li>Column state persistence (width, order, etc.) </li></ul>
+<li>Sortable</li><li>Simple column picker</li><li>Cell navigation</li><li>Keyboard search navigation</li><li>Cell tooltip</li><li>Cell editing and customization through use of CGridColumnTrait's</li></ul>
+<p>
+Clipboard (copy only)<ul>
+<li>OLE Drag and drop</li><li>Column state persistence (width, order, etc.) </li></ul>
 <hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="7971391fd8c58022aa70c09f674b1695"></a><!-- doxytag: member="CGridListCtrlEx::CellHitTest" ref="7971391fd8c58022aa70c09f674b1695" args="(const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const " -->
 <div class="memitem">
@@ -462,6 +515,33 @@ Finds the cell below the given mouse cursor position.<p>
 
 </div>
 </div><p>
+<a class="anchor" name="2451ed9a7fe48440fba9a5d057e89f57"></a><!-- doxytag: member="CGridListCtrlEx::CheckOSVersion" ref="2451ed9a7fe48440fba9a5d057e89f57" args="(WORD requestOS)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::CheckOSVersion           </td>
+          <td>(</td>
+          <td class="paramtype">WORD&nbsp;</td>
+          <td class="paramname"> <em>requestOS</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Checks if the current OS version against the requested OS version. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>requestOS</em>&nbsp;</td><td>The full version number of the OS required (Ex 0x0600) </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="8e4586d9651830eda9400f6f6bbe69e0"></a><!-- doxytag: member="CGridListCtrlEx::DeleteColumnTrait" ref="8e4586d9651830eda9400f6f6bbe69e0" args="(int nCol)" -->
 <div class="memitem">
 <div class="memproto">
@@ -486,6 +566,34 @@ Internal maintenance function for the column trait container.
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column just deleted </td></tr>
   </table>
 </dl>
+
+</div>
+</div><p>
+<a class="anchor" name="78ba0b9ffd142b985c8de76039de4fe8"></a><!-- doxytag: member="CGridListCtrlEx::DoDragDrop" ref="78ba0b9ffd142b985c8de76039de4fe8" args="(COleDataSource &amp;oleDataSource)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DROPEFFECT CGridListCtrlEx::DoDragDrop           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataSource &amp;&nbsp;</td>
+          <td class="paramname"> <em>oleDataSource</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Takes the contents of the selected rows, and starts a drag-drop operation. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>oleDataSource</em>&nbsp;</td><td>Cache for placing the data selected for drag-drop operation </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Drop effect generated by the drag-and-drop operation; otherwise DROPEFFECT_NONE </dd></dl>
 
 </div>
 </div><p>
@@ -1437,6 +1545,75 @@ Shifts the cell focus left or right in the same row.
 
 </div>
 </div><p>
+<a class="anchor" name="6a4dbab19210ae5059da11ff8a0606d0"></a><!-- doxytag: member="CGridListCtrlEx::MoveSelectedRows" ref="6a4dbab19210ae5059da11ff8a0606d0" args="(int nDropRow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::MoveSelectedRows           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nDropRow</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Inserts the selected rows before the specified row. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nDropRow</em>&nbsp;</td><td>Insert the selected rows before this row </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Was rows rearranged ? (true / false) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#b8fd8c8ec728a56b47bf65b129e4e8b9">CGridListCtrlGroups</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="587752a4addb6e81c848583ae8c1e3a4"></a><!-- doxytag: member="CGridListCtrlEx::OnBeginDrag" ref="587752a4addb6e81c848583ae8c1e3a4" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnBeginDrag           </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+LVN_BEGINDRAG message handler called when performing left-click drag. 
+<p>
+Used to perform drag drop from the list control.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an NMLISTVIEW structure specifying the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Not used </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="a5ce088293b0668316711d6b787de176"></a><!-- doxytag: member="CGridListCtrlEx::OnBeginLabelEdit" ref="a5ce088293b0668316711d6b787de176" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
 <div class="memitem">
 <div class="memproto">
@@ -2139,6 +2316,78 @@ Called constantly while the mouse is moving over the list-control.<p>
 
 </div>
 </div><p>
+<a class="anchor" name="61188bc28c09714dc1f032bf31497c36"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayDragOverRow" ref="61188bc28c09714dc1f032bf31497c36" args="(int nRow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnDisplayDragOverRow           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to react to mouse over event during drag drop. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="3414cf599a7f79c06064da62bc5237a7"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayDragOverRowColor" ref="3414cf599a7f79c06064da62bc5237a7" args="(int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnDisplayDragOverRowColor           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">COLORREF &amp;&nbsp;</td>
+          <td class="paramname"> <em>textColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">COLORREF &amp;&nbsp;</td>
+          <td class="paramname"> <em>backColor</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to change the color used when dragging over a row. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>textColor</em>&nbsp;</td><td>The text color used when drawing the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>backColor</em>&nbsp;</td><td>The background color when drawing the row </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Color is overrided </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="cce1c73d347cd9726e5df4e0abf6474b"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayRowColor" ref="cce1c73d347cd9726e5df4e0abf6474b" args="(int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)" -->
 <div class="memitem">
 <div class="memproto">
@@ -2305,7 +2554,7 @@ Override this method to control what to place in the clipboard for a single row.
 
 </div>
 </div><p>
-<a class="anchor" name="d8ec0ec5272a054776a16c7f70ab5f87"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayToClipboard" ref="d8ec0ec5272a054776a16c7f70ab5f87" args="(CString &amp;strResult)" -->
+<a class="anchor" name="604d3de5047b6a9255635778ea5445c2"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayToClipboard" ref="604d3de5047b6a9255635778ea5445c2" args="(CString &amp;strResult, bool includeHeader=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2313,9 +2562,18 @@ Override this method to control what to place in the clipboard for a single row.
           <td class="memname">bool CGridListCtrlEx::OnDisplayToClipboard           </td>
           <td>(</td>
           <td class="paramtype">CString &amp;&nbsp;</td>
-          <td class="paramname"> <em>strResult</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [virtual]</code></td>
+          <td class="paramname"> <em>strResult</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>includeHeader</em> = <code>true</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -2327,9 +2585,237 @@ Override this method to control what is placed in the global clipboard.
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>strResult</em>&nbsp;</td><td>Text to place in the clipboard </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>includeHeader</em>&nbsp;</td><td>Include column headers when copying to clipboard </td></tr>
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>Text is available for the clipboard </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="8b2b21b089d2cd3d62f95ed97f30f052"></a><!-- doxytag: member="CGridListCtrlEx::OnDragEnter" ref="8b2b21b089d2cd3d62f95ed97f30f052" args="(COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DROPEFFECT CGridListCtrlEx::OnDragEnter           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DWORD&nbsp;</td>
+          <td class="paramname"> <em>dwKeyState</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when the cursor is first dragged into the window. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dwKeyState</em>&nbsp;</td><td>Contains the state of the modifier keys (MK_SHIFT, MK_CONTROL, etc.) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The effect that would result if a drop were attempted at the location specified by point. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="32c02282e6285f5855965d56780c7fad"></a><!-- doxytag: member="CGridListCtrlEx::OnDragOver" ref="32c02282e6285f5855965d56780c7fad" args="(COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DROPEFFECT CGridListCtrlEx::OnDragOver           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DWORD&nbsp;</td>
+          <td class="paramname"> <em>dwKeyState</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when the cursor is dragged over the window. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dwKeyState</em>&nbsp;</td><td>Contains the state of the modifier keys (MK_SHIFT, MK_CONTROL, etc.) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>The effect that would result if a drop were attempted at the location specified by point. </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="7155f4841e7fd2ace78f04b1d649fa1e"></a><!-- doxytag: member="CGridListCtrlEx::OnDrop" ref="7155f4841e7fd2ace78f04b1d649fa1e" args="(COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnDrop           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DROPEFFECT&nbsp;</td>
+          <td class="paramname"> <em>dropEffect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when a drop operation is to occur. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dropEffect</em>&nbsp;</td><td>The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Nonzero if the drop is successful; otherwise 0 </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="beba811ba43eb786a236cdc78406ba4b"></a><!-- doxytag: member="CGridListCtrlEx::OnDropExternal" ref="beba811ba43eb786a236cdc78406ba4b" args="(COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnDropExternal           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DROPEFFECT&nbsp;</td>
+          <td class="paramname"> <em>dropEffect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when a drop operation is to occur, where the origin is an external source. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dropEffect</em>&nbsp;</td><td>The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Nonzero if the drop is successful; otherwise 0 </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="deebd2fcd929052df87c1cc539595855"></a><!-- doxytag: member="CGridListCtrlEx::OnDropSelf" ref="deebd2fcd929052df87c1cc539595855" args="(COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnDropSelf           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DROPEFFECT&nbsp;</td>
+          <td class="paramname"> <em>dropEffect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when a drop operation is to occur, where the origin is the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> itself. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dropEffect</em>&nbsp;</td><td>The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Nonzero if the drop is successful; otherwise 0 </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#1847f1c70228f294e682b6e267effa65">CGridListCtrlGroups</a>.</p>
 
 </div>
 </div><p>
@@ -3474,6 +3960,28 @@ Normally used for subclassing controls, but here used to configure initial style
 
 </div>
 </div><p>
+<a class="anchor" name="e3281e846c31faae6d3c83c87cf85041"></a><!-- doxytag: member="CGridListCtrlEx::RegisterDropTarget" ref="e3281e846c31faae6d3c83c87cf85041" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::RegisterDropTarget           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Registers the CListCtrl as a valid OLE drag drop target. 
+<p>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Nonzero if successful; otherwise zero. </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="95cdfc923e43020fd647a3878dbfebe4"></a><!-- doxytag: member="CGridListCtrlEx::SelectRow" ref="95cdfc923e43020fd647a3878dbfebe4" args="(int nRow, bool bSelect)" -->
 <div class="memitem">
 <div class="memproto">
@@ -3875,7 +4383,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jul 23 23:18:57 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 01:20:18 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

@@ -104,6 +104,12 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#2bb9d6df1d2a584c1d7ed2e3dc91853b">OnContextMenuGroup</a> (CWnd *pWnd, CPoint point, int nGroupId)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the context menu when activating context menu for the group headers.  <a href="#2bb9d6df1d2a584c1d7ed2e3dc91853b"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#1847f1c70228f294e682b6e267effa65">OnDropSelf</a> (COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when a drop operation is to occur, where the origin is the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> itself.  <a href="#1847f1c70228f294e682b6e267effa65"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#b8fd8c8ec728a56b47bf65b129e4e8b9">MoveSelectedRows</a> (int nGroupId)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Moves the selected rows to the specified group.  <a href="#b8fd8c8ec728a56b47bf65b129e4e8b9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#9acee842fdd067ef4ba737a848e3813d">OnContextMenu</a> (CWnd *, CPoint point)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CONTEXTMENU message handler to show popup menu when mouse right click is used (or SHIFT+F10 on the keyboard).  <a href="#9acee842fdd067ef4ba737a848e3813d"></a><br></td></tr>
@@ -432,6 +438,36 @@ This is only possible in Windows Vista.<p>
 
 </div>
 </div><p>
+<a class="anchor" name="b8fd8c8ec728a56b47bf65b129e4e8b9"></a><!-- doxytag: member="CGridListCtrlGroups::MoveSelectedRows" ref="b8fd8c8ec728a56b47bf65b129e4e8b9" args="(int nGroupId)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlGroups::MoveSelectedRows           </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nDropGroupId</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Moves the selected rows to the specified group. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nDropGroupId</em>&nbsp;</td><td>Moved the selected rows to this group </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Was rows rearranged ? (true / false) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_list_ctrl_ex.html#6a4dbab19210ae5059da11ff8a0606d0">CGridListCtrlEx</a>.</p>
+
+</div>
+</div><p>
 <a class="anchor" name="9acee842fdd067ef4ba737a848e3813d"></a><!-- doxytag: member="CGridListCtrlGroups::OnContextMenu" ref="9acee842fdd067ef4ba737a848e3813d" args="(CWnd *, CPoint point)" -->
 <div class="memitem">
 <div class="memproto">
@@ -642,6 +678,53 @@ Override this method to provide the group a cell belongs to.
   </table>
 </dl>
 <dl class="return" compact><dt><b>Returns:</b></dt><dd>True if the cell belongs to a group </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="1847f1c70228f294e682b6e267effa65"></a><!-- doxytag: member="CGridListCtrlGroups::OnDropSelf" ref="1847f1c70228f294e682b6e267effa65" args="(COleDataObject *pDataObject, DROPEFFECT dropEffect, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlGroups::OnDropSelf           </td>
+          <td>(</td>
+          <td class="paramtype">COleDataObject *&nbsp;</td>
+          <td class="paramname"> <em>pDataObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DROPEFFECT&nbsp;</td>
+          <td class="paramname"> <em>dropEffect</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Called by the framework when a drop operation is to occur, where the origin is the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> itself. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pDataObject</em>&nbsp;</td><td>Points to the data object containing the data that can be dropped </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dropEffect</em>&nbsp;</td><td>The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Contains the current location of the cursor in client coordinates. </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Nonzero if the drop is successful; otherwise 0 </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_list_ctrl_ex.html#deebd2fcd929052df87c1cc539595855">CGridListCtrlEx</a>.</p>
 
 </div>
 </div><p>
@@ -1116,7 +1199,7 @@ Changes the row sorting in regard to the specified column.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 30 06:02:54 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 01:20:18 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>

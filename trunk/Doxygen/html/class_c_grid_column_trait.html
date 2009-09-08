@@ -38,6 +38,9 @@ Inherited by <a class="el" href="class_c_grid_column_trait_text.html">CGridColum
 virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#8bf453ce4cefaea941fc0fd792f7dfb1">~CGridColumnTrait</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Destructor. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#cafacfe30da0504e9583e58d5a4857e9">OnInsertColumn</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#cafacfe30da0504e9583e58d5a4857e9" title="Override OnInsertColumn() to provide your own special styling of the column, after...">OnInsertColumn()</a> to provide your own special styling of the column, after column has been added.  <a href="#cafacfe30da0504e9583e58d5a4857e9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#d3ae6a1a52c2d96f0f122d5af37eb17e">OnCustomDraw</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#d3ae6a1a52c2d96f0f122d5af37eb17e" title="Override OnCustomDraw() to provide your own special cell-drawing.">OnCustomDraw()</a> to provide your own special cell-drawing.  <a href="#d3ae6a1a52c2d96f0f122d5af37eb17e"></a><br></td></tr>
@@ -197,6 +200,43 @@ Override <a class="el" href="class_c_grid_column_trait.html#b39126ae5476356c2516
 
 </div>
 </div><p>
+<a class="anchor" name="cafacfe30da0504e9583e58d5a4857e9"></a><!-- doxytag: member="CGridColumnTrait::OnInsertColumn" ref="cafacfe30da0504e9583e58d5a4857e9" args="(CGridListCtrlEx &amp;owner, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void CGridColumnTrait::OnInsertColumn           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override <a class="el" href="class_c_grid_column_trait.html#cafacfe30da0504e9583e58d5a4857e9" title="Override OnInsertColumn() to provide your own special styling of the column, after...">OnInsertColumn()</a> to provide your own special styling of the column, after column has been added. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control adding column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column just added </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="2e3d1fc0f5e0f41a985bffedfec3eb30"></a><!-- doxytag: member="CGridColumnTrait::OnSortRows" ref="2e3d1fc0f5e0f41a985bffedfec3eb30" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
@@ -245,7 +285,7 @@ Override <a class="el" href="class_c_grid_column_trait.html#2e3d1fc0f5e0f41a985b
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Apr 2 21:57:01 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 01:20:17 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
