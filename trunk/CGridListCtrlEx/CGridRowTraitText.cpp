@@ -122,9 +122,13 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 
 				if (UpdateBackColor(nRow, pLVCD->clrTextBk))
 					*pResult |= CDRF_NEWFONT;
+			}
 
-				if (owner.OnDisplayRowColor(nRow, pLVCD->clrText, pLVCD->clrTextBk))
-					*pResult |= CDRF_NEWFONT;
+			if (owner.OnDisplayRowColor(nRow, pLVCD->clrText, pLVCD->clrTextBk))
+			{
+				*pResult |= CDRF_NEWFONT;
+				pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+				pLVCD->nmcd.uItemState &= ~CDIS_HOT;
 			}
 
 			LOGFONT newFont = {0};

@@ -56,6 +56,10 @@ protected:
 	virtual void OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol);
 	virtual void OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGroupId);
 
+	// Drag Drop Interface
+	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
+	virtual bool MoveSelectedRows(int nGroupId);
+
 	//{{AFX_MSG(CGridListCtrlEx)
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual afx_msg BOOL OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult);

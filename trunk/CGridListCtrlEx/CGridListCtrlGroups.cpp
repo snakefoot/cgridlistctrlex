@@ -125,14 +125,7 @@ BOOL CGridListCtrlGroups::IsGroupStateEnabled()
 	if (!IsGroupViewEnabled())
 		return FALSE;
 
-	OSVERSIONINFO osver = {0};
-	osver.dwOSVersionInfoSize = sizeof(osver);
-	GetVersionEx(&osver);
-	WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
-	if (fullver < 0x0600)
-		return FALSE;
-
-	return TRUE;
+	return CheckOSVersion(0x0600);
 }
 
 //------------------------------------------------------------------------
@@ -205,20 +198,37 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 #if _WIN32_WINNT >= 0x0600
 #ifdef ListView_HitTestEx
 #ifdef LVHT_EX_GROUP
+#ifdef ListView_GetGroupInfoByIndex
 		LVHITTESTINFO lvhitinfo = {0};
 		lvhitinfo.pt = point;
 		ListView_HitTestEx(m_hWnd, &lvhitinfo);
 		if ((lvhitinfo.flags & LVHT_EX_GROUP)==0)
 			return -1;
+
+		LVGROUP lg = {0};
+		lg.cbSize = sizeof(lg);
+		lg.mask = LVGF_GROUPID;
+		VERIFY( ListView_GetGroupInfoByIndex(m_hWnd, lvhitinfo.iGroup, &lg) );
+		return lg.iGroupId;
 #endif
 #endif
+#endif
+#endif
+	}
+
+	if (IsGroupStateEnabled())
+	{
+#ifndef LVM_GETGROUPINFOBYINDEX
+#define LVM_GETGROUPINFOBYINDEX   (LVM_FIRST + 153)
+#endif
+#ifndef LVM_GETGROUPCOUNT
+#define LVM_GETGROUPCOUNT         (LVM_FIRST + 152)
+#endif
+#ifndef LVM_GETGROUPRECT
+#define LVM_GETGROUPRECT          (LVM_FIRST + 98)
 #endif
 
-#if _WIN32_WINNT >= 0x0600
-#ifdef ListView_GetGroupCount
-#ifdef ListView_GetGroupRect
-#ifdef ListView_GetGroupInfoByIndex
-		LRESULT groupCount = ListView_GetGroupCount(m_hWnd);
+		LRESULT groupCount = SNDMSG((m_hWnd), LVM_GETGROUPCOUNT, (WPARAM)0, (LPARAM)0);
 		if (groupCount <= 0)
 			return -1;
 		for(int i = 0 ; i < groupCount; ++i)
@@ -226,91 +236,44 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 			LVGROUP lg = {0};
 			lg.cbSize = sizeof(lg);
 			lg.mask = LVGF_GROUPID;
-			VERIFY( ListView_GetGroupInfoByIndex(m_hWnd, i, &lg) );
+
+			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPINFOBYINDEX, (WPARAM)(i), (LPARAM)(&lg)) );
 
 			CRect rect(0,0,0,0);
-			VERIFY( ListView_GetGroupRect(m_hWnd, lg.iGroupId, 0, &rect) );
-
+			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPRECT, (WPARAM)(lg.iGroupId), (LPARAM)(RECT*)(&rect)) );
 			if (rect.PtInRect(point))
 				return lg.iGroupId;
 		}
 		// Don't try other ways to find the group
-		if (groupCount > 0)
-			return -1;
-#endif
-#endif
-#endif
-#endif
-	}	// IsGroupStateEnabled()
-
-	CRect headerRect;
-	GetHeaderCtrl()->GetClientRect(&headerRect);
-	if (headerRect.PtInRect(point))
 		return -1;
+	}
 
 	// We require that each group contains atleast one item
 	if (GetItemCount()==0)
 		return -1;
 
-	CRect gridRect(0,0,0,0);
-	GetClientRect(&gridRect);
-
-	// Loop through all rows until a visible row below the point is found
-	int nPrevGroupId = -1, nCollapsedGroups = 0;
-	int nRowAbove = -1, nRowBelow = 0;
-	for(nRowBelow = 0; nRowBelow < GetItemCount(); nRowBelow++)
+	// This logic doesn't support collapsible groups
+	int nFirstRow = -1;
+	CRect gridRect;
+	GetWindowRect(&gridRect);
+	for(CPoint pt = point ; pt.y < gridRect.bottom ; pt.y += 2)
 	{
-		int nGroupId = GetRowGroupId(nRowBelow);
-
-		CRect rectRowBelow;
-		if (GetItemRect(nRowBelow, rectRowBelow, LVIR_BOUNDS)==FALSE)
-		{
-			// Found invisible row (row within collapsed group)
-			if (nGroupId != -1 && nGroupId != nPrevGroupId)
-			{
-				//	Test if the point is within a collapsed group
-				nCollapsedGroups++;
-				nPrevGroupId = nGroupId;
-				CRect groupRect = gridRect;
-				if (nRowAbove!=-1)
-				{
-					GetItemRect(nRowAbove, groupRect, LVIR_BOUNDS);
-					groupRect.right = gridRect.right;
-				}
-				else
-				{
-					groupRect.bottom = headerRect.bottom;
-				}
-				groupRect.bottom += m_GroupHeight * nCollapsedGroups;
-				if (groupRect.PtInRect(point))
-					return nGroupId;	// Hit a collapsed group
-			}
-			continue;	
-		}
-
-		// Cheating by remembering the group-height from the first visible row
-		if (m_GroupHeight==-1)
-		{
-			m_GroupHeight = rectRowBelow.top - headerRect.Height();
-		}
-
-		rectRowBelow.right = gridRect.right;
-		if (rectRowBelow.PtInRect(point))
-			return -1;	// Hit a row
-		if (rectRowBelow.top > point.y)
-			break;		// Found row just below the point
-
-		nCollapsedGroups = 0;
-		nRowAbove = nRowBelow;
+		nFirstRow = HitTest(pt);
+		if (nFirstRow!=-1)
+			break;
 	}
 
-	if (nRowBelow < GetItemCount())
-	{
-		// Probably hit a group above this row
-		return GetRowGroupId(nRowBelow);
-	}
+	if (nFirstRow==-1)
+		return -1;
 
-	return -1;
+	int nGroupId = GetRowGroupId(nFirstRow);
+
+	// Extra validation that the above row belongs to a different group
+	int nAboveRow = GetNextItem(nFirstRow,LVNI_ABOVE);
+	if (nAboveRow!=-1 && nGroupId==GetRowGroupId(nAboveRow))
+		return -1;
+
+	return nGroupId;
 }
 
 //------------------------------------------------------------------------
@@ -454,6 +417,70 @@ void CGridListCtrlGroups::ExpandAllGroups()
 }
 
 //------------------------------------------------------------------------
+//! Called by the framework when a drop operation is to occur, where the
+//! origin is the CGridListCtrlEx itself
+//!
+//! @param pDataObject Points to the data object containing the data that can be dropped
+//! @param dropEffect The effect that the user chose for the drop operation (DROPEFFECT_COPY, DROPEFFECT_MOVE, DROPEFFECT_LINK)
+//! @param point Contains the current location of the cursor in client coordinates.
+//! @return Nonzero if the drop is successful; otherwise 0
+//------------------------------------------------------------------------
+BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+{
+	// Internal drag (Move rows to other group)
+	int nRow, nCol;
+	CellHitTest(point, nRow, nCol);
+	if (!IsGroupViewEnabled())
+		return CGridListCtrlEx::MoveSelectedRows(nRow);
+
+	if (GetStyle() & LVS_OWNERDATA)
+		return false;
+
+	int nGroupId = nRow!=-1 ? GetRowGroupId(nRow) : GroupHitTest(point);
+	if (nGroupId==-1)
+		return FALSE;
+		
+	if (MoveSelectedRows(nGroupId))
+	{
+		if (nRow!=-1)
+		{
+			EnsureVisible(nRow, FALSE);
+			SetFocusRow(nRow);
+		}
+	}
+	return TRUE;
+}
+
+//------------------------------------------------------------------------
+//! Moves the selected rows to the specified group
+//!
+//! @param nDropGroupId Moved the selected rows to this group
+//! @return Was rows rearranged ? (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlGroups::MoveSelectedRows(int nDropGroupId)
+{
+	if (GetStyle() & LVS_OWNERDATA)
+		return false;
+	
+	if (nDropGroupId==-1)
+		return false;
+
+	POSITION pos = GetFirstSelectedItemPosition();
+	if (pos==NULL)
+		return false;
+
+	while(pos!=NULL)
+	{
+		int nRow = GetNextSelectedItem(pos);
+		int nGroupId = GetRowGroupId(nRow);
+		if (nGroupId != nDropGroupId)
+			SetRowGroupId(nRow, nDropGroupId);
+	}
+
+	return true;
+}
+
+//------------------------------------------------------------------------
 //! WM_CONTEXTMENU message handler to show popup menu when mouse right
 //! click is used (or SHIFT+F10 on the keyboard)
 //!
@@ -464,16 +491,19 @@ void CGridListCtrlGroups::OnContextMenu(CWnd* pWnd, CPoint point)
 {
 	if ( IsGroupViewEnabled() )
 	{
-		if (point.x!=-1 && point.y!=-1)
+		if (pWnd!=GetHeaderCtrl())
 		{
-			CPoint pt = point;
-			ScreenToClient(&pt);
-
-			int nGroupId = GroupHitTest(pt);
-			if (nGroupId!=-1)
+			if (point.x!=-1 && point.y!=-1)
 			{
-				OnContextMenuGroup(pWnd, point, nGroupId);
-				return;
+				CPoint pt = point;
+				ScreenToClient(&pt);
+
+				int nGroupId = GroupHitTest(pt);
+				if (nGroupId!=-1)
+				{
+					OnContextMenuGroup(pWnd, point, nGroupId);
+					return;
+				}
 			}
 		}
 	}
@@ -1013,20 +1043,14 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	CWaitCursor waitCursor;
 
-	// Always sort the rows, so the handicapped GroupHitTest() will work
-	//	- Must ensure that the rows are reordered along with the groups.
-	if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
-		return false;
-
 	if (IsGroupViewEnabled())
 	{
 		SetRedraw(FALSE);
 
-		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
-
 		GroupByColumn(nCol);
 
 		// Cannot use GetGroupInfo during sort
+		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
 		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
 		{
 			int nGroupId = GetRowGroupId(nRow);
@@ -1039,6 +1063,11 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 
 		// Avoid bug in CListCtrl::SortGroups() which differs from ListView_SortGroups
 		if (!ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort))
+			return false;
+	}
+	else
+	{
+		if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
 			return false;
 	}
 
