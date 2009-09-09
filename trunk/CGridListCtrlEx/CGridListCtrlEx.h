@@ -48,12 +48,12 @@ template<class T> class COleDropTargetWnd;
 
 //------------------------------------------------------------------------
 //! CGridListCtrlEx extends the CListCtrl with several features.
-//!	- Sortable
-//!	- Simple column picker
-//!	- Cell navigation
-//!	- Keyboard search navigation
-//!	- Cell tooltip
-//!	- Cell editing and customization through use of CGridColumnTrait's
+//! - Cell editing and customization through use of CGridColumnTrait
+//! - Sortable
+//! - Simple column picker
+//! - Cell navigation
+//! - Keyboard search navigation
+//! - Cell tooltip
 //! - Clipboard (copy only)
 //! - OLE Drag and drop
 //! - Column state persistence (width, order, etc.)
