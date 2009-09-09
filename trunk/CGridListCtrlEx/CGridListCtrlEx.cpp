@@ -2867,6 +2867,18 @@ BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 //------------------------------------------------------------------------
+//! Override this method to control what data is selected for drag drop
+//! operation.
+//!
+//! @param strResult Text to place in the drag drop cache
+//! @return Text is available for the drag drop operation
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayToDragDrop(CString& strResult)
+{
+	return OnDisplayToClipboard(strResult, false);
+}
+
+//------------------------------------------------------------------------
 //! Takes the contents of the selected rows, and starts a drag-drop operation
 //!
 //! @param oleDataSource Cache for placing the data selected for drag-drop operation
@@ -2878,7 +2890,7 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource)
 		return DROPEFFECT_NONE;
 
 	CString result;
-	if (!OnDisplayToClipboard(result))
+	if (!OnDisplayToDragDrop(result))
 		return DROPEFFECT_NONE;
 
 	int nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
