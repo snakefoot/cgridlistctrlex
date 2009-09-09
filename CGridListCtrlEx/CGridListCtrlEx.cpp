@@ -3244,7 +3244,7 @@ void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 			//		3) When scrolling slowly to the left, the right border of first column is not drawn
 			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
 			{
-				Invalidate();
+				Invalidate(FALSE);
 				UpdateWindow();
 			}
 		}
