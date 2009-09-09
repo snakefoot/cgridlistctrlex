@@ -383,6 +383,10 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::CollapseAllGroups()
 {
+#ifdef LVGS_COLLAPSIBLE
+	if (!IsGroupStateEnabled())
+		return;
+
 	// Loop through all rows and find possible groups
 	for(int nRow=0; nRow<GetItemCount(); ++nRow)
 	{
@@ -395,6 +399,7 @@ void CGridListCtrlGroups::CollapseAllGroups()
 			}
 		}
 	}
+#endif
 }
 
 //------------------------------------------------------------------------
@@ -402,6 +407,10 @@ void CGridListCtrlGroups::CollapseAllGroups()
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::ExpandAllGroups()
 {
+#ifdef LVGS_COLLAPSIBLE
+	if (!IsGroupStateEnabled())
+		return;
+
 	// Loop through all rows and find possible groups
 	for(int nRow=0; nRow<GetItemCount(); ++nRow)
 	{
@@ -414,6 +423,7 @@ void CGridListCtrlGroups::ExpandAllGroups()
 			}
 		}
 	}
+#endif
 }
 
 //------------------------------------------------------------------------
@@ -647,7 +657,7 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	
 	const CString& groupHeader = GetGroupHeader(nGroupId);
 
-#ifndef LVGS_COLLAPSIBLE
+#ifdef LVGS_COLLAPSIBLE
 	if (IsGroupStateEnabled())
 	{
 		if (HasGroupState(nGroupId,LVGS_COLLAPSED))
@@ -673,8 +683,10 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
 	switch(nResult)
 	{
+#ifdef LVGS_COLLAPSIBLE
 		case 1: SetGroupState(nGroupId, LVGS_NORMAL); break;
 		case 2: SetGroupState(nGroupId, LVGS_COLLAPSED); break;
+#endif
 		case 3: CheckEntireGroup(nGroupId, true); break;
 		case 4: CheckEntireGroup(nGroupId, false); break;
 	}
@@ -937,6 +949,11 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	CGridListCtrlEx::OnLButtonDblClk(nFlags, point);
+
+#ifdef LVGS_COLLAPSIBLE
+	if (!IsGroupStateEnabled())
+		return;
+	
 	int nGroupId = GroupHitTest(point);
 	if (nGroupId!=-1)
 	{
@@ -945,6 +962,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 		else
 			SetGroupState(nGroupId, LVGS_COLLAPSED);
 	}
+#endif
 }
 
 //------------------------------------------------------------------------
