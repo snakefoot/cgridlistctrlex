@@ -198,6 +198,9 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#85b10f6e13a1ea358a23b8ec463f0593">OnDisplayToClipboard</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what to place in the clipboard for a single cell.  <a href="#85b10f6e13a1ea358a23b8ec463f0593"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#0f0ebe0a183be430a7f357df947747b1">OnDisplayToDragDrop</a> (CString &amp;strResult)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what data is selected for drag drop operation.  <a href="#0f0ebe0a183be430a7f357df947747b1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#3e164b1264b6d69f63a906af2af48c48">OnOwnerDataDisplayCheckbox</a> (int nRow)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display checkbox state for LVS_OWNERDATA (virtual list).  <a href="#3e164b1264b6d69f63a906af2af48c48"></a><br></td></tr>
@@ -2592,6 +2595,34 @@ Override this method to control what is placed in the global clipboard.
 
 </div>
 </div><p>
+<a class="anchor" name="0f0ebe0a183be430a7f357df947747b1"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayToDragDrop" ref="0f0ebe0a183be430a7f357df947747b1" args="(CString &amp;strResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnDisplayToDragDrop           </td>
+          <td>(</td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strResult</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Override this method to control what data is selected for drag drop operation. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strResult</em>&nbsp;</td><td>Text to place in the drag drop cache </td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd>Text is available for the drag drop operation </dd></dl>
+
+</div>
+</div><p>
 <a class="anchor" name="8b2b21b089d2cd3d62f95ed97f30f052"></a><!-- doxytag: member="CGridListCtrlEx::OnDragEnter" ref="8b2b21b089d2cd3d62f95ed97f30f052" args="(COleDataObject *pDataObject, DWORD dwKeyState, CPoint point)" -->
 <div class="memitem">
 <div class="memproto">
@@ -4383,7 +4414,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 01:20:18 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 10:06:27 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
