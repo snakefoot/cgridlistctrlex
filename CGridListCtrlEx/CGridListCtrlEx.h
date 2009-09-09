@@ -127,6 +127,7 @@ public:
 	virtual bool OnDisplayToClipboard(CString& strResult, bool includeHeader = true);
 	virtual bool OnDisplayToClipboard(int nRow, CString& strResult);
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
+	virtual bool OnDisplayToDragDrop(CString& strResult);
 	virtual bool OnOwnerDataDisplayCheckbox(int nRow);
 	virtual void OnOwnerDataToggleCheckBox(int nRow);
 	virtual int  OnKeyboardSearch(int nCol, int nStartRow, const CString& strSearch);
