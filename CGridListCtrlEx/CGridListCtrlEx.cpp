@@ -3102,7 +3102,7 @@ namespace {
 		bool selected1 = (ListView_GetItemState(ps.m_hWnd,lParam1,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 		bool selected2 = (ListView_GetItemState(ps.m_hWnd,lParam2,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 		if (selected1 && selected2)
-			return lParam1 - lParam2;
+			return (int)(lParam1 - lParam2);
 		else
 		if (selected1)
 		{
@@ -3119,7 +3119,7 @@ namespace {
 			else
 				return 0;
 		}
-		return lParam1 - lParam2;
+		return (int)(lParam1 - lParam2);
 	}
 }
 
