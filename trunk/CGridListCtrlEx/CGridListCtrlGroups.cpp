@@ -383,7 +383,6 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::CollapseAllGroups()
 {
-#ifdef LVGS_COLLAPSIBLE
 	if (!IsGroupStateEnabled())
 		return;
 
@@ -399,7 +398,6 @@ void CGridListCtrlGroups::CollapseAllGroups()
 			}
 		}
 	}
-#endif
 }
 
 //------------------------------------------------------------------------
@@ -407,7 +405,6 @@ void CGridListCtrlGroups::CollapseAllGroups()
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::ExpandAllGroups()
 {
-#ifdef LVGS_COLLAPSIBLE
 	if (!IsGroupStateEnabled())
 		return;
 
@@ -423,7 +420,6 @@ void CGridListCtrlGroups::ExpandAllGroups()
 			}
 		}
 	}
-#endif
 }
 
 //------------------------------------------------------------------------
@@ -657,7 +653,8 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	
 	const CString& groupHeader = GetGroupHeader(nGroupId);
 
-#ifdef LVGS_COLLAPSIBLE
+	// Provide menu-options for collapsing groups, if the collapsible state is not available
+#ifndef LVGS_COLLAPSIBLE
 	if (IsGroupStateEnabled())
 	{
 		if (HasGroupState(nGroupId,LVGS_COLLAPSED))
@@ -672,6 +669,7 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 		}
 	}
 #endif
+
 	if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
 	{
 		CString menuText = CString(_T("Check group: ")) + groupHeader;
@@ -683,10 +681,8 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
 	switch(nResult)
 	{
-#ifdef LVGS_COLLAPSIBLE
 		case 1: SetGroupState(nGroupId, LVGS_NORMAL); break;
 		case 2: SetGroupState(nGroupId, LVGS_COLLAPSED); break;
-#endif
 		case 3: CheckEntireGroup(nGroupId, true); break;
 		case 4: CheckEntireGroup(nGroupId, false); break;
 	}
@@ -950,7 +946,6 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	CGridListCtrlEx::OnLButtonDblClk(nFlags, point);
 
-#ifdef LVGS_COLLAPSIBLE
 	if (!IsGroupStateEnabled())
 		return;
 	
@@ -962,7 +957,6 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 		else
 			SetGroupState(nGroupId, LVGS_COLLAPSED);
 	}
-#endif
 }
 
 //------------------------------------------------------------------------
