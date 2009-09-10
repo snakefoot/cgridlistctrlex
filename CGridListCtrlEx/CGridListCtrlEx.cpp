@@ -183,10 +183,14 @@ void CGridListCtrlEx::SetupColumnConfig(CGridColumnManager* pColumnManager)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::CheckOSVersion(WORD requestOS)
 {
-	OSVERSIONINFO osver = {0};
-	osver.dwOSVersionInfoSize = sizeof(osver);
-	GetVersionEx(&osver);
-	WORD fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+	static WORD fullver = 0;
+	if (fullver==0)
+	{
+		OSVERSIONINFO osver = {0};
+		osver.dwOSVersionInfoSize = sizeof(osver);
+		GetVersionEx(&osver);
+		 fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+	}
 	return requestOS <= fullver;
 }
 
