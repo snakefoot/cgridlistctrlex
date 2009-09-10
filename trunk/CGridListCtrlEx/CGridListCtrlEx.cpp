@@ -3278,7 +3278,7 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 			// Fix bug where it doesn't erase the background properly
 			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
 			{
-				Invalidate();
+				Invalidate(FALSE);
 				UpdateWindow();
 			}
 		}
