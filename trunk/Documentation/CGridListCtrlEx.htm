@@ -24,6 +24,8 @@
 <li><a href="http://www.codeproject.com/KB/clipboard/clipboard_faq.aspx">Clipboard</a> (copy only) </li>
 
 <li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a></li>
+
+<li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (Includes reordering of items)</li>
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
@@ -43,9 +45,11 @@ also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index
 
 <li><a href="quicklist.aspx">CQuickList</a> - Very close to being a perfect replacement, but hard to add new ways to display data, and it requires <code>LVS_OWNERDATA</code> that makes sorting a little harder. </li>
 
-<li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it tries to store a copy of the entire data model inside itself. </li>
+<li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it fails to support <code>LVS_OWNERDATA</code>. One now have to buy a license, to get the latest version.</li>
 
 <li><a href="ReportControl.aspx">Another Report List Control</a> - Simple and easy to use, but lacks other means to edit data besides using <code>CEdit</code>, and also misses subitem navigation. </li>
+
+<li><a href="http://www.codeguru.com/cpp/controls/listview/advanced/article.php/c4179/">CListCtrlEx</a> - Implements lots of feature and well documenteted. Originally required LVS_OWNERDRAWFIXED, and now evolved into using custom draw. The combination of both custom draw and owner draw, causes the code to be a little complicated, and it also doesn't support <code>LVS_OWNERDATA</code>.</li>
 </ul>
 
 <p>The <code>CGridListCtrlEx</code> tries to be simple, while still providing the ability to customize how a cell should be displayed and edited. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
@@ -127,6 +131,17 @@ and it will restore the last saved column configuration through <code>CWinApp</c
 <pre lang="C++">m_ListCtrl.SetupColumnConfig(new CGridColumnManagerProfile(&quot;MyList&quot;));</pre>
 
 <p>If using  <code>CGridListCtrlEx</code> several places in your application, then one should ensure to create an unique <code>CGridColumnManagerProfile</code> for each place.</p>
+
+<h4>OLE drag and drop</h4>
+<p><code>CGridListCtrlEx</code> can both work as an OLE drag source and an OLE drop target. This allows drag operations
+between the CGridListCtrlEx and other windows and applications.</p>
+
+<p><code>CGridListCtrlEx</code> supports reordering of rows when doing internal drag and drop. This is implemented using
+a special sort operation, so items are not deleted/inserted.</p>
+
+<p>To implement your own special behavior for a drop operation, then either override <code>OnDropSelf()</code> or <code>OnDropExternal()</code> depending on what situation you want to handle.</p>
+
+<p>To control what is placed in the drag-source when a drag is initiated, then override <code>OnDisplayToDragDrop()</code>.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -252,7 +267,7 @@ and it will restore the last saved column configuration through <code>CWinApp</c
 </ul>
 </li>
 
-<li><strong>Version 1.5</strong>  (2008-11-07)
+<li><strong>Version 1.5</strong>  (2009-03-29)
 <ul>
 <li>Added column manager <code>CGridColumnManager</code></li>
 
@@ -264,4 +279,14 @@ and it will restore the last saved column configuration through <code>CWinApp</c
 
 </ul>
 </li>
+
+<li><strong>Version 1.6</strong> (2009-09-13)
+<ul>
+<li>Added OLE drag and drop support</li>
+<li>Added support for checkboxes with <code>LVS_OWNERDATA</code></li>
+<li>Added better support for keyboard search with <code>LVS_OWNERDATA</code></li>
+<li>Fixed several bugs</li>
+</ul>
+</li>
+
 </ul>
