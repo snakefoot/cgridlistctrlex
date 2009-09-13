@@ -1830,9 +1830,6 @@ bool CGridListCtrlEx::OnDisplayCellFont(int nRow, int nCol, LOGFONT& font)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor)
 {
-	if (OnDisplayDragOverRowColor(nRow, textColor, backColor))
-		return true;
-
 	return false;
 }
 
@@ -1859,38 +1856,18 @@ void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 		return;
 
 	SetItemState(-1, 0, LVIS_DROPHILITED | LVIS_FOCUSED);
+	SetHotItem(-1);
 	if (nRow!=-1)
 	{
+		SetExtendedStyle(GetExtendedStyle() | LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE);
 		SetItemState(nRow, LVIS_DROPHILITED | LVIS_FOCUSED, LVIS_DROPHILITED | LVIS_FOCUSED);
+		SetHotItem(nRow);
 	}
-}
-
-//------------------------------------------------------------------------
-//! Override this method to change the color used when dragging over a row
-//!
-//! @param nRow The index of the row
-//! @param textColor The text color used when drawing the row
-//! @param backColor The background color when drawing the row
-//! @return Color is overrided
-//------------------------------------------------------------------------
-bool CGridListCtrlEx::OnDisplayDragOverRowColor(int nRow, COLORREF& textColor, COLORREF& backColor)
-{
-	if (UsingVisualStyle())
-		return false;
-
-	if (m_pOleDropTarget==NULL ||! m_pOleDropTarget->IsDragDestination())
-		return false;
-
-	bool isRowDrop = (GetItemState(nRow, LVIS_DROPHILITED) & LVIS_DROPHILITED) == LVIS_DROPHILITED;
-	if (isRowDrop)
+	else
 	{
-		SetItemState(-1, 0, LVIS_DROPHILITED);
-		backColor = ::GetSysColor(COLOR_HOTLIGHT);
-		textColor = ::GetSysColor(COLOR_HIGHLIGHTTEXT);
-		return true;
+		SetExtendedStyle(GetExtendedStyle()  & ~LVS_EX_TRACKSELECT);
+		SetExtendedStyle(GetExtendedStyle()  & ~LVS_EX_TWOCLICKACTIVATE);
 	}
-
-	return false;
 }
 
 //------------------------------------------------------------------------
