@@ -186,9 +186,6 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#61188bc28c09714dc1f032bf31497c36">OnDisplayDragOverRow</a> (int nRow)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react to mouse over event during drag drop.  <a href="#61188bc28c09714dc1f032bf31497c36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#3414cf599a7f79c06064da62bc5237a7">OnDisplayDragOverRowColor</a> (int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the color used when dragging over a row.  <a href="#3414cf599a7f79c06064da62bc5237a7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#604d3de5047b6a9255635778ea5445c2">OnDisplayToClipboard</a> (CString &amp;strResult, bool includeHeader=true)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what is placed in the global clipboard.  <a href="#604d3de5047b6a9255635778ea5445c2"></a><br></td></tr>
@@ -2343,51 +2340,6 @@ Override this method to react to mouse over event during drag drop.
 
 </div>
 </div><p>
-<a class="anchor" name="3414cf599a7f79c06064da62bc5237a7"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayDragOverRowColor" ref="3414cf599a7f79c06064da62bc5237a7" args="(int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CGridListCtrlEx::OnDisplayDragOverRowColor           </td>
-          <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRow</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">COLORREF &amp;&nbsp;</td>
-          <td class="paramname"> <em>textColor</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">COLORREF &amp;&nbsp;</td>
-          <td class="paramname"> <em>backColor</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Override this method to change the color used when dragging over a row. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>textColor</em>&nbsp;</td><td>The text color used when drawing the row </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>backColor</em>&nbsp;</td><td>The background color when drawing the row </td></tr>
-  </table>
-</dl>
-<dl class="return" compact><dt><b>Returns:</b></dt><dd>Color is overrided </dd></dl>
-
-</div>
-</div><p>
 <a class="anchor" name="cce1c73d347cd9726e5df4e0abf6474b"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayRowColor" ref="cce1c73d347cd9726e5df4e0abf6474b" args="(int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)" -->
 <div class="memitem">
 <div class="memproto">
@@ -4411,7 +4363,7 @@ Force redraw of focus row, so the focus cell becomes visible.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Sep 9 10:26:28 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Sep 13 13:41:18 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.8 </small></address>
 </body>
