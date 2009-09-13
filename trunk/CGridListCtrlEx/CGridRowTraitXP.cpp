@@ -57,15 +57,19 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				break;
 
 			COLORREF backColor = COLORREF(-1);
-			if (!owner.IsRowSelected(nRow))
+			if (owner.GetExtendedStyle() & LVS_EX_TRACKSELECT && owner.GetHotItem()==nRow)
 			{
-				// Redraw with the given background color
-				if (pLVCD->clrTextBk > RGB(255,255,255))
-					break;	// If a color is more than white, then it is invalid
-
-				backColor = pLVCD->clrTextBk;
+#if(WINVER >= 0x0500)
+				backColor = ::GetSysColor(COLOR_HOTLIGHT);
+#else
+				if (owner.IsRowSelected(nRow))
+					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+				else
+					break;
+#endif
 			}
 			else
+			if (owner.IsRowSelected(nRow))
 			{
 				if (owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
 					break;	// No drawing of selection color for focus cell
@@ -83,13 +87,16 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				}
 				else
 				{
-#if(WINVER >= 0x0500)
-					if (pLVCD->nmcd.uItemState & CDIS_HOT)
-						backColor = ::GetSysColor(COLOR_HOTLIGHT);
-					else
-#endif
-						backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
 				}
+			}
+			else
+			{
+				// Redraw with the given background color
+				if (pLVCD->clrTextBk > RGB(255,255,255))
+					break;	// If a color is more than white, then it is invalid
+
+				backColor = pLVCD->clrTextBk;
 			}
 
 			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
@@ -108,7 +115,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			pImageList->Draw (	pDC,  
 								nImage,  
 								rcIcon.TopLeft(),  
-								ILD_BLEND50 );
+								ILD_NORMAL );
 			pImageList->SetBkColor(oldBkColor);
 		} break;
 	}

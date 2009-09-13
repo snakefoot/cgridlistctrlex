@@ -123,7 +123,6 @@ public:
 	virtual bool OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font);
 	virtual void OnDisplayDragOverRow(int nRow);
-	virtual bool OnDisplayDragOverRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayToClipboard(CString& strResult, bool includeHeader = true);
 	virtual bool OnDisplayToClipboard(int nRow, CString& strResult);
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
