@@ -3084,16 +3084,19 @@ BOOL CGridListCtrlEx::OnDropExternal(COleDataObject* pDataObject, DROPEFFECT dro
 namespace {
 	struct PARAMMOVESORT
 	{
-		PARAMMOVESORT(HWND hWnd, int nRow)
+		PARAMMOVESORT(HWND hWnd, int nRow, bool groupSelection)
 			:m_hWnd(hWnd)
 			,m_nRow(nRow)
+			,m_GroupSelection(groupSelection)
 		{}
 
 		HWND m_hWnd;
 		int m_nRow;
+		bool m_GroupSelection;
 	};
 
 	// Comparison extracts values from the List-Control
+	//	- Groups the selected rows around the drop-row
 	int CALLBACK MoveSortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	{
 		PARAMMOVESORT& ps = *(PARAMMOVESORT*)lParamSort;
@@ -3101,25 +3104,50 @@ namespace {
 		// If part of selection, then it must be moved
 		bool selected1 = (ListView_GetItemState(ps.m_hWnd,lParam1,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 		bool selected2 = (ListView_GetItemState(ps.m_hWnd,lParam2,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+
+		// If both selected then no change in positioning
 		if (selected1 && selected2)
-			return (int)(lParam1 - lParam2);
+			return lParam1 - lParam2;
 		else
 		if (selected1)
 		{
-			if (lParam2 >= ps.m_nRow)
-				return 0;
+			if (lParam2==ps.m_nRow)
+			{
+				if (ps.m_GroupSelection)
+					return 1;	// Place entire selection after drop-row
+				else
+				if (lParam1 < ps.m_nRow)
+					return 1;	// Place selected items before drop-row
+				else
+					return -1;	// Place selected items after drop-row
+			}
+			else
+			if (lParam2 > ps.m_nRow)
+				return -1;
 			else
 				return 1;
 		}
 		else
 		if (selected2)
 		{
-			if (lParam1 >= ps.m_nRow)
+			if (lParam1 == ps.m_nRow)
+			{
+				if (ps.m_GroupSelection)
+					return -1;	// Place entire selection after drop-row
+				else
+				if (ps.m_nRow < lParam2)
+					return 1;	// Place selected items before drop-row
+				else
+					return -1;	// Place selected items after drop-row			}
+			}
+			else
+			if (lParam1 > ps.m_nRow)
 				return 1;
 			else
-				return 0;
+				return -1;
 		}
-		return (int)(lParam1 - lParam2);
+		// If none selected then no change in positioning
+		return lParam1 - lParam2;
 	}
 }
 
@@ -3146,19 +3174,24 @@ bool CGridListCtrlEx::MoveSelectedRows(int nDropRow)
 		// Do nothing if dragging a single row without moving position
 		if (nFirstSelectedRow==nDropRow)
 			return false;
-
-		// Do nothing if dropping a single row on the following row
-		if (nFirstSelectedRow==nDropRow-1)
-			return false;
 	}
 
 	// Check if dropping in the bottom of the list
 	if (nDropRow==-1)
 		nDropRow = GetItemCount();
 
+	bool groupSelection = false;
+	if (GetSelectedCount() > 1)
+	{
+		if (nFirstSelectedRow < nDropRow && GetNextItem(nDropRow, LVNI_SELECTED)!=-1)
+		{
+			groupSelection = true;
+		}
+	}
+
 	// Uses SortItemsEx because it requires no knowledge of datamodel
 	CWaitCursor waitCursor;
-	PARAMMOVESORT paramsort(m_hWnd, nDropRow);
+	PARAMMOVESORT paramsort(m_hWnd, nDropRow, groupSelection);
 	ListView_SortItemsEx(m_hWnd, MoveSortFunc, &paramsort);
 	return true;
 }
