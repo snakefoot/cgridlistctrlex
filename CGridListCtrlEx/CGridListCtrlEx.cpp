@@ -1853,7 +1853,10 @@ bool CGridListCtrlEx::OnDisplayRowFont(int nRow, LOGFONT& font)
 void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 {
 	if (UsingVisualStyle())
+	{
+		SetHotItem(nRow);
 		return;
+	}
 
 	SetItemState(-1, 0, LVIS_DROPHILITED | LVIS_FOCUSED);
 	SetHotItem(-1);
@@ -3084,7 +3087,7 @@ namespace {
 
 		// If both selected then no change in positioning
 		if (selected1 && selected2)
-			return lParam1 - lParam2;
+			return (int)(lParam1 - lParam2);
 		else
 		if (selected1)
 		{
@@ -3115,7 +3118,7 @@ namespace {
 				if (ps.m_nRow < lParam2)
 					return 1;	// Place selected items before drop-row
 				else
-					return -1;	// Place selected items after drop-row			}
+					return -1;	// Place selected items after drop-row
 			}
 			else
 			if (lParam1 > ps.m_nRow)
@@ -3124,7 +3127,7 @@ namespace {
 				return -1;
 		}
 		// If none selected then no change in positioning
-		return lParam1 - lParam2;
+		return (int)(lParam1 - lParam2);
 	}
 }
 
