@@ -218,6 +218,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 
 	if (IsGroupStateEnabled())
 	{
+		// Running on Vista or newer, but compiled without _WIN32_WINNT >= 0x0600
 #ifndef LVM_GETGROUPINFOBYINDEX
 #define LVM_GETGROUPINFOBYINDEX   (LVM_FIRST + 153)
 #endif
@@ -226,6 +227,9 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 #endif
 #ifndef LVM_GETGROUPRECT
 #define LVM_GETGROUPRECT          (LVM_FIRST + 98)
+#endif
+#ifndef LVGGR_HEADER
+#define LVGGR_HEADER		      (1)
 #endif
 
 		LRESULT groupCount = SNDMSG((m_hWnd), LVM_GETGROUPCOUNT, (WPARAM)0, (LPARAM)0);
@@ -239,8 +243,9 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 
 			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPINFOBYINDEX, (WPARAM)(i), (LPARAM)(&lg)) );
 
-			CRect rect(0,0,0,0);
+			CRect rect(0,LVGGR_HEADER,0,0);
 			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPRECT, (WPARAM)(lg.iGroupId), (LPARAM)(RECT*)(&rect)) );
+
 			if (rect.PtInRect(point))
 				return lg.iGroupId;
 		}
