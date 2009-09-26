@@ -31,6 +31,14 @@ void CGridColumnTraitEdit::SetStyle(DWORD dwStyle)
 }
 
 //------------------------------------------------------------------------
+//! Get style used when creating CEdit for cell value editing
+//------------------------------------------------------------------------
+DWORD CGridColumnTraitEdit::GetStyle() const
+{
+	return m_EditStyle;
+}
+
+//------------------------------------------------------------------------
 //! Create a CEdit as cell value editor
 //!
 //! @param owner The list control starting a cell edit

@@ -32,6 +32,14 @@ void CGridColumnTraitDateTime::SetFormat(const CString& strFormat)
 }
 
 //------------------------------------------------------------------------
+//! Get the DateTime format used to display the date
+//------------------------------------------------------------------------
+CString CGridColumnTraitDateTime::GetFormat() const
+{
+	return m_Format;
+}
+
+//------------------------------------------------------------------------
 //! Set the flags for converting the datetime in text format to actual date.
 //!
 //! @param dwFlags Flags for locale settings and parsing
@@ -51,6 +59,14 @@ void CGridColumnTraitDateTime::SetParseDateTime(DWORD dwFlags, LCID lcid)
 void CGridColumnTraitDateTime::SetStyle(DWORD dwStyle)
 {
 	m_DateTimeCtrlStyle = dwStyle;
+}
+
+//------------------------------------------------------------------------
+//! Get style used when creating CDataTimeCtrl for cell value editing
+//------------------------------------------------------------------------
+DWORD CGridColumnTraitDateTime::GetStyle() const
+{
+	return m_DateTimeCtrlStyle;
 }
 
 //------------------------------------------------------------------------

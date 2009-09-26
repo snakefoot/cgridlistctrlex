@@ -17,6 +17,7 @@ public:
 	CGridColumnTraitEdit();
 
 	void SetStyle(DWORD dwStyle);
+	DWORD GetStyle() const;
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 
