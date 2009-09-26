@@ -1,7 +1,8 @@
+<span id="ArticleContent">
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 39.36 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 66.49 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 272.8 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo -&nbsp;548.98 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -23,33 +24,31 @@
 
 <li><a href="http://www.codeproject.com/KB/clipboard/clipboard_faq.aspx">Clipboard</a> (copy only) </li>
 
-<li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a></li>
+<li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a> </li>
 
-<li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (Includes reordering of items)</li>
+<li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (includes reordering of items) </li>
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
 
-<img height="290" alt="screenshot.png" src="CGridListCtrlEx/screenshot.png" width="496" /> 
-<p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is
-also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
+<p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
 <h2>Background</h2>
 
 <p>There are lots of advanced grid controls that extend the <code>CListCtrl</code>, and one of those is the <a href="http://www.codeguru.com/cpp/frameworks/advancedui/outlookcontrols/article.php/c3223/">Enhanced List Control (CGfxListCtrl)</a>. This wonderful control provides all the above features, but fails to handle Windows XP and Vista. Finding a good replacement for this control is not very easy:</p>
 
 <ul>
-<li><a href="http://www.codeproject.com/KB/miscctrl/gridctrl.aspx">MFC Grid Control</a> - Doesn't inherit from <code>CListCtrl</code> so it not restricted by it, but it will not benefit from any improvements that Microsoft adds to the <code>CListCtrl</code>. </li>
+<li><a href="http://www.codeproject.com/KB/miscctrl/gridctrl.aspx">MFC Grid Control</a> - Doesn't inherit from <code>CListCtrl</code> so it is not restricted by it, but it will not benefit from any improvements that Microsoft adds to the <code>CListCtrl</code>. </li>
 
-<li><a href="http://www.codeproject.com/KB/MFC/UltimateGrid.aspx">Ultimate Grid</a> - Like MFC Grid Control it doesn't inherit from <code>CListCtrl</code>. Originally one had to buy it, but now it is free to use.</li>
+<li><a href="http://www.codeproject.com/KB/MFC/UltimateGrid.aspx">Ultimate Grid</a> - Like MFC Grid Control, it doesn't inherit from <code>CListCtrl</code>. Originally one had to buy it, but now it is free to use. </li>
 
 <li><a href="quicklist.aspx">CQuickList</a> - Very close to being a perfect replacement, but hard to add new ways to display data, and it requires <code>LVS_OWNERDATA</code> that makes sorting a little harder. </li>
 
-<li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it fails to support <code>LVS_OWNERDATA</code>. One now have to buy a license, to get the latest version.</li>
+<li><a href="xlistctrl.aspx">XListCtrl</a> - Also a very complete <code>CListCtrl</code>, but hard to add new ways to display data, and it fails to support <code>LVS_OWNERDATA</code>. One now has to buy a license, to get the latest version. </li>
 
 <li><a href="ReportControl.aspx">Another Report List Control</a> - Simple and easy to use, but lacks other means to edit data besides using <code>CEdit</code>, and also misses subitem navigation. </li>
 
-<li><a href="http://www.codeguru.com/cpp/controls/listview/advanced/article.php/c4179/">CListCtrlEx</a> - Implements lots of feature and well documenteted. Originally required LVS_OWNERDRAWFIXED, and now evolved into using custom draw. The combination of both custom draw and owner draw, causes the code to be a little complicated, and it also doesn't support <code>LVS_OWNERDATA</code>.</li>
+<li><a href="http://www.codeguru.com/cpp/controls/listview/advanced/article.php/c4179/">CListCtrlEx</a> - Implements lots of feature and is well documented. Originally required <code>LVS_OWNERDRAWFIXED</code>, and now evolved into using custom draw. The combination of both custom draw and owner draw causes the code to be a little complicated, and it also doesn't support <code>LVS_OWNERDATA</code>. </li>
 </ul>
 
 <p>The <code>CGridListCtrlEx</code> tries to be simple, while still providing the ability to customize how a cell should be displayed and edited. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
@@ -124,24 +123,21 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Load and save column width and position</h4>
 
-<p><code>CGridColumnManagerProfile</code> provides the ability to store the width, position and whether columns are shown.
-After having added all available columns to the <code>CGridListCtrlEx</code>, then assign an instance of <code>CGridColumnManagerProfile</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code>
-and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
-
+<p><code>CGridColumnManagerProfile</code> provides the ability to store the width, position and whether columns are shown. After having added all available columns to the <code>CGridListCtrlEx</code>, assign an instance of <code>CGridColumnManagerProfile</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code> and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
+ 
 <pre lang="C++">m_ListCtrl.SetupColumnConfig(new CGridColumnManagerProfile(&quot;MyList&quot;));</pre>
 
-<p>If using  <code>CGridListCtrlEx</code> several places in your application, then one should ensure to create an unique <code>CGridColumnManagerProfile</code> for each place.</p>
+<p>If using <code>CGridListCtrlEx</code> several places in your application, then one should ensure creation of a unique <code>CGridColumnManagerProfile</code> for each place.</p>
 
-<h4>OLE drag and drop</h4>
-<p><code>CGridListCtrlEx</code> can both work as an OLE drag source and an OLE drop target. This allows drag operations
-between the CGridListCtrlEx and other windows and applications.</p>
+<h4>OLE Drag and Drop</h4>
 
-<p><code>CGridListCtrlEx</code> supports reordering of rows when doing internal drag and drop. This is implemented using
-a special sort operation, so items are not deleted/inserted.</p>
+<p><code>CGridListCtrlEx</code> can both work as an OLE drag source and an OLE drop target. This allows drag operations between the <code>CGridListCtrlEx </code>and other windows and applications.</p>
 
-<p>To implement your own special behavior for a drop operation, then either override <code>OnDropSelf()</code> or <code>OnDropExternal()</code> depending on what situation you want to handle.</p>
+<p><code>CGridListCtrlEx</code> supports reordering of rows when doing internal drag and drop. This is implemented using a special sort operation, so items are not deleted/inserted.</p>
 
-<p>To control what is placed in the drag-source when a drag is initiated, then override <code>OnDisplayToDragDrop()</code>.</p>
+<p>To implement your own special behavior for a drop operation, either override <code>OnDropSelf()</code> or <code>OnDropExternal()</code> depending on what situation you want to handle.</p>
+
+<p>To control what is placed in the drag-source when a drag is initiated, override <code>OnDisplayToDragDrop()</code>.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -154,9 +150,9 @@ a special sort operation, so items are not deleted/inserted.</p>
 <p>When inheriting from <code>CGridColumnTrait</code>, we must consider the following:</p>
 
 <ul>
-<li>If performing custom drawing, then we must also handle the selection and focus coloring. </li>
+<li>If performing custom drawing, we must also handle the selection and focus coloring. </li>
 
-<li>If performing editing, then we must ensure that the editor closes when it loses focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is complete. </li>
+<li>If performing editing, we must ensure that the editor closes when it loses focus, and also sends a <code>LVN_ENDLABELEDIT</code> message when the edit is complete. </li>
 </ul>
 
 <h2>How Does the CGridRowTrait Work</h2>
@@ -196,9 +192,10 @@ a special sort operation, so items are not deleted/inserted.</p>
 
 </ul>
 </li>
-<li><code>CGridColumnnManager</code> - Specifies the interface for managing column persistence
+
+<li><code>CGridColumnnManager</code> - Specifies the interface for managing column persistence 
 <ul>
-<li><code>CGridColumnManagerProfile</code> - Implements the interface for working with multiple column configurations.</li>
+<li><code>CGridColumnManagerProfile</code> - Implements the interface for working with multiple column configurations. </li>
 </ul>
 </li>
 </ul>
@@ -206,9 +203,9 @@ a special sort operation, so items are not deleted/inserted.</p>
 <h2>Things To Do</h2>
 
 <p>The <code>CGridListCtrlEx</code> tries to stay away from performing any drawing itself. This means that the following features/bugs will not get that much attention:</p>
-
+ 
 <ul>
-<li>Support for checkboxes - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. Maybe consider some misuse of the <code>iImage</code> property of <code>LV_ITEM</code> to store the checkbox state. </li>
+<li>Support for <code>checkbox</code>es - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. Maybe consider some misuse of the <code>iImage</code> property of <code>LV_ITEM</code> to store the <code>checkbox </code>state. </li>
 
 <li>Support for progress bar - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. </li>
 </ul>
@@ -220,19 +217,24 @@ a special sort operation, so items are not deleted/inserted.</p>
 <h2>History</h2>
 
 <ul>
-<li><strong>Version 1.0</strong> (2008-09-04) First Release</li>
+<li><strong>Version 1.0</strong> (2008-09-04) First release </li>
 
 <li><strong>Version 1.1</strong> (2008-09-18)
 <ul>
 <li>Added support for grouping with <code>CGridListCtrlGroups</code></li>
-<li>Added <code>CDateTimeCtrl</code> editor</li>
+
+<li>Added <code>CDateTimeCtrl</code> editor </li>
+
 <li>Fixed drawing bugs when using Classic- and XP-style 
 <ul>
 <li>Fixed image background color for selected subitems (no longer white) </li>
 
 <li>Fixed grid border disappearing when scrolling right and left </li>
-</ul></li>
+</ul>
+</li>
+
 <li>Indicate the list is empty when it contains no items </li>
+
 <li>Extended <code>CComboBox</code> editor, so it automatically resizes dropdown width to its contents </li>
 </ul>
 </li>
@@ -267,7 +269,7 @@ a special sort operation, so items are not deleted/inserted.</p>
 </ul>
 </li>
 
-<li><strong>Version 1.5</strong>  (2009-03-29)
+<li><strong>Version 1.5</strong> (2009-03-29)
 <ul>
 <li>Added column manager <code>CGridColumnManager</code></li>
 
@@ -276,17 +278,20 @@ a special sort operation, so items are not deleted/inserted.</p>
 <li>Added sample projects for the different versions of Visual Studio</li>
 
 <li>Improved documentation through Doxygen comments</li>
-
 </ul>
 </li>
 
 <li><strong>Version 1.6</strong> (2009-09-13)
 <ul>
-<li>Added OLE drag and drop support</li>
-<li>Added support for checkbox style <code>LVS_EX_CHECKBOX</code> when using <code>LVS_OWNERDATA</code></li>
+<li>Added OLE drag and drop support </li>
+
+<li>Added support for <code>checkbox </code>style <code>LVS_EX_CHECKBOX</code> when using <code>LVS_OWNERDATA</code></li>
+
 <li>Added better support for keyboard search with <code>LVS_OWNERDATA</code></li>
+
 <li>Fixed several bugs</li>
 </ul>
 </li>
-
 </ul>
+
+</span>
