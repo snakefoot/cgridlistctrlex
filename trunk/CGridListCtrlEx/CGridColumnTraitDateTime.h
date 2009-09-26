@@ -17,8 +17,12 @@ public:
 	CGridColumnTraitDateTime();
 
 	void SetFormat(const CString& strFormat);
-	void SetParseDateTime(DWORD dwFlags = 0, LCID lcid = LANG_USER_DEFAULT);
+	CString GetFormat() const;
+
 	void SetStyle(DWORD dwStyle);
+	DWORD GetStyle() const;
+
+	void SetParseDateTime(DWORD dwFlags = 0, LCID lcid = LANG_USER_DEFAULT);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
