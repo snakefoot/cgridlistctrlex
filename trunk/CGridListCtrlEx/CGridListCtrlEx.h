@@ -153,6 +153,7 @@ protected:
 	CTime	m_LastSearchTime;	//!< Time of last search attempt for keyboard search
 	int		m_LastSearchCell;	//!< Last column used in keyboard search
 	int		m_LastSearchRow;	//!< Last row matched in keyboard search
+	int		m_RepeatSearchCount;//!< How many times the same search have been repeated (same key pressed)
 
 	// Maintaining row sorting
 	int m_SortCol;				//!< Rows are sorted according to this column
