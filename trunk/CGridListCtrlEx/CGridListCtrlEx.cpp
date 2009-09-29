@@ -8,6 +8,9 @@
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
 
+//------------------------------------------------------------------------
+//! @cond INTERNAL
+//------------------------------------------------------------------------
 template<class T>
 class COleDropTargetWnd : public COleDropTarget
 {
@@ -88,6 +91,9 @@ public:
 			m_pTarget->SetDragSource(false);
 	}
 };
+//------------------------------------------------------------------------
+//! @endcond INTERNAL
+//------------------------------------------------------------------------
 
 BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	//{{AFX_MSG_MAP(CGridListCtrlEx)
@@ -726,9 +732,13 @@ int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 {
 	LV_ITEM lvitem = {0};
-	lvitem.mask = LVIF_IMAGE;
+	lvitem.mask = LVIF_STATE | LVIF_IMAGE;
+	lvitem.stateMask = LVIS_STATEIMAGEMASK;
+	lvitem.state = INDEXTOSTATEIMAGEMASK(2);
 	lvitem.iItem = nRow;
-	lvitem.iSubItem = nCol;
+	lvitem.iSubItem = 3;
+	lvitem.iIndent = 2;
+	lvitem.iImage = I_IMAGECALLBACK;
 	lvitem.iImage = nImageId;	// I_IMAGENONE, I_IMAGECALLBACK
 	return SetItem(&lvitem);
 }
