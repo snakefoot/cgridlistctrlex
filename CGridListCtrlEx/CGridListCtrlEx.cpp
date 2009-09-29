@@ -144,6 +144,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pEditor(NULL)
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
+	,m_RepeatSearchCount(-1)
 	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 	,m_pOleDropTarget(NULL)
 	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
@@ -732,13 +733,9 @@ int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 {
 	LV_ITEM lvitem = {0};
-	lvitem.mask = LVIF_STATE | LVIF_IMAGE;
-	lvitem.stateMask = LVIS_STATEIMAGEMASK;
-	lvitem.state = INDEXTOSTATEIMAGEMASK(2);
+	lvitem.mask = LVIF_IMAGE;
 	lvitem.iItem = nRow;
-	lvitem.iSubItem = 3;
-	lvitem.iIndent = 2;
-	lvitem.iImage = I_IMAGECALLBACK;
+	lvitem.iSubItem = nCol;
 	lvitem.iImage = nImageId;	// I_IMAGENONE, I_IMAGECALLBACK
 	return SetItem(&lvitem);
 }
@@ -1284,6 +1281,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (GetKeyState(VK_CONTROL) < 0)
 	{
 		m_LastSearchString = _T("");
+		m_RepeatSearchCount = -1;
 		return;
 	}
 
@@ -1300,6 +1298,9 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (m_LastSearchRow!=GetFocusRow())
 		m_LastSearchString = _T("");
 
+	if (m_LastSearchString.IsEmpty())
+		m_RepeatSearchCount = -1;
+
 	m_LastSearchCell = m_FocusCell;
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
 
@@ -1307,10 +1308,16 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	  && m_LastSearchString.GetAt(0)==(TCHAR)nChar)
 	{
 		// When the same first character is entered again,
-		// then just repeat the search
+		// then just repeat the search, but remember number of repeats
+		m_RepeatSearchCount++;
 	}
 	else
+	{
+		for(int i=0; i <=m_RepeatSearchCount; ++i)
+			m_LastSearchString.Insert(m_LastSearchString.GetLength()+1,m_LastSearchString.GetAt(0));
+		m_RepeatSearchCount = -1;
 		m_LastSearchString.Insert(m_LastSearchString.GetLength()+1, (TCHAR)nChar);
+	}
 
 	int nRow = GetFocusRow();
 	if (nRow < 0)
