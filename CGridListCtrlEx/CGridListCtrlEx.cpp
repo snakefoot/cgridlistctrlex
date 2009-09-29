@@ -2854,6 +2854,7 @@ BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 	m_FocusCell = -1;
 
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
+	pLV;	// Avoid unreferenced variable warning
 
 	COleDataSourceWnd<CGridListCtrlEx> oleDataSource(m_pOleDropTarget);
 	DROPEFFECT dropEffect = DoDragDrop(oleDataSource);
