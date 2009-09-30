@@ -106,6 +106,7 @@ BEGIN_MESSAGE_MAP(CGridEditorText, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorText)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
+	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -116,6 +117,7 @@ CGridEditorText::CGridEditorText(int nRow, int nCol)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
+	,m_Modified(false)
 {}
 
 //------------------------------------------------------------------------
@@ -142,7 +144,7 @@ void CGridEditorText::EndEdit(bool bSuccess)
 
 	dispinfo.item.iItem = m_Row;
 	dispinfo.item.iSubItem = m_Col;
-	if (bSuccess)
+	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
 		dispinfo.item.pszText = str.GetBuffer(0);
@@ -174,6 +176,19 @@ void CGridEditorText::OnNcDestroy()
 {
 	CEdit::OnNcDestroy();
 	delete this;
+}
+
+//------------------------------------------------------------------------
+//! WM_CHAR message handler to monitor text modifications
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
+void CGridEditorText::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	m_Modified = true;
+	CEdit::OnChar(nChar, nRepCnt, nFlags);
 }
 
 //------------------------------------------------------------------------
