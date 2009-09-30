@@ -171,6 +171,8 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//{{AFX_MSG_MAP(CGridEditorDateTimeCtrl)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
+	ON_NOTIFY_REFLECT(DTN_DATETIMECHANGE, OnDateTimeChange)
+	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -184,6 +186,7 @@ CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
+	,m_Modified(false)
 {}
 
 //------------------------------------------------------------------------
@@ -211,7 +214,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 
 	dispinfo.item.iItem = m_Row;
 	dispinfo.item.iSubItem = m_Col;
-	if (bSuccess)
+	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
 		dispinfo.item.pszText = str.GetBuffer(0);
@@ -244,6 +247,31 @@ void CGridEditorDateTimeCtrl::OnNcDestroy()
 {
 	CDateTimeCtrl::OnNcDestroy();
 	delete this;
+}
+
+//------------------------------------------------------------------------
+//! WM_CHAR message handler to monitor date modifications
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
+void CGridEditorDateTimeCtrl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	m_Modified = true;
+	CDateTimeCtrl::OnChar(nChar, nRepCnt, nFlags);
+}
+
+//------------------------------------------------------------------------
+//! DTN_DATETIMECHANGE message handler to monitor date modifications
+//!
+//! @param pNMHDR Pointer to NMDATETIMECHANGE structure
+//! @param pResult Must be set to zero
+//------------------------------------------------------------------------
+void CGridEditorDateTimeCtrl::OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	m_Modified = true;
+	*pResult = 0;
 }
 
 //------------------------------------------------------------------------
