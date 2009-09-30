@@ -223,33 +223,8 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, i
 BEGIN_MESSAGE_MAP(CGridEditorComboBoxEdit, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorComboBoxEdit)
 	ON_WM_KILLFOCUS()
-	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-//------------------------------------------------------------------------
-//! Hook to proces windows messages before they are dispatched
-//! Stoopid win95 accelerator key problem workaround - Matt Weagle.
-//!
-//! @param pMsg Points to a MSG structure that contains the message to process
-//! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
-//------------------------------------------------------------------------
-BOOL CGridEditorComboBoxEdit::PreTranslateMessage(MSG* pMsg)
-{
-	// Make sure that the keystrokes continue to the appropriate handlers
-	if (pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP)
-	{
-		::TranslateMessage(pMsg);
-		::DispatchMessage(pMsg);
-		return TRUE;
-	}	
-
-	// Catch the Alt key so we don't choke if focus is going to an owner drawn button
-	if (pMsg->message == WM_SYSCHAR)
-		return TRUE;
-
-	return CEdit::PreTranslateMessage(pMsg);
-}
 
 //------------------------------------------------------------------------
 //! WM_KILLFOCUS message handler called when CEdit is loosing focus
@@ -263,29 +238,7 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 
 	CWnd* pOwner = GetOwner();
 	if (pOwner && pOwner!=pNewWnd)
-		pOwner->SendMessage(WM_KEYUP, VK_RETURN, 0 + (((DWORD)0)<<16));
-}
-
-//------------------------------------------------------------------------
-//! WM_CHAR message handler for registering keyboard keys that should
-//! make the cell value editor close.
-//!
-//! By overriding OnChar() then we can get rid of the Vista 'ping' when pressing the enter key
-//!
-//! @param nChar Specifies the virtual key code of the given key.
-//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
-//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
-//------------------------------------------------------------------------
-void CGridEditorComboBoxEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
-{
-	if (nChar == VK_TAB || nChar == VK_RETURN || nChar == VK_ESCAPE)
-	{
-		CWnd* pOwner = GetOwner();
-		if (pOwner)
-			pOwner->SendMessage(WM_KEYUP, nChar, nRepCnt + (((DWORD)nFlags)<<16));
-		return;
-	}
-	CEdit::OnChar(nChar, nRepCnt, nFlags);
+		pOwner->SendMessage(WM_CHAR, VK_RETURN, 0);
 }
 
 //------------------------------------------------------------------------
@@ -297,12 +250,13 @@ void CGridEditorComboBoxEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	//{{AFX_MSG_MAP(CGridEditorComboBox)
 	ON_WM_KILLFOCUS()
-	ON_WM_GETDLGCODE()
 	ON_WM_DESTROY()
-	ON_WM_KEYUP()
 	ON_WM_NCDESTROY()
+	ON_WM_CHAR()
 	ON_CONTROL_REFLECT(CBN_CLOSEUP, OnCloseUp)
 	ON_CONTROL_REFLECT(CBN_DROPDOWN, OnDropDown)
+	ON_CONTROL_REFLECT(CBN_SELCHANGE, OnChangeSelection)
+	ON_CONTROL_REFLECT(CBN_SELENDOK, OnChangeSelection)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -313,6 +267,7 @@ CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidth)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
+	,m_Modified(false)
 	,m_MaxWidth(nMaxWidth)
 {}
 
@@ -365,7 +320,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 
 	dispinfo.item.iItem = m_Row;
 	dispinfo.item.iSubItem = m_Col;
-	if (bSuccess)
+	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
 		dispinfo.item.pszText = str.GetBuffer(0);
@@ -423,31 +378,6 @@ void CGridEditorComboBox::OnDestroy()
 }
 
 //------------------------------------------------------------------------
-//! WM_KEYUP message handler called when a keyboard key is released.
-//! Used to mark the cell editing as completed.
-//!
-//! @param nChar Specifies the virtual key code of the given key.
-//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
-//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
-//------------------------------------------------------------------------
-void CGridEditorComboBox::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	if (nChar == VK_TAB || nChar == VK_RETURN)
-	{
-		EndEdit(true);
-		return;
-	}
-	else
-	if (nChar == VK_ESCAPE)
-	{
-		EndEdit(false);
-		return;
-	}
-
-	CComboBox::OnKeyUp(nChar, nRepCnt, nFlags);
-}
-
-//------------------------------------------------------------------------
 //! CBN_DROPDOWN message handler called when the CComboBox control
 //! is expanded into a dropdown list. Used to restrict the width of
 //! the dropdown list to the max width.
@@ -500,11 +430,60 @@ void CGridEditorComboBox::OnCloseUp()
 }
 
 //------------------------------------------------------------------------
+//! CBN_SELCHANGE, CBN_SELENDOK message handler called when the selection
+//! in the CComboBox control has been modified.
+//------------------------------------------------------------------------
+void CGridEditorComboBox::OnChangeSelection()
+{
+	m_Modified = true;
+}
+
+//------------------------------------------------------------------------
+//! WM_CHAR message handler to monitor selection modifications
+//!
+//! @param nChar Specifies the virtual key code of the given key.
+//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
+//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//------------------------------------------------------------------------
+void CGridEditorComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar==VK_RETURN)
+	{
+		// By default the WM_CHAR handler will not receive VK_RETURN,
+		// but it is sent by the internal CEdit when it looses focus
+		EndEdit(true);
+		return;
+	}
+	m_Modified = true;
+	CComboBox::OnChar(nChar, nRepCnt, nFlags);
+}
+
+//------------------------------------------------------------------------
 //! Called for a control so the control can process arrow-key and TAB-key input itself.
 //!
 //! @return Indication of which type of input the control wants to processs
 //------------------------------------------------------------------------
-UINT CGridEditorComboBox::OnGetDlgCode()
+BOOL CGridEditorComboBox::PreTranslateMessage(MSG* pMsg)
 {
-	return DLGC_WANTALLKEYS;
+	switch(pMsg->message)
+	{
+		case WM_KEYDOWN:
+		{
+			// We also catch the message for the internal CEdit
+			switch(pMsg->wParam)
+			{
+				case VK_RETURN: EndEdit(true); return TRUE;
+				case VK_TAB: EndEdit(true); return FALSE;
+				case VK_ESCAPE: EndEdit(false);return TRUE;
+			}
+			break;
+		};
+		case WM_CHAR:
+		{
+			// We also catch the message for the internal CEdit
+			m_Modified = true;
+			break;
+		}
+	}
+	return CComboBox::PreTranslateMessage(pMsg);
 }
