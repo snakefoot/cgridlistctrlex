@@ -56,10 +56,7 @@ private:
 class CGridEditorComboBoxEdit : public CEdit
 {
 protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 
 	DECLARE_MESSAGE_MAP();
 };
@@ -79,18 +76,20 @@ public:
 	virtual void EndEdit(bool bSuccess);
 
 protected:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 	afx_msg void OnNcDestroy();
 	afx_msg void OnDestroy();
-	afx_msg void OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg UINT OnGetDlgCode();
 	afx_msg void OnDropDown();
 	afx_msg void OnCloseUp();
+	afx_msg void OnChangeSelection();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 
 	DECLARE_MESSAGE_MAP();
 
 	CGridEditorComboBoxEdit m_Edit;	//!< Subclassed edit control inside the CComboBox
 	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
+	bool	m_Modified;				//!< Register if selection was modified while the editor was open
 	int		m_Row;					//!< The index of the row being edited
 	int		m_Col;					//!< The index of the column being edited
 	int		m_MaxWidth;				//!< Max width (in pixels) of the CComboBox when doing dropdown
