@@ -59,6 +59,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CDateTimeCtrl is loosing focus to other control.  <a href="#a9766d3e33575d0528853efbf24ab0c9b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a5f06512230a53863d7d798c15ddd8dba">OnNcDestroy</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_NCDESTROY message handler called when CDateTimeCtrl window is about to be destroyed.  <a href="#a5f06512230a53863d7d798c15ddd8dba"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a58dded4c5db3de02b5a587cd01843014">OnDateTimeChange</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_DATETIMECHANGE message handler to monitor date modifications.  <a href="#a58dded4c5db3de02b5a587cd01843014"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a6b8a6be65d269719fde9888a650ec56b">OnChar</a> (UINT nChar, UINT nRepCnt, UINT nFlags)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CHAR message handler to monitor date modifications.  <a href="#a6b8a6be65d269719fde9888a650ec56b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a23984f2c2a7e1e9392db560d2b8bb291">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched.  <a href="#a23984f2c2a7e1e9392db560d2b8bb291"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33ca15f8761b1201e561091749cbee04"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::DECLARE_MESSAGE_MAP" ref="a33ca15f8761b1201e561091749cbee04" args="()" -->
@@ -67,6 +71,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4db030bbcdb6205ffcfead4cc8d36f04"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::m_Completed" ref="a4db030bbcdb6205ffcfead4cc8d36f04" args="" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a4db030bbcdb6205ffcfead4cc8d36f04">m_Completed</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Ensure the editor only reacts to a single close event. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91b10bc4aba897d3f1777b5928c2f951"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::m_Modified" ref="a91b10bc4aba897d3f1777b5928c2f951" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a91b10bc4aba897d3f1777b5928c2f951">m_Modified</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register if date was modified while the editor was open. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9cbb3064b35a7558e684726543c87df0"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::m_Row" ref="a9cbb3064b35a7558e684726543c87df0" args="" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a9cbb3064b35a7558e684726543c87df0">m_Row</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The index of the row being edited. <br/></td></tr>
@@ -134,6 +141,85 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>bSuccess</em>&nbsp;</td><td>Should the entered cell value be saved </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a6b8a6be65d269719fde9888a650ec56b"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::OnChar" ref="a6b8a6be65d269719fde9888a650ec56b" args="(UINT nChar, UINT nRepCnt, UINT nFlags)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorDateTimeCtrl::OnChar </td>
+          <td>(</td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname"> <em>nChar</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname"> <em>nRepCnt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname"> <em>nFlags</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>WM_CHAR message handler to monitor date modifications. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nChar</em>&nbsp;</td><td>Specifies the virtual key code of the given key. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRepCnt</em>&nbsp;</td><td>Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nFlags</em>&nbsp;</td><td>Specifies the scan code, key-transition code, previous key state, and context code </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a58dded4c5db3de02b5a587cd01843014"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::OnDateTimeChange" ref="a58dded4c5db3de02b5a587cd01843014" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorDateTimeCtrl::OnDateTimeChange </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>DTN_DATETIMECHANGE message handler to monitor date modifications. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMDATETIMECHANGE structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Must be set to zero </td></tr>
   </table>
   </dd>
 </dl>
@@ -230,7 +316,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Tue Sep 29 21:44:48 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 1 09:14:34 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

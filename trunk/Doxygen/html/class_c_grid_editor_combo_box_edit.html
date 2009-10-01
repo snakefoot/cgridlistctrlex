@@ -50,62 +50,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p><a href="class_c_grid_editor_combo_box_edit-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box_edit.html#a7e080706520b024c4d83de69db5e8a2c">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched Stoopid win95 accelerator key problem workaround - Matt Weagle.  <a href="#a7e080706520b024c4d83de69db5e8a2c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box_edit.html#a9c3a5e7714ed91af3c9f420cbecbf1b1">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CEdit is loosing focus to other control.  <a href="#a9c3a5e7714ed91af3c9f420cbecbf1b1"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box_edit.html#a75230829bd133b3e5a9fcc57bc85543a">OnChar</a> (UINT nChar, UINT nRepCnt, UINT nFlags)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CHAR message handler for registering keyboard keys that should make the cell value editor close.  <a href="#a75230829bd133b3e5a9fcc57bc85543a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f66866caa04e7e2b84258b05c1181c9"></a><!-- doxytag: member="CGridEditorComboBoxEdit::DECLARE_MESSAGE_MAP" ref="a2f66866caa04e7e2b84258b05c1181c9" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>CEdit inside CComboBox for inplace edit. For internal use by <a class="el" href="class_c_grid_column_trait_combo.html" title="CGridColumnTraitCombo implements a CComboBox as cell-editor.">CGridColumnTraitCombo</a>. </p>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a75230829bd133b3e5a9fcc57bc85543a"></a><!-- doxytag: member="CGridEditorComboBoxEdit::OnChar" ref="a75230829bd133b3e5a9fcc57bc85543a" args="(UINT nChar, UINT nRepCnt, UINT nFlags)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CGridEditorComboBoxEdit::OnChar </td>
-          <td>(</td>
-          <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>nChar</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>nRepCnt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>nFlags</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>WM_CHAR message handler for registering keyboard keys that should make the cell value editor close. </p>
-<p>By overriding <a class="el" href="class_c_grid_editor_combo_box_edit.html#a75230829bd133b3e5a9fcc57bc85543a" title="WM_CHAR message handler for registering keyboard keys that should make the cell value...">OnChar()</a> then we can get rid of the Vista 'ping' when pressing the enter key</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nChar</em>&nbsp;</td><td>Specifies the virtual key code of the given key. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRepCnt</em>&nbsp;</td><td>Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key). </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nFlags</em>&nbsp;</td><td>Specifies the scan code, key-transition code, previous key state, and context code </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a9c3a5e7714ed91af3c9f420cbecbf1b1"></a><!-- doxytag: member="CGridEditorComboBoxEdit::OnKillFocus" ref="a9c3a5e7714ed91af3c9f420cbecbf1b1" args="(CWnd *pNewWnd)" -->
 <div class="memitem">
 <div class="memproto">
@@ -133,33 +85,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 </div>
 </div>
-<a class="anchor" id="a7e080706520b024c4d83de69db5e8a2c"></a><!-- doxytag: member="CGridEditorComboBoxEdit::PreTranslateMessage" ref="a7e080706520b024c4d83de69db5e8a2c" args="(MSG *pMsg)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">BOOL CGridEditorComboBoxEdit::PreTranslateMessage </td>
-          <td>(</td>
-          <td class="paramtype">MSG *&nbsp;</td>
-          <td class="paramname"> <em>pMsg</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Hook to proces windows messages before they are dispatched Stoopid win95 accelerator key problem workaround - Matt Weagle. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pMsg</em>&nbsp;</td><td>Points to a MSG structure that contains the message to process </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched. </dd></dl>
-
-</div>
-</div>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -175,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Tue Sep 29 21:44:47 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 1 09:14:34 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
