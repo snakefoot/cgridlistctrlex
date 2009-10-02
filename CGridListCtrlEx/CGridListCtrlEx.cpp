@@ -1705,6 +1705,32 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		pTrait->OnEditEnd();
 	}
 
+	if((pDispInfo->item.mask & LVIF_IMAGE)&&
+	   (pDispInfo->item.iImage != I_IMAGECALLBACK)&&
+       (nRow != -1) &&
+	   (nCol != -1))
+    {
+		// Label edit completed by user
+		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
+		if (OnTraitEditComplete(pTrait, m_pEditor, pDispInfo))
+		{
+			*pResult = TRUE;	// Accept edit
+
+			// Handle situation where data is stored inside the CListCtrl
+			if (!(GetStyle() & LVS_OWNERDATA))
+			{
+				LV_ITEM lvi = {0};
+				lvi.iItem = nRow;
+				lvi.iSubItem = nCol;
+				lvi.mask = LVIF_IMAGE | LVIF_NORECOMPUTE;
+				VERIFY( GetItem( &lvi ) );
+				if (lvi.iImage!=I_IMAGECALLBACK)
+					SetCellImage(nRow, nCol, pDispInfo->item.iImage);
+			}
+		}
+		pTrait->OnEditEnd();
+	}
+
 	// Editor Control automatically kills themselves after posting this message
 	m_pEditor = NULL;
 	SetFocus();
@@ -1753,7 +1779,6 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		m_FocusCell = nCol;
 		startEdit = false;
 	}
-
 
 	// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
 	if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
