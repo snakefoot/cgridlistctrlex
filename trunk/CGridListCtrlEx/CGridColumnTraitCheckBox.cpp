@@ -29,20 +29,24 @@ void CGridColumnTraitCheckBox::Accept(CGridColumnTraitVisitor& visitor)
 void CGridColumnTraitCheckBox::OnInsertColumn(CGridListCtrlEx& owner, int nCol)
 {
 	m_ImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
-	bool checkboxstyle = false;
-	if (!(owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
-	{
-		checkboxstyle = true;
-		owner.SetExtendedStyle(owner.GetExtendedStyle() | LVS_EX_CHECKBOXES);
-	}
+	bool createdStateImages = false;
 	CImageList* pStateList = owner.GetImageList(LVSIL_STATE);
-	if (pStateList)
+	if (pStateList==NULL)
 	{
-		m_ImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
+		if (!(owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
+		{
+			createdStateImages = true;
+			owner.SetExtendedStyle(owner.GetExtendedStyle() | LVS_EX_CHECKBOXES);
+			pStateList = owner.GetImageList(LVSIL_STATE);
+		}
+	}
+	ASSERT(pStateList!=NULL);
+	if (pStateList!=NULL)
+	{
 		m_ImageList.Add(pStateList->ExtractIcon(0));
 		m_ImageList.Add(pStateList->ExtractIcon(1));
 	}
-	if (checkboxstyle)
+	if (createdStateImages)
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
 }
 
@@ -56,8 +60,7 @@ void CGridColumnTraitCheckBox::OnInsertColumn(CGridListCtrlEx& owner, int nCol)
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitCheckBox::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	CPoint pt;
-	GetCursorPos(&pt);
+	CPoint pt(GetMessagePos());
 	owner.ScreenToClient(&pt);
 	CRect rect;
 	owner.GetCellRect(nRow, nCol, LVIR_ICON, rect);
@@ -67,6 +70,14 @@ CWnd* CGridColumnTraitCheckBox::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 		int image = owner.GetCellImage(nRow, nCol);
 
 		LV_DISPINFO dispinfo = {0};
+		if (image==0)
+			dispinfo.item.iImage = 1;
+		else
+		if (image==1)
+			dispinfo.item.iImage = 0;
+		else
+			return NULL;
+
 		dispinfo.hdr.hwndFrom = owner.m_hWnd;
 		dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
 		dispinfo.hdr.code = LVN_ENDLABELEDIT;
@@ -74,7 +85,6 @@ CWnd* CGridColumnTraitCheckBox::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 		dispinfo.item.iItem = nRow;
 		dispinfo.item.iSubItem = nCol;
 		dispinfo.item.mask = LVIF_IMAGE;
-		dispinfo.item.iImage = !image;
 
 		owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
 	}
