@@ -280,6 +280,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp"
 					>
 				</File>
@@ -325,6 +329,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.h"
 					>
 				</File>
 				<File
