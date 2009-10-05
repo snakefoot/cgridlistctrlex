@@ -1562,13 +1562,16 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 //! Override this method to control whether cell editing is allowed for a cell.
 //! Called when start editing a cell value
 //!
-//! @param pTrait Pointer to the column trait for the column
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, int nRow, int nCol)
+CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol)
 {
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
+	if (pTrait==NULL)
+		return NULL;
+
 	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 	if (!columnState.m_Editable)
 		return NULL;
@@ -1580,14 +1583,19 @@ CWnd* CGridListCtrlEx::OnTraitEditBegin(CGridColumnTrait* pTrait, int nRow, int 
 //! Override this method to validate the new value after a cell edit.
 //! Called when completed editing of a cell value
 //!
-//! @param pTrait Pointer to the column trait for the column
+//! @param nRow The index of the row
+//! @param nCol The index of the column
 //! @param pEditor Pointer to the cell editor created by the column trait
 //! @param pLVDI Specifies the properties of the new cell value
 //! @return Is the new cell value accepted
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI)
+bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI)
 {
-	return true;
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
+	if (pTrait!=NULL)
+		pTrait->OnEditEnd();
+
+	return true;	// Accept edit
 }
 
 //------------------------------------------------------------------------
@@ -1602,8 +1610,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	if (nCol==-1 || nRow==-1)
 		return NULL;
 
-	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	m_pEditor = OnTraitEditBegin(pTrait, nRow, nCol);
+	m_pEditor = OnEditBegin(nRow, nCol);
 	if (m_pEditor==NULL)
 		return NULL;
 
@@ -1620,7 +1627,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 	if (GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
 	{
 		// Parent didn't want to start edit
-		pTrait->OnEditEnd();
+		OnEditComplete(nRow, nCol, NULL, NULL);
 		m_pEditor->PostMessage(WM_CLOSE);
 		m_pEditor = NULL;
 		return NULL;
@@ -1693,8 +1700,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	   (nCol != -1))
     {
 		// Label edit completed by user
-		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-		if (OnTraitEditComplete(pTrait, m_pEditor, pDispInfo))
+		if (OnEditComplete(nRow, nCol, m_pEditor, pDispInfo))
 		{
 			*pResult = TRUE;	// Accept edit
 
@@ -1702,7 +1708,6 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 			if (!IsCellCallback(nRow,nCol))
 				SetItemText(nRow, nCol, pDispInfo->item.pszText);
 		}
-		pTrait->OnEditEnd();
 	}
 
 	if((pDispInfo->item.mask & LVIF_IMAGE)&&
@@ -1711,8 +1716,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	   (nCol != -1))
     {
 		// Label edit completed by user
-		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-		if (OnTraitEditComplete(pTrait, m_pEditor, pDispInfo))
+		if (OnEditComplete(nRow, nCol, m_pEditor, pDispInfo))
 		{
 			*pResult = TRUE;	// Accept edit
 
@@ -1728,7 +1732,6 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 					SetCellImage(nRow, nCol, pDispInfo->item.iImage);
 			}
 		}
-		pTrait->OnEditEnd();
 	}
 
 	// Editor Control automatically kills themselves after posting this message
@@ -1916,19 +1919,41 @@ void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 }
 
 //------------------------------------------------------------------------
-//! Override this method to change how to draw a cell using a column trait.
+//! Performs custom drawing of the CListCtrl using CGridRowTrait
 //!
-//! @param pTrait Pointer to column trait
-//! @param pLVCD Pointer to custom draw cell properties
+//! @param nRow The index of the row
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
 //! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
 //------------------------------------------------------------------------
-void CGridListCtrlEx::OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
+void CGridListCtrlEx::OnCustomDrawRow(int nRow, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
+	CGridRowTrait* pTrait = GetRowTrait(nRow);
+	if (pTrait==NULL)
+		return;
+
+	pTrait->OnCustomDraw(*this, pLVCD, pResult);
+}
+
+//------------------------------------------------------------------------
+//! Performs custom drawing of the CListCtrl using CGridColumnTrait
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
+{
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
+	if (pTrait==NULL)
+		return;
+
 	if (!pTrait->GetColumnState().m_Visible)
 	{
 		*pResult = CDRF_SKIPDEFAULT;
 		return;
 	}
+
 	pTrait->OnCustomDraw(*this, pLVCD, pResult);
 }
 
@@ -1949,14 +1974,12 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 	// Allow column-traits to perform their custom drawing
 	if (pLVCD->nmcd.dwDrawStage & CDDS_SUBITEM)
 	{
-		CGridRowTrait* pRowTrait = GetRowTrait(nRow);
-		pRowTrait->OnCustomDraw(*this, pLVCD, pResult);
+		OnCustomDrawRow(nRow, pLVCD, pResult);
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the row-trait
 
 		int nCol = pLVCD->iSubItem;
-		CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-		OnTraitCustomDraw(pTrait, pLVCD, pResult);
+		OnCustomDrawCell(nRow, nCol, pLVCD, pResult);
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the column-trait
 	}
@@ -1973,15 +1996,13 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			*pResult |= CDRF_NOTIFYPOSTPAINT;	// Ensure row-traits gets called
 			*pResult |= CDRF_NOTIFYSUBITEMDRAW;	// Ensure column-traits gets called
-			CGridRowTrait* pTrait = GetRowTrait(nRow);
-			pTrait->OnCustomDraw(*this, pLVCD, pResult);
+			OnCustomDrawRow(nRow, pLVCD, pResult);
 		} break;
 
 		// After painting the entire row
 		case CDDS_ITEMPOSTPAINT:
 		{
-			CGridRowTrait* pTrait = GetRowTrait(nRow);
-			pTrait->OnCustomDraw(*this, pLVCD, pResult);
+			OnCustomDrawRow(nRow, pLVCD, pResult);
 		} break;
 	}
 }
