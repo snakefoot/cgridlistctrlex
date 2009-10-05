@@ -13,7 +13,7 @@
 //!
 //! It hacks the cell-image, and transforms it into a checkbox.
 //! To get/set the checkbox value of a cell use the methods
-//! GetCellImage()/SetCellImage() on CGridListCtrl (0 = Uncheck/1 = Check).
+//! GetCellImage()/SetCellImage() on CGridListCtrlEx (0 = Uncheck/1 = Check).
 //------------------------------------------------------------------------
 class CGridColumnTraitCheckBox : public CGridColumnTraitText
 {
