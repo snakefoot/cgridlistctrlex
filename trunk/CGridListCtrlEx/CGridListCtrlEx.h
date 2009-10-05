@@ -4,17 +4,22 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 1.6
+// Version: 1.7
 //
 // Change History:
+//	1.7 - Added new column trait, that provides checkbox editing
+//		  Renamed OnTraitCustomDraw() to OnCustomDrawCell()
+//		  Renamed OnTraitEditBegin() to OnEditBegin()
+//		  Renamed OnTraitEditComplete() to OnEditComplete()
 //	1.6 - Added OLE drag and drop support (2009-08-10)
-//		  Added support for checkboxes with LVS_OWNERDATA
+//		  Added support for LVS_EX_CHECKBOXES with LVS_OWNERDATA
 //		  Added better support for keyboard search with LVS_OWNERDATA
 //	1.5 - Added column manager CGridColumnManager (2009-03-29)
 //		  Added support for groups on VC6 with platform SDK
 //		  Added sample projects for the different versions of Visual Studio
 //		  Improved documentation through Doxygen comments
 //	1.4 - Added clipboard support (2008-11-07)
+//		  Renamed the "Callback"-functions to "OnDisplay"
 //	1.3 - Added support for compiling on VC6 (2008-10-09)
 //	1.2 - Added row traits and CGridRowTraitXP (2008-09-24)
 //	1.1 - Added support for groups with CGridListCtrlGroups (2008-09-18)
