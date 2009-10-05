@@ -186,10 +186,13 @@ protected:
 	virtual BOOL OnDropExternal(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 	virtual bool MoveSelectedRows(int nDropRow);
 
-	// Global column trait methods
-	virtual void OnTraitCustomDraw(CGridColumnTrait* pTrait, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
-	virtual CWnd* OnTraitEditBegin(CGridColumnTrait* pTrait, int nRow, int nCol);
-	virtual bool OnTraitEditComplete(CGridColumnTrait* pTrait, CWnd* pEditor, LV_DISPINFO* pLVDI);
+	// CustomDraw handlers
+	virtual void OnCustomDrawRow(int nRow, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
+	virtual void OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
+
+	// Cell editing handlers
+	virtual CWnd* OnEditBegin(int nRow, int nCol);
+	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers
 	virtual void OnContextMenuGrid(CWnd* pWnd, CPoint point);
