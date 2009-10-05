@@ -215,12 +215,16 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the framework when a drop operation is to occur, where the origin is an external source.  <a href="#abeba811ba43eb786a236cdc78406ba4b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6a4dbab19210ae5059da11ff8a0606d0">MoveSelectedRows</a> (int nDropRow)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Inserts the selected rows before the specified row.  <a href="#a6a4dbab19210ae5059da11ff8a0606d0"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a538683f433c340b9f3aaf56013452c65">OnTraitCustomDraw</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change how to draw a cell using a column trait.  <a href="#a538683f433c340b9f3aaf56013452c65"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aea06ee4685e7e61e554e8ebfd5f00549">OnTraitEditBegin</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#aea06ee4685e7e61e554e8ebfd5f00549"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#af797891a7d99adf457c0642387b3f6bc">OnTraitEditComplete</a> (<a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *pTrait, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#af797891a7d99adf457c0642387b3f6bc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a306f8b6ca7ec04634fb1689509535070">OnCustomDrawRow</a> (int nRow, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_row_trait.html" title="CGridRowTrait specifies an interface for handling custom drawing at row-level.">CGridRowTrait</a>.  <a href="#a306f8b6ca7ec04634fb1689509535070"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a556eb2a94ab33da40ea4b45aeb71c710">OnCustomDrawCell</a> (int nRow, int nCol, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_column_trait.html" title="CGridColumnTrait specifies the methods needed for custom cell handling.">CGridColumnTrait</a>.  <a href="#a556eb2a94ab33da40ea4b45aeb71c710"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa075b08484193e18287ee1cd5683cf8d">OnClickEditStart</a> (int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell edit should be started when clicked with the mouse.  <a href="#aa075b08484193e18287ee1cd5683cf8d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a4b5da30fe93b94d57c0f26adb481ab48">OnEditBegin</a> (int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#a4b5da30fe93b94d57c0f26adb481ab48"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a72cb48f9b7ea05751e49f3f5bb7e70f7">OnEditComplete</a> (int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#a72cb48f9b7ea05751e49f3f5bb7e70f7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3531144d2f29c51989154b7a348b73b9">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the context menu when activating context menu in client area with no rows.  <a href="#a3531144d2f29c51989154b7a348b73b9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a947a93af637466d27f145734efb1f0a3">OnContextMenuHeader</a> (CWnd *pWnd, CPoint point, int nCol)</td></tr>
@@ -1557,6 +1561,49 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="aa075b08484193e18287ee1cd5683cf8d"></a><!-- doxytag: member="CGridListCtrlEx::OnClickEditStart" ref="aa075b08484193e18287ee1cd5683cf8d" args="(int nRow, int nCol, CPoint pt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnClickEditStart </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to control whether cell edit should be started when clicked with the mouse. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3fbec30aff7871244e25d0601a2b25e4"></a><!-- doxytag: member="CGridListCtrlEx::OnContextMenu" ref="a3fbec30aff7871244e25d0601a2b25e4" args="(CWnd *, CPoint point)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1861,6 +1908,99 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Modification to the drawing stage (CDRF_NEWFONT, etc.) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a556eb2a94ab33da40ea4b45aeb71c710"></a><!-- doxytag: member="CGridListCtrlEx::OnCustomDrawCell" ref="a556eb2a94ab33da40ea4b45aeb71c710" args="(int nRow, int nCol, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnCustomDrawCell </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_column_trait.html" title="CGridColumnTrait specifies the methods needed for custom cell handling.">CGridColumnTrait</a>. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Modification to the drawing stage (CDRF_NEWFONT, etc.) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a306f8b6ca7ec04634fb1689509535070"></a><!-- doxytag: member="CGridListCtrlEx::OnCustomDrawRow" ref="a306f8b6ca7ec04634fb1689509535070" args="(int nRow, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnCustomDrawRow </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_row_trait.html" title="CGridRowTrait specifies an interface for handling custom drawing at row-level.">CGridRowTrait</a>. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Modification to the drawing stage (CDRF_NEWFONT, etc.) </td></tr>
   </table>
   </dd>
@@ -2632,6 +2772,96 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if the drop is successful; otherwise 0 </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#a1847f1c70228f294e682b6e267effa65">CGridListCtrlGroups</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4b5da30fe93b94d57c0f26adb481ab48"></a><!-- doxytag: member="CGridListCtrlEx::OnEditBegin" ref="a4b5da30fe93b94d57c0f26adb481ab48" args="(int nRow, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridListCtrlEx::OnEditBegin </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to control whether cell editing is allowed for a cell. </p>
+<p>Called when start editing a cell value</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor (If NULL then block cell editing) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a72cb48f9b7ea05751e49f3f5bb7e70f7"></a><!-- doxytag: member="CGridListCtrlEx::OnEditComplete" ref="a72cb48f9b7ea05751e49f3f5bb7e70f7" args="(int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnEditComplete </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CWnd *&nbsp;</td>
+          <td class="paramname"> <em>pEditor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LV_DISPINFO *&nbsp;</td>
+          <td class="paramname"> <em>pLVDI</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to validate the new value after a cell edit. </p>
+<p>Called when completed editing of a cell value</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pEditor</em>&nbsp;</td><td>Pointer to the cell editor created by the column trait </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pLVDI</em>&nbsp;</td><td>Specifies the properties of the new cell value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is the new cell value accepted </dd></dl>
 
 </div>
 </div>
@@ -3551,139 +3781,6 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a538683f433c340b9f3aaf56013452c65"></a><!-- doxytag: member="CGridListCtrlEx::OnTraitCustomDraw" ref="a538683f433c340b9f3aaf56013452c65" args="(CGridColumnTrait *pTrait, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CGridListCtrlEx::OnTraitCustomDraw </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td>
-          <td class="paramname"> <em>pTrait</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
-          <td class="paramname"> <em>pLVCD</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LRESULT *&nbsp;</td>
-          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Override this method to change how to draw a cell using a column trait. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to column trait </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to custom draw cell properties </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Modification to the drawing stage (CDRF_NEWFONT, etc.) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="aea06ee4685e7e61e554e8ebfd5f00549"></a><!-- doxytag: member="CGridListCtrlEx::OnTraitEditBegin" ref="aea06ee4685e7e61e554e8ebfd5f00549" args="(CGridColumnTrait *pTrait, int nRow, int nCol)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CWnd * CGridListCtrlEx::OnTraitEditBegin </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td>
-          <td class="paramname"> <em>pTrait</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRow</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Override this method to control whether cell editing is allowed for a cell. </p>
-<p>Called when start editing a cell value</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to the column trait for the column </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor (If NULL then block cell editing) </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="af797891a7d99adf457c0642387b3f6bc"></a><!-- doxytag: member="CGridListCtrlEx::OnTraitEditComplete" ref="af797891a7d99adf457c0642387b3f6bc" args="(CGridColumnTrait *pTrait, CWnd *pEditor, LV_DISPINFO *pLVDI)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CGridListCtrlEx::OnTraitEditComplete </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td>
-          <td class="paramname"> <em>pTrait</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CWnd *&nbsp;</td>
-          <td class="paramname"> <em>pEditor</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LV_DISPINFO *&nbsp;</td>
-          <td class="paramname"> <em>pLVDI</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Override this method to validate the new value after a cell edit. </p>
-<p>Called when completed editing of a cell value</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pTrait</em>&nbsp;</td><td>Pointer to the column trait for the column </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pEditor</em>&nbsp;</td><td>Pointer to the cell editor created by the column trait </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pLVDI</em>&nbsp;</td><td>Specifies the properties of the new cell value </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Is the new cell value accepted </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="ad330936c2ea0ae10ef49fb2133896f39"></a><!-- doxytag: member="CGridListCtrlEx::OnVScroll" ref="ad330936c2ea0ae10ef49fb2133896f39" args="(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)" -->
 <div class="memitem">
 <div class="memproto">
@@ -4170,7 +4267,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 1 09:14:35 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Mon Oct 5 23:42:58 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

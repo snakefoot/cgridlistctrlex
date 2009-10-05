@@ -67,6 +67,8 @@ Inheritance diagram for CGridColumnTraitCheckBox:</div>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_check_box.html#a8dd836807b815da23bc8f4ded53e8229">OnInsertColumn</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setups state images to display checkboxes.  <a href="#a8dd836807b815da23bc8f4ded53e8229"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_check_box.html#ae161eaab823f097b8775c889e501c0e5">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Only flip checkbox when cell-image is clicked.  <a href="#ae161eaab823f097b8775c889e501c0e5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_check_box.html#a91c7126496131a5efe8fe137ce37cc14">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the checkbox image, and flips the checkbox.  <a href="#a91c7126496131a5efe8fe137ce37cc14"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_check_box.html#a04d994352c3bddd88b7c0728b0281ee6">OnCustomDraw</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
@@ -86,6 +88,58 @@ CImageList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <p><a class="el" href="class_c_grid_column_trait_check_box.html" title="CGridColumnTraitCheckBox implements a checkbox as cell-editor.">CGridColumnTraitCheckBox</a> implements a checkbox as cell-editor. </p>
 <p>It hacks the cell-image, and transforms it into a checkbox. To get/set the checkbox value of a cell use the methods GetCellImage()/SetCellImage() on CGridListCtrl (0 = Uncheck/1 = Check). </p>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ae161eaab823f097b8775c889e501c0e5"></a><!-- doxytag: member="CGridColumnTraitCheckBox::OnClickEditStart" ref="ae161eaab823f097b8775c889e501c0e5" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitCheckBox::OnClickEditStart </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Only flip checkbox when cell-image is clicked. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a1d519317acc0b33258487c2e4134a161">CGridColumnTrait</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a04d994352c3bddd88b7c0728b0281ee6"></a><!-- doxytag: member="CGridColumnTraitCheckBox::OnCustomDraw" ref="a04d994352c3bddd88b7c0728b0281ee6" args="(CGridListCtrlEx &amp;owner, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)" -->
 <div class="memitem">
 <div class="memproto">
@@ -230,7 +284,7 @@ CImageList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Fri Oct 2 00:40:51 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Mon Oct 5 23:42:55 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
