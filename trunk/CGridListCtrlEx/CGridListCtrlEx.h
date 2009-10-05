@@ -191,6 +191,7 @@ protected:
 	virtual void OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 
 	// Cell editing handlers
+	virtual bool OnClickEditStart(int nRow, int nCol, CPoint pt);
 	virtual CWnd* OnEditBegin(int nRow, int nCol);
 	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 

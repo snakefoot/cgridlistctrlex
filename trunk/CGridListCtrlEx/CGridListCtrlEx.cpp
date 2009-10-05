@@ -1559,6 +1559,40 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 //------------------------------------------------------------------------
+//! Override this method to control whether cell edit should be started
+//! when clicked with the mouse.
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param pt The position clicked, in client coordinates.
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
+{
+	if (GetKeyState(VK_CONTROL) < 0)
+		return false;
+	if (GetKeyState(VK_SHIFT) < 0)
+		return false;
+
+	// Begin edit if the same cell is clicked twice
+	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && m_FocusCell==nCol;
+
+	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
+	if (pTrait==NULL)
+		return startEdit;
+
+	if (!pTrait->GetColumnState().m_Editable)
+		return false;
+
+	if (!pTrait->OnClickEditStart(*this, nRow, nCol, pt))
+		return false;
+
+	if (!pTrait->GetColumnState().m_EditFocusFirst)
+		return true;
+
+	return startEdit;
+}
+
+//------------------------------------------------------------------------
 //! Override this method to control whether cell editing is allowed for a cell.
 //! Called when start editing a cell value
 //!
@@ -1764,12 +1798,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	// Begin edit if the same cell is clicked twice
-	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && m_FocusCell==nCol;
-	if (GetKeyState(VK_CONTROL) < 0)
-		startEdit = false;
-	if (GetKeyState(VK_SHIFT) < 0)
-		startEdit = false;
+	bool startEdit = OnClickEditStart(nRow, nCol, point);
 
 	// Update the focused cell before calling CListCtrl::OnLButtonDown()
 	// as it might cause a row-repaint

@@ -36,6 +36,15 @@ public:
 	//! @param pResult Modification to the drawing stage (CDRF_NEWFONT, etc.)
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult) {}
 
+	//! Override OnClickEditStart() to control whether cell edit should be started
+	//! when clicked with the mouse.
+	//!
+	//! @param owner The list control being clicked
+	//! @param nRow The index of the row
+	//! @param nCol The index of the column
+	//! @param pt The position clicked, in client coordinates.
+	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return true; }
+
 	//! Override OnEditBegin() to provide your own special cell-edit control.
 	//!   - The edit control must inherit from CWnd
 	//!   - The edit control must delete itself when it looses focus
@@ -73,6 +82,7 @@ public:
 			,m_AlwaysVisible(false)
 			,m_Sortable(true)
 			,m_Editable(true)
+			,m_EditFocusFirst(true)
 			,m_Resizable(true)
 			,m_MetaFlags(0)
 		{}
@@ -83,6 +93,7 @@ public:
 		bool m_AlwaysVisible;//!< Column can never be hidden
 		bool m_Sortable;	//!< Rows can be sorted according to column
 		bool m_Editable;	//!< Cells in the column can be edited
+		bool m_EditFocusFirst;//!< Cells needs focus before edit mode can start
 		bool m_Resizable;	//!< Column width is resizable
 
 		//! Meta-Flags (and data) can be used to store extra properties for a column

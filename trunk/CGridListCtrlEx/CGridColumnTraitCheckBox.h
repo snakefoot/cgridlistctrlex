@@ -22,6 +22,7 @@ public:
 	
 protected:
 	virtual void OnInsertColumn(CGridListCtrlEx& owner, int nCol);
+	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);

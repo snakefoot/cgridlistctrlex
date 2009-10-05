@@ -10,6 +10,8 @@
 CGridColumnTraitCheckBox::CGridColumnTraitCheckBox()
 	:m_pOldImageList(NULL)
 {
+	// Checkbox should be flipped without needing cell-focus first
+	m_ColumnState.m_EditFocusFirst = false;
 }
 
 //------------------------------------------------------------------------
@@ -48,6 +50,24 @@ void CGridColumnTraitCheckBox::OnInsertColumn(CGridListCtrlEx& owner, int nCol)
 	}
 	if (createdStateImages)
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
+}
+
+//------------------------------------------------------------------------
+//! Only flip checkbox when cell-image is clicked
+//!
+//! @param owner The list control being clicked
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param pt The position clicked, in client coordinates.
+//------------------------------------------------------------------------
+bool CGridColumnTraitCheckBox::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
+{
+	CRect rect;
+	owner.GetCellRect(nRow, nCol, LVIR_ICON, rect);
+	if (!rect.PtInRect(pt))
+		return false;
+
+	return true;
 }
 
 //------------------------------------------------------------------------
