@@ -139,6 +139,25 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <p>To control what is placed in the drag-source when a drag is initiated, override <code>OnDisplayToDragDrop()</code>.</p>
 
+<h4>Checkbox support</h4>
+<p>CListCtrl supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
+
+<pre lang="c++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
+
+<p>Remember not to use <code>InsertHiddenColumn()</code> as it will hide the label column and its checkbox.
+One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
+
+<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitCheckBox</code>:</p>
+
+<pre lang="C++">CGridColumnTrait* pTrait = new CGridColumnTraitCheckBox;
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);
+for(int i=0; i < m_ListCtrl.GetItemCount(); ++i)
+	m_ListCtrl.SetCellImage(i, nCol, 0);	// Uncheck item
+</pre>
+
+<p><code>CGridColumnTraitCheckBox</code> uses the cell image to draw the checkbox, so it is not possible to
+have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>. Image index 0 is unchecked and index 1 is checked.</p>
+
 <h2>How Does the CGridColumnTrait Work</h2>
 
 <p><code>CGridListCtrlEx</code> tries to keep away from all the nasty details about how to display and edit data. These things are instead handled by the <code>CGridColumnTrait</code> class, and if we want to modify how data is displayed, then it is &quot;just&quot; a matter of creating a new <code>CGridColumnTrait</code> class.</p>
@@ -179,6 +198,8 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <li><code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code> </li>
 
+<li><code>CGridColumnTraitCheckBox</code> - Implements cell editing by using cell image to mimic a checkbox </li>
+
 </ul>
 </li>
 </ul>
@@ -205,8 +226,6 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>The <code>CGridListCtrlEx</code> tries to stay away from performing any drawing itself. This means that the following features/bugs will not get that much attention:</p>
  
 <ul>
-<li>Support for <code>checkbox</code>es - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. Maybe consider some misuse of the <code>iImage</code> property of <code>LV_ITEM</code> to store the <code>checkbox </code>state. </li>
-
 <li>Support for progress bar - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. </li>
 </ul>
 
@@ -290,6 +309,12 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <li>Added better support for keyboard search with <code>LVS_OWNERDATA</code></li>
 
 <li>Fixed several bugs</li>
+</ul>
+</li>
+
+<li><strong>Version 1.7</strong> (2009-10-10)
+<ul>
+<li>Added new column trait, that provides checkbox editing</li>
 </ul>
 </li>
 </ul>
