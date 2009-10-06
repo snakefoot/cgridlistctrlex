@@ -8,7 +8,8 @@
 //! CGridColumnTraitCheckBox - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitCheckBox::CGridColumnTraitCheckBox()
-	:m_pOldImageList(NULL)
+	:m_OldFirstIcon(NULL)
+	,m_OldSecondIcon(NULL)
 {
 	// Checkbox should be flipped without needing cell-focus first
 	m_ColumnState.m_EditFocusFirst = false;
@@ -45,8 +46,12 @@ void CGridColumnTraitCheckBox::OnInsertColumn(CGridListCtrlEx& owner, int nCol)
 	ASSERT(pStateList!=NULL);
 	if (pStateList!=NULL)
 	{
-		m_ImageList.Add(pStateList->ExtractIcon(0));
-		m_ImageList.Add(pStateList->ExtractIcon(1));
+		HICON uncheckedIcon = pStateList->ExtractIcon(0);
+		m_ImageList.Add(uncheckedIcon);
+		DestroyIcon(uncheckedIcon);
+		HICON checkedIcon = pStateList->ExtractIcon(1);
+		m_ImageList.Add(checkedIcon);
+		DestroyIcon(checkedIcon);
 	}
 	if (createdStateImages)
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
@@ -127,18 +132,58 @@ void CGridColumnTraitCheckBox::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDR
 		// Before painting a cell
 		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
 		{
-			// Remove the selection color for the focus cell, to make it easier to see focus
-			m_pOldImageList = owner.SetImageList(&m_ImageList, LVSIL_SMALL);
+			// Check if there is an imagelist already
+			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
+			if (pImageList==NULL)
+			{
+				// If no default imagelist, then use our own empty list
+				if (m_EmptyImageList==NULL)
+					m_EmptyImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
+				owner.SetImageList(&m_EmptyImageList,LVSIL_SMALL);
+				pImageList = owner.GetImageList(LVSIL_SMALL);
+			}
+
+			// Replace the first icon, when unchecked-state icon
+			m_OldFirstIcon = pImageList->ExtractIcon(0);
+			HICON uncheckedIcon = m_ImageList.ExtractIcon(0);
+			if (m_OldFirstIcon==NULL)
+				pImageList->Add(uncheckedIcon);
+			else
+				pImageList->Replace(0, uncheckedIcon);
+			DestroyIcon(uncheckedIcon);
+
+			// Replace the second icon, when checked-state icon
+			m_OldSecondIcon = pImageList->ExtractIcon(1);
+			HICON checkedIcon = m_ImageList.ExtractIcon(1);
+			if (m_OldSecondIcon==NULL)
+				pImageList->Add(checkedIcon);
+			else
+				pImageList->Replace(1, checkedIcon);
+			DestroyIcon(checkedIcon);
+
 			*pResult |= CDRF_NOTIFYPOSTPAINT;	// We need to restore the original imagelist
 		} break;
 
 		// After painting a cell
 		case CDDS_ITEMPOSTPAINT | CDDS_SUBITEM:
 		{
-			if (m_pOldImageList!=NULL)
+			// Restore the second icon
+			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
+			if (m_OldSecondIcon==NULL)
+				pImageList->Remove(1);
+			else
 			{
-				// Restore the original font
-				owner.SetImageList(m_pOldImageList, LVSIL_SMALL);
+				pImageList->Replace(1, m_OldSecondIcon);
+				DestroyIcon(m_OldSecondIcon);
+			}
+			
+			// Restore the first icon
+			if (m_OldFirstIcon==NULL)
+				pImageList->Remove(0);
+			else
+			{
+				pImageList->Replace(0, m_OldFirstIcon);
+				DestroyIcon(m_OldFirstIcon);
 			}
 		} break;
 	}
