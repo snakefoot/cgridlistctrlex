@@ -1936,7 +1936,8 @@ void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 	SetHotItem(-1);
 	if (nRow!=-1)
 	{
-		SetExtendedStyle(GetExtendedStyle() | LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE);
+		if (!(GetExtendedStyle() & (LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE)))
+			SetExtendedStyle(GetExtendedStyle() | LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE);
 		SetItemState(nRow, LVIS_DROPHILITED | LVIS_FOCUSED, LVIS_DROPHILITED | LVIS_FOCUSED);
 		SetHotItem(nRow);
 	}
