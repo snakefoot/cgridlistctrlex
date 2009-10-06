@@ -459,9 +459,11 @@ void CGridEditorComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //------------------------------------------------------------------------
-//! Called for a control so the control can process arrow-key and TAB-key input itself.
+//! Hook to proces windows messages before they are dispatched.
+//! Catch keyboard events that can should cause the cell value editor to close
 //!
-//! @return Indication of which type of input the control wants to processs
+//! @param pMsg Points to a MSG structure that contains the message to process
+//! @return Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched.
 //------------------------------------------------------------------------
 BOOL CGridEditorComboBox::PreTranslateMessage(MSG* pMsg)
 {
