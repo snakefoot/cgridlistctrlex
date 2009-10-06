@@ -28,5 +28,7 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 
 	CImageList m_ImageList;			//!< Stores the checkbox state-images
-	CImageList* m_pOldImageList;	//!< Stores the original images during drawing
+	CImageList m_EmptyImageList;	//!< Default image list if one is not configured on the CListCtrl
+	HICON m_OldFirstIcon;			//!< Stores the original image during drawing
+	HICON m_OldSecondIcon;			//!< Stores the original image during drawing
 };
