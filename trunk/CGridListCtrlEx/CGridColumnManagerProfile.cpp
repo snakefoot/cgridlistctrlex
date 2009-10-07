@@ -84,6 +84,15 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 {
 	if (!m_pColumnConfig->HasDefaultConfig())
 	{
+		// Validate that column data is setup correctly
+		CSimpleMap<int,int> uniqueChecker;
+		for(int nCol = 0; nCol < owner.GetColumnCount(); ++nCol)
+		{
+			int nColData = owner.GetColumnData(nCol);
+			ASSERT(uniqueChecker.FindKey(nColData)==-1);
+			uniqueChecker.Add(nColData,nCol);
+		}
+
 		SaveConfiguration(owner, m_pColumnConfig->GetDefaultConfig());
 	}
 
@@ -106,6 +115,17 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 		int nColData = config.GetIntSetting(colSetting);
 		for(int nCol = 0; nCol < nColCount; ++nCol)
 		{
+			// Check if already in array
+			bool alreadyIncluded = false;
+			for(int j = nColOrder; j < nColCount; ++j)
+				if (pOrderArray[j]==nCol)
+				{
+					alreadyIncluded = true;
+					break;
+				}
+			if (alreadyIncluded)
+				continue;
+
 			if (nColData==owner.GetColumnData(nCol))
 			{
 				// Column still exists
@@ -148,26 +168,32 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 	if (nColOrder < nColCount)
 	{
 		// All remaining columns are marked as invisible
-		for(int nCol = nColCount-1; nCol >= 0; --nCol)
+		for(int i = 0; i < nColOrder; ++i)
 		{
-			bool visible = false;
-			for(int i = nColOrder; i < nColCount; ++i)
+			// Find nCol som ikke er i array
+			int nCol = -1;
+			for(nCol = nColCount-1; nCol >= 0; --nCol)
 			{
-				if (pOrderArray[i]==nCol)
+				bool visible = false;
+				for(int j = nColOrder; j < nColCount; ++j)
 				{
-					visible = true;
-					break;
+					if (pOrderArray[j]==nCol)
+					{
+						visible = true;
+						break;
+					}
 				}
+				if (!visible)
+					break;
 			}
-			if (!visible)
-			{
-				CGridColumnTrait::ColumnState& columnState = owner.GetColumnTrait(nCol)->GetColumnState();
-				columnState.m_OrgPosition = owner.GetColumnOrder(nCol);
-				columnState.m_OrgWidth = owner.GetColumnWidth(nCol);
-				owner.SetColumnWidth(nCol, 0);
-				columnState.m_Visible = false;
-				pOrderArray[--nColOrder] = nCol;
-			}
+			ASSERT(nCol!=-1);
+			CGridColumnTrait::ColumnState& columnState = owner.GetColumnTrait(nCol)->GetColumnState();
+			columnState.m_OrgPosition = owner.GetColumnOrder(nCol);
+			columnState.m_OrgWidth = owner.GetColumnWidth(nCol);
+			owner.SetColumnWidth(nCol, 0);
+			columnState.m_Visible = false;
+			ASSERT(nColOrder>0);
+			pOrderArray[--nColOrder] = nCol;
 		}
 
 		// Only update the column configuration if there are visible columns
