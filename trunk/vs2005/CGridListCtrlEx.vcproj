@@ -282,7 +282,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.cpp"
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp"
 					>
 				</File>
 				<File
@@ -334,7 +334,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.h"
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
 					>
 				</File>
 				<File

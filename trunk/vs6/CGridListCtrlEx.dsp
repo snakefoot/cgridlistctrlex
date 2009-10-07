@@ -175,11 +175,11 @@ SOURCE=..\CGridListCtrlEx\CGridColumnTrait.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\CGridListCtrlEx\CGridColumnTraitCheckBox.cpp
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\CGridListCtrlEx\CGridColumnTraitCheckBox.h
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.h
 # End Source File
 # Begin Source File
 
