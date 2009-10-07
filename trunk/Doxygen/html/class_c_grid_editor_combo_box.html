@@ -59,7 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The cell value editor was closed and the entered should be saved.  <a href="#a1f167f1a1452c9bed7fc39fef0e39f46"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#aef79807e892663c60d6e8b55581f950b">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called for a control so the control can process arrow-key and TAB-key input itself.  <a href="#aef79807e892663c60d6e8b55581f950b"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched.  <a href="#aef79807e892663c60d6e8b55581f950b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#aa541b699ebc183da99a8f352ad3497f5">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CComboBox is loosing focus to other control.  <a href="#aa541b699ebc183da99a8f352ad3497f5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a04e0d96a3f968b9aa5c22f6f92428d57">OnNcDestroy</a> ()</td></tr>
@@ -359,8 +359,15 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 <div class="memdoc">
 
-<p>Called for a control so the control can process arrow-key and TAB-key input itself. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Indication of which type of input the control wants to processs </dd></dl>
+<p>Hook to proces windows messages before they are dispatched. </p>
+<p>Catch keyboard events that can should cause the cell value editor to close</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pMsg</em>&nbsp;</td><td>Points to a MSG structure that contains the message to process </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched. </dd></dl>
 
 </div>
 </div>
@@ -379,7 +386,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 1 09:14:34 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 8 00:24:55 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
