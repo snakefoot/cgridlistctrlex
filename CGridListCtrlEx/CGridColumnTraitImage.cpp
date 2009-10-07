@@ -86,7 +86,7 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 }
 
 //------------------------------------------------------------------------
-//! Only flip checkbox when cell-image is clicked
+//! Only flip the cell-image when the actual image is clicked
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
@@ -104,7 +104,7 @@ bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, i
 }
 
 //------------------------------------------------------------------------
-//! Reacts to clicking on the checkbox image, and flips the checkbox
+//! Reacts to clicking on the cell image, and switch to the next image index
 //!
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit
