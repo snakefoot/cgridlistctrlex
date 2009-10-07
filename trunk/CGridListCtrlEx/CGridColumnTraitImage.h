@@ -31,5 +31,5 @@ protected:
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 
-	CSimpleArray<int> m_ImageIndexes;	//!< 
+	CSimpleArray<int> m_ImageIndexes;	//!< List of image indexes to switch between
 };
