@@ -45,7 +45,7 @@ template<class T> class COleDropTargetWnd;
 //!		- CGridColumnTraitEdit Implements cell editing using CEdit
 //!		- CGridColumnTraitCombo Implements cell editing using CComboBox
 //!		- CGridColumnTraitDateTime Implements cell editing using CDateTimeCtrl
-//!		- CGridColumnTraitCheckBox Implements cell editing using cell-image to mimic checkbox
+//!		- CGridColumnTraitImage Implements cell editing using cell-image (can mimic checkbox)
 //! - CGridRowTrait provides special behavior to rows
 //!		- CGridRowTraitXP Implements several improvement to the row drawing on WinXP
 //! - CGridColumnManager provides column state persistence

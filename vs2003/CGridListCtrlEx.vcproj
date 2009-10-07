@@ -208,7 +208,7 @@
 					RelativePath="..\CGridListCtrlEx\CGridColumnManagerProfile.cpp">
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.cpp">
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp">
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp">
@@ -248,7 +248,7 @@
 					RelativePath="..\CGridListCtrlEx\CGridColumnTrait.h">
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCheckBox.h">
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h">
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.h">

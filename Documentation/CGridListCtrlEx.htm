@@ -147,16 +147,20 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>Remember not to use <code>InsertHiddenColumn()</code> as it will hide the label column and its checkbox.
 One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
 
-<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitCheckBox</code>:</p>
+<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code>:</p>
 
-<pre lang="C++">CGridColumnTrait* pTrait = new CGridColumnTraitCheckBox;
-m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);
+<pre lang="C++">
+// Appends the unchecked/checked state images to the list control image list
+int nStateIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
+// Creates an image column, that can switch between the 2 images
+CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
 for(int i=0; i < m_ListCtrl.GetItemCount(); ++i)
-	m_ListCtrl.SetCellImage(i, nCol, 0);	// Uncheck item
+	m_ListCtrl.SetCellImage(i, nCol, nStateIdx);	// Uncheck item
 </pre>
 
-<p><code>CGridColumnTraitCheckBox</code> uses the cell image to draw the checkbox, so it is not possible to
-have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>. Image index 0 is unchecked and index 1 is checked.</p>
+<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to
+have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -198,7 +202,7 @@ have both cell image and checkbox in the same column. To get and set the checked
 
 <li><code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code> </li>
 
-<li><code>CGridColumnTraitCheckBox</code> - Implements cell editing by using cell image to mimic a checkbox </li>
+<li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox) </li>
 
 </ul>
 </li>
