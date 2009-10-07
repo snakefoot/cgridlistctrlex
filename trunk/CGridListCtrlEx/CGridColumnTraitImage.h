@@ -13,7 +13,7 @@
 //!
 //! By adding checkbox state-images to the official imagelist using
 //! AppendStateImages(), then one can use this column trait as checkbox
-//! editor. //! To get/set the checkbox value of a cell use the methods
+//! editor. To get/set the checkbox value of a cell use the methods
 //! GetCellImage()/SetCellImage() on CGridListCtrlEx
 //------------------------------------------------------------------------
 class CGridColumnTraitImage : public CGridColumnTraitText
