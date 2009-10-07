@@ -73,9 +73,9 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a1330b1e35da6859e9fe4768fbd73fe09">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Only flip checkbox when cell-image is clicked.  <a href="#a1330b1e35da6859e9fe4768fbd73fe09"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Only flip the cell-image when the actual image is clicked.  <a href="#a1330b1e35da6859e9fe4768fbd73fe09"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a9da5bc2ca0ab1031c9fa2cf57501a50d">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the checkbox image, and flips the checkbox.  <a href="#a9da5bc2ca0ab1031c9fa2cf57501a50d"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a9da5bc2ca0ab1031c9fa2cf57501a50d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afab1c0f10273f90f8ac171eec86cfb1c"></a><!-- doxytag: member="CGridColumnTraitImage::Accept" ref="afab1c0f10273f90f8ac171eec86cfb1c" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#afab1c0f10273f90f8ac171eec86cfb1c">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
@@ -225,7 +225,7 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 </div>
 <div class="memdoc">
 
-<p>Only flip checkbox when cell-image is clicked. </p>
+<p>Only flip the cell-image when the actual image is clicked. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
@@ -271,7 +271,7 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the checkbox image, and flips the checkbox. </p>
+<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
@@ -301,7 +301,7 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 8 00:32:43 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 8 00:36:00 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
