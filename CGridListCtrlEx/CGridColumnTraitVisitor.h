@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------
 
 class CGridColumnTrait;
-class CGridColumnTraitCheckBox;
+class CGridColumnTraitImage;
 class CGridColumnTraitCombo;
 class CGridColumnTraitDateTime;
 class CGridColumnTraitEdit;
@@ -21,7 +21,7 @@ class CGridColumnTraitVisitor
 {
 public:
 	void Visit(CGridColumnTrait&)			{}
-	void Visit(CGridColumnTraitCheckBox&)	{}
+	void Visit(CGridColumnTraitImage&)	{}
 	void Visit(CGridColumnTraitCombo&)		{}
 	void Visit(CGridColumnTraitDateTime&)	{}
 	void Visit(CGridColumnTraitEdit&)		{}
