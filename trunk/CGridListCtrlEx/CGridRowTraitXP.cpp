@@ -55,6 +55,10 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			int nImage = owner.GetCellImage(nRow, nCol);
 			if (nImage < 0)
 				break;
+				
+			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
+			if (pImageList==NULL)
+				break;
 
 			COLORREF backColor = COLORREF(-1);
 			if (owner.GetExtendedStyle() & LVS_EX_TRACKSELECT && owner.GetHotItem()==nRow)
@@ -110,7 +114,6 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			pDC->FillRect(&rcCell, &brush);
 
 			// Draw icon
-			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
 			COLORREF oldBkColor = pImageList->SetBkColor(backColor);
 			pImageList->Draw (	pDC,  
 								nImage,  
