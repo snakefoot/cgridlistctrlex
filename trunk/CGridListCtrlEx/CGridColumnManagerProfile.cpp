@@ -88,6 +88,8 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 		CSimpleMap<int,int> uniqueChecker;
 		for(int nCol = 0; nCol < owner.GetColumnCount(); ++nCol)
 		{
+			if (owner.IsColumnAlwaysHidden(nCol))
+				continue;
 			int nColData = owner.GetColumnData(nCol);
 			ASSERT(uniqueChecker.FindKey(nColData)==-1);
 			uniqueChecker.Add(nColData,nCol);
