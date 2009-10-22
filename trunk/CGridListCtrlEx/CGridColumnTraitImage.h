@@ -23,6 +23,9 @@ public:
 	CGridColumnTraitImage(int nImageIndex, int nImageCount);
 
 	void AddImageIndex(int nImageIdx);
+	void AddImageIndex(int nImageIdx, const CString& strImageText);
+
+	void SetImageText(int nImageIdx, const CString& strImageText);
 	
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
@@ -31,5 +34,5 @@ protected:
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 
-	CSimpleArray<int> m_ImageIndexes;	//!< List of image indexes to switch between
+	CSimpleMap<int,CString> m_ImageIndexes;	//!< Fixed list of image items to switch between
 };

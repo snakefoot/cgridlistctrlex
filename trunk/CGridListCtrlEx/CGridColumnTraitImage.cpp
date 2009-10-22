@@ -35,7 +35,33 @@ CGridColumnTraitImage::CGridColumnTraitImage(int nImageIndex, int nImageCount)
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 {
-	m_ImageIndexes.Add(nImageIdx);
+	m_ImageIndexes.Add(nImageIdx, _T(""));
+}
+
+//------------------------------------------------------------------------
+//! Adds image index to the list of images to switch between
+//!
+//! @param nImageIdx The index of the image in the list control imagelist
+//! @param strImageText The associated cell text to the image
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImageText)
+{
+	m_ImageIndexes.Add(nImageIdx, strImageText);
+}
+
+//------------------------------------------------------------------------
+//! Updates the image text for the specified image index
+//!
+//! @param nImageIdx The index of the image in the list control imagelist
+//! @param strImageText The associated cell text to the image
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText)
+{
+	int nIndex = m_ImageIndexes.FindKey(nImageIdx);
+	if (nIndex==-1)
+		AddImageIndex(nImageIdx, strImageText);
+	else
+		m_ImageIndexes.GetValueAt(nIndex) = strImageText;
 }
 
 //------------------------------------------------------------------------
@@ -120,26 +146,36 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	if (rect.PtInRect(pt))
 	{
 		// Send Notification to parent of ListView ctrl
-		int image = owner.GetCellImage(nRow, nCol);
-		int newImage = -1;
+		int nImageIdx = owner.GetCellImage(nRow, nCol);
+		int nOldImagePos = -1;
+		CString strOldImageText;
 		for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
 		{
-			if (m_ImageIndexes[i]==image)
+			if (m_ImageIndexes.GetKeyAt(i)==nImageIdx)
 			{
-				newImage = i;
+				nOldImagePos = i;
+				strOldImageText = m_ImageIndexes.GetValueAt(i);
 				break;
 			}
 		}
-		if (newImage==-1)
+		if (nOldImagePos==-1)
 			return NULL;
 
-		if (newImage+1 == m_ImageIndexes.GetSize())
-			newImage = m_ImageIndexes[0];
+		CString strNewImageText;
+		int nNewImageIdx = -1;
+		if (nOldImagePos+1 == m_ImageIndexes.GetSize())
+		{
+			nNewImageIdx = m_ImageIndexes.GetKeyAt(0);
+			strNewImageText = m_ImageIndexes.GetValueAt(0);
+		}
 		else
-			newImage = m_ImageIndexes[newImage+1];
+		{
+			nNewImageIdx = m_ImageIndexes.GetKeyAt(nOldImagePos+1);
+			strNewImageText = m_ImageIndexes.GetValueAt(nOldImagePos+1);
+		}
 
 		LV_DISPINFO dispinfo = {0};
-		dispinfo.item.iImage = newImage;
+		dispinfo.item.iImage = nNewImageIdx;
 		dispinfo.hdr.hwndFrom = owner.m_hWnd;
 		dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
 		dispinfo.hdr.code = LVN_ENDLABELEDIT;
@@ -147,6 +183,12 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		dispinfo.item.iItem = nRow;
 		dispinfo.item.iSubItem = nCol;
 		dispinfo.item.mask = LVIF_IMAGE;
+		if (strNewImageText!=strOldImageText)
+		{
+			dispinfo.item.mask |= LVIF_TEXT;
+			dispinfo.item.pszText = strNewImageText.GetBuffer(0);
+			dispinfo.item.cchTextMax = strNewImageText.GetLength();
+		}
 
 		owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
 	}
