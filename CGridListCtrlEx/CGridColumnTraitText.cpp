@@ -12,6 +12,8 @@ CGridColumnTraitText::CGridColumnTraitText()
 	,m_TextColor(COLORREF(-1))
 	,m_BackColor(COLORREF(-1))
 	,m_SortFormatNumber(false)
+	,m_OldTextColor(COLORREF(-1))
+	,m_OldBackColor(COLORREF(-1))
 {}
 
 //------------------------------------------------------------------------
@@ -73,24 +75,27 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 		{
 			// Remove the selection color for the focus cell, to make it easier to see focus
 			int nCol = pLVCD->iSubItem;
-			if (pLVCD->nmcd.uItemState & CDIS_SELECTED && owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
+			if (pLVCD->nmcd.uItemState & CDIS_SELECTED)
 			{
-				if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
-					pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+				if (owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
+				{
+					if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
+						pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+				}
 			}
 
-			if (!owner.IsRowSelected(nRow) && owner.GetHotItem()!=nRow)
-			{
-				if (UpdateTextColor(pLVCD->clrText))
-					*pResult |= CDRF_NEWFONT;
+			m_OldTextColor = pLVCD->clrText;
+			m_OldBackColor = pLVCD->clrTextBk;
 
-				if (UpdateBackColor(pLVCD->clrTextBk))
-					*pResult |= CDRF_NEWFONT;
+			// Only change cell colors when not selected
+			if (UpdateTextColor(pLVCD->clrText))
+				*pResult |= CDRF_NEWFONT;
 
-				// Only change cell colors when not selected / in focus
-				if (owner.OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
-					*pResult |= CDRF_NEWFONT;
-			}
+			if (UpdateBackColor(pLVCD->clrTextBk))
+				*pResult |= CDRF_NEWFONT;
+
+			if (owner.OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
+				*pResult |= CDRF_NEWFONT;
 
 			LOGFONT newFont = {0};
 			if (owner.OnDisplayCellFont(nRow, nCol, newFont))
@@ -114,6 +119,9 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 				CFont* pNewFont = pDC->SelectObject(m_pOldFont);
 				delete pNewFont;
 			}
+
+			pLVCD->clrText = m_OldTextColor;
+			pLVCD->clrTextBk = m_OldBackColor;
 		} break;
 	}
 }
