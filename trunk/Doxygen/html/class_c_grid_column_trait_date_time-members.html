@@ -58,6 +58,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr bgcolor="#f0f0f0"><td><b>m_ColumnState</b> (defined in <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a>)</td><td><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a></td><td><code> [protected]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a967915715b83b051a629e09617eb23db">m_DateTimeCtrlStyle</a></td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td><code> [protected]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a43bc44c35d3fbc02141dadea71c4f33f">m_Format</a></td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td><code> [protected]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#ac345792a1d71a60774090a1a25c7c517">m_OldBackColor</a></td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td><code> [protected]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a4e33ae1450ac23e9b2c7af0cba52aa6a">m_OldTextColor</a></td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td><code> [protected]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a50a2921ec43e60ed496c127667198467">m_ParseDateTimeFlags</a></td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td><code> [protected]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a178f8908711af7c76966406a5e924b79">m_ParseDateTimeLCID</a></td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td><code> [protected]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a75e0214da2c32ce5b869fbf0600e2b43">m_pOldFont</a></td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td><code> [protected]</code></td></tr>
@@ -74,8 +76,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a0fdcf1fafe6461159aeb0226dda9acb2">SetParseDateTime</a>(DWORD dwFlags=0, LCID lcid=LANG_USER_DEFAULT)</td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#afdb6c2f36cf8cdb44c62afa69c736d84">SetSortFormatNumber</a>(bool bValue)</td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_date_time.html#a72d5343d4fe93ec34862195e52beadbb">SetStyle</a>(DWORD dwStyle)</td><td><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a93851ab2e2ad899bddaab16f3a04c69c">UpdateBackColor</a>(COLORREF &amp;backColor)</td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a500631f1f439f0a063ec918a7a2b1640">UpdateTextColor</a>(COLORREF &amp;textColor)</td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a93851ab2e2ad899bddaab16f3a04c69c">UpdateBackColor</a>(COLORREF &amp;backColor)</td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td><code> [protected, virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait_text.html#a500631f1f439f0a063ec918a7a2b1640">UpdateTextColor</a>(COLORREF &amp;textColor)</td><td><a class="el" href="class_c_grid_column_trait_text.html">CGridColumnTraitText</a></td><td><code> [protected, virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="class_c_grid_column_trait.html#a8bf453ce4cefaea941fc0fd792f7dfb1">~CGridColumnTrait</a>()</td><td><a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a></td><td><code> [inline, virtual]</code></td></tr>
 </table></div>
 <!--- window showing the filter options -->
@@ -92,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Mon Oct 5 23:42:56 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Nov 18 19:37:28 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

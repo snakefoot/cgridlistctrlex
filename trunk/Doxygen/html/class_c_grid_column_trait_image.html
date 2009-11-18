@@ -68,6 +68,10 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> - Constructor.  <a href="#a25a4086a4d56043adced450de0531412"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a0d0abf6bf4d2eba09de0745a5287aa79">AddImageIndex</a> (int nImageIdx)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds image index to the list of images to switch between.  <a href="#a0d0abf6bf4d2eba09de0745a5287aa79"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ae95bc25f754477138ad5172a037d07c7">AddImageIndex</a> (int nImageIdx, const CString &amp;strImageText)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds image index to the list of images to switch between.  <a href="#ae95bc25f754477138ad5172a037d07c7"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a793beaf80f29dd9cc0fb401631ceb64b">SetImageText</a> (int nImageIdx, const CString &amp;strImageText)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the image text for the specified image index.  <a href="#a793beaf80f29dd9cc0fb401631ceb64b"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ada490bda7a4d39a2fa69ebfca191aa85">AppendStateImages</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CImageList &amp;imagelist)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
@@ -80,9 +84,9 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#afab1c0f10273f90f8ac171eec86cfb1c">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb0f836468cb67697a6ec5d78bbae100"></a><!-- doxytag: member="CGridColumnTraitImage::m_ImageIndexes" ref="aeb0f836468cb67697a6ec5d78bbae100" args="" -->
-CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#aeb0f836468cb67697a6ec5d78bbae100">m_ImageIndexes</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">List of image indexes to switch between. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a895767983756b9a476145da9e8eb83"></a><!-- doxytag: member="CGridColumnTraitImage::m_ImageIndexes" ref="a1a895767983756b9a476145da9e8eb83" args="" -->
+CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a1a895767983756b9a476145da9e8eb83">m_ImageIndexes</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fixed list of image items to switch between. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> implements an image switcher (can mimic a checkbox). </p>
@@ -125,6 +129,42 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ae95bc25f754477138ad5172a037d07c7"></a><!-- doxytag: member="CGridColumnTraitImage::AddImageIndex" ref="ae95bc25f754477138ad5172a037d07c7" args="(int nImageIdx, const CString &amp;strImageText)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::AddImageIndex </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nImageIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strImageText</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Adds image index to the list of images to switch between. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nImageIdx</em>&nbsp;</td><td>The index of the image in the list control imagelist </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strImageText</em>&nbsp;</td><td>The associated cell text to the image </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a0d0abf6bf4d2eba09de0745a5287aa79"></a><!-- doxytag: member="CGridColumnTraitImage::AddImageIndex" ref="a0d0abf6bf4d2eba09de0745a5287aa79" args="(int nImageIdx)" -->
 <div class="memitem">
 <div class="memproto">
@@ -286,6 +326,42 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 
 </div>
 </div>
+<a class="anchor" id="a793beaf80f29dd9cc0fb401631ceb64b"></a><!-- doxytag: member="CGridColumnTraitImage::SetImageText" ref="a793beaf80f29dd9cc0fb401631ceb64b" args="(int nImageIdx, const CString &amp;strImageText)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::SetImageText </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nImageIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strImageText</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Updates the image text for the specified image index. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nImageIdx</em>&nbsp;</td><td>The index of the image in the list control imagelist </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strImageText</em>&nbsp;</td><td>The associated cell text to the image </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -301,7 +377,7 @@ CSimpleArray&lt; int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a 
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on Thu Oct 8 00:36:00 2009 for CGridListCtrlEx by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Wed Nov 18 19:37:28 2009 for CGridListCtrlEx by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
