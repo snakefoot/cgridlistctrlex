@@ -3,6 +3,8 @@
 
 #include <shlwapi.h>	// IsCommonControlsEnabled
 
+#pragma warning(disable:4100)	// unreferenced formal parameter
+
 #include "CGridColumnTrait.h"
 #include "CGridColumnManager.h"
 

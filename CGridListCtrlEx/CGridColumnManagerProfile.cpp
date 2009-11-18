@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#pragma warning(disable:4100)	// unreferenced formal parameter
+
 #include "CGridColumnManagerProfile.h"
 
 #include "CGridListCtrlEx.h"
