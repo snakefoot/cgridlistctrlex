@@ -30,7 +30,7 @@ protected:
 	COLORREF m_AltTextColor;//!< Alternate text color to use for every second row
 	COLORREF m_AltBackColor;//!< Alternate background color to use for every second row
 
-	bool UpdateTextColor(int nRow, COLORREF& textColor);
-	bool UpdateBackColor(int nRow, COLORREF& backColor);
+	virtual bool UpdateTextColor(int nRow, COLORREF& textColor);
+	virtual bool UpdateBackColor(int nRow, COLORREF& backColor);
 	virtual void Accept(CGridRowTraitVisitor& visitor);
 };

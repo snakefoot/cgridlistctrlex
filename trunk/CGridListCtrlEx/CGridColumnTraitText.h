@@ -18,16 +18,18 @@ public:
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
-	bool UpdateTextColor(COLORREF& textColor);
-	bool UpdateBackColor(COLORREF& backColor);
-
 	void SetSortFormatNumber(bool bValue);
 
 protected:
 	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with specified font
+	COLORREF m_OldTextColor;//!< Backup of the original text color while drawing with specified color
+	COLORREF m_OldBackColor;//!< Backup of the original background color while drawing with specified color
 	COLORREF m_TextColor;	//!< Text color to use for this column
 	COLORREF m_BackColor;	//!< Background color to use for this column
 	bool m_SortFormatNumber;//!< Column contains integers
+
+	virtual bool UpdateTextColor(COLORREF& textColor);
+	virtual bool UpdateBackColor(COLORREF& backColor);
 
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int GetCellFontHeight(CGridListCtrlEx& owner);

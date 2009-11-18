@@ -75,23 +75,31 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			else
 			if (owner.IsRowSelected(nRow))
 			{
-				if (owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
-					break;	// No drawing of selection color for focus cell
-
 				if (!(owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT))
 					break;	// No drawing of selection color without full-row-select
 
-				if (owner.GetFocus()!=&owner && !owner.IsCellEditorOpen())
+				if (owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
 				{
-					// Selection color is different when not having focus
-					if (owner.GetStyle() & LVS_SHOWSELALWAYS)
-						backColor = ::GetSysColor(COLOR_BTNFACE);
-					else
-						break;	// no drawing of selection color when not in focus
+					// No drawing of selection color for focus cell
+					if (pLVCD->clrTextBk > RGB(255,255,255))
+						break;
+
+					backColor = pLVCD->clrTextBk;
 				}
 				else
 				{
-					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+					if (owner.GetFocus()!=&owner && !owner.IsCellEditorOpen())
+					{
+						// Selection color is different when not having focus
+						if (owner.GetStyle() & LVS_SHOWSELALWAYS)
+							backColor = ::GetSysColor(COLOR_BTNFACE);
+						else
+							break;	// no drawing of selection color when not in focus
+					}
+					else
+					{
+						backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+					}
 				}
 			}
 			else

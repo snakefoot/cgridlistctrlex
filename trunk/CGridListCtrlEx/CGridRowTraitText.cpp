@@ -99,6 +99,7 @@ bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
 //------------------------------------------------------------------------
 //! Overrides the custom draw handler, to allow custom coloring of rows.
 //!		- Focus rectangle display
+//!		- Use font size to increase row-height, but keep cell font-size
 //!		- Alternate row coloring
 //!
 //! @param owner The list control drawing
@@ -114,22 +115,14 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 		// Before painting a row
 		case CDDS_ITEMPREPAINT:
 		{
-			if (!owner.IsRowSelected(nRow) && owner.GetHotItem()!=nRow)
-			{
-				// Only change row colors when not selected / in focus
-				if (UpdateTextColor(nRow, pLVCD->clrText))
-					*pResult |= CDRF_NEWFONT;
+			if (UpdateTextColor(nRow, pLVCD->clrText))
+				*pResult |= CDRF_NEWFONT;
 
-				if (UpdateBackColor(nRow, pLVCD->clrTextBk))
-					*pResult |= CDRF_NEWFONT;
-			}
+			if (UpdateBackColor(nRow, pLVCD->clrTextBk))
+				*pResult |= CDRF_NEWFONT;
 
 			if (owner.OnDisplayRowColor(nRow, pLVCD->clrText, pLVCD->clrTextBk))
-			{
 				*pResult |= CDRF_NEWFONT;
-				pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
-				pLVCD->nmcd.uItemState &= ~CDIS_HOT;
-			}
 
 			LOGFONT newFont = {0};
 			if (owner.OnDisplayRowFont(nRow, newFont))
