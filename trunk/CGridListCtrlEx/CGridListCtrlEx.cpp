@@ -4,6 +4,8 @@
 #include <shlwapi.h>	// IsThemeEnabled
 #include <afxole.h>		// 
 
+#pragma warning(disable:4100)	// unreferenced formal parameter
+
 #include "CGridColumnManager.h"
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
