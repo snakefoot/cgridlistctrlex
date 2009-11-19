@@ -91,13 +91,13 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 
 			// Only change cell colors when not selected
 			if (UpdateTextColor(pLVCD->clrText))
-				*pResult |= CDRF_NEWFONT;
+				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			if (UpdateBackColor(pLVCD->clrTextBk))
-				*pResult |= CDRF_NEWFONT;
+				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			if (owner.OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
-				*pResult |= CDRF_NEWFONT;
+				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			LOGFONT newFont = {0};
 			if (owner.OnDisplayCellFont(nRow, nCol, newFont))
@@ -124,6 +124,7 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 
 			pLVCD->clrText = m_OldTextColor;
 			pLVCD->clrTextBk = m_OldBackColor;
+			*pResult |= CDRF_NEWFONT;
 		} break;
 	}
 }
