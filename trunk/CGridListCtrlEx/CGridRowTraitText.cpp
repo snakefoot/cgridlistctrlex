@@ -114,6 +114,23 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 
 	switch (pLVCD->nmcd.dwDrawStage)
 	{
+		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
+		{
+			// Bug in Vista causes the cell color from previous cell to be used in the next
+			// even if having reverted the cell coloring in subitem-post-paint
+			pLVCD->clrText = -1;
+			pLVCD->clrTextBk = -1;
+
+			if (UpdateTextColor(nRow, pLVCD->clrText))
+				*pResult |= CDRF_NEWFONT;
+
+			if (UpdateBackColor(nRow, pLVCD->clrTextBk))
+				*pResult |= CDRF_NEWFONT;
+
+			if (owner.OnDisplayRowColor(nRow, pLVCD->clrText, pLVCD->clrTextBk))
+				*pResult |= CDRF_NEWFONT;
+		} break;
+
 		// Before painting a row
 		case CDDS_ITEMPREPAINT:
 		{
