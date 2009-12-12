@@ -316,9 +316,13 @@ have both cell image and checkbox in the same column. To get and set the checked
 </ul>
 </li>
 
-<li><strong>Version 1.7</strong> (2009-10-10)
+<li><strong>Version 1.7</strong> (2009-12-12)
 <ul>
-<li>Added new column trait, that provides checkbox editing</li>
+<li>Added <code>CGridColumnTraitImage</code>, that can mimic checkbox editing for any column</li>
+<li>Renamed <code>OnTraitEditBegin()</code> to <code>OnEditBegin()</code></li>
+<li>Renamed <code>OnTraitEditComplete()</code> to <code>OnEditComplete()</code></li>
+<li>Renamed <code>OnTraitCustomDraw()</code> to <code>OnCustomDrawCell()</code></li>
+<li>Fixed several bugs (Mostly row and cell coloring)</li>
 </ul>
 </li>
 </ul>
