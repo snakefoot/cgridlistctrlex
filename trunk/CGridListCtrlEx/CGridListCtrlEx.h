@@ -7,7 +7,7 @@
 // Version: 1.7
 //
 // Change History:
-//	1.7 - Added new column trait, that provides checkbox editing
+//	1.7 - Added CGridColumnTraitImage, that provides checkbox editing
 //		  Renamed OnTraitCustomDraw() to OnCustomDrawCell()
 //		  Renamed OnTraitEditBegin() to OnEditBegin()
 //		  Renamed OnTraitEditComplete() to OnEditComplete()
