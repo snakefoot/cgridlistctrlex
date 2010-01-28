@@ -1,8 +1,9 @@
 <span id="ArticleContent">
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 66.49 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 71.18 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo -&nbsp;548.98 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo -&nbsp;728.61 KB</a> </li>
+
 </ul>
 
 <h2>Introduction</h2>
@@ -30,6 +31,8 @@
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
+
+<img src="CGridListCtrlEx/screenshot.png" width="496" height="290" alt="screenshot.png" />
 
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
@@ -124,7 +127,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <h4>Load and save column width and position</h4>
 
 <p><code>CGridColumnManagerProfile</code> provides the ability to store the width, position and whether columns are shown. After having added all available columns to the <code>CGridListCtrlEx</code>, assign an instance of <code>CGridColumnManagerProfile</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code> and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
- 
+
 <pre lang="C++">m_ListCtrl.SetupColumnConfig(new CGridColumnManagerProfile(&quot;MyList&quot;));</pre>
 
 <p>If using <code>CGridListCtrlEx</code> several places in your application, then one should ensure creation of a unique <code>CGridColumnManagerProfile</code> for each place.</p>
@@ -140,27 +143,25 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>To control what is placed in the drag-source when a drag is initiated, override <code>OnDisplayToDragDrop()</code>.</p>
 
 <h4>Checkbox support</h4>
+
 <p>CListCtrl supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
 
 <pre lang="c++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
 
-<p>Remember not to use <code>InsertHiddenColumn()</code> as it will hide the label column and its checkbox.
-One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
+<p>Remember not to use <code>InsertHiddenColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
 
 <p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code>:</p>
 
-<pre lang="C++">
-// Appends the unchecked/checked state images to the list control image list
+<pre lang="C++">// Appends the unchecked/checked state images to the list control image list
 int nStateIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
 // Creates an image column, that can switch between the 2 images
 CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
-for(int i=0; i < m_ListCtrl.GetItemCount(); ++i)
+for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 	m_ListCtrl.SetCellImage(i, nCol, nStateIdx);	// Uncheck item
 </pre>
 
-<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to
-have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
+<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -195,7 +196,6 @@ have both cell image and checkbox in the same column. To get and set the checked
 <ul>
 <li><code>CGridColumnTraitText</code> - Implements cell formatting 
 <ul>
-
 <li><code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code> </li>
 
 <li><code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code> </li>
@@ -203,7 +203,6 @@ have both cell image and checkbox in the same column. To get and set the checked
 <li><code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code> </li>
 
 <li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox) </li>
-
 </ul>
 </li>
 </ul>
@@ -214,11 +213,11 @@ have both cell image and checkbox in the same column. To get and set the checked
 <li><code>CGridRowTraitText</code> - Implements row formatting </li>
 
 <li><code>CGridRowTraitXP</code> - Implements drawing of subitem image background when using classic- or XP-style </li>
-
 </ul>
 </li>
 
 <li><code>CGridColumnnManager</code> - Specifies the interface for managing column persistence 
+
 <ul>
 <li><code>CGridColumnManagerProfile</code> - Implements the interface for working with multiple column configurations. </li>
 </ul>
@@ -228,7 +227,7 @@ have both cell image and checkbox in the same column. To get and set the checked
 <h2>Things To Do</h2>
 
 <p>The <code>CGridListCtrlEx</code> tries to stay away from performing any drawing itself. This means that the following features/bugs will not get that much attention:</p>
- 
+
 <ul>
 <li>Support for progress bar - Requires a <code>CGridColumnTrait</code> class that draws the entire cell. </li>
 </ul>
@@ -242,9 +241,10 @@ have both cell image and checkbox in the same column. To get and set the checked
 <ul>
 <li><strong>Version 1.0</strong> (2008-09-04) First release </li>
 
-<li><strong>Version 1.1</strong> (2008-09-18)
+<li><strong>Version 1.1</strong> (2008-09-18) 
 <ul>
-<li>Added support for grouping with <code>CGridListCtrlGroups</code></li>
+
+<li>Added support for grouping with <code>CGridListCtrlGroups</code> </li>
 
 <li>Added <code>CDateTimeCtrl</code> editor </li>
 
@@ -253,6 +253,7 @@ have both cell image and checkbox in the same column. To get and set the checked
 <li>Fixed image background color for selected subitems (no longer white) </li>
 
 <li>Fixed grid border disappearing when scrolling right and left </li>
+
 </ul>
 </li>
 
@@ -262,7 +263,8 @@ have both cell image and checkbox in the same column. To get and set the checked
 </ul>
 </li>
 
-<li><strong>Version 1.2</strong> (2008-09-24)
+<li><strong>Version 1.2</strong> (2008-09-24) 
+
 <ul>
 <li>Replaced the <code>CGridListCtrlXP </code>with <code>CGridRowTraitXP</code> </li>
 
@@ -270,59 +272,64 @@ have both cell image and checkbox in the same column. To get and set the checked
 </ul>
 </li>
 
-<li><strong>Version 1.3</strong> (2008-10-09)
+<li><strong>Version 1.3</strong> (2008-10-09) 
 <ul>
+
 <li>Fixed extended style when used in <code>CView</code> </li>
 
 <li>Fixed positioning of context-menu when using keyboard shortcut (SHIFT+F10) </li>
 
 <li>Fixed compiler errors that appeared when using Visual Studio 6 (VC6) </li>
 </ul>
-
 </li>
 
-<li><strong>Version 1.4</strong> (2008-11-07)
+<li><strong>Version 1.4</strong> (2008-11-07) 
 <ul>
+
 <li>Added clipboard support for copying the contents of the selected cell / rows </li>
 
 <li>Renamed the &quot;<code>Callback</code>&quot;-functions to &quot;<code>OnDisplay</code>&quot;, as it resembles the MFC naming convention </li>
 
 <li>Fixed some reported bugs </li>
-
 </ul>
 </li>
 
-<li><strong>Version 1.5</strong> (2009-03-29)
+<li><strong>Version 1.5</strong> (2009-03-29) 
+
 <ul>
-<li>Added column manager <code>CGridColumnManager</code></li>
+<li>Added column manager <code>CGridColumnManager</code> </li>
 
-<li>Added support for groups on VC6 with platform SDK</li>
+<li>Added support for groups on VC6 with platform SDK </li>
 
-<li>Added sample projects for the different versions of Visual Studio</li>
+<li>Added sample projects for the different versions of Visual Studio </li>
 
-<li>Improved documentation through Doxygen comments</li>
+<li>Improved documentation through Doxygen comments </li>
 </ul>
 </li>
 
-<li><strong>Version 1.6</strong> (2009-09-13)
+<li><strong>Version 1.6</strong> (2009-09-13) 
 <ul>
 <li>Added OLE drag and drop support </li>
 
-<li>Added support for <code>checkbox </code>style <code>LVS_EX_CHECKBOX</code> when using <code>LVS_OWNERDATA</code></li>
+<li>Added support for <code>checkbox </code>style <code>LVS_EX_CHECKBOX</code> when using <code>LVS_OWNERDATA</code> </li>
 
-<li>Added better support for keyboard search with <code>LVS_OWNERDATA</code></li>
+<li>Added better support for keyboard search with <code>LVS_OWNERDATA</code> </li>
 
-<li>Fixed several bugs</li>
+<li>Fixed several bugs </li>
 </ul>
 </li>
 
-<li><strong>Version 1.7</strong> (2009-12-12)
+<li><strong>Version 1.7</strong> (2009-12-12) 
 <ul>
-<li>Added <code>CGridColumnTraitImage</code>, that can mimic checkbox editing for any column</li>
-<li>Renamed <code>OnTraitEditBegin()</code> to <code>OnEditBegin()</code></li>
-<li>Renamed <code>OnTraitEditComplete()</code> to <code>OnEditComplete()</code></li>
-<li>Renamed <code>OnTraitCustomDraw()</code> to <code>OnCustomDrawCell()</code></li>
-<li>Fixed several bugs (Mostly row and cell coloring)</li>
+<li>Added <code>CGridColumnTraitImage</code>, that can mimic checkbox editing for any column </li>
+
+<li>Renamed <code>OnTraitEditBegin()</code> to <code>OnEditBegin()</code> </li>
+
+<li>Renamed <code>OnTraitEditComplete()</code> to <code>OnEditComplete()</code> </li>
+
+<li>Renamed <code>OnTraitCustomDraw()</code> to <code>OnCustomDrawCell()</code> </li>
+
+<li>Fixed several bugs (Mostly row and cell coloring) </li>
 </ul>
 </li>
 </ul>
