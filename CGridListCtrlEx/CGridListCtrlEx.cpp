@@ -1488,6 +1488,7 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResul
 //! If needing to display more than 80 characters, then the easy solution is
 //! to override this method.
 //!
+//! \code
 //! int MyListCtrl::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 //! {
 //!		int rc = CGridListCtrlEx::OnToolHitTest(point, pTI);
@@ -1497,6 +1498,7 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResul
 //!		pTI->lpszText = new TCHAR[256];	// Will automatically be deallocated by MFC
 //!		return rc;
 //! }
+//! \endcode
 //!
 //! @param point Current mouse position relative to the upper-left corner of the window
 //! @param pTI A pointer to a TOOLINFO structure
