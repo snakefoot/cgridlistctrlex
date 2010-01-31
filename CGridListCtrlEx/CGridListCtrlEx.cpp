@@ -1485,6 +1485,19 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResul
 //! Called by the MFC framework to detemine whether a point is in the
 //! bounding rectangle of the specified tool.
 //!
+//! If needing to display more than 80 characters, then the easy solution is
+//! to override this method.
+//!
+//! int MyListCtrl::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
+//! {
+//!		int rc = CGridListCtrlEx::OnToolHitTest(point, pTI);
+//!		if (rc==-1)
+//!			return -1;
+//!		
+//!		pTI->lpszText = new TCHAR[256];	// Will automatically be deallocated by MFC
+//!		return rc;
+//! }
+//!
 //! @param point Current mouse position relative to the upper-left corner of the window
 //! @param pTI A pointer to a TOOLINFO structure
 //! @return Window control ID of the tooltip control (-1 if no tooltip control was found)
@@ -1518,7 +1531,11 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 }
 
 //------------------------------------------------------------------------
-//! TTN_NEEDTEXT message handler called when the tooltip timer fires
+//! TTN_NEEDTEXT message handler called when the tooltip timer fires.
+//! It uses the default tooltip buffer, that limits the tooltip to 80 characters.
+//!
+//! If needing to display more than 80 characters, then the easy solution is
+//! to override CGridListCtrlEx::OnToolHitTest().
 //!
 //! @param id Not used
 //! @param pNMHDR Pointer to an TOOLTIPTEXT structure
@@ -1547,13 +1564,13 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
 	else
 #if __STDC_WANT_SECURE_LIB__
-		mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
+		mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR)-1);
 #else
-		mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
+		mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR)-1);
 #endif
 #else
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
+		_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText)-1);
 	else
 		lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
 #endif
