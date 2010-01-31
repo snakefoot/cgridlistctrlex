@@ -1482,11 +1482,13 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResul
 }
 
 //------------------------------------------------------------------------
-//! Called by the MFC framework to detemine whether a point is in the
-//! bounding rectangle of the specified tool.
+//! Called by the MFC framework during mouse over to detemine whether a
+//! point is in the bounding rectangle of the specified tool.
+//! It requests a TTN_NEEDTEXT notification when the tooltip text is needed
+//! instead of building and allocating the tooltip text at mouse over.
 //!
 //! If needing to display more than 80 characters, then the easy solution is
-//! to override this method.
+//! to override this method and allocate and build the tooltip right away.
 //!
 //! \code
 //! int MyListCtrl::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
