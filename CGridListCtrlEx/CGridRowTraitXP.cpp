@@ -55,7 +55,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				break;
 
 			int nImage = owner.GetCellImage(nRow, nCol);
-			if (nImage < 0)
+			if (nImage == I_IMAGECALLBACK)
 				break;
 				
 			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);

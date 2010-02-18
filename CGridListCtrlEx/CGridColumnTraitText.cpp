@@ -220,7 +220,7 @@ CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, in
 	}
 	if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES)
 	{
-		if (owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow,nCol)>=0)
+		if (owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow,nCol)!=I_IMAGECALLBACK)
 			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
 	}
 	return rectCell;
