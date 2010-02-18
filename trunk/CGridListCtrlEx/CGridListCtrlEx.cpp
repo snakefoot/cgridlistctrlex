@@ -653,7 +653,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 			return TRUE;	// no image in subitem
 
 		int nImage = GetCellImage(nRow, nCol);
-		if (nImage < 0)
+		if (nImage == I_IMAGECALLBACK)
 			return TRUE;	// No image in subitem
 
 		CRect iconRect;
@@ -712,7 +712,7 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
-//! @return Index of the cell's icon in the control's image list.
+//! @return Index of the cell's icon in the control's image list (I_IMAGECALLBACK means no image)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 {
@@ -738,7 +738,7 @@ BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 	lvitem.mask = LVIF_IMAGE;
 	lvitem.iItem = nRow;
 	lvitem.iSubItem = nCol;
-	lvitem.iImage = nImageId;	// I_IMAGENONE, I_IMAGECALLBACK
+	lvitem.iImage = nImageId;	// I_IMAGENONE (Indent but no image), I_IMAGECALLBACK
 	return SetItem(&lvitem);
 }
 
@@ -1418,13 +1418,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		if (OnDisplayCellImage(nRow, nCol, result))
             pNMW->item.iImage = result;
 		else
-		{
-#if (_WIN32_IE >= 0x0501)
-			pNMW->item.iImage = I_IMAGENONE;
-#else
 			pNMW->item.iImage = I_IMAGECALLBACK;
-#endif
-		}
 
 		// Support checkboxes when using LVS_OWNERDATA (virtual list)
 		if (nCol==0)
