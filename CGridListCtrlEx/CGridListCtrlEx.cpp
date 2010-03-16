@@ -1801,6 +1801,10 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	bool startEdit = true;
+	if (IsCellEditorOpen())
+		startEdit = false;	// If the cell-editor is already open, then it should just be closed
+
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
 
@@ -1815,7 +1819,8 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	bool startEdit = OnClickEditStart(nRow, nCol, point);
+	if (startEdit)
+		startEdit = OnClickEditStart(nRow, nCol, point);
 
 	// Update the focused cell before calling CListCtrl::OnLButtonDown()
 	// as it might cause a row-repaint
