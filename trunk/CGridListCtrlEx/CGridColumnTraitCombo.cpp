@@ -160,7 +160,6 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	if (rectCombo.Height() < rectCell.Height())
 	{
 		// Expand to fit cell
-		int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
 		int padding = rectCell.Height() - rectCombo.Height();
 		m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)+padding);
 	}
