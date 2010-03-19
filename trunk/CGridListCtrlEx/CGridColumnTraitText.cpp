@@ -197,31 +197,26 @@ int CGridColumnTraitText::GetCellFontHeight(CGridListCtrlEx& owner)
 //------------------------------------------------------------------------
 CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	// Find the required height according to font
-	int requiredHeight = GetCellFontHeight(owner);
-
 	// Get position of the cell to edit
 	CRect rectCell;
 	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rectCell) );
 
-	// Adjust position to font height
-	if (!owner.UsingVisualStyle())
-	{
-		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE)) > rectCell.Height())
-		{
-			rectCell.top -= ::GetSystemMetrics(SM_CXEDGE);
-			rectCell.bottom += ::GetSystemMetrics(SM_CXEDGE);
-		}
-	}
+	// Adjust cell rectangle according to grid-lines
 	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
-	{
-		if ((requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)) < rectCell.Height())
-			rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
-	}
+		rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
+
 	if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES)
 	{
+		// Add margin to cell image
 		if (owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow,nCol)!=I_IMAGECALLBACK)
 			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
 	}
+
+	// Check if there is enough room for normal margin
+	int requiredHeight = GetCellFontHeight(owner);
+	requiredHeight += 2*::GetSystemMetrics(SM_CXEDGE);
+	if (requiredHeight > rectCell.Height())
+		rectCell.bottom = rectCell.top + requiredHeight;
+
 	return rectCell;
 }

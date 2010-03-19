@@ -114,16 +114,16 @@ CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRo
 CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Get position of the cell to edit
-	CRect rcItem = GetCellEditRect(owner, nRow, nCol);
+	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
 	int requiredHeight = GetCellFontHeight(owner);
 
 	// Expand the size of the ComboBox according to max-elements
-	CRect rcFinalSize = rcItem;
-	rcFinalSize.bottom += rcItem.Height() + requiredHeight * m_MaxItems;
+	CRect rectExpanded(rectCell);
+	rectExpanded.bottom += rectCell.Height() + requiredHeight * m_MaxItems;
 
 	// Create edit control to edit the cell
 	//	- Stores the pointer, so elements can be dynamically added later
-	m_pComboBox = CreateComboBox(owner, nRow, nCol, rcFinalSize);
+	m_pComboBox = CreateComboBox(owner, nRow, nCol, rectExpanded);
 	VERIFY(m_pComboBox!=NULL);
 
 	// Add all items to list
@@ -145,28 +145,36 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		m_pComboBox->SetWindowText(item);
 	}
 
-	// Resize combobox according to element count
-	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rcFinalSize) );
+	// Resize combobox according to actual element count
 	int visibleItemCount = 	m_MaxItems < m_pComboBox->GetCount() ? m_MaxItems : m_pComboBox->GetCount(); // min(m_MaxItems, m_pComboBox->GetCount());
-	rcFinalSize.bottom += rcItem.Height() + requiredHeight * (visibleItemCount + 1);
+	rectExpanded.bottom += rectCell.Height() + requiredHeight * (visibleItemCount + 1);
 	m_pComboBox->SetWindowPos(NULL,		// not relative to any other windows
 							0, 0,		// TopLeft corner doesn't change
-							rcFinalSize.Width(), rcFinalSize.Height(),   // existing width, new height
+							rectExpanded.Width(), rectExpanded.Height(),   // existing width, new height
 							SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
 							);
 
-	// Adjust the item-height to font-height
-	CRect comboRect;
-	m_pComboBox->GetClientRect(&comboRect);
-	int fontHeightWithMargin = requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE);
-	int itemHeight = fontHeightWithMargin > rcItem.Height() ? fontHeightWithMargin : rcItem.Height(); // max(fontHeightWithMargin, rcItem.Height());
-	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+	// Adjust the item-height to font-height (Must be done after resizing)
+	CRect rectCombo;
+	m_pComboBox->GetClientRect(&rectCombo);
+	if (rectCombo.Height() < rectCell.Height())
 	{
-		if (itemHeight > (requiredHeight + 2*::GetSystemMetrics(SM_CXEDGE) + ::GetSystemMetrics(SM_CXBORDER)))
-			itemHeight -= ::GetSystemMetrics(SM_CXBORDER);
+		// Expand to fit cell
+		int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
+		int padding = rectCell.Height() - rectCombo.Height();
+		m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)+padding);
 	}
-	m_pComboBox->SetItemHeight(-1, itemHeight - 2*::GetSystemMetrics(SM_CXEDGE));
-
+	else
+	if (rectCombo.Height() > rectCell.Height() + ::GetSystemMetrics(SM_CXBORDER))
+	{
+		// Compress to fit cell
+		int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
+		int padding = margin - 2*::GetSystemMetrics(SM_CXEDGE);
+		if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
+			padding -= ::GetSystemMetrics(SM_CXEDGE);
+		if (padding > 0)
+			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-padding);
+	}
 	return m_pComboBox;
 }
 
