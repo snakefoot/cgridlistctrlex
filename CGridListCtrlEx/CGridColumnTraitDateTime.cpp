@@ -93,6 +93,8 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 	// Create control to edit the cell
 	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol);
 	VERIFY( pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0) );
+	if (!owner.UsingVisualStyle())
+		pDateTimeCtrl->ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);	// Remove sunken edge
 
 	// Configure font
 	pDateTimeCtrl->SetFont(owner.GetCellFont());
@@ -122,10 +124,10 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 		dt.SetDateTime(1970, 1, 1, 0, 0, 0);
 
 	// Get position of the cell to edit
-	CRect rcItem = GetCellEditRect(owner, nRow, nCol);
+	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
 
 	// Create control to edit the cell
-	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, rcItem);
+	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, rectCell);
 	VERIFY(pDateTimeCtrl!=NULL);
 
 	pDateTimeCtrl->SetTime(dt);

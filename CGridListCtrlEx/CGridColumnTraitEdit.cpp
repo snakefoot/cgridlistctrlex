@@ -89,10 +89,10 @@ CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nC
 CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
 	// Get position of the cell to edit
-	CRect rcItem = GetCellEditRect(owner, nRow, nCol);
+	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
 
 	// Create edit control to edit the cell
-	CEdit* pEdit = CreateEdit(owner, nRow, nCol, rcItem);
+	CEdit* pEdit = CreateEdit(owner, nRow, nCol, rectCell);
 	VERIFY(pEdit!=NULL);
 
 	pEdit->SetWindowText(owner.GetItemText(nRow, nCol));
