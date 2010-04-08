@@ -70,7 +70,7 @@ protected:
 class CGridEditorComboBox : public CComboBox
 {
 public:
-	CGridEditorComboBox(int nRow, int nCol, int nMaxWidth);
+	CGridEditorComboBox(int nRow, int nCol, int nMaxWidthPixels, int nMaxHeightItems);
 
 	virtual BOOL Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	virtual void EndEdit(bool bSuccess);
@@ -92,5 +92,6 @@ protected:
 	bool	m_Modified;				//!< Register if selection was modified while the editor was open
 	int		m_Row;					//!< The index of the row being edited
 	int		m_Col;					//!< The index of the column being edited
-	int		m_MaxWidth;				//!< Max width (in pixels) of the CComboBox when doing dropdown
+	int		m_MaxWidthPixels;		//!< Max width (in pixels) of the CComboBox when doing dropdown
+	int		m_MaxHeightItems;		//!< Max height (in items) of the CComboBox when doing dropdown
 };
