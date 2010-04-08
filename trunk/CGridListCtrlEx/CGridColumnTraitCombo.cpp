@@ -95,7 +95,7 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 //------------------------------------------------------------------------
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
 {
-	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth);
+	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems);
 	VERIFY( pComboBox->Create( WS_CHILD | m_ComboBoxStyle, rect, &owner, 0) );
 
 	// Configure font
@@ -115,15 +115,10 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 {
 	// Get position of the cell to edit
 	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
-	int requiredHeight = GetCellFontHeight(owner);
-
-	// Expand the size of the ComboBox according to max-elements
-	CRect rectExpanded(rectCell);
-	rectExpanded.bottom += rectCell.Height() + requiredHeight * m_MaxItems;
 
 	// Create edit control to edit the cell
 	//	- Stores the pointer, so elements can be dynamically added later
-	m_pComboBox = CreateComboBox(owner, nRow, nCol, rectExpanded);
+	m_pComboBox = CreateComboBox(owner, nRow, nCol, rectCell);
 	VERIFY(m_pComboBox!=NULL);
 
 	// Add all items to list
@@ -144,15 +139,6 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		CString item = owner.GetItemText(nRow, nCol);
 		m_pComboBox->SetWindowText(item);
 	}
-
-	// Resize combobox according to actual element count
-	int visibleItemCount = 	m_MaxItems < m_pComboBox->GetCount() ? m_MaxItems : m_pComboBox->GetCount(); // min(m_MaxItems, m_pComboBox->GetCount());
-	rectExpanded.bottom += rectCell.Height() + requiredHeight * (visibleItemCount + 1);
-	m_pComboBox->SetWindowPos(NULL,		// not relative to any other windows
-							0, 0,		// TopLeft corner doesn't change
-							rectExpanded.Width(), rectExpanded.Height(),   // existing width, new height
-							SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
-							);
 
 	// Adjust the item-height to font-height (Must be done after resizing)
 	CRect rectCombo;
@@ -272,12 +258,13 @@ END_MESSAGE_MAP()
 //------------------------------------------------------------------------
 //! CGridEditorComboBox - Constructor
 //------------------------------------------------------------------------
-CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidth)
+CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidthPixels, int nMaxHeightItems)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
 	,m_Modified(false)
-	,m_MaxWidth(nMaxWidth)
+	,m_MaxWidthPixels(nMaxWidthPixels)
+	,m_MaxHeightItems(nMaxHeightItems)
 {}
 
 //------------------------------------------------------------------------
@@ -394,39 +381,54 @@ void CGridEditorComboBox::OnDestroy()
 void CGridEditorComboBox::OnDropDown()
 {
 	int itemHeight = GetItemHeight(-1);
+	int nNumEntries = GetCount();
+
+	// Resize combobox according to actual element count
+	int visibleItemCount = 	m_MaxHeightItems < nNumEntries ? m_MaxHeightItems : nNumEntries; // min(m_MaxHeightItems, nNumEntries);
+	CRect rectExpanded;
+	GetClientRect(rectExpanded);
+	rectExpanded.bottom += visibleItemCount * GetItemHeight(0);
+	rectExpanded.bottom += GetSystemMetrics(SM_CYEDGE) * 2; // top & bottom edges
+	SetWindowPos(NULL,		// not relative to any other windows
+				0, 0,		// TopLeft corner doesn't change
+				rectExpanded.Width(), rectExpanded.Height(),   // existing width, new height
+				SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
+				);
 
 	// Resize combo-box width to fit contents
-	int nNumEntries = GetCount();
-	int nWidth = 0;
+	int nMaxItemWidth = 0;
 	CString str;
 
-	CClientDC dc(this);
-	int nSave = dc.SaveDC();
-	dc.SelectObject(GetFont());
+	// Find max-width of the elements
+	CDC*	pDC = GetDC();
+	CFont*	pFont = GetFont();
+	CFont*	pOldFont = pDC->SelectObject(pFont);
 
 	for (int i = 0; i < nNumEntries; i++)
 	{
 		GetLBText(i, str);
-		int nLength = dc.GetTextExtent(str).cx;
-		nWidth = nWidth > nLength ? nWidth : nLength;	// max(nWidth, nLength);
-		if (nWidth > m_MaxWidth)
+		int nLength = pDC->GetTextExtent(str).cx;
+		nMaxItemWidth = nMaxItemWidth > nLength ? nMaxItemWidth : nLength;	// max(nMaxItemWidth, nLength);
+		if (nMaxItemWidth > m_MaxWidthPixels)
 		{
-			nWidth = m_MaxWidth;
+			nMaxItemWidth = m_MaxWidthPixels;
 			break;
 		}
 	}
 
-	// check if the current height is large enough for the items in the list
+	// Check if there are so many elements that we need space for a vertical scrollbar
 	CRect rect;
 	GetDroppedControlRect(&rect);
 	if (rect.Height() <= nNumEntries*GetItemHeight(0))
-		nWidth +=::GetSystemMetrics(SM_CXVSCROLL);
+		nMaxItemWidth +=::GetSystemMetrics(SM_CXVSCROLL);
 
 	// Add margin space to the calculations
-	nWidth += dc.GetTextExtent(_T("0")).cx;
+	nMaxItemWidth += pDC->GetTextExtent(_T("0")).cx;
 
-	dc.RestoreDC(nSave);
-	SetDroppedWidth(nWidth);
+	pDC->SelectObject(pOldFont);
+	ReleaseDC(pDC);
+
+	SetDroppedWidth(nMaxItemWidth);
 	SetItemHeight(-1, itemHeight);
 }
 
