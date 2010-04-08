@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------
 CGridColumnTraitEdit::CGridColumnTraitEdit()
 	:m_EditStyle(ES_AUTOHSCROLL | ES_NOHIDESEL | WS_BORDER)
+	,m_EditLimitText(UINT_MAX)
 {
 }
 
@@ -38,6 +39,24 @@ void CGridColumnTraitEdit::SetStyle(DWORD dwStyle)
 DWORD CGridColumnTraitEdit::GetStyle() const
 {
 	return m_EditStyle;
+}
+
+//------------------------------------------------------------------------
+//! Set max number of characters the CEdit will accept
+//!
+//! @param nMax The text limit, in characters.
+//------------------------------------------------------------------------
+void CGridColumnTraitEdit::SetLimitText(UINT nMax)
+{
+	m_EditLimitText = nMax;
+}
+
+//------------------------------------------------------------------------
+//! Get max number of characters the CEdit will accept
+//------------------------------------------------------------------------
+UINT CGridColumnTraitEdit::GetLimitText() const
+{
+	return m_EditLimitText;
 }
 
 //------------------------------------------------------------------------
@@ -74,6 +93,9 @@ CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nC
 		pEdit->SetMargins(0, 0);
 	else
 		pEdit->SetMargins(4, 0);
+
+	if (m_EditLimitText!=UINT_MAX)
+		pEdit->SetLimitText(m_EditLimitText);
 
 	return pEdit;
 }
