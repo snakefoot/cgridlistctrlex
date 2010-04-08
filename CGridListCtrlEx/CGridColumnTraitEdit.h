@@ -19,6 +19,9 @@ public:
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle() const;
 
+	void SetLimitText(UINT nMax);
+	UINT GetLimitText() const;
+
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 
 protected:
@@ -26,6 +29,7 @@ protected:
 	virtual CEdit* CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
 
 	DWORD m_EditStyle;				//!< Style to use when creating CEdit
+	UINT m_EditLimitText;			//!< Max number of characters the CEdit will accept
 };
 
 //------------------------------------------------------------------------
