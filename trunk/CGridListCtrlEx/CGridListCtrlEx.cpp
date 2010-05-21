@@ -649,12 +649,12 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 
 	if (nCode == LVIR_ICON)
 	{
-		if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
+		if (nCol > 0 && !(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
 			return FALSE;	// no image in subitem
 
 		int nImage = GetCellImage(nRow, nCol);
 		if (nImage == I_IMAGECALLBACK)
-			return FALSE;	// no image in subitem
+			return FALSE;	// no image
 
 		return TRUE;
 	}
