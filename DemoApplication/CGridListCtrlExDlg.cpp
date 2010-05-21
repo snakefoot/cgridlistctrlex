@@ -106,11 +106,11 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 	// Create and attach image list
 	m_ImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
 	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGDEN));
-	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGFRAN));
 	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGGERM));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGFRAN));
 	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGGREEC));
-	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGSPAIN));
 	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGSWED));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGSPAIN));
 	int nStateImageIdx = CGridColumnTraitDateTime::AppendStateImages(m_ListCtrl, m_ImageList);	// Add checkboxes
 	m_ListCtrl.SetImageList(&m_ImageList, LVSIL_SMALL);
 	
