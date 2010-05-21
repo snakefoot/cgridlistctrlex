@@ -83,8 +83,17 @@ void CGridColumnTraitImage::Accept(CGridColumnTraitVisitor& visitor)
 //------------------------------------------------------------------------
 int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist)
 {
+	if (!(owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
+		owner.SetExtendedStyle(owner.GetExtendedStyle() | LVS_EX_SUBITEMIMAGES);
+
 	if (!imagelist)
 		imagelist.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
+
+	if (!owner.GetImageList(LVSIL_SMALL))
+		owner.SetImageList(&imagelist, LVSIL_SMALL);
+
+	VERIFY( owner.GetImageList(LVSIL_SMALL)==&imagelist );
+
 	bool createdStateImages = false;
 	CImageList* pStateList = owner.GetImageList(LVSIL_STATE);
 	if (pStateList==NULL)
