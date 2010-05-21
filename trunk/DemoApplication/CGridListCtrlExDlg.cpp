@@ -7,6 +7,7 @@
 
 
 #include "..\CGridListCtrlEx\CGridColumnManagerProfile.h"
+#include "..\CGridListCtrlEx\CGridColumnTraitDateTime.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 #include "..\CGridListCtrlEx\CGridRowTraitXP.h"
@@ -104,8 +105,13 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 
 	// Create and attach image list
 	m_ImageList.Create(16, 16, ILC_COLOR16 | ILC_MASK, 1, 0);
-	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON1));
-	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON2));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGDEN));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGFRAN));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGGERM));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGGREEC));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGSPAIN));
+	m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_FLGSWED));
+	int nStateImageIdx = CGridColumnTraitDateTime::AppendStateImages(m_ListCtrl, m_ImageList);	// Add checkboxes
 	m_ListCtrl.SetImageList(&m_ImageList, LVSIL_SMALL);
 	
 	// Give better margin to editors
@@ -118,49 +124,53 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 
 	for(int col = 0; col < m_DataModel.GetColCount() ; ++col)
 	{
-		const string& title = m_DataModel.GetColTitle(col);
+		const CString& title = m_DataModel.GetColTitle(col);
 		CGridColumnTrait* pTrait = NULL;
-		if (col==0)	// City
+		if (col==0)	// Country
+		{
+			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
+			const vector<CString>& countries = m_DataModel.GetCountries();
+			for(size_t i=0; i < countries.size() ; ++i)
+				pComboTrait->AddItem((int)i, countries[i]);
+			pTrait = pComboTrait;
+		}
+		if (col==1)	// City
 		{
 			pTrait = new CGridColumnTraitEdit;
 		}
-		if (col==1)	// State
+		if (col==2)	// Year won
 		{
-			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
-			const vector<string>& states = m_DataModel.GetStates();
-			for(size_t i=0; i < states.size() ; ++i)
-				pComboTrait->AddItem((int)i, CString(states[i].c_str()));
-			pTrait = pComboTrait;
+			CGridColumnTraitDateTime* pDateTimeTrait = new CGridColumnTraitDateTime;
+			pDateTimeTrait->AddImageIndex(nStateImageIdx, _T(""), false);		// Unchecked (and not editable)
+			pDateTimeTrait->AddImageIndex(nStateImageIdx+1, COleDateTime(1970,1,1,0,0,0).Format(), true);	// Checked (and editable)
+			//pDateTimeTrait->SetFormat("yyyy-mm-dd");
+			pTrait = pDateTimeTrait;
 		}
-		if (col==2)	// Country
-		{
-			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
-			pComboTrait->SetStyle( pComboTrait->GetStyle() | CBS_DROPDOWNLIST);
-			const vector<string>& countries = m_DataModel.GetCountries();
-			for(size_t i=0; i < countries.size() ; ++i)
-				pComboTrait->AddItem((int)i, CString(countries[i].c_str()));
-			pTrait = pComboTrait;
-		}
-		m_ListCtrl.InsertColumnTrait(col+1, CString(title.c_str()), LVCFMT_LEFT, 100, col, pTrait);
+
+		m_ListCtrl.InsertColumnTrait(col+1, title, LVCFMT_LEFT, 100, col, pTrait);
 	}
 
 	// Insert data into list-control by copying from datamodel
 	int nItem = 0;
 	for(size_t rowId = 0; rowId < m_DataModel.GetRowIds() ; ++rowId)
 	{
-		nItem = m_ListCtrl.InsertItem(++nItem, CString(m_DataModel.GetCellText(rowId, 0).c_str()));
+		nItem = m_ListCtrl.InsertItem(++nItem, m_DataModel.GetCellText(rowId,0));
 		m_ListCtrl.SetItemData(nItem, rowId);
 		for(int col = 0; col < m_DataModel.GetColCount() ; ++col)
 		{
-			m_ListCtrl.SetItemText(nItem, col+1, CString(m_DataModel.GetCellText(rowId, col).c_str()));
+			int nCellCol = col+1;	// +1 because of hidden column
+			const CString& strCellText = m_DataModel.GetCellText(rowId, col);
+			m_ListCtrl.SetItemText(nItem, nCellCol, strCellText);
+			if (nCellCol==3)
+			{
+				if (strCellText==_T(""))
+					m_ListCtrl.SetCellImage(nItem, nCellCol, nStateImageIdx);	// unchecked
+				else
+					m_ListCtrl.SetCellImage(nItem, nCellCol, nStateImageIdx+1);	// checked
+			}
 		}
+		m_ListCtrl.SetCellImage(rowId, 1, rowId);	// Assign flag-images
 	}
-
-	// Assign images to the list-control
-	m_ListCtrl.SetCellImage(0, 3, 0);
-	m_ListCtrl.SetCellImage(1, 3, 0);
-	m_ListCtrl.SetCellImage(2, 3, 0);
-	m_ListCtrl.SetCellImage(3, 3, 1);
 
 	CGridColumnManagerProfile* pColumnProfile = new CGridColumnManagerProfile(_T("Sample List"));
 	pColumnProfile->AddColumnProfile(_T("Default"));

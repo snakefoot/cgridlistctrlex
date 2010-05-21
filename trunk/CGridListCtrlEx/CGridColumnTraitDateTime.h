@@ -6,12 +6,12 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
-#include "CGridColumnTraitText.h"
+#include "CGridColumnTraitImage.h"
 
 //------------------------------------------------------------------------
 //! CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitDateTime : public CGridColumnTraitText
+class CGridColumnTraitDateTime : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitDateTime();
@@ -24,7 +24,7 @@ public:
 
 	void SetParseDateTime(DWORD dwFlags = 0, LCID lcid = LANG_USER_DEFAULT);
 
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 
 protected:

@@ -647,6 +647,18 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
 		}
     }
 
+	if (nCode == LVIR_ICON)
+	{
+		if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
+			return FALSE;	// no image in subitem
+
+		int nImage = GetCellImage(nRow, nCol);
+		if (nImage == I_IMAGECALLBACK)
+			return FALSE;	// no image in subitem
+
+		return TRUE;
+	}
+
 	if (nCode == LVIR_LABEL && nCol>0)
 	{
 		if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
@@ -1167,16 +1179,31 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		} break;
 		case VK_F2:
 		{
-			EditCell(GetFocusRow(), m_FocusCell);
+			CRect rect;
+			VERIFY( GetCellRect(GetFocusRow(), GetFocusCell(), LVIR_LABEL, rect) );
+			EditCell(GetFocusRow(), GetFocusCell(), rect.TopLeft());
 		} break;
 		case VK_SPACE:
 		{
-			// Toggle checkbox for virtual list with checkbox style
-			if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
+			if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
 			{
-				int nFocusRow = GetFocusRow();
-				if (nFocusRow != -1)
-					OnOwnerDataToggleCheckBox(nFocusRow);
+				// Toggle checkbox for virtual list with checkbox style
+				if (GetStyle() & LVS_OWNERDATA)
+				{
+					int nFocusRow = GetFocusRow();
+					if (nFocusRow != -1)
+						OnOwnerDataToggleCheckBox(nFocusRow);
+				}
+			}
+			else
+			{
+				// Flip-cell image icon
+				if (GetFocusRow()!=-1 && GetFocusCell()!=-1)
+				{
+					CRect rect;
+					if (GetCellRect(GetFocusRow(), GetFocusCell(), LVIR_ICON, rect))
+						EditCell(GetFocusRow(), GetFocusCell(), rect.TopLeft());
+				}
 			}
 		} break;
 	}
@@ -1586,9 +1613,9 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 {
 	if (GetKeyState(VK_CONTROL) < 0)
-		return false;
+		return false;	// Row selection should not trigger cell edit
 	if (GetKeyState(VK_SHIFT) < 0)
-		return false;
+		return false;	// Row selection should not trigger cell edit
 
 	// Begin edit if the same cell is clicked twice
 	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && m_FocusCell==nCol;
@@ -1597,16 +1624,13 @@ bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 	if (pTrait==NULL)
 		return startEdit;
 
-	if (!pTrait->GetColumnState().m_Editable)
+	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
 		return false;
 
 	if (!pTrait->OnClickEditStart(*this, nRow, nCol, pt))
 		return false;
 
-	if (!pTrait->GetColumnState().m_EditFocusFirst)
-		return true;
-
-	return startEdit;
+	return true;
 }
 
 //------------------------------------------------------------------------
@@ -1615,19 +1639,19 @@ bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol)
+CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
 		return NULL;
 
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
-	if (!columnState.m_Editable)
+	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
 		return NULL;
 
-	return pTrait->OnEditBegin(*this, nRow, nCol);
+	return pTrait->OnEditBegin(*this, nRow, nCol, pt);
 }
 
 //------------------------------------------------------------------------
@@ -1654,14 +1678,15 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
+CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 {
 	if (nCol==-1 || nRow==-1)
 		return NULL;
 
-	m_pEditor = OnEditBegin(nRow, nCol);
+	m_pEditor = OnEditBegin(nRow, nCol, pt);
 	if (m_pEditor==NULL)
 		return NULL;
 
@@ -1857,7 +1882,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		// This will steal the double-click event when double-clicking a cell that already have focus,
 		// but we cannot guess after the first click, whether the user will click a second time.
 		// A timer could be used but it would cause slugish behavior (http://blogs.msdn.com/oldnewthing/archive/2004/10/15/242761.aspx)
-		EditCell(nRow, nCol);
+		EditCell(nRow, nCol, point);
 	}
 }
 
@@ -2316,9 +2341,9 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 		// Place context-menu over the selected row / cell
 		CRect cellRect;
 		if (nCol==-1)
-			GetItemRect(nRow, cellRect, LVIR_BOUNDS);
+			VERIFY( GetItemRect(nRow, cellRect, LVIR_BOUNDS) );
 		else
-			GetCellRect(nRow, nCol, LVIR_BOUNDS, cellRect);
+			VERIFY( GetCellRect(nRow, nCol, LVIR_BOUNDS, cellRect) );
 		ClientToScreen(cellRect);
 
 		// Adjust point so context-menu doesn't cover row / cell
@@ -3082,7 +3107,7 @@ DROPEFFECT CGridListCtrlEx::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyS
 		GetHeaderCtrl()->GetClientRect(&headerRect);
 
 		CRect cellRect;
-		GetCellRect(0, 0, LVIR_BOUNDS, cellRect);
+		VERIFY( GetCellRect(0, 0, LVIR_BOUNDS, cellRect) );
 
 		int minPos, maxPos;
 		GetScrollRange(SB_VERT, &minPos, &maxPos);
@@ -3313,12 +3338,12 @@ BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Verify that the checkbox-area was clicked
 		CellHitTest(pItem->ptAction, nRow, nCol);
-		if (nRow!=-1)
+		if (nRow!=-1 && nCol==0)
 		{
 			// Checkbox area is between the item-bounds and the item-icon
 			CRect iconRect, itemRect;
-			GetCellRect(nRow, nCol, LVIR_ICON, iconRect);
-			GetCellRect(nRow, nCol, LVIR_BOUNDS, itemRect);
+			VERIFY( GetCellRect(nRow, nCol, LVIR_ICON, iconRect) );
+			VERIFY( GetCellRect(nRow, nCol, LVIR_BOUNDS, itemRect) );
 			CRect checkboxRect(itemRect.left, itemRect.top, iconRect.left, itemRect.bottom);
 			if (checkboxRect.PtInRect(pItem->ptAction))
 				OnOwnerDataToggleCheckBox(nRow);

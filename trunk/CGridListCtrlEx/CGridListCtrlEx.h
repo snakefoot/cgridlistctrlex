@@ -112,7 +112,7 @@ public:
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
 	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
-	virtual CWnd* EditCell(int nRow, int nCol);
+	virtual CWnd* EditCell(int nRow, int nCol, CPoint pt = CPoint(-1,-1));
 	bool IsCellEditorOpen() const;
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
@@ -197,7 +197,7 @@ protected:
 
 	// Cell editing handlers
 	virtual bool OnClickEditStart(int nRow, int nCol, CPoint pt);
-	virtual CWnd* OnEditBegin(int nRow, int nCol);
+	virtual CWnd* OnEditBegin(int nRow, int nCol, CPoint pt);
 	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers

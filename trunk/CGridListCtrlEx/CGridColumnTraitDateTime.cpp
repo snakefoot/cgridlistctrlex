@@ -112,10 +112,16 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit
 //! @param nCol The index of the column for the cell to edit
+//! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
 //------------------------------------------------------------------------
-CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
+CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
+	// Check if the user clicked the cell icon
+	CRect iconRect;
+	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+		return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt);
+
 	// Convert cell-text to date/time format
 	CString cellText = owner.GetItemText(nRow, nCol);
 

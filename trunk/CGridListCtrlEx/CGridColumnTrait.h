@@ -43,7 +43,7 @@ public:
 	//! @param nRow The index of the row
 	//! @param nCol The index of the column
 	//! @param pt The position clicked, in client coordinates.
-	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return true; }
+	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return false; }
 
 	//! Override OnEditBegin() to provide your own special cell-edit control.
 	//!   - The edit control must inherit from CWnd
@@ -53,8 +53,9 @@ public:
 	//! @param owner The list control starting edit
 	//! @param nRow The index of the row for the cell to edit
 	//! @param nCol The index of the column for the cell to edit
+	//! @param pt The position clicked, in client coordinates.
 	//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol) { return NULL; }
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return NULL; }
 
 	//! Override OnEditEnd() in case one need to change state after a cell-edit.
 	virtual void OnEditEnd() {}
@@ -70,6 +71,15 @@ public:
 	//! Override Accept() and update CGridColumnTraitVisitor for new column-trait classes.
 	//!   - Will enable the use of the visitor-pattern ex. for serialization of column-traits
 	virtual void Accept(CGridColumnTraitVisitor& visitor) {}
+
+	//! Override IsCellReadOnly() to provide custom control whether a cell can be edited
+	//!
+	//! @param owner The list control starting edit
+	//! @param nRow The index of the row for the cell
+	//! @param nCol The index of the column for the cell
+	//! @param pt The position clicked, in client coordinates.
+	//! @return Is cell read only ? (true / false)
+	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const { return !m_ColumnState.m_Editable; }
 
 	// Maintaining column visible state, etc.
 	struct ColumnState

@@ -23,16 +23,28 @@ public:
 	CGridColumnTraitImage(int nImageIndex, int nImageCount);
 
 	void AddImageIndex(int nImageIdx);
-	void AddImageIndex(int nImageIdx, const CString& strImageText);
+	void AddImageIndex(int nImageIdx, const CString& strImageText, bool bEditable = true);
 
-	void SetImageText(int nImageIdx, const CString& strImageText);
-	
+	void SetImageText(int nImageIdx, const CString& strImageText, bool bEditable = true);
+
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
 protected:
+	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const;
 	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
+	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);
 
-	CSimpleMap<int,CString> m_ImageIndexes;	//!< Fixed list of image items to switch between
+	struct ImageCell
+	{
+		CString m_CellText;
+		bool m_Editable;
+
+		ImageCell()
+			: m_Editable(true) {}
+		ImageCell(const CString& cellText, bool editable)
+			: m_CellText(cellText), m_Editable(editable) {}
+	};
+	CSimpleMap<int,ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
 };

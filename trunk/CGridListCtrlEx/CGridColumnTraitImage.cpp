@@ -37,7 +37,7 @@ CGridColumnTraitImage::CGridColumnTraitImage(int nImageIndex, int nImageCount)
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 {
-	m_ImageIndexes.Add(nImageIdx, _T(""));
+	m_ImageIndexes.Add(nImageIdx, ImageCell());
 }
 
 //------------------------------------------------------------------------
@@ -46,9 +46,9 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 //! @param nImageIdx The index of the image in the list control imagelist
 //! @param strImageText The associated cell text to the image
 //------------------------------------------------------------------------
-void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImageText)
+void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImageText, bool bEditable)
 {
-	m_ImageIndexes.Add(nImageIdx, strImageText);
+	m_ImageIndexes.Add(nImageIdx, ImageCell(strImageText,bEditable));
 }
 
 //------------------------------------------------------------------------
@@ -57,13 +57,13 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImage
 //! @param nImageIdx The index of the image in the list control imagelist
 //! @param strImageText The associated cell text to the image
 //------------------------------------------------------------------------
-void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText)
+void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText, bool bEditable)
 {
 	int nIndex = m_ImageIndexes.FindKey(nImageIdx);
 	if (nIndex==-1)
-		AddImageIndex(nImageIdx, strImageText);
+		AddImageIndex(nImageIdx, strImageText, bEditable);
 	else
-		m_ImageIndexes.GetValueAt(nIndex) = strImageText;
+		m_ImageIndexes.GetValueAt(nIndex) = ImageCell(strImageText,bEditable);
 }
 
 //------------------------------------------------------------------------
@@ -110,11 +110,54 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 	}
 	if (createdStateImages)
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
+
 	return imageCount;
 }
 
 //------------------------------------------------------------------------
-//! Only flip the cell-image when the actual image is clicked
+//! Check if current image index blocks for editing of cell label
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell
+//! @param nCol The index of the column for the cell
+//! @param pt The position clicked, in client coordinates.
+//! @return Is cell read only ? (true / false)
+//------------------------------------------------------------------------
+bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const
+{
+	if (!m_ColumnState.m_Editable)
+		return true;
+
+	// Check if current cell image blocks for starting cell editor
+	if (m_ImageIndexes.GetSize()!=0)
+	{
+		int nCurImageIdx = -1;
+		for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
+		{
+			if (!m_ImageIndexes.GetValueAt(i).m_Editable)
+			{
+				if (nCurImageIdx==-1)
+				{
+					CRect rect;
+					VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rect) );
+					if (!rect.PtInRect(pt))
+						break;
+
+					nCurImageIdx = owner.GetCellImage(nRow, nCol);
+					if (nCurImageIdx==-1)
+						break;
+				}
+				if (nCurImageIdx==m_ImageIndexes.GetKeyAt(i))
+					return true;
+			}
+		}
+	}
+
+	return false;	// editable
+}
+
+//------------------------------------------------------------------------
+//! Check if the cell is editable when clicked
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
@@ -123,12 +166,58 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 //------------------------------------------------------------------------
 bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
-	CRect rect;
-	owner.GetCellRect(nRow, nCol, LVIR_ICON, rect);
-	if (!rect.PtInRect(pt))
-		return false;
+	// Begin edit if the cell has focus already
+	bool startEdit = nRow!=-1 && nCol!=-1 && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol;
 
-	return true;
+	// Check if the cell can be edited without having focus first
+	if (!GetColumnState().m_EditFocusFirst)
+	{
+		if (m_ImageIndexes.GetSize()==0)
+			return startEdit;	// No images to flip between
+
+		CRect rect;
+		if (!owner.GetCellRect(nRow, nCol, LVIR_ICON, rect) || !rect.PtInRect(pt))
+			return startEdit;	// Didn't click the image icon
+
+		return true;
+	}
+
+	return startEdit;
+}
+
+//------------------------------------------------------------------------
+//! Switch to the next image index
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return New image index (-1 if no new image)
+//------------------------------------------------------------------------
+int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol)
+{
+	if (m_ImageIndexes.GetSize()==0)
+		return -1;
+
+	int nImageIdx = owner.GetCellImage(nRow, nCol);
+	int nOldImagePos = -1;
+	for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
+	{
+		if (m_ImageIndexes.GetKeyAt(i)==nImageIdx)
+		{
+			nOldImagePos = i;
+			break;
+		}
+	}
+	if (nOldImagePos==-1)
+		return -1;
+
+	int nNewImageIdx = -1;
+	if (nOldImagePos+1 == m_ImageIndexes.GetSize())
+		nNewImageIdx = m_ImageIndexes.GetKeyAt(0);
+	else
+		nNewImageIdx = m_ImageIndexes.GetKeyAt(nOldImagePos+1);
+
+	return nNewImageIdx;
 }
 
 //------------------------------------------------------------------------
@@ -137,47 +226,30 @@ bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, i
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit
 //! @param nCol The index of the column for the cell to edit
+//! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
 //------------------------------------------------------------------------
-CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
+CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
-	CPoint pt(GetMessagePos());
-	owner.ScreenToClient(&pt);
-	CRect rect;
-	owner.GetCellRect(nRow, nCol, LVIR_ICON, rect);
-	if (rect.PtInRect(pt))
+	CRect iconRect;
+	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
 	{
-		// Send Notification to parent of ListView ctrl
-		int nImageIdx = owner.GetCellImage(nRow, nCol);
-		int nOldImagePos = -1;
-		CString strOldImageText;
-		for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
-		{
-			if (m_ImageIndexes.GetKeyAt(i)==nImageIdx)
-			{
-				nOldImagePos = i;
-				strOldImageText = m_ImageIndexes.GetValueAt(i);
-				break;
-			}
-		}
-		if (nOldImagePos==-1)
+		int nOldImageIdx = owner.GetCellImage(nRow, nCol);
+		int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
+		if (nNewImageIdx == -1)
 			return NULL;
 
-		CString strNewImageText;
-		int nNewImageIdx = -1;
-		if (nOldImagePos+1 == m_ImageIndexes.GetSize())
+		CString strOldImageText, strNewImageText;
+		for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
 		{
-			nNewImageIdx = m_ImageIndexes.GetKeyAt(0);
-			strNewImageText = m_ImageIndexes.GetValueAt(0);
-		}
-		else
-		{
-			nNewImageIdx = m_ImageIndexes.GetKeyAt(nOldImagePos+1);
-			strNewImageText = m_ImageIndexes.GetValueAt(nOldImagePos+1);
+			if (m_ImageIndexes.GetKeyAt(i)==nOldImageIdx)
+				strOldImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
+			if (m_ImageIndexes.GetKeyAt(i)==nNewImageIdx)
+				strNewImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
 		}
 
+		// Send Notification to parent of ListView ctrl
 		LV_DISPINFO dispinfo = {0};
-		dispinfo.item.iImage = nNewImageIdx;
 		dispinfo.hdr.hwndFrom = owner.m_hWnd;
 		dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
 		dispinfo.hdr.code = LVN_ENDLABELEDIT;
@@ -185,6 +257,8 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		dispinfo.item.iItem = nRow;
 		dispinfo.item.iSubItem = nCol;
 		dispinfo.item.mask = LVIF_IMAGE;
+		dispinfo.item.iImage = nNewImageIdx;
+
 		if (strNewImageText!=strOldImageText)
 		{
 			dispinfo.item.mask |= LVIF_TEXT;

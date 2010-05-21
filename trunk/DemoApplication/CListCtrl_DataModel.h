@@ -5,24 +5,24 @@ struct CListCtrl_DataRecord
 	CListCtrl_DataRecord()
 	{}
 
-	CListCtrl_DataRecord(const string& city, const string& state, const string& country)
+	CListCtrl_DataRecord(const CString& city, const CString& country, int year)
 		:m_City(city)
-		,m_State(state)
 		,m_Country(country)
+		,m_YearWon(year)
 	{}
 
-	string	m_City;
-	string	m_State;
-	string	m_Country;
+	CString	m_City;
+	CString	m_Country;
+	int     m_YearWon;
 
-	const string& GetCellText(int col, bool title) const
+	CString GetCellText(int col, bool title) const
 	{
 		switch(col)
 		{
-		case 0: { static string title0("City"); return title ? title0 : m_City; }
-		case 1: { static string title1("State"); return title ? title1 : m_State; }
-		case 2: { static string title2("Country"); return title ? title2 : m_Country; }
-		default:{ static string emptyStr; return emptyStr; }
+		case 0: { static CString title0(_T("Country")); return title ? title0 : m_Country; }
+		case 1: { static CString title1(_T("Capital")); return title ? title1 : m_City; }
+		case 2: { static CString title2(_T("European Championship")); return title ? title2 : m_YearWon ? COleDateTime(m_YearWon,1,1,0,0,0).Format() : CString(); }
+		default:{ static CString emptyStr; return emptyStr; }
 		}
 	}
 
@@ -46,10 +46,12 @@ public:
 	void InitDataModel()
 	{
 		m_Records.clear();
-		m_Records.push_back( CListCtrl_DataRecord("Copenhagen", "Sjaelland", "Denmark") );
-		m_Records.push_back( CListCtrl_DataRecord("Aarhus", "Jutland", "Denmark") );
-		m_Records.push_back( CListCtrl_DataRecord("Odense", "Fyn", "Denmark") );
-		m_Records.push_back( CListCtrl_DataRecord("Malmoe", "Skaane", "Sweeden") );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Copenhagen"), _T("Denmark"), 1992) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Berlin"), _T("Germany"), 1996) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Paris"), _T("France"), 2000) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Athen"), _T("Greece"), 2004) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweeden"), 0) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Barcelona"), _T("Spain"), 2008) );
 
 		if (m_RowMultiplier > 1)
 		{
@@ -62,11 +64,11 @@ public:
 		}
 	}
 
-	const string& GetCellText(size_t lookupId, int col) const
+	CString GetCellText(size_t lookupId, int col) const
 	{
 		if (lookupId >= m_Records.size())
 		{
-			static const string oob("Out of Bound");
+			static CString oob(_T("Out of Bound"));
 			return oob;
 		}
 		// How many times should we search sequential for the row ?
@@ -81,19 +83,9 @@ public:
 		return m_Records.at(lookupId).GetCellText(col, false);
 	}
 
-	vector<string> GetStates() const
+	vector<CString> GetCountries() const
 	{
-		vector<string> states;
-		for(size_t rowId = 0 ; rowId < m_Records.size(); ++rowId)
-			states.push_back( m_Records[rowId].m_State );
-		sort(states.begin(), states.end());
-		states.erase(unique(states.begin(), states.end()), states.end());
-		return states;
-	}
-
-	vector<string> GetCountries() const
-	{
-		vector<string> countries;
+		vector<CString> countries;
 		for(size_t rowId = 0 ; rowId < m_Records.size(); ++rowId)
 			countries.push_back( m_Records[rowId].m_Country );
 		sort(countries.begin(), countries.end());
@@ -103,7 +95,7 @@ public:
 
 	size_t GetRowIds() const { return m_Records.size(); }
 	int GetColCount() const { return CListCtrl_DataRecord().GetColCount(); }
-	const string& GetColTitle(int col) const { return CListCtrl_DataRecord().GetCellText(col, true); }
+	CString GetColTitle(int col) const { return CListCtrl_DataRecord().GetCellText(col, true); }
 
 	vector<CListCtrl_DataRecord>& GetRecords() { return m_Records; }
 	void SetLookupTime(int lookupTimes) { m_LookupTime = lookupTimes; }
