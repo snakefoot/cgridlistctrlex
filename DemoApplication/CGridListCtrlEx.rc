@@ -65,8 +65,12 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\CGridListCtrlEx.ico"
-IDI_ICON1               ICON                    "res\\FLGDEN.ICO"
-IDI_ICON2               ICON                    "res\\FLGSWED.ICO"
+IDI_FLGDEN              ICON                    "res\\FLGDEN.ICO"
+IDI_FLGFRAN             ICON                    "res\\FLGFRAN.ICO"
+IDI_FLGGERM             ICON                    "res\\FLGGERM.ICO"
+IDI_FLGGREEC            ICON                    "res\\FLGGREEC.ICO"
+IDI_FLGSPAIN            ICON                    "res\\FLGSPAIN.ICO"
+IDI_FLGSWED             ICON                    "res\\FLGSWED.ICO"
 #endif    // Danish resources
 /////////////////////////////////////////////////////////////////////////////
 

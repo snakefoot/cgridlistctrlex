@@ -6,12 +6,12 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
-#include "CGridColumnTraitText.h"
+#include "CGridColumnTraitImage.h"
 
 //------------------------------------------------------------------------
 //! CGridColumnTraitEdit implements a CEdit as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitEdit : public CGridColumnTraitText
+class CGridColumnTraitEdit : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitEdit();
@@ -22,7 +22,7 @@ public:
 	void SetLimitText(UINT nMax);
 	UINT GetLimitText() const;
 
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);

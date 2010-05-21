@@ -6,12 +6,12 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
-#include "CGridColumnTraitText.h"
+#include "CGridColumnTraitImage.h"
 
 //------------------------------------------------------------------------
 //! CGridColumnTraitCombo implements a CComboBox as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitCombo : public CGridColumnTraitText
+class CGridColumnTraitCombo : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitCombo();
@@ -28,7 +28,7 @@ public:
 	void LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel);
 	void AddItem(int nItemData, const CString& strItemText);
 
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void  OnEditEnd();
 
 protected:
