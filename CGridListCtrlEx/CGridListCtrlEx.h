@@ -112,6 +112,7 @@ public:
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
 	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
+	virtual void SetFocusCell(int nCol, bool bRedraw = false);
 	virtual CWnd* EditCell(int nRow, int nCol, CPoint pt = CPoint(-1,-1));
 	bool IsCellEditorOpen() const;
 	bool IsCellCallback(int nRow, int nCol) const;
@@ -151,8 +152,7 @@ protected:
 
 	// Maintaining cell/subitem focus
 	int m_FocusCell;			//!< Column currently having focus (-1 means entire row)
-	void MoveFocusCell(bool bMoveRight);
-	void UpdateFocusCell(int nCol);
+	virtual void MoveFocusCell(bool bMoveRight);
 
 	// Maintaining Keyboard search
 	CString m_LastSearchString;	//!< Last search criteria for keyboard search

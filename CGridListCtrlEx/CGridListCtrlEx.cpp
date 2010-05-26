@@ -755,6 +755,29 @@ BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 }
 
 //------------------------------------------------------------------------
+//! Changes the focus cell.
+//! Override this method and set m_FocusCell = -1 if wanting to disable subitem focus
+//!
+//! @param nCol The index of the column
+//! @param bRedraw Should the focus row be redrawn ? (true / false)
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SetFocusCell(int nCol, bool bRedraw)
+{
+	m_FocusCell = nCol;
+	if (bRedraw)
+	{
+		int nFocusRow = GetFocusRow();
+		if (nFocusRow >= 0)
+		{
+			CRect itemRect;
+			VERIFY( GetItemRect(nFocusRow, itemRect, LVIR_BOUNDS) );
+			InvalidateRect(itemRect);
+			UpdateWindow();
+		}
+	}
+}
+
+//------------------------------------------------------------------------
 //! Shifts the cell focus left or right in the same row
 //!
 //! @param bMoveRight Specifies whether the cell focus should be left or right
@@ -763,17 +786,17 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 {
 	if (GetItemCount()<=0)
 	{
-		m_FocusCell = -1;	// Entire row selected
+		SetFocusCell(-1);	// Entire row selected
 		return;
 	}
 
-	if (m_FocusCell == -1)
+	if (GetFocusCell() == -1)
 	{
 		// Entire row already selected
 		if (bMoveRight)
 		{
 			// Change to the first column in the current order
-			m_FocusCell = GetFirstVisibleColumn();
+			SetFocusCell( GetFirstVisibleColumn() );
 		}
 	}
 	else
@@ -783,7 +806,7 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			int nCol = GetHeaderCtrl()->OrderToIndex(i);
-			if (nCol == m_FocusCell)
+			if (nCol == GetFocusCell())
 			{
 				nOrderIndex = i;
 				break;
@@ -801,41 +824,24 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 		{
 			int nCol = GetHeaderCtrl()->OrderToIndex(nOrderIndex);
 			if (IsColumnVisible(nCol))
-				m_FocusCell = nCol;
+				SetFocusCell(nCol);
 			else
 			if (!bMoveRight)
-				m_FocusCell = -1;	// Entire row selection
+				SetFocusCell(-1);	// Entire row selection
 		}
 		else if (!bMoveRight)
-			m_FocusCell = -1;	// Entire row selection
+			SetFocusCell(-1);	// Entire row selection
 	}
 
 	// Ensure the column is visible
-	if (m_FocusCell >= 0)
+	if (GetFocusCell() >= 0)
 	{
-		VERIFY( EnsureColumnVisible(m_FocusCell, false) );
+		VERIFY( EnsureColumnVisible(GetFocusCell(), false) );
 	}
 
-	UpdateFocusCell(m_FocusCell);
+	SetFocusCell(GetFocusCell(), true);
 }
 
-//------------------------------------------------------------------------
-//! Force redraw of focus row, so the focus cell becomes visible
-//!
-//! @param nCol The index of the column
-//------------------------------------------------------------------------
-void CGridListCtrlEx::UpdateFocusCell(int nCol)
-{
-	m_FocusCell = nCol;	// Update focus cell before starting re-draw
-	int nFocusRow = GetFocusRow();
-	if (nFocusRow >= 0)
-	{
-		CRect itemRect;
-		VERIFY( GetItemRect(nFocusRow, itemRect, LVIR_BOUNDS) );
-		InvalidateRect(itemRect);
-		UpdateWindow();
-	}
-}
 
 //------------------------------------------------------------------------
 //! Scrolls the view, so the column becomes visible
@@ -1300,7 +1306,7 @@ BOOL CGridListCtrlEx::OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (m_FocusCell<=0)
+	if (GetFocusCell()<=0)
 	{
 		// Use the default keyboard search in the label-column
 		CListCtrl::OnChar(nChar, nRepCnt, nFlags);
@@ -1320,7 +1326,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		m_LastSearchString = _T("");
 
 	// Changing cells, resets the search
-	if (m_LastSearchCell!=m_FocusCell)
+	if (m_LastSearchCell!=GetFocusCell())
 		m_LastSearchString = _T("");
 
 	// Changing rows, resets the search
@@ -1330,7 +1336,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (m_LastSearchString.IsEmpty())
 		m_RepeatSearchCount = -1;
 
-	m_LastSearchCell = m_FocusCell;
+	m_LastSearchCell = GetFocusCell();
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
 
 	if ( m_LastSearchString.GetLength()==1
@@ -1351,7 +1357,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	int nRow = GetFocusRow();
 	if (nRow < 0)
 		nRow = 0;
-	int nCol = m_FocusCell;
+	int nCol = GetFocusCell();
 	if (nCol < 0)
 		nCol = GetFirstVisibleColumn();
 
@@ -1618,7 +1624,7 @@ bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 		return false;	// Row selection should not trigger cell edit
 
 	// Begin edit if the same cell is clicked twice
-	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && m_FocusCell==nCol;
+	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && GetFocusCell()==nCol;
 
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
@@ -1849,13 +1855,14 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 
 	// Update the focused cell before calling CListCtrl::OnLButtonDown()
 	// as it might cause a row-repaint
-	m_FocusCell = nCol;
+	SetFocusCell(nCol);
+
 	CListCtrl::OnLButtonDown(nFlags, point);
 	// LVN_BEGINDRAG message can be fired when calling parent OnLButtonDown(),
 	// this should not result in a start edit operation
-	if (m_FocusCell != nCol)
+	if (GetFocusCell() != nCol)
 	{
-		m_FocusCell = nCol;
+		SetFocusCell(nCol);
 		startEdit = false;
 	}
 
@@ -1875,7 +1882,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 
 	// CListCtrl::OnLButtonDown() doesn't always cause a row-repaint
 	// call our own method to ensure the row is repainted
-	UpdateFocusCell(nCol);
+	SetFocusCell(nCol, true);
 
 	if (startEdit)
 	{
@@ -1908,7 +1915,7 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 	{
 		// Update the focused cell before calling CListCtrl::OnRButtonDown()
 		// as it might cause a row-repaint
-		m_FocusCell = nCol;
+		SetFocusCell(nCol);
 	}
 
 	CListCtrl::OnRButtonDown(nFlags, point);
@@ -2291,7 +2298,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 	{
 		// CListCtrl::OnRButtonDown() doesn't always cause a row-repaint
 		// call our own method to ensure the row is repainted
-		UpdateFocusCell(m_FocusCell);
+		SetFocusCell(GetFocusCell(), true);
 
 		CPoint pt = point;
 		ScreenToClient(&pt);
@@ -2835,8 +2842,8 @@ void CGridListCtrlEx::OnCopyToClipboard()
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeader)
 {
-	if (GetSelectedCount()==1 && m_FocusCell!=-1)
-		return OnDisplayToClipboard(GetSelectionMark(), m_FocusCell, strResult);
+	if (GetSelectedCount()==1 && GetFocusCell()!=-1)
+		return OnDisplayToClipboard(GetSelectionMark(), GetFocusCell(), strResult);
 
 	POSITION pos = GetFirstSelectedItemPosition();
 	if (pos==NULL)
@@ -2959,7 +2966,8 @@ namespace {
 
 //------------------------------------------------------------------------
 //! LVN_BEGINDRAG message handler called when performing left-click drag.
-//! Used to perform drag drop from the list control.
+//! Used to perform drag drop from the list control. Override this method
+//! to disable drag drop of rows.
 //!
 //! @param pNMHDR Pointer to an NMLISTVIEW structure specifying the column
 //! @param pResult Not used
@@ -2968,13 +2976,13 @@ namespace {
 BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// Update cell focus to show what is being dragged
-	UpdateFocusCell(m_FocusCell);
+	SetFocusCell(GetFocusCell(), true);
 
 	int nRow = GetFocusRow();
 
 	// Notify that drag operation was started (don't start edit),
 	// also it will ensure the entire row is dragged (and not a single cell)
-	m_FocusCell = -1;
+	SetFocusCell(-1);
 
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
 	pLV;	// Avoid unreferenced variable warning
