@@ -75,16 +75,7 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 		// Before painting a cell
 		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
 		{
-			// Remove the selection color for the focus cell, to make it easier to see focus
 			int nCol = pLVCD->iSubItem;
-			if (pLVCD->nmcd.uItemState & CDIS_SELECTED)
-			{
-				if (owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
-				{
-					if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
-						pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
-				}
-			}
 
 			m_OldTextColor = pLVCD->clrText;
 			m_OldBackColor = pLVCD->clrTextBk;
