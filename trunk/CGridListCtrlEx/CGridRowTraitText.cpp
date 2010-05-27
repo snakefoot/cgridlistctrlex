@@ -16,6 +16,7 @@ CGridRowTraitText::CGridRowTraitText()
 	,m_BackColor((COLORREF)-1)
 	,m_AltTextColor((COLORREF)-1)
 	,m_AltBackColor((COLORREF)-1)
+	,m_InvertCellSelection(true)
 {}
 
 //------------------------------------------------------------------------
@@ -116,6 +117,20 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 	{
 		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
 		{
+			// Remove the selection color for the focus cell, to make it easier to see focus
+			if (m_InvertCellSelection)
+			{
+				int nCol = pLVCD->iSubItem;
+				if (pLVCD->nmcd.uItemState & CDIS_SELECTED)
+				{
+					if (owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
+					{
+						if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
+							pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+					}
+				}
+			}
+
 			// Bug in Vista causes the cell color from previous cell to be used in the next
 			// even if having reverted the cell coloring in subitem-post-paint
 			if (pLVCD->clrText <= RGB(255,255,255) || pLVCD->clrTextBk <= RGB(255,255,255))
@@ -225,14 +240,24 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 
 				VERIFY( owner.GetCellRect(nRow, owner.GetFocusCell(), LVIR_BOUNDS, rcHighlight) );
 
+				int cxborder = ::GetSystemMetrics(SM_CXBORDER);
+
+				// When the label column is placed first it has a left-margin 
+				if (owner.GetFocusCell()==0 && owner.GetFocusCell()==owner.GetFirstVisibleColumn())
+				{
+					rcHighlight.left += cxborder*2;
+				}
+				else
+				// Prevent focus rectangle to overlap with cell-image (Only room for this when not first column)
+				if (owner.GetFirstVisibleColumn()!=owner.GetFocusCell())
+				{
+					rcHighlight.left -= cxborder;
+				}
+
 				// Adjust rectangle according to grid-lines
 				if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 				{
-					int cxborder = ::GetSystemMetrics(SM_CXBORDER);
 					rcHighlight.bottom -= cxborder;
-					// First column doesn't have a left-grid border
-					if (owner.GetFirstVisibleColumn()!=owner.GetFocusCell())
-						rcHighlight.left += cxborder;
 				}
 
 				pDC->DrawFocusRect(rcHighlight);
