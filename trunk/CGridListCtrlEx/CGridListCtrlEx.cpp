@@ -1191,6 +1191,9 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		} break;
 		case VK_SPACE:
 		{
+			if (GetKeyState(VK_CONTROL) < 0)
+				break;
+
 			if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
 			{
 				// Toggle checkbox for virtual list with checkbox style
