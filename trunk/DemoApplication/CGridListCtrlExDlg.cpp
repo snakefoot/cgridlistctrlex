@@ -143,7 +143,6 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			CGridColumnTraitDateTime* pDateTimeTrait = new CGridColumnTraitDateTime;
 			pDateTimeTrait->AddImageIndex(nStateImageIdx, _T(""), false);		// Unchecked (and not editable)
 			pDateTimeTrait->AddImageIndex(nStateImageIdx+1, COleDateTime(1970,1,1,0,0,0).Format(), true);	// Checked (and editable)
-			//pDateTimeTrait->SetFormat("yyyy-mm-dd");
 			pTrait = pDateTimeTrait;
 		}
 
@@ -169,7 +168,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 					m_ListCtrl.SetCellImage(nItem, nCellCol, nStateImageIdx+1);	// checked
 			}
 		}
-		m_ListCtrl.SetCellImage(rowId, 1, rowId);	// Assign flag-images
+		m_ListCtrl.SetCellImage(nItem, 1, nItem); // Assign flag-images
 	}
 
 	CGridColumnManagerProfile* pColumnProfile = new CGridColumnManagerProfile(_T("Sample List"));
