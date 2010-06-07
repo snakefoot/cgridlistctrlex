@@ -1050,37 +1050,43 @@ namespace {
 		CRect iconRect(0, 0, 16, 16);
 		newbmp.CreateCompatibleBitmap(pDC, iconRect.Height(), iconRect.Width());
 
-		//create a black brush
-		CBrush brush;
-		brush.CreateSolidBrush(RGB(0, 0, 0));
-
 		//select the bitmap in the memory dc
 		CBitmap *pOldBitmap = memDC.SelectObject(&newbmp);
 
 		//make the bitmap white to begin with
 		memDC.FillSolidRect(iconRect.top,iconRect.left,iconRect.bottom,iconRect.right,::GetSysColor(COLOR_3DFACE));
 
-		//draw a rectangle using the brush
-		CBrush *pOldBrush = memDC.SelectObject(&brush);
-		if (bAscending)
+		// Set up pens to use for drawing the triangle
+		CPen penLight(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
+		CPen penShadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
+		CPen *pOldPen = memDC.SelectObject( &penLight );
+
+		CRect rcIcon(0, 0, 16, 16);
+		int iOffset = (rcIcon.bottom - rcIcon.top) / 4;
+
+		if( bAscending )
 		{
-			// Arrow pointing up
-			CPoint Pt[3];
-			Pt[0] = CPoint(7,  5);	// Top
-			Pt[1] = CPoint(4,  8);	// Left
-			Pt[2] = CPoint(10,  8);	// Right
-			memDC.Polygon(Pt, 3);
+			// draw the arrow pointing upwards.
+			memDC.MoveTo( rcIcon.right - 2 * iOffset, iOffset);
+			memDC.LineTo( rcIcon.right - iOffset, rcIcon.bottom - iOffset - 1 );
+			memDC.LineTo( rcIcon.right - 3 * iOffset - 2, rcIcon.bottom - iOffset - 1 );
+			(void)memDC.SelectObject( &penShadow );
+			memDC.MoveTo( rcIcon.right - 3 * iOffset - 1, rcIcon.bottom - iOffset - 1 );
+			memDC.LineTo( rcIcon.right - 2 * iOffset, iOffset - 1);		
 		}
 		else
 		{
-			// Arrow pointing down
-			CPoint Pt[3];
-			Pt[0] = CPoint(10, 6);	// Right
-			Pt[1] = CPoint(4, 6);	// Left
-			Pt[2] = CPoint(7, 9);	// Bottom
-			memDC.Polygon(Pt, 3);
+			// draw the arrow pointing downwards.
+			memDC.MoveTo( rcIcon.right - iOffset - 1, iOffset );
+			memDC.LineTo( rcIcon.right - 2 * iOffset - 1, rcIcon.bottom - iOffset );
+			(void)memDC.SelectObject( &penShadow );
+			memDC.MoveTo( rcIcon.right - 2 * iOffset - 2, rcIcon.bottom - iOffset );
+			memDC.LineTo( rcIcon.right - 3 * iOffset - 1, iOffset );
+			memDC.LineTo( rcIcon.right - iOffset - 1, iOffset );		
 		}
-		memDC.SelectObject(pOldBrush);
+
+		// Restore the pen
+		memDC.SelectObject(pOldPen);
 
 		//select old bitmap back into the memory dc
 		memDC.SelectObject(pOldBitmap);
