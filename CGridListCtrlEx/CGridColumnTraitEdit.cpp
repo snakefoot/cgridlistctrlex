@@ -111,9 +111,9 @@ CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nC
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
-	// Check if the user clicked the cell icon
-	CRect iconRect;
-	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+	// Check if the user clicked the label
+	CRect labelRect;
+	if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
 		return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt);
 
 	// Get position of the cell to edit

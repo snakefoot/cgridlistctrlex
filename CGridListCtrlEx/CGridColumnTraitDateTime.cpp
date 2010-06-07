@@ -117,9 +117,9 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
-	// Check if the user clicked the cell icon
-	CRect iconRect;
-	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+	// Check if the user clicked the label
+	CRect labelRect;
+	if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
 		return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt);
 
 	// Convert cell-text to date/time format
