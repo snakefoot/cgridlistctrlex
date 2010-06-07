@@ -172,11 +172,12 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
+//! @param bDblClick Whether the position was double clicked
 //------------------------------------------------------------------------
-bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
+bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
 {
 	// Begin edit if the cell has focus already
-	bool startEdit = nRow!=-1 && nCol!=-1 && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol;
+	bool startEdit = nRow!=-1 && nCol!=-1 && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol && !bDblClick;
 
 	// Check if the cell can be edited without having focus first
 	if (!GetColumnState().m_EditFocusFirst)

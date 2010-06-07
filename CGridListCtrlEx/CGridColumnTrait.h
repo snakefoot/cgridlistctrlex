@@ -43,7 +43,7 @@ public:
 	//! @param nRow The index of the row
 	//! @param nCol The index of the column
 	//! @param pt The position clicked, in client coordinates.
-	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return false; }
+	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick) { return false; }
 
 	//! Override OnEditBegin() to provide your own special cell-edit control.
 	//!   - The edit control must inherit from CWnd

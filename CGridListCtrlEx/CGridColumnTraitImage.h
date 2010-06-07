@@ -31,7 +31,7 @@ public:
 	
 protected:
 	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const;
-	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
+	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);
