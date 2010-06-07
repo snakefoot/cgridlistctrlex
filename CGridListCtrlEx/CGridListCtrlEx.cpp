@@ -712,7 +712,7 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 	if (GetStyle() & LVS_OWNERDATA)
 		return true;
 
-	LV_ITEM lvi = {0};
+	LVITEM lvi = {0};
 	lvi.iItem = nRow;
 	lvi.iSubItem = nCol;
 	lvi.mask = LVIF_TEXT | LVIF_NORECOMPUTE;
@@ -729,7 +729,7 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 {
-	LV_ITEM lvi = {0};
+	LVITEM lvi = {0};
 	lvi.iItem = nRow;
 	lvi.iSubItem = nCol;
 	lvi.mask = LVIF_IMAGE;
@@ -747,7 +747,7 @@ int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 {
-	LV_ITEM lvitem = {0};
+	LVITEM lvitem = {0};
 	lvitem.mask = LVIF_IMAGE;
 	lvitem.iItem = nRow;
 	lvitem.iSubItem = nCol;
@@ -1810,7 +1810,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 			// Handle situation where data is stored inside the CListCtrl
 			if (!(GetStyle() & LVS_OWNERDATA))
 			{
-				LV_ITEM lvi = {0};
+				LVITEM lvi = {0};
 				lvi.iItem = nRow;
 				lvi.iSubItem = nCol;
 				lvi.mask = LVIF_IMAGE | LVIF_NORECOMPUTE;
@@ -2719,11 +2719,29 @@ namespace {
 	{
 		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
 
-		TCHAR left[256] = _T(""), right[256] = _T("");
-		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left)/sizeof(TCHAR) );
-		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right)/sizeof(TCHAR) );
+		TCHAR leftText[256] = _T(""), rightText[256] = _T("");
 
-		return ps.m_pTrait->OnSortRows(left, right, ps.m_Ascending);
+		LVITEM leftItem = {0};
+		leftItem.iItem = lParam1;
+		leftItem.iSubItem = ps.m_ColumnIndex;
+		leftItem.mask = LVIF_IMAGE | LVIF_TEXT;
+		leftItem.pszText = leftText;
+		leftItem.cchTextMax = sizeof(leftText)/sizeof(TCHAR);
+		ListView_GetItem(ps.m_hWnd, &leftItem);
+
+		LVITEM rightItem = {0};
+		rightItem.iItem = lParam2;
+		rightItem.iSubItem = ps.m_ColumnIndex;
+		rightItem.mask = LVIF_IMAGE | LVIF_TEXT;
+		rightItem.pszText = rightText;
+		rightItem.cchTextMax = sizeof(rightText)/sizeof(TCHAR);
+		ListView_GetItem(ps.m_hWnd, &rightItem);
+
+		int imageSort = ps.m_pTrait->OnSortRows(leftItem.iImage, rightItem.iImage, ps.m_Ascending);
+		if (imageSort!=0)
+			return imageSort;
+
+		return ps.m_pTrait->OnSortRows(leftText, rightText, ps.m_Ascending);
 	}
 }
 

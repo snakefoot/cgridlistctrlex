@@ -10,11 +10,11 @@
 //! CGridColumnTraitImage - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitImage::CGridColumnTraitImage()
+:m_SortImageIndex(false)
 {
 	// Checkbox should be flipped without needing cell-focus first
 	m_ColumnState.m_EditFocusFirst = false;
 }
-
 
 //------------------------------------------------------------------------
 //! CGridColumnTraitImage - Constructor
@@ -23,11 +23,22 @@ CGridColumnTraitImage::CGridColumnTraitImage()
 //! @param nImageCount The number of images to switch between in the imagelist
 //------------------------------------------------------------------------
 CGridColumnTraitImage::CGridColumnTraitImage(int nImageIndex, int nImageCount)
+:m_SortImageIndex(false)
 {
 	// Checkbox should be flipped without needing cell-focus first
 	m_ColumnState.m_EditFocusFirst = false;
 	for(int i = nImageIndex; i < nImageIndex + nImageCount; ++i)
 		AddImageIndex(i);
+}
+
+//------------------------------------------------------------------------
+//! Should primary sorting be based on the image index (checkbox sorting)
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::SetSortImageIndex(bool bValue)
+{
+	m_SortImageIndex = bValue;
 }
 
 //------------------------------------------------------------------------
@@ -121,6 +132,26 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
 
 	return imageCount;
+}
+
+//------------------------------------------------------------------------
+//! Compares two cell values according to checkbox state
+//!
+//! @param nLeftImageIdx Left image index
+//! @param nRightImageIdx Right image index
+//! @param bAscending Perform sorting in ascending or descending order
+//! @return Is left value less than right value (-1) or equal (0) or larger (1)
+//------------------------------------------------------------------------
+int CGridColumnTraitImage::OnSortRows(int nLeftImageIdx, int nRightImageIdx, bool bAscending)
+{
+	if (m_SortImageIndex)
+	{
+		if (bAscending)
+			return nLeftImageIdx - nRightImageIdx;
+		else
+			return nRightImageIdx - nLeftImageIdx;
+	}
+	return 0;
 }
 
 //------------------------------------------------------------------------

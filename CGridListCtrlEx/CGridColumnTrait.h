@@ -68,6 +68,14 @@ public:
 	//! @return Is left value less than right value (-1) or equal (0) or larger (1)
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending) { return 0; }
 
+	//! Override OnSortRows() to provide your own special row sorting
+	//!
+	//! @param nLeftImageIdx Left image index
+	//! @param nRightImageIdx Right image index
+	//! @param bAscending Perform sorting in ascending or descending order
+	//! @return Is left value less than right value (-1) or equal (0) or larger (1)
+	virtual int OnSortRows(int nLeftImageIdx, int nRightImageIdx, bool bAscending) { return 0; }
+
 	//! Override Accept() and update CGridColumnTraitVisitor for new column-trait classes.
 	//!   - Will enable the use of the visitor-pattern ex. for serialization of column-traits
 	virtual void Accept(CGridColumnTraitVisitor& visitor) {}

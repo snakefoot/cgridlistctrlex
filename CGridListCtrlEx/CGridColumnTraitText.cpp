@@ -151,7 +151,7 @@ int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue
 //------------------------------------------------------------------------
 //! Should cell values be compared as numbers when sorting
 //!
-//! @param bValue Left cell value
+//! @param bValue Enabled / Disabled
 //------------------------------------------------------------------------
 void CGridColumnTraitText::SetSortFormatNumber(bool bValue)
 {
