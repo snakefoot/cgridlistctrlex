@@ -2720,8 +2720,8 @@ namespace {
 		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
 
 		TCHAR left[256] = _T(""), right[256] = _T("");
-		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left));
-		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right));
+		ListView_GetItemText(ps.m_hWnd, lParam1, ps.m_ColumnIndex, left, sizeof(left)/sizeof(TCHAR) );
+		ListView_GetItemText(ps.m_hWnd, lParam2, ps.m_ColumnIndex, right, sizeof(right)/sizeof(TCHAR) );
 
 		return ps.m_pTrait->OnSortRows(left, right, ps.m_Ascending);
 	}
