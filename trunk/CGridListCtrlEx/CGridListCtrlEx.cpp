@@ -125,6 +125,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
 	ON_WM_RBUTTONDOWN()	// OnRButtonDown(UINT nFlags, CPoint point)
+	ON_WM_LBUTTONDBLCLK() // OnLButtonDblClk
 	ON_WM_HSCROLL()		// OnHScroll
 	ON_WM_VSCROLL()		// OnVScroll
 	ON_WM_CHAR()		// OnChar (Keyboard search)
@@ -1618,8 +1619,9 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
+//! @param bDblClick Whether the position was double clicked
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
+bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick)
 {
 	if (GetKeyState(VK_CONTROL) < 0)
 		return false;	// Row selection should not trigger cell edit
@@ -1627,7 +1629,7 @@ bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 		return false;	// Row selection should not trigger cell edit
 
 	// Begin edit if the same cell is clicked twice
-	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && GetFocusCell()==nCol;
+	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && GetFocusCell()==nCol && !bDblClick;
 
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
@@ -1636,7 +1638,7 @@ bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt)
 	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
 		return false;
 
-	if (!pTrait->OnClickEditStart(*this, nRow, nCol, pt))
+	if (!pTrait->OnClickEditStart(*this, nRow, nCol, pt, bDblClick))
 		return false;
 
 	return true;
@@ -1826,6 +1828,28 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 }
 
 //------------------------------------------------------------------------
+//! The WM_LBUTTONDBLCLK message is posted when the user double-clicks the
+//! left mouse button while the cursor is in the client area of a window
+//! Used to flip the checkbox image even when double-clicking.
+//! If wanting to handle the double-click event, then one should use NM_DBLCLK
+//!
+//! @param nFlags Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.)
+//! @param point Mouse cursor position relative to the upper-left corner of the client area.
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// Find out what subitem was clicked
+	int nRow, nCol;
+	CellHitTest(point, nRow, nCol);
+	if (nRow!=-1)
+	{
+		if (OnClickEditStart(nRow, nCol, point, true))
+			EditCell(nRow, nCol, point);
+	}
+	CListCtrl::OnLButtonDblClk(nFlags, point);
+}
+
+//------------------------------------------------------------------------
 //! WM_LBUTTONDOWN message handler called when the user presses the left
 //! mouse button while the cursor is in the client area of a window.
 //! Used to activate the cell editor of the cell clicked using the mouse.
@@ -1854,7 +1878,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 
 	if (startEdit)
-		startEdit = OnClickEditStart(nRow, nCol, point);
+		startEdit = OnClickEditStart(nRow, nCol, point, false);
 
 	// Update the focused cell before calling CListCtrl::OnLButtonDown()
 	// as it might cause a row-repaint

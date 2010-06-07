@@ -196,7 +196,7 @@ protected:
 	virtual void OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 
 	// Cell editing handlers
-	virtual bool OnClickEditStart(int nRow, int nCol, CPoint pt);
+	virtual bool OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(int nRow, int nCol, CPoint pt);
 	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
@@ -230,6 +230,7 @@ protected:
 	virtual afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	virtual afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg LRESULT OnSetColumnWidth(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
