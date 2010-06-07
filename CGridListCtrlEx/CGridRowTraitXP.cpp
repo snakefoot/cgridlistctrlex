@@ -134,9 +134,25 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			COLORREF oldBkColor = pImageList->SetBkColor(backColor);
 			pImageList->Draw (	pDC,  
 								nImage,  
-								rcIcon.TopLeft(),  
+								rcIcon.TopLeft(),
 								ILD_NORMAL );
 			pImageList->SetBkColor(oldBkColor);
+
+			if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+			{
+				CImageList* pImageList = owner.GetImageList(LVSIL_STATE);
+				if (pImageList==NULL)
+					break;
+
+				int checkState = owner.GetCheck(nRow);
+				COLORREF oldBkColor = pImageList->SetBkColor(backColor);
+				pImageList->Draw (	pDC,  
+									checkState,  
+									rcCell.TopLeft(),
+									ILD_NORMAL );
+				pImageList->SetBkColor(oldBkColor);
+			}
+
 		} break;
 	}
 
