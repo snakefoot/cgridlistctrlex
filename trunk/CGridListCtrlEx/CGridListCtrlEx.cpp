@@ -1049,21 +1049,20 @@ namespace {
 
 		//Create a memory bitmap
 		CBitmap newbmp;
-		CRect iconRect(0, 0, 16, 16);
-		newbmp.CreateCompatibleBitmap(pDC, iconRect.Height(), iconRect.Width());
+		CRect rcIcon(0, 0, 16, 16);
+		newbmp.CreateCompatibleBitmap(pDC, rcIcon.Height(), rcIcon.Width());
 
 		//select the bitmap in the memory dc
 		CBitmap *pOldBitmap = memDC.SelectObject(&newbmp);
 
 		//make the bitmap white to begin with
-		memDC.FillSolidRect(iconRect.top,iconRect.left,iconRect.bottom,iconRect.right,::GetSysColor(COLOR_3DFACE));
+		memDC.FillSolidRect(rcIcon.top,rcIcon.left,rcIcon.bottom,rcIcon.right,::GetSysColor(COLOR_3DFACE));
 
 		// Set up pens to use for drawing the triangle
 		CPen penLight(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
 		CPen penShadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
 		CPen *pOldPen = memDC.SelectObject( &penLight );
 
-		CRect rcIcon(0, 0, 16, 16);
 		int iOffset = (rcIcon.bottom - rcIcon.top) / 4;
 
 		if( bAscending )
