@@ -110,6 +110,8 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_EX(HDN_BEGINTRACKW, 0, OnHeaderBeginResize)
 	ON_NOTIFY_EX(HDN_ENDTRACKA, 0, OnHeaderEndResize)
 	ON_NOTIFY_EX(HDN_ENDTRACKW, 0, OnHeaderEndResize)
+	ON_NOTIFY_EX(HDN_ITEMCHANGINGA, 0, OnHeaderItemChanging)
+	ON_NOTIFY_EX(HDN_ITEMCHANGINGW, 0, OnHeaderItemChanging)
 	ON_NOTIFY_EX(HDN_BEGINDRAG, 0, OnHeaderBeginDrag)
 	ON_NOTIFY_EX(HDN_ENDDRAG, 0, OnHeaderEndDrag)
 	ON_NOTIFY_EX(HDN_DIVIDERDBLCLICKA, 0, OnHeaderDividerDblClick)
@@ -1437,7 +1439,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 	int nColItemData = GetColumnData(nCol);
 	nColItemData;	// Avoid unreferenced variable warning
-	int nRowItemData = (int)GetItemData(nRow);
+	DWORD_PTR nRowItemData = GetItemData(nRow);
 	nRowItemData;	// Avoid unreferenced variable warning
 
 	if(pNMW->item.mask & LVIF_TEXT)
@@ -2590,7 +2592,7 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 
 	// Check that column is allowed to be resized
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
-	int nCol = (int)pNMH->iItem;
+	int nCol = pNMH->iItem;
 
 	if (!IsColumnVisible(nCol))
 	{
@@ -2617,7 +2619,54 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
+	// When "Show window contents while dragging" is diabled, then we don't get
+	// HDN_ITEMCHANGING notifications. We fix this by calling it after the drag
+	// completed.
+	OnHeaderItemChanging(0, pNMHDR, pResult);
 	m_pColumnManager->OnColumnResize(*this);
+	return FALSE;
+}
+
+
+//------------------------------------------------------------------------
+//! HDN_ITEMCHANGING message handler called during column resize. Used to
+//! enforce column max and min width.
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
+//! @param pResult Returns FALSE to allow the changes, or TRUE to prevent them.
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// Check if the column have a minimum width
+	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
+	
+	if (pNMH->pitem->mask & HDI_WIDTH)
+	{
+		int nCol = pNMH->iItem;
+		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+		if (pTrait==NULL)
+			return FALSE;
+
+		if (pTrait->GetColumnState().m_MinWidth >= 0)
+		{
+			if (pNMH->pitem->cxy < pTrait->GetColumnState().m_MinWidth)
+			{
+				pNMH->pitem->cxy = pTrait->GetColumnState().m_MinWidth;
+				return FALSE;
+			}
+		}
+
+		if (pTrait->GetColumnState().m_MaxWidth >= 0)
+		{
+			if (pNMH->pitem->cxy > pTrait->GetColumnState().m_MaxWidth)
+			{
+				pNMH->pitem->cxy = pTrait->GetColumnState().m_MaxWidth;
+				return FALSE;
+			}
+		}
+	}
+
 	return FALSE;
 }
 

@@ -103,6 +103,8 @@ public:
 			,m_EditFocusFirst(true)
 			,m_Resizable(true)
 			,m_MetaFlags(0)
+			,m_MinWidth(-1)
+			,m_MaxWidth(-1)
 		{}
 		bool m_Visible;		//!< Column is visible or not
 		int  m_OrgWidth;	//!< Width it had before being hidden
@@ -113,6 +115,8 @@ public:
 		bool m_Editable;	//!< Cells in the column can be edited
 		bool m_EditFocusFirst;//!< Cells needs focus before edit mode can start
 		bool m_Resizable;	//!< Column width is resizable
+		int  m_MinWidth;	//!< Column width has a min size
+		int  m_MaxWidth;	//!< Column width has a max size
 
 		//! Meta-Flags (and data) can be used to store extra properties for a column
 		//! when deriving from CGridListCtrlEx.
