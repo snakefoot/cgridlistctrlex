@@ -19,6 +19,9 @@ class CGridListCtrlGroups : public CGridListCtrlEx
 public:
 // WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
+
+// VS2008 Marks group-mode functionality as deprecated if not Unicode build (define CGRIDLISTCTRLEX_GROUPMODE in stdafx.h to avoid this check)
+#if _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
 	CGridListCtrlGroups();
 
 	virtual LRESULT InsertGroupHeader(int nIndex, int nGroupId, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
@@ -91,5 +94,6 @@ public:
 	BOOL HasGroup(int iGroupId) const;
 	BOOL IsGroupViewEnabled() const;
 #endif	// _MSC_VER < 1300
+#endif	// _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
 #endif	// _WIN32_WINNT >= 0x0501
 };
