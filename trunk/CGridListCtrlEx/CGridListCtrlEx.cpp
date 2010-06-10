@@ -1104,9 +1104,9 @@ namespace {
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 {
-#if (_WIN32_WINNT >= 0x501)
 	if (IsCommonControlsEnabled())
 	{
+#if (_WIN32_WINNT >= 0x501)
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			HDITEM hditem = {0};
@@ -1119,9 +1119,9 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 			}
 			VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 		}
+#endif
 	}
 	else
-#endif
 	{
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
@@ -1626,6 +1626,7 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 //! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
 //! @param bDblClick Whether the position was double clicked
+//! @return Should cell editing be activated ? (true / false)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick)
 {
@@ -1829,7 +1830,8 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 	// Editor Control automatically kills themselves after posting this message
 	m_pEditor = NULL;
-	SetFocus();
+	if( GetFocus() != this )
+		SetFocus();
 	return FALSE;		// Parent dialog should get a chance
 }
 
