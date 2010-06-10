@@ -1104,10 +1104,9 @@ namespace {
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 {
-	if (IsThemeEnabled())
-	{
 #if (_WIN32_WINNT >= 0x501)
-		TRACE(_T("theme enabled\n"));
+	if (IsCommonControlsEnabled())
+	{
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			HDITEM hditem = {0};
@@ -1120,9 +1119,9 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 			}
 			VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
 		}
-#endif
 	}
 	else
+#endif
 	{
 		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
