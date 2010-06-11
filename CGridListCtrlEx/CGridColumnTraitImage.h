@@ -28,13 +28,14 @@ public:
 	void SetImageText(int nImageIdx, const CString& strImageText, bool bEditable = true);
 
 	void SetSortImageIndex(bool bValue);
+	void SetToggleSelection(bool bValue);
 
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
 protected:
 	virtual int OnSortRows(int nLeftImageIdx, int nRightImageIdx, bool bAscending);
 	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const;
-	virtual bool OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick);
+	virtual int OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);
@@ -52,4 +53,5 @@ protected:
 	CSimpleMap<int,ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
 
 	bool m_SortImageIndex;
+	bool m_ToggleSelection;
 };
