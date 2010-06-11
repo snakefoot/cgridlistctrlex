@@ -143,6 +143,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			CGridColumnTraitDateTime* pDateTimeTrait = new CGridColumnTraitDateTime;
 			pDateTimeTrait->AddImageIndex(nStateImageIdx, _T(""), false);		// Unchecked (and not editable)
 			pDateTimeTrait->AddImageIndex(nStateImageIdx+1, COleDateTime(1970,1,1,0,0,0).Format(), true);	// Checked (and editable)
+			pDateTimeTrait->SetToggleSelection(true);
 			pTrait = pDateTimeTrait;
 		}
 
