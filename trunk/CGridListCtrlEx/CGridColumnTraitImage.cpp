@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------
 CGridColumnTraitImage::CGridColumnTraitImage()
 :m_SortImageIndex(false)
+,m_ToggleSelection(false)
 {
 	// Checkbox should be flipped without needing cell-focus first
 	m_ColumnState.m_EditFocusFirst = false;
@@ -24,6 +25,7 @@ CGridColumnTraitImage::CGridColumnTraitImage()
 //------------------------------------------------------------------------
 CGridColumnTraitImage::CGridColumnTraitImage(int nImageIndex, int nImageCount)
 :m_SortImageIndex(false)
+,m_ToggleSelection(false)
 {
 	// Checkbox should be flipped without needing cell-focus first
 	m_ColumnState.m_EditFocusFirst = false;
@@ -39,6 +41,17 @@ CGridColumnTraitImage::CGridColumnTraitImage(int nImageIndex, int nImageCount)
 void CGridColumnTraitImage::SetSortImageIndex(bool bValue)
 {
 	m_SortImageIndex = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Should images (checkboxes) be flipped for all selected rows, when
+//! icon is clicked.
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::SetToggleSelection(bool bValue)
+{
+	m_ToggleSelection = bValue;
 }
 
 //------------------------------------------------------------------------
@@ -204,8 +217,9 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 //! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
 //! @param bDblClick Whether the position was double clicked
+//! @return How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event)
 //------------------------------------------------------------------------
-bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
+int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
 {
 	// Begin edit if the cell has focus already
 	bool startEdit = nRow!=-1 && nCol!=-1 && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol && !bDblClick;
@@ -213,17 +227,34 @@ bool CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, i
 	// Check if the cell can be edited without having focus first
 	if (!GetColumnState().m_EditFocusFirst)
 	{
+		if (nCol==0 && m_ToggleSelection && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+		{
+			CRect iconRect;
+			if (!owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) || !iconRect.PtInRect(pt))
+			{
+				CRect labelRect;
+				if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
+					return 1;	// Clicked the checkbox for the label-column
+			}
+		}
+
 		if (m_ImageIndexes.GetSize()==0)
-			return startEdit;	// No images to flip between
+			return startEdit ? 1 : 0;	// No images to flip between
 
-		CRect rect;
-		if (!owner.GetCellRect(nRow, nCol, LVIR_ICON, rect) || !rect.PtInRect(pt))
-			return startEdit;	// Didn't click the image icon
+		if (bDblClick && !m_ToggleSelection)
+			return startEdit ? 1 : 0;	// Only react to double-click when in checkbox-mode
 
-		return true;
+		CRect iconRect;
+		if (!owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) || !iconRect.PtInRect(pt))
+			return startEdit ? 1 : 0;	// Didn't click the image icon
+
+		if (m_ToggleSelection)
+			return 2;	// Don't change focus or change selection
+		else
+			return 1;
 	}
 
-	return startEdit;
+	return startEdit ? 1 : 0;
 }
 
 //------------------------------------------------------------------------
@@ -308,6 +339,88 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		}
 
 		owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+
+		// Toggle all selected rows to the same image index as the one clicked
+		if (m_ToggleSelection)
+		{
+			// The click event for check-boxes doesn't change selection or focus
+			if (owner.IsRowSelected(nRow))
+			{
+				POSITION pos = owner.GetFirstSelectedItemPosition();
+				while(pos!=NULL)
+				{
+					int nSelectedRow = owner.GetNextSelectedItem(pos);
+					if (nSelectedRow==nRow)
+						continue;	// Don't flip the clicked row
+
+					int nOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
+					if (nOldImageIdx==nNewImageIdx)
+						continue;	// Already flipped
+
+					// Send Notification to parent of ListView ctrl
+					LV_DISPINFO dispinfo = {0};
+					dispinfo.hdr.hwndFrom = owner.m_hWnd;
+					dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
+					dispinfo.hdr.code = LVN_ENDLABELEDIT;
+
+					dispinfo.item.iItem = nSelectedRow;
+					dispinfo.item.iSubItem = nCol;
+					dispinfo.item.mask = LVIF_IMAGE;
+					dispinfo.item.iImage = nNewImageIdx;
+
+					if (strNewImageText!=strOldImageText)
+					{
+						dispinfo.item.mask |= LVIF_TEXT;
+						dispinfo.item.pszText = strNewImageText.GetBuffer(0);
+						dispinfo.item.cchTextMax = strNewImageText.GetLength();
+					}
+
+					owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+				}
+			}
+		}
+	}
+	else if (nCol==0 && m_ToggleSelection && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+	{
+		// Check if we should toggle the label-column checkboxes for all the selected rows
+		CRect labelRect;
+		if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
+		{
+			// The click event for check-boxes doesn't change selection or focus
+			if (owner.IsRowSelected(nRow))
+			{
+				BOOL bChecked = FALSE;
+				if (owner.GetStyle() & LVS_OWNERDATA)
+					bChecked = owner.OnOwnerDataDisplayCheckbox(nRow) ? TRUE : FALSE;
+				else
+					bChecked = owner.GetCheck(nRow);	// The clicked row have already been changed by the click-event. We flip the other rows
+
+				POSITION pos = owner.GetFirstSelectedItemPosition();
+				while(pos!=NULL)
+				{
+					int nSelectedRow = owner.GetNextSelectedItem(pos);
+					if (nSelectedRow==nRow)
+						continue;	// Don't flip the clicked row
+
+					if (owner.GetStyle() & LVS_OWNERDATA)
+					{
+						BOOL bSelChecked = owner.OnOwnerDataDisplayCheckbox(nSelectedRow) ? TRUE : FALSE;
+						if (bChecked==bSelChecked)
+							continue;	// Already flipped
+					}
+					else
+					{
+						if (owner.GetCheck(nSelectedRow)==bChecked)
+							continue;	// Already flipped
+					}
+
+					if (owner.GetStyle() & LVS_OWNERDATA)
+						owner.OnOwnerDataToggleCheckBox(nSelectedRow);
+					else
+						owner.SetCheck(nSelectedRow, bChecked);
+				}
+			}
+		}
 	}
 	return NULL;	// Editor is never really started
 }

@@ -1626,29 +1626,26 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 //! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
 //! @param bDblClick Whether the position was double clicked
-//! @return Should cell editing be activated ? (true / false)
+//! @return How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event)
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick)
+int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick)
 {
 	if (GetKeyState(VK_CONTROL) < 0)
-		return false;	// Row selection should not trigger cell edit
+		return 0;	// Row selection should not trigger cell edit
 	if (GetKeyState(VK_SHIFT) < 0)
-		return false;	// Row selection should not trigger cell edit
+		return 0;	// Row selection should not trigger cell edit
 
 	// Begin edit if the same cell is clicked twice
 	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && GetFocusCell()==nCol && !bDblClick;
 
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
-		return startEdit;
+		return startEdit ? 1 : 0;
 
 	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
-		return false;
+		return 0;
 
-	if (!pTrait->OnClickEditStart(*this, nRow, nCol, pt, bDblClick))
-		return false;
-
-	return true;
+	return pTrait->OnClickEditStart(*this, nRow, nCol, pt, bDblClick);
 }
 
 //------------------------------------------------------------------------
@@ -1846,15 +1843,19 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	// Find out what subitem was clicked
+	int startEdit = 0;
+
+	// Find out what subitem was double-clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
 	if (nRow!=-1)
-	{
-		if (OnClickEditStart(nRow, nCol, point, true))
-			EditCell(nRow, nCol, point);
-	}
-	CListCtrl::OnLButtonDblClk(nFlags, point);
+		startEdit = OnClickEditStart(nRow, nCol, point, true);
+
+	if (startEdit!=2)
+		CListCtrl::OnLButtonDblClk(nFlags, point);
+
+	if (startEdit!=0)
+		EditCell(nRow, nCol, point);
 }
 
 //------------------------------------------------------------------------
@@ -1867,9 +1868,9 @@ void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	bool startEdit = true;
+	int startEdit = 1;
 	if (IsCellEditorOpen())
-		startEdit = false;	// If the cell-editor is already open, then it should just be closed
+		startEdit = 0;	// If the cell-editor is already open, then it should just be closed
 
 	if( GetFocus() != this )
 		SetFocus();	// Force focus to finish editing
@@ -1885,41 +1886,45 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	if (startEdit)
+	if (startEdit!=0)
 		startEdit = OnClickEditStart(nRow, nCol, point, false);
 
-	// Update the focused cell before calling CListCtrl::OnLButtonDown()
-	// as it might cause a row-repaint
-	SetFocusCell(nCol);
-
-	CListCtrl::OnLButtonDown(nFlags, point);
-	// LVN_BEGINDRAG message can be fired when calling parent OnLButtonDown(),
-	// this should not result in a start edit operation
-	if (GetFocusCell() != nCol)
+	if (startEdit!=2)
 	{
+		// Update the focused cell before calling CListCtrl::OnLButtonDown()
+		// as it might cause a row-repaint
 		SetFocusCell(nCol);
-		startEdit = false;
-	}
 
-	// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
-	if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
-	{
-		if (nRow!=GetFocusRow())
+		CListCtrl::OnLButtonDown(nFlags, point);
+
+		// LVN_BEGINDRAG message can be fired when calling parent OnLButtonDown(),
+		// this should not result in a start edit operation
+		if (GetFocusCell() != nCol)
 		{
-			SetFocusRow(nRow);
-			if (!(GetKeyState(VK_CONTROL) < 0) && !(GetKeyState(VK_SHIFT) < 0))
+			SetFocusCell(nCol);
+			startEdit = 0;
+		}
+
+		// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
+		if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
+		{
+			if (nRow!=GetFocusRow())
 			{
-				SelectRow(-1, false);
-				SelectRow(nRow, true);
+				SetFocusRow(nRow);
+				if (!(GetKeyState(VK_CONTROL) < 0) && !(GetKeyState(VK_SHIFT) < 0))
+				{
+					SelectRow(-1, false);
+					SelectRow(nRow, true);
+				}
 			}
 		}
+
+		// CListCtrl::OnLButtonDown() doesn't always cause a row-repaint
+		// call our own method to ensure the row is repainted
+		SetFocusCell(nCol, true);
 	}
 
-	// CListCtrl::OnLButtonDown() doesn't always cause a row-repaint
-	// call our own method to ensure the row is repainted
-	SetFocusCell(nCol, true);
-
-	if (startEdit)
+	if (startEdit!=0)
 	{
 		// This will steal the double-click event when double-clicking a cell that already have focus,
 		// but we cannot guess after the first click, whether the user will click a second time.
