@@ -945,24 +945,74 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 	if (bShow)
 	{
-		// Restore the position of the column
-		int nCurIndex = -1;
-		for(int i = 0; i < nColCount ; ++i)
+		if (columnState.m_OrgPosition==-1)
 		{
-			if (pOrderArray[i]==nCol)
-				nCurIndex = i;
-			else
-			if (nCurIndex!=-1)
+			// Restore the default position of the column (No column drag drop)
+			columnState.m_OrgPosition = nCol;
+
+			int nCurIndex = -1;
+			for(int i = 0; i < nColCount ; ++i)
 			{
-				// We want to move it to the original position,
-				// and after the last hidden column
-				if ( (i <= columnState.m_OrgPosition)
-				  || !IsColumnVisible(pOrderArray[i])
-				   )
+				if (pOrderArray[i]==nCol)
+				{
+					nCurIndex = i;
+				}
+				else
+				if (nCurIndex!=-1)
+				{
+					if (!IsColumnVisible(pOrderArray[i]) && pOrderArray[i] > nCol)
+						columnState.m_OrgPosition++;
+
+					pOrderArray[nCurIndex] = pOrderArray[i];
+					pOrderArray[i] = nCol;
+					nCurIndex = i;
+
+					// We want to move it to the original visible position
+					if (columnState.m_OrgPosition==i)
+						break;
+				}
+				else
+				{
+					if (pOrderArray[i] > nCol)
+						columnState.m_OrgPosition++;
+				}
+			}
+		}
+		else
+		{
+			// Restore the last position of the column (Support column drag-drop)
+			int nColOffSet = 0;
+			int nCurIndex = -1;
+			for(int i = 0; i < nColCount ; ++i)
+			{
+				if (pOrderArray[i]==nCol)
+				{
+					nCurIndex = i;
+					columnState.m_OrgPosition += nColOffSet;
+				}
+				else
+				if (nCurIndex!=-1)
 				{
 					pOrderArray[nCurIndex] = pOrderArray[i];
 					pOrderArray[i] = nCol;
 					nCurIndex = i;
+
+					// We want to move it to the original visible position
+					if (columnState.m_OrgPosition==i)
+						break;
+				}
+				else
+				{
+					if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition!=-1)
+					{
+						// Other columns have been hidden after, this column was hidden
+						//	- The other column was originally placed before this column (Showing this column changes the original position of the other column)
+						if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition <= columnState.m_OrgPosition)
+							GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition--;
+						//	- The other column was originally placed after this column (This column needs to adjust original position)
+						if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition >= columnState.m_OrgPosition)
+							nColOffSet++;
+					}
 				}
 			}
 		}
@@ -986,6 +1036,20 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 				pOrderArray[i] = nCol;
 				nCurIndex = i;
 			}
+		}
+	}
+
+	// Validate that all column-ids are unique and are between 0 og nCount
+	for(int i = 0; i < nColCount ; ++i)
+	{
+		ASSERT(pOrderArray[i] >= 0);
+		ASSERT(pOrderArray[i] < nColCount);
+		for(int j = 0; j < nColCount ; ++j)
+		{
+			if (j == i)
+				continue;
+
+			ASSERT(pOrderArray[i]!=pOrderArray[j]);
 		}
 	}
 

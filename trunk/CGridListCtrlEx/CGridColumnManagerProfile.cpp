@@ -192,7 +192,7 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 			}
 			ASSERT(nCol!=-1);
 			CGridColumnTrait::ColumnState& columnState = owner.GetColumnTrait(nCol)->GetColumnState();
-			columnState.m_OrgPosition = owner.GetColumnOrder(nCol);
+			columnState.m_OrgPosition = -1;
 			columnState.m_OrgWidth = owner.GetColumnWidth(nCol);
 			owner.SetColumnWidth(nCol, 0);
 			columnState.m_Visible = false;
