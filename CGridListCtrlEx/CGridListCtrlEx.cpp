@@ -968,8 +968,11 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 					nCurIndex = i;
 
 					// We want to move it to the original visible position
-					if (columnState.m_OrgPosition==i)
-						break;
+					if (i >= columnState.m_OrgPosition)
+					{
+						if ( (i+1==nColCount) || IsColumnVisible(pOrderArray[i+1]) )
+							break;
+					}
 				}
 				else
 				{
@@ -998,8 +1001,11 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 					nCurIndex = i;
 
 					// We want to move it to the original visible position
-					if (columnState.m_OrgPosition==i)
-						break;
+					if (i >= columnState.m_OrgPosition)
+					{
+						if ( (i+1==nColCount) || IsColumnVisible(pOrderArray[i+1]) )
+							break;
+					}
 				}
 				else
 				{
