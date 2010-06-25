@@ -134,8 +134,10 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Improved version of GetSubItemRect().  <a href="#abd88cea0b9f581612971a5465f91d474"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5432414b97a9a6d22afeb89c980debad"></a><!-- doxytag: member="CGridListCtrlEx::GetFocusCell" ref="a5432414b97a9a6d22afeb89c980debad" args="() const " -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a741660fd09e66a673a406cebd0dec3e3">EditCell</a> (int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Starts the edit of a cell and sends a message to the parent window.  <a href="#a741660fd09e66a673a406cebd0dec3e3"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afcdd34c755fe8da1fea3b5b3efb06f8e">SetFocusCell</a> (int nCol, bool bRedraw=false)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the focus cell.  <a href="#afcdd34c755fe8da1fea3b5b3efb06f8e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6ec7800ddee19f2b003daa8022126eb6">EditCell</a> (int nRow, int nCol, CPoint pt=CPoint(-1,-1))</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Starts the edit of a cell and sends a message to the parent window.  <a href="#a6ec7800ddee19f2b003daa8022126eb6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6318b3e79b0be4091411b752a329cc6e">IsCellEditorOpen</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if the cell value editor is open for a cell.  <a href="#a6318b3e79b0be4091411b752a329cc6e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1b4722e43184fb26a83870be364bb466">IsCellCallback</a> (int nRow, int nCol) const </td></tr>
@@ -190,10 +192,8 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available columns to the context menu.  <a href="#af75f258925f24fe7376731e14c57b7cc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa82896e81f3e078f87b06fbf73576508">InternalColumnProfileSwitcher</a> (CMenu &amp;menu, int offset, CSimpleArray&lt; CString &gt; &amp;profiles)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available column profiles to the context menu.  <a href="#aa82896e81f3e078f87b06fbf73576508"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#af9b4b8c7168a23fe672f7382f5452265">MoveFocusCell</a> (bool bMoveRight)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#af9b4b8c7168a23fe672f7382f5452265">MoveFocusCell</a> (bool bMoveRight)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Shifts the cell focus left or right in the same row.  <a href="#af9b4b8c7168a23fe672f7382f5452265"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a15694c6280e09087bcaac1daab8d5920">UpdateFocusCell</a> (int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Force redraw of focus row, so the focus cell becomes visible.  <a href="#a15694c6280e09087bcaac1daab8d5920"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6b6c3198a95f54920fc9af1c4be79f2d">SortColumn</a> (int nCol, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the row sorting in regard to the specified column.  <a href="#a6b6c3198a95f54920fc9af1c4be79f2d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ae3281e846c31faae6d3c83c87cf85041">RegisterDropTarget</a> ()</td></tr>
@@ -219,10 +219,10 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_row_trait.html" title="CGridRowTrait specifies an interface for handling custom drawing at row-level.">CGridRowTrait</a>.  <a href="#a306f8b6ca7ec04634fb1689509535070"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a556eb2a94ab33da40ea4b45aeb71c710">OnCustomDrawCell</a> (int nRow, int nCol, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_column_trait.html" title="CGridColumnTrait specifies the methods needed for custom cell handling.">CGridColumnTrait</a>.  <a href="#a556eb2a94ab33da40ea4b45aeb71c710"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa075b08484193e18287ee1cd5683cf8d">OnClickEditStart</a> (int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell edit should be started when clicked with the mouse.  <a href="#aa075b08484193e18287ee1cd5683cf8d"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a4b5da30fe93b94d57c0f26adb481ab48">OnEditBegin</a> (int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#a4b5da30fe93b94d57c0f26adb481ab48"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aaa3b0b1c223355c32e38d4d9e99042be">OnClickEditStart</a> (int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell edit should be started when clicked with the mouse.  <a href="#aaa3b0b1c223355c32e38d4d9e99042be"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aff8ad10fec3f11217421abc4f9f46c99">OnEditBegin</a> (int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#aff8ad10fec3f11217421abc4f9f46c99"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a72cb48f9b7ea05751e49f3f5bb7e70f7">OnEditComplete</a> (int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#a72cb48f9b7ea05751e49f3f5bb7e70f7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3531144d2f29c51989154b7a348b73b9">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
@@ -263,6 +263,8 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_LBUTTONDOWN message handler called when the user presses the left mouse button while the cursor is in the client area of a window.  <a href="#a132f01ec62e52fc1859be2d6bc1ea469"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aff337d340df97fc6e7ae503a0f41c1b5">OnRButtonDown</a> (UINT nFlags, CPoint point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_RBUTTONDOWN message handler called when the user presses the right mouse button while the cursor is in the client area of a window.  <a href="#aff337d340df97fc6e7ae503a0f41c1b5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8dd0daf8213ceeb95bfd8c785a59dc1a">OnLButtonDblClk</a> (UINT nFlags, CPoint point)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The WM_LBUTTONDBLCLK message is posted when the user double-clicks the left mouse button while the cursor is in the client area of a window Used to flip the checkbox image even when double-clicking.  <a href="#a8dd0daf8213ceeb95bfd8c785a59dc1a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a2f52131c002ac1840375ee53e1392487">OnCustomDraw</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl.  <a href="#a2f52131c002ac1840375ee53e1392487"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a775ae32ee0f42784b73aeba7ff0e3087">OnSetColumnWidth</a> (WPARAM wParam, LPARAM lParam)</td></tr>
@@ -275,6 +277,8 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_BEGINDRAG message handler called when about to move a column to a new position.  <a href="#a8687667222a1ed587ccc9598732be1fd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1fbb282bea677ce9d3659da04d3aea34">OnHeaderEndResize</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDTRACK message handler called after column resize.  <a href="#a1fbb282bea677ce9d3659da04d3aea34"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5560cbe72f220dc083f69b557fdb31e7">OnHeaderItemChanging</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ITEMCHANGING message handler called during column resize.  <a href="#a5560cbe72f220dc083f69b557fdb31e7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a0aab5ad892c36498d97c3393649f1bff">OnHeaderEndDrag</a> (UINT id, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDDRAG message handler called after a column have been dragged, but before the column order has been updated.  <a href="#a0aab5ad892c36498d97c3393649f1bff"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afea491c69be12d7d302d0416b345fae4">OnHeaderClick</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
@@ -293,6 +297,9 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_VSCROLL message handler called when scrolling in the list control.  <a href="#ad330936c2ea0ae10ef49fb2133896f39"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3fbec30aff7871244e25d0601a2b25e4">OnContextMenu</a> (CWnd *, CPoint point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CONTEXTMENU message handler to show popup menu when mouse right click is used (or SHIFT+F10 on the keyboard).  <a href="#a3fbec30aff7871244e25d0601a2b25e4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a89a3c7b5100c17d54e2249a2c960b4cc"></a><!-- doxytag: member="CGridListCtrlEx::OnDestroy" ref="a89a3c7b5100c17d54e2249a2c960b4cc" args="()" -->
+virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a89a3c7b5100c17d54e2249a2c960b4cc">OnDestroy</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Notify that the window has been destroyed. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a7cc0de3814b2a080657e0f65ea3a5a42">OnPaint</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_PAINT message handler called when needing to redraw list control.  <a href="#a7cc0de3814b2a080657e0f65ea3a5a42"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ae14437c7098727af92895262e1260b06">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
@@ -355,6 +362,9 @@ double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab501c48ca1a9293cd19e65b0288fe137"></a><!-- doxytag: member="CGridListCtrlEx::m_EmptyMarkupText" ref="ab501c48ca1a9293cd19e65b0288fe137" args="" -->
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ab501c48ca1a9293cd19e65b0288fe137">m_EmptyMarkupText</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Text to display when list control is empty. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1c80ee58db460e1932360aff7691693"></a><!-- doxytag: member="CGridListCtrlEx::m_InvalidateMarkupText" ref="ae1c80ee58db460e1932360aff7691693" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ae1c80ee58db460e1932360aff7691693">m_InvalidateMarkupText</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Ensure that the empty markup text is cleared properly. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b6850ebba844579d6424e46563a9363"></a><!-- doxytag: member="CGridListCtrlEx::m_pOleDropTarget" ref="a1b6850ebba844579d6424e46563a9363" args="" -->
 COleDropTargetWnd<br class="typebreak"/>
 &lt; <a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &gt; *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1b6850ebba844579d6424e46563a9363">m_pOleDropTarget</a></td></tr>
@@ -500,7 +510,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a741660fd09e66a673a406cebd0dec3e3"></a><!-- doxytag: member="CGridListCtrlEx::EditCell" ref="a741660fd09e66a673a406cebd0dec3e3" args="(int nRow, int nCol)" -->
+<a class="anchor" id="a6ec7800ddee19f2b003daa8022126eb6"></a><!-- doxytag: member="CGridListCtrlEx::EditCell" ref="a6ec7800ddee19f2b003daa8022126eb6" args="(int nRow, int nCol, CPoint pt=CPoint(&#45;1,&#45;1))" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -514,7 +524,13 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em> = <code>CPoint(-1,-1)</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -530,6 +546,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1397,7 +1414,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="paramtype">bool&nbsp;</td>
           <td class="paramname"> <em>bMoveRight</em></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected]</code></td>
+          <td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -1468,7 +1485,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <div class="memdoc">
 
 <p>LVN_BEGINDRAG message handler called when performing left-click drag. </p>
-<p>Used to perform drag drop from the list control.</p>
+<p>Used to perform drag drop from the list control. Override this method to disable drag drop of rows.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an NMLISTVIEW structure specifying the column </td></tr>
@@ -1561,12 +1578,12 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="aa075b08484193e18287ee1cd5683cf8d"></a><!-- doxytag: member="CGridListCtrlEx::OnClickEditStart" ref="aa075b08484193e18287ee1cd5683cf8d" args="(int nRow, int nCol, CPoint pt)" -->
+<a class="anchor" id="aaa3b0b1c223355c32e38d4d9e99042be"></a><!-- doxytag: member="CGridListCtrlEx::OnClickEditStart" ref="aaa3b0b1c223355c32e38d4d9e99042be" args="(int nRow, int nCol, CPoint pt, bool bDblClick)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CGridListCtrlEx::OnClickEditStart </td>
+          <td class="memname">int CGridListCtrlEx::OnClickEditStart </td>
           <td>(</td>
           <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>nRow</em>, </td>
@@ -1581,7 +1598,13 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">CPoint&nbsp;</td>
-          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bDblClick</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -1598,9 +1621,11 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bDblClick</em>&nbsp;</td><td>Whether the position was double clicked </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event) </dd></dl>
 
 </div>
 </div>
@@ -2775,7 +2800,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a4b5da30fe93b94d57c0f26adb481ab48"></a><!-- doxytag: member="CGridListCtrlEx::OnEditBegin" ref="a4b5da30fe93b94d57c0f26adb481ab48" args="(int nRow, int nCol)" -->
+<a class="anchor" id="aff8ad10fec3f11217421abc4f9f46c99"></a><!-- doxytag: member="CGridListCtrlEx::OnEditBegin" ref="aff8ad10fec3f11217421abc4f9f46c99" args="(int nRow, int nCol, CPoint pt)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2789,7 +2814,13 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -2806,6 +2837,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
@@ -3204,6 +3236,50 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="a5560cbe72f220dc083f69b557fdb31e7"></a><!-- doxytag: member="CGridListCtrlEx::OnHeaderItemChanging" ref="a5560cbe72f220dc083f69b557fdb31e7" args="(UINT, NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnHeaderItemChanging </td>
+          <td>(</td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>HDN_ITEMCHANGING message handler called during column resize. </p>
+<p>Used to enforce column max and min width.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an NMHEADER structure with information about the column just resized </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Returns FALSE to allow the changes, or TRUE to prevent them. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a5906df0b41e263ab9dbbc1642b7b5785"></a><!-- doxytag: member="CGridListCtrlEx::OnHScroll" ref="a5906df0b41e263ab9dbbc1642b7b5785" args="(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)" -->
 <div class="memitem">
 <div class="memproto">
@@ -3472,6 +3548,45 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a8dd0daf8213ceeb95bfd8c785a59dc1a"></a><!-- doxytag: member="CGridListCtrlEx::OnLButtonDblClk" ref="a8dd0daf8213ceeb95bfd8c785a59dc1a" args="(UINT nFlags, CPoint point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnLButtonDblClk </td>
+          <td>(</td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname"> <em>nFlags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The WM_LBUTTONDBLCLK message is posted when the user double-clicks the left mouse button while the cursor is in the client area of a window Used to flip the checkbox image even when double-clicking. </p>
+<p>If wanting to handle the double-click event, then one should use NM_DBLCLK</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nFlags</em>&nbsp;</td><td>Indicates whether various virtual keys are down (MK_CONTROL, MK_SHIFT, etc.) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>point</em>&nbsp;</td><td>Mouse cursor position relative to the upper-left corner of the client area. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#a7514128960602fccbad21a93bf5fa8a8">CGridListCtrlGroups</a>.</p>
 
 </div>
 </div>
@@ -4074,6 +4189,43 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="afcdd34c755fe8da1fea3b5b3efb06f8e"></a><!-- doxytag: member="CGridListCtrlEx::SetFocusCell" ref="afcdd34c755fe8da1fea3b5b3efb06f8e" args="(int nCol, bool bRedraw=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::SetFocusCell </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bRedraw</em> = <code>false</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Changes the focus cell. </p>
+<p>Override this method and set m_FocusCell = -1 if wanting to disable subitem focus</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bRedraw</em>&nbsp;</td><td>Should the focus row be redrawn ? (true / false) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a0a442eaa8d5a14b1a9744106e6dbf361"></a><!-- doxytag: member="CGridListCtrlEx::SetFocusRow" ref="a0a442eaa8d5a14b1a9744106e6dbf361" args="(int nRow)" -->
 <div class="memitem">
 <div class="memproto">
@@ -4236,32 +4388,6 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl class="return"><dt><b>Returns:</b></dt><dd>True / false depending on whether sort is possible </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#ac01976bf2502bc87e9376ed1963cdf39">CGridListCtrlGroups</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a15694c6280e09087bcaac1daab8d5920"></a><!-- doxytag: member="CGridListCtrlEx::UpdateFocusCell" ref="a15694c6280e09087bcaac1daab8d5920" args="(int nCol)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CGridListCtrlEx::UpdateFocusCell </td>
-          <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Force redraw of focus row, so the focus cell becomes visible. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

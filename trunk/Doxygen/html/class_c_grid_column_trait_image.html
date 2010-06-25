@@ -52,8 +52,11 @@ Inheritance diagram for CGridColumnTraitImage:</div>
  <div class="center">
   <img src="class_c_grid_column_trait_image.png" usemap="#CGridColumnTraitImage_map" alt=""/>
   <map id="CGridColumnTraitImage_map" name="CGridColumnTraitImage_map">
-<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="0,56,145,80"/>
-<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="0,0,145,24"/>
+<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="174,56,338,80"/>
+<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="174,0,338,24"/>
+<area href="class_c_grid_column_trait_combo.html" alt="CGridColumnTraitCombo" shape="rect" coords="0,168,164,192"/>
+<area href="class_c_grid_column_trait_date_time.html" alt="CGridColumnTraitDateTime" shape="rect" coords="174,168,338,192"/>
+<area href="class_c_grid_column_trait_edit.html" alt="CGridColumnTraitEdit" shape="rect" coords="348,168,512,192"/>
 </map>
  </div>
 </div>
@@ -68,25 +71,40 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> - Constructor.  <a href="#a25a4086a4d56043adced450de0531412"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a0d0abf6bf4d2eba09de0745a5287aa79">AddImageIndex</a> (int nImageIdx)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds image index to the list of images to switch between.  <a href="#a0d0abf6bf4d2eba09de0745a5287aa79"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ae95bc25f754477138ad5172a037d07c7">AddImageIndex</a> (int nImageIdx, const CString &amp;strImageText)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds image index to the list of images to switch between.  <a href="#ae95bc25f754477138ad5172a037d07c7"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a793beaf80f29dd9cc0fb401631ceb64b">SetImageText</a> (int nImageIdx, const CString &amp;strImageText)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the image text for the specified image index.  <a href="#a793beaf80f29dd9cc0fb401631ceb64b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#aa2c9ca7091fb04fb5076b16239a1084f">AddImageIndex</a> (int nImageIdx, const CString &amp;strImageText, bool bEditable=true)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds image index to the list of images to switch between.  <a href="#aa2c9ca7091fb04fb5076b16239a1084f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a594374275e5efb3f41aa1989146e97b0">SetImageText</a> (int nImageIdx, const CString &amp;strImageText, bool bEditable=true)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the image text for the specified image index.  <a href="#a594374275e5efb3f41aa1989146e97b0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ac5e39f6974b30476565f887fa8b8d139">SetSortImageIndex</a> (bool bValue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should primary sorting be based on the image index (checkbox sorting).  <a href="#ac5e39f6974b30476565f887fa8b8d139"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#aab4c08d50c9677aaa87d659fa34b79b8">SetToggleSelection</a> (bool bValue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should images (checkboxes) be flipped for all selected rows, when icon is clicked.  <a href="#aab4c08d50c9677aaa87d659fa34b79b8"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ada490bda7a4d39a2fa69ebfca191aa85">AppendStateImages</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CImageList &amp;imagelist)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a1330b1e35da6859e9fe4768fbd73fe09">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Only flip the cell-image when the actual image is clicked.  <a href="#a1330b1e35da6859e9fe4768fbd73fe09"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a9da5bc2ca0ab1031c9fa2cf57501a50d">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a9da5bc2ca0ab1031c9fa2cf57501a50d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a9f110e76fbe7d43595635a9b3a880594">OnSortRows</a> (int nLeftImageIdx, int nRightImageIdx, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to checkbox state.  <a href="#a9f110e76fbe7d43595635a9b3a880594"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a36318c4778486cc897dcddb98882ac25">IsCellReadOnly</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if current image index blocks for editing of cell label.  <a href="#a36318c4778486cc897dcddb98882ac25"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a6ba02cf22b69207ae90360ab47911c04">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if the cell is editable when clicked.  <a href="#a6ba02cf22b69207ae90360ab47911c04"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a64719019b986858ae317aacb20cfc93c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afab1c0f10273f90f8ac171eec86cfb1c"></a><!-- doxytag: member="CGridColumnTraitImage::Accept" ref="afab1c0f10273f90f8ac171eec86cfb1c" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#afab1c0f10273f90f8ac171eec86cfb1c">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a330c264bfd6c1ea27d4bbf41e440ee59">FlipImageIndex</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch to the next image index.  <a href="#a330c264bfd6c1ea27d4bbf41e440ee59"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a895767983756b9a476145da9e8eb83"></a><!-- doxytag: member="CGridColumnTraitImage::m_ImageIndexes" ref="a1a895767983756b9a476145da9e8eb83" args="" -->
-CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a1a895767983756b9a476145da9e8eb83">m_ImageIndexes</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fixed list of image items to switch between. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">INTERNAL CSimpleMap&lt; int, <br class="typebreak"/>
+ImageCell &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a97a90793323ce2e3f7aa08f27782f167">m_ImageIndexes</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b681a011f060498c5c82bb7d16e2a8e"></a><!-- doxytag: member="CGridColumnTraitImage::m_SortImageIndex" ref="a3b681a011f060498c5c82bb7d16e2a8e" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a3b681a011f060498c5c82bb7d16e2a8e">m_SortImageIndex</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should image be used as primary sort index ? <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6cd207e84c42ab12b48da840c0367be"></a><!-- doxytag: member="CGridColumnTraitImage::m_ToggleSelection" ref="ac6cd207e84c42ab12b48da840c0367be" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ac6cd207e84c42ab12b48da840c0367be">m_ToggleSelection</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should the image of all selected rows be flipped, when clicked ? <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> implements an image switcher (can mimic a checkbox). </p>
@@ -129,7 +147,7 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="ae95bc25f754477138ad5172a037d07c7"></a><!-- doxytag: member="CGridColumnTraitImage::AddImageIndex" ref="ae95bc25f754477138ad5172a037d07c7" args="(int nImageIdx, const CString &amp;strImageText)" -->
+<a class="anchor" id="aa2c9ca7091fb04fb5076b16239a1084f"></a><!-- doxytag: member="CGridColumnTraitImage::AddImageIndex" ref="aa2c9ca7091fb04fb5076b16239a1084f" args="(int nImageIdx, const CString &amp;strImageText, bool bEditable=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -143,7 +161,13 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
-          <td class="paramname"> <em>strImageText</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>strImageText</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bEditable</em> = <code>true</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -159,6 +183,7 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nImageIdx</em>&nbsp;</td><td>The index of the image in the list control imagelist </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>strImageText</em>&nbsp;</td><td>The associated cell text to the image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bEditable</em>&nbsp;</td><td>Is the cell editable when this image is displayed </td></tr>
   </table>
   </dd>
 </dl>
@@ -228,12 +253,169 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
 
 </div>
 </div>
-<a class="anchor" id="a1330b1e35da6859e9fe4768fbd73fe09"></a><!-- doxytag: member="CGridColumnTraitImage::OnClickEditStart" ref="a1330b1e35da6859e9fe4768fbd73fe09" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<a class="anchor" id="a330c264bfd6c1ea27d4bbf41e440ee59"></a><!-- doxytag: member="CGridColumnTraitImage::FlipImageIndex" ref="a330c264bfd6c1ea27d4bbf41e440ee59" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool CGridColumnTraitImage::OnClickEditStart </td>
+          <td class="memname">int CGridColumnTraitImage::FlipImageIndex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Switch to the next image index. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>New image index (-1 if no new image) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a36318c4778486cc897dcddb98882ac25"></a><!-- doxytag: member="CGridColumnTraitImage::IsCellReadOnly" ref="a36318c4778486cc897dcddb98882ac25" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt) const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitImage::IsCellReadOnly </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td> const<code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Check if current image index blocks for editing of cell label. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is cell read only ? (true / false) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#ad381f010d27330d143bdd354a048dcc4">CGridColumnTrait</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6ba02cf22b69207ae90360ab47911c04"></a><!-- doxytag: member="CGridColumnTraitImage::OnClickEditStart" ref="a6ba02cf22b69207ae90360ab47911c04" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CGridColumnTraitImage::OnClickEditStart </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bDblClick</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Check if the cell is editable when clicked. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bDblClick</em>&nbsp;</td><td>Whether the position was double clicked </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a6d6a621ea236708a4a0aa823a6f6a9b4">CGridColumnTrait</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64719019b986858ae317aacb20cfc93c"></a><!-- doxytag: member="CGridColumnTraitImage::OnEditBegin" ref="a64719019b986858ae317aacb20cfc93c" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridColumnTraitImage::OnEditBegin </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>owner</em>, </td>
@@ -265,42 +447,45 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
 </div>
 <div class="memdoc">
 
-<p>Only flip the cell-image when the actual image is clicked. </p>
+<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a1d519317acc0b33258487c2e4134a161">CGridColumnTrait</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a76ae73e830f71f63dacc7529125435a1">CGridColumnTrait</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_combo.html#ad1c343018b6625f811dc453ef4d08e86">CGridColumnTraitCombo</a>, <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661">CGridColumnTraitDateTime</a>, and <a class="el" href="class_c_grid_column_trait_edit.html#a394233e819193832d36b7f2c01f18fe1">CGridColumnTraitEdit</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a9da5bc2ca0ab1031c9fa2cf57501a50d"></a><!-- doxytag: member="CGridColumnTraitImage::OnEditBegin" ref="a9da5bc2ca0ab1031c9fa2cf57501a50d" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
+<a class="anchor" id="a9f110e76fbe7d43595635a9b3a880594"></a><!-- doxytag: member="CGridColumnTraitImage::OnSortRows" ref="a9f110e76fbe7d43595635a9b3a880594" args="(int nLeftImageIdx, int nRightImageIdx, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CWnd * CGridColumnTraitImage::OnEditBegin </td>
+          <td class="memname">int CGridColumnTraitImage::OnSortRows </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>owner</em>, </td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nLeftImageIdx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRow</em>, </td>
+          <td class="paramname"> <em>nRightImageIdx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -311,22 +496,22 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<p>Compares two cell values according to checkbox state. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nLeftImageIdx</em>&nbsp;</td><td>Left image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRightImageIdx</em>&nbsp;</td><td>Right image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#ab39126ae5476356c25166c2f08a3d8a2">CGridColumnTrait</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a604cab359c6004acf12cd48d0264cb46">CGridColumnTrait</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a793beaf80f29dd9cc0fb401631ceb64b"></a><!-- doxytag: member="CGridColumnTraitImage::SetImageText" ref="a793beaf80f29dd9cc0fb401631ceb64b" args="(int nImageIdx, const CString &amp;strImageText)" -->
+<a class="anchor" id="a594374275e5efb3f41aa1989146e97b0"></a><!-- doxytag: member="CGridColumnTraitImage::SetImageText" ref="a594374275e5efb3f41aa1989146e97b0" args="(int nImageIdx, const CString &amp;strImageText, bool bEditable=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -340,7 +525,13 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
-          <td class="paramname"> <em>strImageText</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>strImageText</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bEditable</em> = <code>true</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -356,9 +547,77 @@ CSimpleMap&lt; int, CString &gt;&nbsp;</td><td class="memItemRight" valign="bott
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nImageIdx</em>&nbsp;</td><td>The index of the image in the list control imagelist </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>strImageText</em>&nbsp;</td><td>The associated cell text to the image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bEditable</em>&nbsp;</td><td>Is the cell editable when this image is displayed </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ac5e39f6974b30476565f887fa8b8d139"></a><!-- doxytag: member="CGridColumnTraitImage::SetSortImageIndex" ref="ac5e39f6974b30476565f887fa8b8d139" args="(bool bValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::SetSortImageIndex </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Should primary sorting be based on the image index (checkbox sorting). </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>Enabled / Disabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aab4c08d50c9677aaa87d659fa34b79b8"></a><!-- doxytag: member="CGridColumnTraitImage::SetToggleSelection" ref="aab4c08d50c9677aaa87d659fa34b79b8" args="(bool bValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::SetToggleSelection </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Should images (checkboxes) be flipped for all selected rows, when icon is clicked. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>Enabled / Disabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="a97a90793323ce2e3f7aa08f27782f167"></a><!-- doxytag: member="CGridColumnTraitImage::m_ImageIndexes" ref="a97a90793323ce2e3f7aa08f27782f167" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INTERNAL CSimpleMap&lt;int,ImageCell&gt; <a class="el" href="class_c_grid_column_trait_image.html#a97a90793323ce2e3f7aa08f27782f167">CGridColumnTraitImage::m_ImageIndexes</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Fixed list of image items to switch between </p>
 
 </div>
 </div>

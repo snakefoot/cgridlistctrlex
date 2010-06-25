@@ -52,11 +52,11 @@ Inheritance diagram for CGridColumnTrait:</div>
  <div class="center">
   <img src="class_c_grid_column_trait.png" usemap="#CGridColumnTrait_map" alt=""/>
   <map id="CGridColumnTrait_map" name="CGridColumnTrait_map">
-<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="261,56,425,80"/>
-<area href="class_c_grid_column_trait_combo.html" alt="CGridColumnTraitCombo" shape="rect" coords="0,112,164,136"/>
-<area href="class_c_grid_column_trait_date_time.html" alt="CGridColumnTraitDateTime" shape="rect" coords="174,112,338,136"/>
-<area href="class_c_grid_column_trait_edit.html" alt="CGridColumnTraitEdit" shape="rect" coords="348,112,512,136"/>
-<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="522,112,686,136"/>
+<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="174,56,338,80"/>
+<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="174,112,338,136"/>
+<area href="class_c_grid_column_trait_combo.html" alt="CGridColumnTraitCombo" shape="rect" coords="0,168,164,192"/>
+<area href="class_c_grid_column_trait_date_time.html" alt="CGridColumnTraitDateTime" shape="rect" coords="174,168,338,192"/>
+<area href="class_c_grid_column_trait_edit.html" alt="CGridColumnTraitEdit" shape="rect" coords="348,168,512,192"/>
 </map>
  </div>
 </div>
@@ -73,17 +73,21 @@ virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#acafacfe30da0504e9583e58d5a4857e9" title="Override OnInsertColumn() to provide your own special styling of the column, after...">OnInsertColumn()</a> to provide your own special styling of the column, after column has been added.  <a href="#acafacfe30da0504e9583e58d5a4857e9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#ad3ae6a1a52c2d96f0f122d5af37eb17e">OnCustomDraw</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, NMLVCUSTOMDRAW *pLVCD, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#ad3ae6a1a52c2d96f0f122d5af37eb17e" title="Override OnCustomDraw() to provide your own special cell-drawing.">OnCustomDraw()</a> to provide your own special cell-drawing.  <a href="#ad3ae6a1a52c2d96f0f122d5af37eb17e"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a1d519317acc0b33258487c2e4134a161">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a1d519317acc0b33258487c2e4134a161" title="Override OnClickEditStart() to control whether cell edit should be started when clicked...">OnClickEditStart()</a> to control whether cell edit should be started when clicked with the mouse.  <a href="#a1d519317acc0b33258487c2e4134a161"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#ab39126ae5476356c25166c2f08a3d8a2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#ab39126ae5476356c25166c2f08a3d8a2" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control.  <a href="#ab39126ae5476356c25166c2f08a3d8a2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a6d6a621ea236708a4a0aa823a6f6a9b4">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a6d6a621ea236708a4a0aa823a6f6a9b4" title="Override OnClickEditStart() to control whether cell edit should be started when clicked...">OnClickEditStart()</a> to control whether cell edit should be started when clicked with the mouse.  <a href="#a6d6a621ea236708a4a0aa823a6f6a9b4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a76ae73e830f71f63dacc7529125435a1">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a76ae73e830f71f63dacc7529125435a1" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control.  <a href="#a76ae73e830f71f63dacc7529125435a1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96c3d95ac2e528f4efe40775f9585e0d"></a><!-- doxytag: member="CGridColumnTrait::OnEditEnd" ref="a96c3d95ac2e528f4efe40775f9585e0d" args="()" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a96c3d95ac2e528f4efe40775f9585e0d">OnEditEnd</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a96c3d95ac2e528f4efe40775f9585e0d" title="Override OnEditEnd() in case one need to change state after a cell-edit.">OnEditEnd()</a> in case one need to change state after a cell-edit. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a2e3d1fc0f5e0f41a985bffedfec3eb30"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a604cab359c6004acf12cd48d0264cb46">OnSortRows</a> (int nLeftImageIdx, int nRightImageIdx, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a604cab359c6004acf12cd48d0264cb46"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a3ea765aad5a3b38748515404867ffffd">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a3ea765aad5a3b38748515404867ffffd" title="Override Accept() and update CGridColumnTraitVisitor for new column-trait classes...">Accept()</a> and update <a class="el" href="class_c_grid_column_trait_visitor.html" title="CGridColumnTraitVisitor enables the use of the visitor-pattern to add extra behavior...">CGridColumnTraitVisitor</a> for new column-trait classes.  <a href="#a3ea765aad5a3b38748515404867ffffd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#ad381f010d27330d143bdd354a048dcc4">IsCellReadOnly</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#ad381f010d27330d143bdd354a048dcc4" title="Override IsCellReadOnly() to provide custom control whether a cell can be edited...">IsCellReadOnly()</a> to provide custom control whether a cell can be edited.  <a href="#ad381f010d27330d143bdd354a048dcc4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f0f3772b799dac2b99a8d1e017fffd9"></a><!-- doxytag: member="CGridColumnTrait::GetColumnState" ref="a9f0f3772b799dac2b99a8d1e017fffd9" args="()" -->
 <a class="el" href="struct_c_grid_column_trait_1_1_column_state.html">ColumnState</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetColumnState</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a80ecf9bb5d5e42a2dd5b94e229af50a9"></a><!-- doxytag: member="CGridColumnTrait::HasMetaFlag" ref="a80ecf9bb5d5e42a2dd5b94e229af50a9" args="(DWORD flag)" -->
@@ -122,12 +126,12 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 
 </div>
 </div>
-<a class="anchor" id="a1d519317acc0b33258487c2e4134a161"></a><!-- doxytag: member="CGridColumnTrait::OnClickEditStart" ref="a1d519317acc0b33258487c2e4134a161" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<a class="anchor" id="ad381f010d27330d143bdd354a048dcc4"></a><!-- doxytag: member="CGridColumnTrait::IsCellReadOnly" ref="ad381f010d27330d143bdd354a048dcc4" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt) const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool CGridColumnTrait::OnClickEditStart </td>
+          <td class="memname">virtual bool CGridColumnTrait::IsCellReadOnly </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>owner</em>, </td>
@@ -153,24 +157,85 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
         <tr>
           <td></td>
           <td>)</td>
+          <td></td><td></td><td> const<code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override <a class="el" href="class_c_grid_column_trait.html#ad381f010d27330d143bdd354a048dcc4" title="Override IsCellReadOnly() to provide custom control whether a cell can be edited...">IsCellReadOnly()</a> to provide custom control whether a cell can be edited. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is cell read only ? (true / false) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_image.html#a36318c4778486cc897dcddb98882ac25">CGridColumnTraitImage</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6d6a621ea236708a4a0aa823a6f6a9b4"></a><!-- doxytag: member="CGridColumnTrait::OnClickEditStart" ref="a6d6a621ea236708a4a0aa823a6f6a9b4" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int CGridColumnTrait::OnClickEditStart </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bDblClick</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
           <td></td><td></td><td><code> [inline, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>Override <a class="el" href="class_c_grid_column_trait.html#a1d519317acc0b33258487c2e4134a161" title="Override OnClickEditStart() to control whether cell edit should be started when clicked...">OnClickEditStart()</a> to control whether cell edit should be started when clicked with the mouse. </p>
+<p>Override <a class="el" href="class_c_grid_column_trait.html#a6d6a621ea236708a4a0aa823a6f6a9b4" title="Override OnClickEditStart() to control whether cell edit should be started when clicked...">OnClickEditStart()</a> to control whether cell edit should be started when clicked with the mouse. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bDblClick</em>&nbsp;</td><td>The position was double clicked </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event) </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_image.html#a1330b1e35da6859e9fe4768fbd73fe09">CGridColumnTraitImage</a>.</p>
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_image.html#a6ba02cf22b69207ae90360ab47911c04">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
@@ -227,7 +292,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 
 </div>
 </div>
-<a class="anchor" id="ab39126ae5476356c25166c2f08a3d8a2"></a><!-- doxytag: member="CGridColumnTrait::OnEditBegin" ref="ab39126ae5476356c25166c2f08a3d8a2" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
+<a class="anchor" id="a76ae73e830f71f63dacc7529125435a1"></a><!-- doxytag: member="CGridColumnTrait::OnEditBegin" ref="a76ae73e830f71f63dacc7529125435a1" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -247,7 +312,13 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -258,7 +329,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 </div>
 <div class="memdoc">
 
-<p>Override <a class="el" href="class_c_grid_column_trait.html#ab39126ae5476356c25166c2f08a3d8a2" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control. </p>
+<p>Override <a class="el" href="class_c_grid_column_trait.html#a76ae73e830f71f63dacc7529125435a1" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control. </p>
 <ul>
 <li>The edit control must inherit from CWnd</li>
 <li>The edit control must delete itself when it looses focus</li>
@@ -269,12 +340,13 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a">CGridColumnTraitCombo</a>, <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">CGridColumnTraitDateTime</a>, <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c">CGridColumnTraitEdit</a>, and <a class="el" href="class_c_grid_column_trait_image.html#a9da5bc2ca0ab1031c9fa2cf57501a50d">CGridColumnTraitImage</a>.</p>
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_combo.html#ad1c343018b6625f811dc453ef4d08e86">CGridColumnTraitCombo</a>, <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661">CGridColumnTraitDateTime</a>, <a class="el" href="class_c_grid_column_trait_edit.html#a394233e819193832d36b7f2c01f18fe1">CGridColumnTraitEdit</a>, and <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
@@ -311,6 +383,52 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a604cab359c6004acf12cd48d0264cb46"></a><!-- doxytag: member="CGridColumnTrait::OnSortRows" ref="a604cab359c6004acf12cd48d0264cb46" args="(int nLeftImageIdx, int nRightImageIdx, bool bAscending)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int CGridColumnTrait::OnSortRows </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nLeftImageIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRightImageIdx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nLeftImageIdx</em>&nbsp;</td><td>Left image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRightImageIdx</em>&nbsp;</td><td>Right image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_image.html#a9f110e76fbe7d43595635a9b3a880594">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>

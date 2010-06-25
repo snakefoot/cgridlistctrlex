@@ -43,7 +43,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <div class="contents">
-<h1>CGridColumnTraitDateTime Class Reference</h1><!-- doxytag: class="CGridColumnTraitDateTime" --><!-- doxytag: inherits="CGridColumnTraitText" -->
+<h1>CGridColumnTraitDateTime Class Reference</h1><!-- doxytag: class="CGridColumnTraitDateTime" --><!-- doxytag: inherits="CGridColumnTraitImage" -->
 <p><a class="el" href="class_c_grid_column_trait_date_time.html" title="CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor.">CGridColumnTraitDateTime</a> implements a CDateTimeCtrl as cell-editor.  
 <a href="#_details">More...</a></p>
 <div class="dynheader">
@@ -52,6 +52,7 @@ Inheritance diagram for CGridColumnTraitDateTime:</div>
  <div class="center">
   <img src="class_c_grid_column_trait_date_time.png" usemap="#CGridColumnTraitDateTime_map" alt=""/>
   <map id="CGridColumnTraitDateTime_map" name="CGridColumnTraitDateTime_map">
+<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="0,112,164,136"/>
 <area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="0,56,164,80"/>
 <area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="0,0,164,24"/>
 </map>
@@ -76,8 +77,8 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get style used when creating CDataTimeCtrl for cell value editing. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a0fdcf1fafe6461159aeb0226dda9acb2">SetParseDateTime</a> (DWORD dwFlags=0, LCID lcid=LANG_USER_DEFAULT)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the flags for converting the datetime in text format to actual date.  <a href="#a0fdcf1fafe6461159aeb0226dda9acb2"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#acba95b50bdbaeb960807e443f0dc3aa2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#aab51b8bb0814007f39b3a72c7e9b8661"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa95b405d67aeb3312719b018b4f193dc"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
@@ -154,7 +155,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
-<a class="anchor" id="acba95b50bdbaeb960807e443f0dc3aa2"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="acba95b50bdbaeb960807e443f0dc3aa2" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
+<a class="anchor" id="aab51b8bb0814007f39b3a72c7e9b8661"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="aab51b8bb0814007f39b3a72c7e9b8661" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -174,7 +175,13 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -185,18 +192,19 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div>
 <div class="memdoc">
 
-<p>Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#ab39126ae5476356c25166c2f08a3d8a2">CGridColumnTrait</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
