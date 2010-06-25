@@ -3648,6 +3648,9 @@ void CGridListCtrlEx::OnDestroy()
 	m_UsingVisualStyle = false;
 	m_InvalidateMarkupText = true;
 
+	delete m_pOleDropTarget;
+	m_pOleDropTarget = NULL;
+
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
 
