@@ -134,6 +134,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_PAINT()		// OnPaint
 	ON_WM_CREATE()		// OnCreate
 	ON_WM_KILLFOCUS()	// OnKillFocus
+	ON_WM_DESTROY()		// OnDestroy
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -404,6 +405,8 @@ void CGridListCtrlEx::PreSubclassWindow()
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
 {
+	VERIFY(m_ColumnTraits.GetSize()==GetColumnCount());
+
 	if (pTrait!=NULL)
 	{
 		if (pTrait->GetColumnState().m_AlwaysHidden)
@@ -449,6 +452,7 @@ int CGridListCtrlEx::InsertHiddenLabelColumn()
 {
 	// Must be the label column
 	VERIFY(GetHeaderCtrl()->GetItemCount()==0);
+	VERIFY(m_ColumnTraits.GetSize()==0);
 
 	CGridColumnTrait* pColumTrait = new CGridColumnTrait;
 	pColumTrait->GetColumnState().m_AlwaysHidden = true;
@@ -3630,6 +3634,17 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 void CGridListCtrlEx::SetEmptyMarkupText(const CString& strText)
 {
 	m_EmptyMarkupText = strText;
+}
+
+//------------------------------------------------------------------------
+//! Notify that the window has been destroyed
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnDestroy()
+{
+	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
+		DeleteColumnTrait(nCol);
+
+	CListCtrl::OnDestroy();
 }
 
 //------------------------------------------------------------------------

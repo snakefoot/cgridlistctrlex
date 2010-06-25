@@ -250,6 +250,7 @@ protected:
 	virtual afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
+	virtual afx_msg void OnDestroy();
 	virtual afx_msg void OnPaint();
 	virtual afx_msg void OnKillFocus(CWnd* pNewWnd);
 	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
