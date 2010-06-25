@@ -40,6 +40,7 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);
 
+	//! @cond INTERNAL
 	struct ImageCell
 	{
 		CString m_CellText;
@@ -50,6 +51,8 @@ protected:
 		ImageCell(const CString& cellText, bool editable)
 			: m_CellText(cellText), m_Editable(editable) {}
 	};
+	//! @endcond INTERNAL
+
 	CSimpleMap<int,ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
 
 	bool m_SortImageIndex;	//!< Should image be used as primary sort index ?
