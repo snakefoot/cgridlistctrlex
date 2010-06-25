@@ -156,6 +156,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
 	,m_pColumnManager(new CGridColumnManager)
+	,m_InvalidateMarkupText(true)
 {}
 
 //------------------------------------------------------------------------
@@ -3641,6 +3642,12 @@ void CGridListCtrlEx::SetEmptyMarkupText(const CString& strText)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnDestroy()
 {
+	m_FocusCell = -1;
+	m_SortCol = -1;
+	m_Ascending = false;
+	m_UsingVisualStyle = false;
+	m_InvalidateMarkupText = true;
+
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
 
@@ -3653,8 +3660,17 @@ void CGridListCtrlEx::OnDestroy()
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnPaint()
 {
+	// Ensure that the entire window is invalidated when the first item is added
+	if (m_InvalidateMarkupText && !m_EmptyMarkupText.IsEmpty() && GetItemCount() > 0)
+	{
+		m_InvalidateMarkupText = false;
+		Invalidate(TRUE);
+	}
+
 	if (GetItemCount()==0 && !m_EmptyMarkupText.IsEmpty())
 	{
+		m_InvalidateMarkupText = true;
+
 		// Show text string when list is empty
 		CPaintDC dc(this);
 
