@@ -69,6 +69,7 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 //!
 //! @param nImageIdx The index of the image in the list control imagelist
 //! @param strImageText The associated cell text to the image
+//! @param bEditable Is the cell editable when this image is displayed
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImageText, bool bEditable)
 {
@@ -80,6 +81,7 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImage
 //!
 //! @param nImageIdx The index of the image in the list control imagelist
 //! @param strImageText The associated cell text to the image
+//! @param bEditable Is the cell editable when this image is displayed
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText, bool bEditable)
 {
