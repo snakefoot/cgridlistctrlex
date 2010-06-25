@@ -180,6 +180,7 @@ protected:
 	double m_Margin;			//!< Current margin between original font and cell font
 
 	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
+	bool m_InvalidateMarkupText;//!< Ensure that the empty markup text is cleared properly
 
 	// Maintaining drag drop
 	COleDropTargetWnd<CGridListCtrlEx>* m_pOleDropTarget;	//!< Maintains OLE drag drop target
