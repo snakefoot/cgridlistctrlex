@@ -43,6 +43,7 @@ public:
 	//! @param nRow The index of the row
 	//! @param nCol The index of the column
 	//! @param pt The position clicked, in client coordinates.
+	//! @param bDblClick The position was double clicked
 	//! @return How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event)
 	virtual int OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick) { return 0; }
 
