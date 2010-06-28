@@ -55,9 +55,20 @@ public:
 	//! @param owner The list control starting edit
 	//! @param nRow The index of the row for the cell to edit
 	//! @param nCol The index of the column for the cell to edit
+	//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol) { return NULL; }
+
+	//! Override OnEditBegin() to provide your own special cell-edit control.
+	//!   - The edit control must inherit from CWnd
+	//!   - The edit control must delete itself when it looses focus
+	//!   - The edit control must send a LVN_ENDLABELEDIT message when edit is complete
+	//!
+	//! @param owner The list control starting edit
+	//! @param nRow The index of the row for the cell to edit
+	//! @param nCol The index of the column for the cell to edit
 	//! @param pt The position clicked, in client coordinates.
 	//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return NULL; }
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return OnEditBegin(owner, nRow, nCol); }
 
 	//! Override OnEditEnd() in case one need to change state after a cell-edit.
 	virtual void OnEditEnd() {}
