@@ -82,11 +82,11 @@ pTrait-&gt;AddItem(0, &quot;Hello&quot;);
 pTrait-&gt;AddItem(1, &quot;Goodbye&quot;);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
 
-<p>We can specify the items of the <code>CComboBox</code> when inserting the columns (as shown above). If we want to provide the <code>CComboBox</code> items dynamically, then we can override the <code>CGridListCtrlEx::OnTraitEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the <code>CComboBox</code>.</p>
+<p>We can specify the items of the <code>CComboBox</code> when inserting the columns (as shown above). If we want to provide the <code>CComboBox</code> items dynamically, then we can override the <code>CGridListCtrlEx::OnEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the <code>CComboBox</code>.</p>
 
 <h4>Sorting Rows</h4>
 
-<p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all columns, where it will perform a simple text-comparison. If we want a more advanced sorting, then we can override the <code>CGridListCtrlEx::SortColumn()</code> method. Then, it is just a matter of choosing the right way to perform the sorting. See <a href="clistctrl_sort.aspx">CListCtrl and Sorting Rows</a>.</p>
+<p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all columns, where it will perform a simple text-comparison. It is possible through the column traits to implement custom sorting, or we can just override the <code>CGridListCtrlEx::SortColumn()</code> method. Then, it is just a matter of choosing the right way to perform the sorting. See <a href="clistctrl_sort.aspx">CListCtrl and Sorting Rows</a>.</p>
 
 <h4>Showing Tooltip</h4>
 
@@ -136,7 +136,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>OLE Drag and Drop</h4>
 
-<p><code>CGridListCtrlEx</code> can both work as an OLE drag source and an OLE drop target. This allows drag operations between the <code>CGridListCtrlEx </code>and other windows and applications.</p>
+<p><code>CGridListCtrlEx</code> can both work as an OLE drag source and an OLE drop target. This allows drag operations between the <code>CGridListCtrlEx</code> and other windows and applications.</p>
 
 <p><code>CGridListCtrlEx</code> supports reordering of rows when doing internal drag and drop. This is implemented using a special sort operation, so items are not deleted/inserted.</p>
 
@@ -150,20 +150,25 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <pre lang="c++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
 
-<p>Remember not to use <code>InsertHiddenColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
+<p>Remember not to use <code>InsertHiddenLabelColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
 
-<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code>:</p>
+<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code> (And its specializations):</p>
 
 <pre lang="C++">// Appends the unchecked/checked state images to the list control image list
-int nStateIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
+int nStateImageIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
+m_ListCtrl.SetImageList(&m_ImageList, LVSIL_SMALL);
 // Creates an image column, that can switch between the 2 images
 CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
 for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
-	m_ListCtrl.SetCellImage(i, nCol, nStateIdx);	// Uncheck item
+	m_ListCtrl.SetCellImage(i, nCol, nStateImageIdx);	// Uncheck item
 </pre>
 
+<p>The label column will automatically display the image column when assigning an imagelist using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
+
 <p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
+
+<p><code>CGridColumnTraitImage</code> also supports toggling of checkboxes for all selected rows. Use <code>CGridColumnTraitImage::SetToggleSelection()</code> to enable this. </p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -198,13 +203,15 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <ul>
 <li><code>CGridColumnTraitText</code> - Implements cell formatting 
 <ul>
+<li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox)
+<ul>
 <li><code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code> </li>
 
 <li><code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code> </li>
 
 <li><code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code> </li>
+</ul></li>
 
-<li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox) </li>
 </ul>
 </li>
 </ul>
@@ -334,6 +341,19 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <li>Fixed several bugs (Mostly row and cell coloring) </li>
 </ul>
 </li>
+
+<li><strong>Version 1.8</strong> (2010-07-01) 
+<ul>
+<li>Made <code>CGridColumnTraitImage</code> a base class for all editor column traits, so they all can mimic checkbox support </li>
+
+<li>Implemented multiple selection checkbox support, so checkboxes are flipped for all selected rows </li>
+
+<li>Implemented min and max column width through the base column trait.</li>
+
+<li>Fixed several bugs </li>
+</ul>
+</li>
+
 </ul>
 
 </span>
