@@ -1710,12 +1710,9 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 	if (GetKeyState(VK_SHIFT) < 0)
 		return 0;	// Row selection should not trigger cell edit
 
-	// Begin edit if the same cell is clicked twice
-	bool startEdit = nRow!=-1 && nCol!=-1 && GetFocusRow()==nRow && GetFocusCell()==nCol && !bDblClick;
-
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
-		return startEdit ? 1 : 0;
+		return 0;
 
 	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
 		return 0;
