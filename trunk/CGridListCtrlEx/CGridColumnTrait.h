@@ -102,7 +102,6 @@ public:
 			,m_AlwaysVisible(false)
 			,m_Sortable(true)
 			,m_Editable(true)
-			,m_EditFocusFirst(true)
 			,m_Resizable(true)
 			,m_MetaFlags(0)
 			,m_MinWidth(-1)
@@ -115,7 +114,6 @@ public:
 		bool m_AlwaysVisible;//!< Column can never be hidden
 		bool m_Sortable;	//!< Rows can be sorted according to column
 		bool m_Editable;	//!< Cells in the column can be edited
-		bool m_EditFocusFirst;//!< Cells needs focus before edit mode can start
 		bool m_Resizable;	//!< Column width is resizable
 		int  m_MinWidth;	//!< Column width has a min size
 		int  m_MaxWidth;	//!< Column width has a max size
