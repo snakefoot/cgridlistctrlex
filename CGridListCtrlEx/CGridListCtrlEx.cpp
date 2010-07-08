@@ -1773,6 +1773,14 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	if (nCol==-1 || nRow==-1)
 		return NULL;
 
+	if (pt==CPoint(-1,-1))
+	{
+		CRect labelRect;
+		if (!GetCellRect(nRow, nCol, LVIR_LABEL, labelRect))
+			return NULL;
+		pt = labelRect.TopLeft();
+	}
+
 	m_pEditor = OnEditBegin(nRow, nCol, pt);
 	if (m_pEditor==NULL)
 		return NULL;
