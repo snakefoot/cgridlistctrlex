@@ -172,7 +172,7 @@ void CGridColumnManagerProfile::LoadConfiguration(CGridListCtrlEx& owner, CGridC
 	if (nColOrder < nColCount)
 	{
 		// All remaining columns are marked as invisible
-		for(int i = 0; i < nColOrder; ++i)
+		while(nColOrder > 0)
 		{
 			// Find nCol som ikke er i array
 			int nCol = -1;
