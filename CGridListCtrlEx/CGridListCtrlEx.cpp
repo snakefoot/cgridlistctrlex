@@ -136,6 +136,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_KILLFOCUS()	// OnKillFocus
 	ON_WM_DESTROY()		// OnDestroy
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
+	ON_MESSAGE(WM_SETFONT, OnSetFont)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -153,7 +154,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_RepeatSearchCount(-1)
 	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 	,m_pOleDropTarget(NULL)
-	,m_Margin(1)		// Higher row-height (more room for edit-ctrl border)
+	,m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
 	,m_pColumnManager(new CGridColumnManager)
 	,m_InvalidateMarkupText(true)
@@ -507,22 +508,38 @@ CFont* CGridListCtrlEx::GetCellFont()
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetCellMargin(double margin)
 {
-	m_Margin = margin;
-
 	LOGFONT lf = {0};
 	VERIFY(GetFont()->GetLogFont(&lf)!=0);
 	VERIFY( m_CellFont.CreateFontIndirect(&lf) );
 
-	lf.lfHeight = (int)(lf.lfHeight * m_Margin);
-	lf.lfWidth = (int)(lf.lfWidth * m_Margin);
+	lf.lfHeight = (int)( lf.lfHeight * margin );
+	lf.lfWidth = (int)( lf.lfWidth * margin );
 	VERIFY( m_GridFont.CreateFontIndirect(&lf) );
 
+	m_Margin = -1;	// Avoid loop in WM_SETFONT message handler
 	CListCtrl::SetFont(&m_GridFont);
+	m_Margin = margin;
+
 	GetHeaderCtrl()->SetFont(&m_CellFont);
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
 	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
 		pToolTipCtrl->SetFont(&m_CellFont);
 }
+
+//------------------------------------------------------------------------
+//! WM_SETFONT message handler. For re-applying margin if font changes
+//!
+//! @param wParamHandle to the font (HFONT), where NULL means default font
+//! @param lParam The low-order word of lParam specifies whether to redraw
+//! @return Not used
+//------------------------------------------------------------------------
+ LRESULT CGridListCtrlEx::OnSetFont(WPARAM wParam, LPARAM lParam)
+ {
+	 LRESULT result = DefWindowProc(WM_SETFONT, wParam, lParam); 
+	 if (m_Margin >= 0)
+		SetCellMargin(m_Margin);
+	 return result;
+ }
 
 //------------------------------------------------------------------------
 //! The column version of GetItemData(), one can specify an unique
