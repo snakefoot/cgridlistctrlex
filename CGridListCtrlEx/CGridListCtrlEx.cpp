@@ -136,7 +136,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_KILLFOCUS()	// OnKillFocus
 	ON_WM_DESTROY()		// OnDestroy
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
-	ON_MESSAGE(WM_SETFONT, OnSetFont)
+	ON_MESSAGE(WM_SETFONT, OnSetFont)	// SetFont notification
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1284,9 +1284,7 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		} break;
 		case VK_F2:
 		{
-			CRect rect;
-			VERIFY( GetCellRect(GetFocusRow(), GetFocusCell(), LVIR_LABEL, rect) );
-			EditCell(GetFocusRow(), GetFocusCell(), rect.TopLeft());
+			EditCell(GetFocusRow(), GetFocusCell());
 		} break;
 		case VK_SPACE:
 		{
