@@ -306,6 +306,8 @@ virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when list control is loosing focus to other control.  <a href="#ae14437c7098727af92895262e1260b06"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ad864df4e9a0040291651fede870127f0">OnCopy</a> (WPARAM wParam, LPARAM lParam)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_COPY message handler.  <a href="#ad864df4e9a0040291651fede870127f0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a2c44ca34390cc89253bddd1b53d8b012">OnSetFont</a> (WPARAM wParam, LPARAM lParam)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_SETFONT message handler.  <a href="#a2c44ca34390cc89253bddd1b53d8b012"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a587752a4addb6e81c848583ae8c1e3a4">OnBeginDrag</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_BEGINDRAG message handler called when performing left-click drag.  <a href="#a587752a4addb6e81c848583ae8c1e3a4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32b25b0a99f902b476d445cdce4265f1"></a><!-- doxytag: member="CGridListCtrlEx::DECLARE_MESSAGE_MAP" ref="a32b25b0a99f902b476d445cdce4265f1" args="()" -->
@@ -3812,6 +3814,44 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero indicates success. Zero indicates otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2c44ca34390cc89253bddd1b53d8b012"></a><!-- doxytag: member="CGridListCtrlEx::OnSetFont" ref="a2c44ca34390cc89253bddd1b53d8b012" args="(WPARAM wParam, LPARAM lParam)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LRESULT CGridListCtrlEx::OnSetFont </td>
+          <td>(</td>
+          <td class="paramtype">WPARAM&nbsp;</td>
+          <td class="paramname"> <em>wParam</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LPARAM&nbsp;</td>
+          <td class="paramname"> <em>lParam</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>WM_SETFONT message handler. </p>
+<p>For re-applying margin if font changes</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>wParamHandle</em>&nbsp;</td><td>to the font (HFONT), where NULL means default font </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>lParam</em>&nbsp;</td><td>The low-order word of lParam specifies whether to redraw </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Not used </dd></dl>
 
 </div>
 </div>
