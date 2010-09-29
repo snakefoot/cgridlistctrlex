@@ -256,6 +256,7 @@ protected:
 	virtual afx_msg void OnPaint();
 	virtual afx_msg void OnKillFocus(CWnd* pNewWnd);
 	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
+	virtual afx_msg LRESULT OnSetFont(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 
