@@ -2877,7 +2877,7 @@ namespace {
 		TCHAR leftText[256] = _T(""), rightText[256] = _T("");
 
 		LVITEM leftItem = {0};
-		leftItem.iItem = lParam1;
+		leftItem.iItem = (int)lParam1;
 		leftItem.iSubItem = ps.m_ColumnIndex;
 		leftItem.mask = LVIF_IMAGE | LVIF_TEXT;
 		leftItem.pszText = leftText;
@@ -2885,7 +2885,7 @@ namespace {
 		ListView_GetItem(ps.m_hWnd, &leftItem);
 
 		LVITEM rightItem = {0};
-		rightItem.iItem = lParam2;
+		rightItem.iItem = (int)lParam2;
 		rightItem.iSubItem = ps.m_ColumnIndex;
 		rightItem.mask = LVIF_IMAGE | LVIF_TEXT;
 		rightItem.pszText = rightText;
