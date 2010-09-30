@@ -22,7 +22,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -105,7 +105,7 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="1"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -282,10 +282,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp"
 					>
 				</File>
@@ -295,6 +291,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp"
 					>
 				</File>
 				<File
@@ -334,10 +334,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
-					>
-				</File>
-				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 					>
 				</File>
@@ -347,6 +343,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
 					>
 				</File>
 				<File
