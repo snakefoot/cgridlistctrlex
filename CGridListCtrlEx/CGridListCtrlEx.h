@@ -4,10 +4,11 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 1.8
+// Version: 1.8.1
 //
 // Change History:
-//	1.8 - Added checkbox support for all column editor types (2010-07-01)
+//  1.8.1 - Changed CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2010-11-15)
+//	1.8 - Added checkbox support for all column editor types (2010-10-01)
 //		  Added checkbox toggle for all selected rows
 //		  Added min and max width for columns
 //	1.7 - Added CGridColumnTraitImage, that provides checkbox editing (2009-12-12)
