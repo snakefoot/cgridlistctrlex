@@ -529,7 +529,7 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 //------------------------------------------------------------------------
 //! WM_SETFONT message handler. For re-applying margin if font changes
 //!
-//! @param wParamHandle to the font (HFONT), where NULL means default font
+//! @param wParam Handle to the font (HFONT), where NULL means default font
 //! @param lParam The low-order word of lParam specifies whether to redraw
 //! @return Not used
 //------------------------------------------------------------------------
