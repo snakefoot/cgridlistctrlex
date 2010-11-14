@@ -1053,10 +1053,16 @@ namespace {
 	{
 		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
 
-		const CString& left = ps.LookupGroupName(leftId);
-		const CString& right = ps.LookupGroupName(rightId);
+		const CString& leftText = ps.LookupGroupName(leftId);
+		const CString& rightText = ps.LookupGroupName(rightId);
 
-		return ps.m_pTrait->OnSortRows(left, right, ps.m_Ascending);
+		LVITEM leftItem = {0};
+		leftItem.pszText = const_cast<LPSTR>((LPCSTR)leftText);
+		leftItem.cchTextMax = leftText.GetLength();
+		LVITEM rightItem = {0};
+		rightItem.pszText = const_cast<LPSTR>((LPCSTR)rightText);
+		rightItem.cchTextMax = leftText.GetLength();
+		return ps.m_pTrait->OnSortRows(leftItem, rightItem, ps.m_Ascending);
 	}
 }
 
