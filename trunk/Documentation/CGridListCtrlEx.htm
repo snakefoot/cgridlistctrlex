@@ -1,9 +1,8 @@
 <span id="ArticleContent">
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 71.18 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 77.61 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo -&nbsp;728.61 KB</a> </li>
-
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 742.77 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -30,12 +29,11 @@
 <li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a> </li>
 
 <li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (includes reordering of items) </li>
+
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
-
-<img src="CGridListCtrlEx/screenshot.png" width="496" height="290" alt="screenshot.png" />
-
+<p><img src="CGridListCtrlEx/screenshot.png" width="497" height="292" alt="screenshot.png" /></p>
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
 <h2>Background</h2>
@@ -126,7 +124,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <p>If using <code>CGridListCtrlGroups</code>, it will instead react to <code>LVN_GETEMPTYMARKUP</code> if running on Windows Vista.</p>
 
-<h4>Load and save column width and position</h4>
+<h4>Load and Save Column Width and Position</h4>
 
 <p><code>CGridColumnManagerProfile</code> provides the ability to store the width, position and whether columns are shown. After having added all available columns to the <code>CGridListCtrlEx</code>, assign an instance of <code>CGridColumnManagerProfile</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code> and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
 
@@ -144,29 +142,28 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <p>To control what is placed in the drag-source when a drag is initiated, override <code>OnDisplayToDragDrop()</code>.</p>
 
-<h4>Checkbox support</h4>
+<h4>Checkbox Support</h4>
 
-<p>CListCtrl supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
+<p><code>CListCtrl</code> supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
 
-<pre lang="c++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
+<pre lang="C++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
 
 <p>Remember not to use <code>InsertHiddenLabelColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
 
-<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code> (And its specializations):</p>
+<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code> (and its specializations):</p>
 
 <pre lang="C++">// Appends the unchecked/checked state images to the list control image list
 int nStateImageIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
-m_ListCtrl.SetImageList(&m_ImageList, LVSIL_SMALL);
+m_ListCtrl.SetImageList(&amp;m_ImageList, LVSIL_SMALL);
 // Creates an image column, that can switch between the 2 images
 CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
 for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
-	m_ListCtrl.SetCellImage(i, nCol, nStateImageIdx);	// Uncheck item
-</pre>
+	m_ListCtrl.SetCellImage(i, nCol, nStateImageIdx);	// Uncheck item</pre>
 
-<p>The label column will automatically display the image column when assigning an imagelist using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
+<p>The label column will automatically display the image column when assigning an <code>CImageList</code> using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
 
-<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
+<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state, one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
 
 <p><code>CGridColumnTraitImage</code> also supports toggling of checkboxes for all selected rows. Use <code>CGridColumnTraitImage::SetToggleSelection()</code> to enable this. </p>
 
@@ -203,21 +200,23 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <ul>
 <li><code>CGridColumnTraitText</code> - Implements cell formatting 
 <ul>
-<li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox)
+
+<li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox) 
 <ul>
 <li><code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code> </li>
 
 <li><code>CGridColumnTraitCombo</code> - Implements cell editing with <code>CComboBox</code> </li>
 
 <li><code>CGridColumnTraitDateTime</code> - Implements cell editing with <code>CDateTimeCtrl</code> </li>
-</ul></li>
-
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 
 <li><code>CGridRowTrait</code> - Specifies the interface of a row trait 
+
 <ul>
 <li><code>CGridRowTraitText</code> - Implements row formatting </li>
 
@@ -226,8 +225,8 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </li>
 
 <li><code>CGridColumnnManager</code> - Specifies the interface for managing column persistence 
-
 <ul>
+
 <li><code>CGridColumnManagerProfile</code> - Implements the interface for working with multiple column configurations. </li>
 </ul>
 </li>
@@ -243,7 +242,7 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <p>Implementing a <code>CGridColumnTrait</code> class that draws the entire cell could probably be done by stealing/borrowing some code from <a href="http://www.codeproject.com/KB/wtl/WTL_ListCtrl.aspx">ListCtrl - A WTL List Control with Windows Vista Style Item Selection</a>.</p>
 
-<p>Contributions to this project are&nbsp;very welcome.</p>
+<p>Contributions to this project are very welcome.</p>
 
 <h2>History</h2>
 
@@ -252,7 +251,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><strong>Version 1.1</strong> (2008-09-18) 
 <ul>
-
 <li>Added support for grouping with <code>CGridListCtrlGroups</code> </li>
 
 <li>Added <code>CDateTimeCtrl</code> editor </li>
@@ -262,7 +260,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <li>Fixed image background color for selected subitems (no longer white) </li>
 
 <li>Fixed grid border disappearing when scrolling right and left </li>
-
 </ul>
 </li>
 
@@ -273,7 +270,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </li>
 
 <li><strong>Version 1.2</strong> (2008-09-24) 
-
 <ul>
 <li>Replaced the <code>CGridListCtrlXP </code>with <code>CGridRowTraitXP</code> </li>
 
@@ -283,7 +279,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><strong>Version 1.3</strong> (2008-10-09) 
 <ul>
-
 <li>Fixed extended style when used in <code>CView</code> </li>
 
 <li>Fixed positioning of context-menu when using keyboard shortcut (SHIFT+F10) </li>
@@ -294,7 +289,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><strong>Version 1.4</strong> (2008-11-07) 
 <ul>
-
 <li>Added clipboard support for copying the contents of the selected cell / rows </li>
 
 <li>Renamed the &quot;<code>Callback</code>&quot;-functions to &quot;<code>OnDisplay</code>&quot;, as it resembles the MFC naming convention </li>
@@ -304,7 +298,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </li>
 
 <li><strong>Version 1.5</strong> (2009-03-29) 
-
 <ul>
 <li>Added column manager <code>CGridColumnManager</code> </li>
 
@@ -344,16 +337,16 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><strong>Version 1.8</strong> (2010-10-01) 
 <ul>
+
 <li>Made <code>CGridColumnTraitImage</code> a base class for all editor column traits, so they all can mimic checkbox support </li>
 
 <li>Implemented multiple selection checkbox support, so checkboxes are flipped for all selected rows </li>
 
-<li>Implemented min and max column width through the base column trait.</li>
+<li>Implemented min and max column width through the base column trait </li>
 
 <li>Fixed several bugs </li>
 </ul>
 </li>
-
 </ul>
 
 </span>
