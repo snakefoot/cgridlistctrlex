@@ -25,7 +25,7 @@ public:
 	void SetParseDateTime(DWORD dwFlags = 0, LCID lcid = LANG_USER_DEFAULT);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
-	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
+	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending);
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);

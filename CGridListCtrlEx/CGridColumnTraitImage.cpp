@@ -148,21 +148,20 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 //------------------------------------------------------------------------
 //! Compares two cell values according to checkbox state
 //!
-//! @param nLeftImageIdx Left image index
-//! @param nRightImageIdx Right image index
+//! @param leftItem Left cell item
+//! @param rightItem Right cell item
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitImage::OnSortRows(int nLeftImageIdx, int nRightImageIdx, bool bAscending)
+int CGridColumnTraitImage::OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending)
 {
 	if (m_SortImageIndex)
 	{
-		if (bAscending)
-			return nLeftImageIdx - nRightImageIdx;
-		else
-			return nRightImageIdx - nLeftImageIdx;
+		int imageSort = bAscending ? leftItem.iImage - rightItem.iImage : rightItem.iImage - leftItem.iImage;
+		if (imageSort != 0)
+			return imageSort;
 	}
-	return 0;
+	return CGridColumnTraitText::OnSortRows(leftItem, rightItem, bAscending);
 }
 
 //------------------------------------------------------------------------
