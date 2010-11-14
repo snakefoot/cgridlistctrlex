@@ -84,7 +84,17 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Sorting Rows</h4>
 
-<p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all columns, where it will perform a simple text-comparison. It is possible through the column traits to implement custom sorting, or we can just override the <code>CGridListCtrlEx::SortColumn()</code> method. Then, it is just a matter of choosing the right way to perform the sorting. See <a href="clistctrl_sort.aspx">CListCtrl and Sorting Rows</a>.</p>
+<p>By default, the <code>GridListCtrlEx</code> will have sorting enabled for all columns, where it will perform a simple text-comparison. It is possible through the column traits to implement custom sorting by overriding <code>CGridColumnTrait::OnSortRows()</code>.</p>
+
+<p>To configure a column trait to sort using number comparison:</p>
+
+<pre lang="C++">CGridColumnTraitEdit* pTrait = new CGridColumnTraitEdit;
+pTrait->SetSortFormatNumber(true);	// Numeric column
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
+
+<p>The column trait <code>CGridColumnTraitDateTime</code> will automatically attempt to sort using date comparison.</p>
+
+<p>We also have the option to override the <code>CGridListCtrlEx::SortColumn()</code> method. Then, it is just a matter of choosing the right way to perform the sorting. See also <a href="clistctrl_sort.aspx">CListCtrl and Sorting Rows</a>.</p>
 
 <h4>Showing Tooltip</h4>
 
@@ -164,6 +174,8 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <p>The label column will automatically display the image column when assigning an <code>CImageList</code> using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
 
 <p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state, one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
+
+<p><code>CGridColumnTraitImage</code> supports sorting according to whether the checkbox is enabled. Use <code>CGridColumnTraitImage::SetSortImageIndex()</code> to enable this. </p>
 
 <p><code>CGridColumnTraitImage</code> also supports toggling of checkboxes for all selected rows. Use <code>CGridColumnTraitImage::SetToggleSelection()</code> to enable this. </p>
 
@@ -345,6 +357,12 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <li>Implemented min and max column width through the base column trait </li>
 
 <li>Fixed several bugs </li>
+</ul>
+</li>
+<li><strong>Version 1.8.1</strong> (2010-11-15) 
+<ul>
+
+<li>Changed <code>CGridColumnTrait::OnSortRows</code> to take an <code>LVITEM</code> as argument instead of character strings</li>
 </ul>
 </li>
 </ul>
