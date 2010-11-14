@@ -2879,7 +2879,7 @@ namespace {
 		LVITEM leftItem = {0};
 		leftItem.iItem = (int)lParam1;
 		leftItem.iSubItem = ps.m_ColumnIndex;
-		leftItem.mask = LVIF_IMAGE | LVIF_TEXT;
+		leftItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		leftItem.pszText = leftText;
 		leftItem.cchTextMax = sizeof(leftText)/sizeof(TCHAR);
 		ListView_GetItem(ps.m_hWnd, &leftItem);
@@ -2887,16 +2887,12 @@ namespace {
 		LVITEM rightItem = {0};
 		rightItem.iItem = (int)lParam2;
 		rightItem.iSubItem = ps.m_ColumnIndex;
-		rightItem.mask = LVIF_IMAGE | LVIF_TEXT;
+		rightItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		rightItem.pszText = rightText;
 		rightItem.cchTextMax = sizeof(rightText)/sizeof(TCHAR);
 		ListView_GetItem(ps.m_hWnd, &rightItem);
 
-		int imageSort = ps.m_pTrait->OnSortRows(leftItem.iImage, rightItem.iImage, ps.m_Ascending);
-		if (imageSort!=0)
-			return imageSort;
-
-		return ps.m_pTrait->OnSortRows(leftText, rightText, ps.m_Ascending);
+		return ps.m_pTrait->OnSortRows(leftItem, rightItem, ps.m_Ascending);
 	}
 }
 

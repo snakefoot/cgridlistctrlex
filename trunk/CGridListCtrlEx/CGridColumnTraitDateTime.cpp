@@ -153,19 +153,26 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 //------------------------------------------------------------------------
 //! Compares two cell values according to specified sort order
 //!
-//! @param pszLeftValue Left cell value
-//! @param pszRightValue Right cell value
+//! @param leftItem Left cell item
+//! @param rightItem Right cell item
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
+int CGridColumnTraitDateTime::OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending)
 {
+	if (m_SortImageIndex)
+	{
+		int imageSort = bAscending ? leftItem.iImage - rightItem.iImage : rightItem.iImage - leftItem.iImage;
+		if (imageSort != 0)
+			return imageSort;
+	}
+
 	COleDateTime leftDate;
-	if(leftDate.ParseDateTime(pszLeftValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	if(leftDate.ParseDateTime(leftItem.pszText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
 		leftDate.SetDateTime(1970, 1, 1, 0, 0, 0);
 
 	COleDateTime rightDate;
-	if(rightDate.ParseDateTime(pszRightValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	if(rightDate.ParseDateTime(rightItem.pszText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
 		rightDate.SetDateTime(1970, 1, 1, 0, 0, 0);
 
 	if (bAscending)

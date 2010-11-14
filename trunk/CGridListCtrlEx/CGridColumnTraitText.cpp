@@ -123,17 +123,17 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 //------------------------------------------------------------------------
 //! Compares two cell values according to specified sort order
 //!
-//! @param pszLeftValue Left cell value
-//! @param pszRightValue Right cell value
+//! @param leftItem Left cell item
+//! @param rightItem Right cell item
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
+int CGridColumnTraitText::OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending)
 {
 	if (m_SortFormatNumber)
 	{
-		int nLeftValue = _ttoi(pszLeftValue);
-		int nRightValue = _ttoi(pszRightValue);
+		int nLeftValue = _ttoi(leftItem.pszText);
+		int nRightValue = _ttoi(rightItem.pszText);
 		if (bAscending)
 			return nLeftValue - nRightValue;
 		else
@@ -142,9 +142,9 @@ int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue
 	else
 	{
 		if (bAscending)
-			return _tcscmp( pszLeftValue, pszRightValue );
+			return _tcscmp( leftItem.pszText, rightItem.pszText );
 		else
-			return _tcscmp( pszRightValue, pszLeftValue );
+			return _tcscmp( rightItem.pszText, leftItem.pszText );
 	}
 }
 

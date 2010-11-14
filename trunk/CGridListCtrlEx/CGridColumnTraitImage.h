@@ -33,7 +33,7 @@ public:
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
 protected:
-	virtual int OnSortRows(int nLeftImageIdx, int nRightImageIdx, bool bAscending);
+	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending);
 	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const;
 	virtual int OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
