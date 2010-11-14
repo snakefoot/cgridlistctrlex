@@ -82,10 +82,8 @@ virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96c3d95ac2e528f4efe40775f9585e0d"></a><!-- doxytag: member="CGridColumnTrait::OnEditEnd" ref="a96c3d95ac2e528f4efe40775f9585e0d" args="()" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a96c3d95ac2e528f4efe40775f9585e0d">OnEditEnd</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a96c3d95ac2e528f4efe40775f9585e0d" title="Override OnEditEnd() in case one need to change state after a cell-edit.">OnEditEnd()</a> in case one need to change state after a cell-edit. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a2e3d1fc0f5e0f41a985bffedfec3eb30"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a604cab359c6004acf12cd48d0264cb46">OnSortRows</a> (int nLeftImageIdx, int nRightImageIdx, bool bAscending)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a604cab359c6004acf12cd48d0264cb46"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a1b477cc5ceae8a47babf94b4478ed048">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a1b477cc5ceae8a47babf94b4478ed048" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a1b477cc5ceae8a47babf94b4478ed048"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#a3ea765aad5a3b38748515404867ffffd">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait.html#a3ea765aad5a3b38748515404867ffffd" title="Override Accept() and update CGridColumnTraitVisitor for new column-trait classes...">Accept()</a> and update <a class="el" href="class_c_grid_column_trait_visitor.html" title="CGridColumnTraitVisitor enables the use of the visitor-pattern to add extra behavior...">CGridColumnTraitVisitor</a> for new column-trait classes.  <a href="#a3ea765aad5a3b38748515404867ffffd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait.html#ad381f010d27330d143bdd354a048dcc4">IsCellReadOnly</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt) const </td></tr>
@@ -437,21 +435,21 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 
 </div>
 </div>
-<a class="anchor" id="a604cab359c6004acf12cd48d0264cb46"></a><!-- doxytag: member="CGridColumnTrait::OnSortRows" ref="a604cab359c6004acf12cd48d0264cb46" args="(int nLeftImageIdx, int nRightImageIdx, bool bAscending)" -->
+<a class="anchor" id="a1b477cc5ceae8a47babf94b4478ed048"></a><!-- doxytag: member="CGridColumnTrait::OnSortRows" ref="a1b477cc5ceae8a47babf94b4478ed048" args="(const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">virtual int CGridColumnTrait::OnSortRows </td>
           <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nLeftImageIdx</em>, </td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>leftItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRightImageIdx</em>, </td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>rightItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -468,64 +466,18 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 </div>
 <div class="memdoc">
 
-<p>Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting. </p>
+<p>Override <a class="el" href="class_c_grid_column_trait.html#a1b477cc5ceae8a47babf94b4478ed048" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nLeftImageIdx</em>&nbsp;</td><td>Left image index </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRightImageIdx</em>&nbsp;</td><td>Right image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>leftItem</em>&nbsp;</td><td>Left cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rightItem</em>&nbsp;</td><td>Right cell item </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_image.html#a9f110e76fbe7d43595635a9b3a880594">CGridColumnTraitImage</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a2e3d1fc0f5e0f41a985bffedfec3eb30"></a><!-- doxytag: member="CGridColumnTrait::OnSortRows" ref="a2e3d1fc0f5e0f41a985bffedfec3eb30" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual int CGridColumnTrait::OnSortRows </td>
-          <td>(</td>
-          <td class="paramtype">LPCTSTR&nbsp;</td>
-          <td class="paramname"> <em>pszLeftValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LPCTSTR&nbsp;</td>
-          <td class="paramname"> <em>pszRightValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td><code> [inline, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Override <a class="el" href="class_c_grid_column_trait.html#a2e3d1fc0f5e0f41a985bffedfec3eb30" title="Override OnSortRows() to provide your own special row sorting.">OnSortRows()</a> to provide your own special row sorting. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pszLeftValue</em>&nbsp;</td><td>Left cell value </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pszRightValue</em>&nbsp;</td><td>Right cell value </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
-
-<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">CGridColumnTraitDateTime</a>, and <a class="el" href="class_c_grid_column_trait_text.html#aa93469a61a6ae6f4c0ef32f7e3393b3c">CGridColumnTraitText</a>.</p>
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#a58a16f0ee54caf5149541a34f370a516">CGridColumnTraitDateTime</a>, <a class="el" href="class_c_grid_column_trait_image.html#a3d9c0910f1579dad08f282a0c202f421">CGridColumnTraitImage</a>, and <a class="el" href="class_c_grid_column_trait_text.html#aeaa0580266169f124a21fc731cbb7e7f">CGridColumnTraitText</a>.</p>
 
 </div>
 </div>

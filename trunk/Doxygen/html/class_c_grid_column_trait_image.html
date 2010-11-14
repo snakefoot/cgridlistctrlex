@@ -83,8 +83,8 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ada490bda7a4d39a2fa69ebfca191aa85">AppendStateImages</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CImageList &amp;imagelist)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a9f110e76fbe7d43595635a9b3a880594">OnSortRows</a> (int nLeftImageIdx, int nRightImageIdx, bool bAscending)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to checkbox state.  <a href="#a9f110e76fbe7d43595635a9b3a880594"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a3d9c0910f1579dad08f282a0c202f421">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to checkbox state.  <a href="#a3d9c0910f1579dad08f282a0c202f421"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a36318c4778486cc897dcddb98882ac25">IsCellReadOnly</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt) const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if current image index blocks for editing of cell label.  <a href="#a36318c4778486cc897dcddb98882ac25"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a6ba02cf22b69207ae90360ab47911c04">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
@@ -465,21 +465,21 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a9f110e76fbe7d43595635a9b3a880594"></a><!-- doxytag: member="CGridColumnTraitImage::OnSortRows" ref="a9f110e76fbe7d43595635a9b3a880594" args="(int nLeftImageIdx, int nRightImageIdx, bool bAscending)" -->
+<a class="anchor" id="a3d9c0910f1579dad08f282a0c202f421"></a><!-- doxytag: member="CGridColumnTraitImage::OnSortRows" ref="a3d9c0910f1579dad08f282a0c202f421" args="(const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int CGridColumnTraitImage::OnSortRows </td>
           <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nLeftImageIdx</em>, </td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>leftItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRightImageIdx</em>, </td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>rightItem</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -499,15 +499,17 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Compares two cell values according to checkbox state. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nLeftImageIdx</em>&nbsp;</td><td>Left image index </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nRightImageIdx</em>&nbsp;</td><td>Right image index </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>leftItem</em>&nbsp;</td><td>Left cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rightItem</em>&nbsp;</td><td>Right cell item </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a604cab359c6004acf12cd48d0264cb46">CGridColumnTrait</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_text.html#aeaa0580266169f124a21fc731cbb7e7f">CGridColumnTraitText</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#a58a16f0ee54caf5149541a34f370a516">CGridColumnTraitDateTime</a>.</p>
 
 </div>
 </div>
