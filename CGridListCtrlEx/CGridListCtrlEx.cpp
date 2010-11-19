@@ -2783,10 +2783,10 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	// Check that column is allowed to be resized
 	int nCol = (int)wParam;
 
-	if (!IsColumnVisible(nCol))
+	if (!IsColumnResizable(nCol))
 		return FALSE;
 
-	if (!IsColumnResizable(nCol))
+	if (!IsColumnVisible(nCol) && lParam!=0)
 		return FALSE;
 
 	m_pColumnManager->OnColumnResize(*this);
