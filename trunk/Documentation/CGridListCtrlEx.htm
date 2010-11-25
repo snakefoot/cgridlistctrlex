@@ -69,7 +69,7 @@
 <pre lang="C++">CGridColumnTrait* pTrait = new CGridColumnTraitEdit;
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
 
-<p>When having edited an item, a standard <code>LVN_ENDLABELEDIT</code> message will be sent to the <code>CListCtrl</code>. When the <code>CGridListCtrlEx</code> receives this message, it will automatically call the virtual method <code>CGridListCtrlEx::OnTraitEditComplete()</code>, allowing a derived class to validate the input and maybe update an underlying data model.</p>
+<p>When having edited an item, a standard <code>LVN_ENDLABELEDIT</code> message will be sent to the <code>CListCtrl</code>. When the <code>CGridListCtrlEx</code> receives this message, it will automatically call the virtual method <code>CGridListCtrlEx::OnEditComplete()</code>, allowing a derived class to validate the input and maybe update an underlying data model.</p>
 
 <h4>Editing Cells/Subitems with a Combo-box</h4>
 
