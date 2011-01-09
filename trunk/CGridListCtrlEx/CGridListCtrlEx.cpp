@@ -3670,6 +3670,9 @@ void CGridListCtrlEx::OnDestroy()
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
 
+	m_CellFont.DeleteObject();
+	m_GridFont.DeleteObject();
+
 	CListCtrl::OnDestroy();
 }
 
