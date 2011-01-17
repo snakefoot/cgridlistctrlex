@@ -54,7 +54,7 @@
 <li><a href="http://www.codeguru.com/cpp/controls/listview/advanced/article.php/c4179/">CListCtrlEx</a> - Implements lots of feature and is well documented. Originally required <code>LVS_OWNERDRAWFIXED</code>, and now evolved into using custom draw. The combination of both custom draw and owner draw causes the code to be a little complicated, and it also doesn't support <code>LVS_OWNERDATA</code>. </li>
 </ul>
 
-<p>The <code>CGridListCtrlEx</code> tries to be simple, while still providing the ability to customize how a cell should be displayed and edited. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
+<p>The <code>CGridListCtrlEx</code> inserts an abstract layer called column traits that handles the cell drawing and editing. In case Microsoft extends their <code>CListCtrl</code> again, then hopefully, the core of <code>CGridListCtrlEx</code> will continue to function.</p>
 
 <h2>How to Use the CGridListCtrlEx</h2>
 
