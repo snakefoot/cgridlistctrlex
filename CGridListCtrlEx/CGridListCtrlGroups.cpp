@@ -1057,10 +1057,10 @@ namespace {
 		const CString& rightText = ps.LookupGroupName(rightId);
 
 		LVITEM leftItem = {0};
-		leftItem.pszText = const_cast<LPSTR>((LPCSTR)leftText);
+		leftItem.pszText = const_cast<LPTSTR>((LPCTSTR)leftText);
 		leftItem.cchTextMax = leftText.GetLength();
 		LVITEM rightItem = {0};
-		rightItem.pszText = const_cast<LPSTR>((LPCSTR)rightText);
+		rightItem.pszText = const_cast<LPTSTR>((LPCTSTR)rightText);
 		rightItem.cchTextMax = leftText.GetLength();
 		return ps.m_pTrait->OnSortRows(leftItem, rightItem, ps.m_Ascending);
 	}
