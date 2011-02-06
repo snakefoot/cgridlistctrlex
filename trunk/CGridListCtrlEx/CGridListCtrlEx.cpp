@@ -510,10 +510,14 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 {
 	LOGFONT lf = {0};
 	VERIFY(GetFont()->GetLogFont(&lf)!=0);
+	if (static_cast<HFONT>(m_CellFont))
+		VERIFY( m_CellFont.DeleteObject() );
 	VERIFY( m_CellFont.CreateFontIndirect(&lf) );
 
 	lf.lfHeight = (int)( lf.lfHeight * margin );
 	lf.lfWidth = (int)( lf.lfWidth * margin );
+	if (static_cast<HFONT>(m_GridFont))
+		VERIFY( m_GridFont.DeleteObject() );
 	VERIFY( m_GridFont.CreateFontIndirect(&lf) );
 
 	m_Margin = -1;	// Avoid loop in WM_SETFONT message handler
@@ -1421,7 +1425,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	// No input within 2 seconds, resets the search
-	if (m_LastSearchTime.GetCurrentTime() >= (m_LastSearchTime+2)
+	if (m_LastSearchTime.GetCurrentTime() >= (m_LastSearchTime+CTimeSpan(0,0,0,2))
 	 && m_LastSearchString.GetLength()>0)
 		m_LastSearchString = _T("");
 
@@ -3670,8 +3674,10 @@ void CGridListCtrlEx::OnDestroy()
 	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
 		DeleteColumnTrait(nCol);
 
-	m_CellFont.DeleteObject();
-	m_GridFont.DeleteObject();
+	if (static_cast<HFONT>(m_CellFont))
+		VERIFY( m_CellFont.DeleteObject() );
+	if (static_cast<HFONT>(m_GridFont))
+		VERIFY( m_GridFont.DeleteObject() );
 
 	CListCtrl::OnDestroy();
 }
