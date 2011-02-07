@@ -1371,7 +1371,7 @@ int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& st
 					return i;
 			}
 		}
-		nRowCount = nStartRow;
+		nRowCount = nStartRow + 1;
 		nStartRow = -1;
 	}
 
