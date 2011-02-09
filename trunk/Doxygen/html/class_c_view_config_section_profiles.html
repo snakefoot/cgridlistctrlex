@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CGridListCtrlEx: CGridColumnConfigProfiles Class Reference</title>
+<title>CGridListCtrlEx: CViewConfigSectionProfiles Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javaScript" src="search/search.js"></script>
@@ -43,61 +43,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <div class="contents">
-<h1>CGridColumnConfigProfiles Class Reference</h1><!-- doxytag: class="CGridColumnConfigProfiles" --><!-- doxytag: inherits="CGridColumnConfigDefault" -->
-<p>Abstract interface for persisting column configuration, that can switch between different column configuration profiles.  
+<h1>CViewConfigSectionProfiles Class Reference</h1><!-- doxytag: class="CViewConfigSectionProfiles" --><!-- doxytag: inherits="CViewConfigSectionDefault" -->
+<p>Abstract interface for persisting view configuration, that can switch between different view configuration profiles.  
 <a href="#_details">More...</a></p>
 <div class="dynheader">
-Inheritance diagram for CGridColumnConfigProfiles:</div>
+Inheritance diagram for CViewConfigSectionProfiles:</div>
 <div class="dynsection">
  <div class="center">
-  <img src="class_c_grid_column_config_profiles.png" usemap="#CGridColumnConfigProfiles_map" alt=""/>
-  <map id="CGridColumnConfigProfiles_map" name="CGridColumnConfigProfiles_map">
-<area href="class_c_grid_column_config_default.html" alt="CGridColumnConfigDefault" shape="rect" coords="0,56,168,80"/>
-<area href="class_c_grid_column_config.html" alt="CGridColumnConfig" shape="rect" coords="0,0,168,24"/>
-<area href="class_c_grid_column_config_win_app.html" alt="CGridColumnConfigWinApp" shape="rect" coords="0,168,168,192"/>
+  <img src="class_c_view_config_section_profiles.png" usemap="#CViewConfigSectionProfiles_map" alt=""/>
+  <map id="CViewConfigSectionProfiles_map" name="CViewConfigSectionProfiles_map">
+<area href="class_c_view_config_section_default.html" alt="CViewConfigSectionDefault" shape="rect" coords="0,56,172,80"/>
+<area href="class_c_view_config_section.html" alt="CViewConfigSection" shape="rect" coords="0,0,172,24"/>
+<area href="class_c_view_config_section_win_app.html" alt="CViewConfigSectionWinApp" shape="rect" coords="0,168,172,192"/>
 </map>
  </div>
 </div>
 
-<p><a href="class_c_grid_column_config_profiles-members.html">List of all members.</a></p>
+<p><a href="class_c_view_config_section_profiles-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a68d2b89deceb3789132e36dabbcf0ec9">CGridColumnConfigProfiles</a> (const CString &amp;strViewName)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_column_config_profiles.html" title="Abstract interface for persisting column configuration, that can switch between different...">CGridColumnConfigProfiles</a> - Constructor.  <a href="#a68d2b89deceb3789132e36dabbcf0ec9"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac84508557bca9c0167f950c062906d44"></a><!-- doxytag: member="CGridColumnConfigProfiles::RemoveCurrentConfig" ref="ac84508557bca9c0167f950c062906d44" args="()" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#ac84508557bca9c0167f950c062906d44">RemoveCurrentConfig</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a283c75fcc872ae5be6bcf7fc67b6230c">CViewConfigSectionProfiles</a> (const CString &amp;strViewName)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_view_config_section_profiles.html" title="Abstract interface for persisting view configuration, that can switch between different...">CViewConfigSectionProfiles</a> - Constructor.  <a href="#a283c75fcc872ae5be6bcf7fc67b6230c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a741579e68c59d45304f74c45549d92e9"></a><!-- doxytag: member="CViewConfigSectionProfiles::RemoveCurrentConfig" ref="a741579e68c59d45304f74c45549d92e9" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a741579e68c59d45304f74c45549d92e9">RemoveCurrentConfig</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes the current configuration. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a19cd730f6ad8d4a36fd3944c4bec47ab">GetProfiles</a> (CSimpleArray&lt; CString &gt; &amp;profiles) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the list of currently available configuration profiles.  <a href="#a19cd730f6ad8d4a36fd3944c4bec47ab"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a477bdf38dfc19ec23978dec2b251fe4c">GetActiveProfile</a> ()</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the currently active profile.  <a href="#a477bdf38dfc19ec23978dec2b251fe4c"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a7a16c4a079bfe6cb437942f23cf88be6">SetActiveProfile</a> (const CString &amp;strProfile)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switches to a new active configuration profile.  <a href="#a7a16c4a079bfe6cb437942f23cf88be6"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a0354f0c810f92e3c72623fcd51a0924a">AddProfile</a> (const CString &amp;strProfile)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds a profile to the official list of column configuration profiles.  <a href="#a0354f0c810f92e3c72623fcd51a0924a"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a9059f6df6a4ba321b16b2a94f7a09c39">DeleteProfile</a> (const CString &amp;strProfile)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes a profile from the official list of column configuration profiles.  <a href="#a9059f6df6a4ba321b16b2a94f7a09c39"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a66aa5089d4bb3e7b98cec0a638a75f54">GetProfiles</a> (CSimpleArray&lt; CString &gt; &amp;profiles) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the list of currently available configuration profiles.  <a href="#a66aa5089d4bb3e7b98cec0a638a75f54"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a23d81e696ba0a5abe6211a7d49a9d4de">GetActiveProfile</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the currently active profile.  <a href="#a23d81e696ba0a5abe6211a7d49a9d4de"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#aa31e6e1aef3d7015756b9d80af127988">SetActiveProfile</a> (const CString &amp;strProfile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switches to a new active configuration profile.  <a href="#aa31e6e1aef3d7015756b9d80af127988"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a40cb29e8ff8e28e4c389bd36ef6ccc82">AddProfile</a> (const CString &amp;strProfile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds a profile to the official list of column configuration profiles.  <a href="#a40cb29e8ff8e28e4c389bd36ef6ccc82"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#aee21b73a4db611d8826f484abf431801">DeleteProfile</a> (const CString &amp;strProfile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes a profile from the official list of column configuration profiles.  <a href="#aee21b73a4db611d8826f484abf431801"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual const CString &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a05d9844a7038416f453ad51f5e593667">GetSectionName</a> () const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the section name of the currently active configuration profile.  <a href="#a05d9844a7038416f453ad51f5e593667"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#add60c6a7eae823a40d1b7b738482ec23">SplitSectionName</a> (const CString &amp;strSection, CString &amp;strViewName, CString &amp;strProfile)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Splits the section name into a view-name and profile-name.  <a href="#add60c6a7eae823a40d1b7b738482ec23"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a36eeb26caf018cc4ba8ac63d080f88fe">JoinSectionName</a> (const CString &amp;strViewName, const CString &amp;strProfile) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Combines the view-name and the profile-name into a section name.  <a href="#a36eeb26caf018cc4ba8ac63d080f88fe"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual const CString &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a9856749bdc146c871c9dde85fc4334dc">GetSectionName</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the section name of the currently active configuration profile.  <a href="#a9856749bdc146c871c9dde85fc4334dc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a8bbb198be4b50384abdb02ea82dc2117">SplitSectionName</a> (const CString &amp;strSection, CString &amp;strViewName, CString &amp;strProfile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Splits the section name into a view-name and profile-name.  <a href="#a8bbb198be4b50384abdb02ea82dc2117"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#af3e3ee7587886195cbd1c06d25539c26">JoinSectionName</a> (const CString &amp;strViewName, const CString &amp;strProfile) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Combines the view-name and the profile-name into a section name.  <a href="#af3e3ee7587886195cbd1c06d25539c26"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a814500b40fe36008203a1df139c7f6f6"></a><!-- doxytag: member="CGridColumnConfigProfiles::m_CurrentSection" ref="a814500b40fe36008203a1df139c7f6f6" args="" -->
-CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_config_profiles.html#a814500b40fe36008203a1df139c7f6f6">m_CurrentSection</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81cb058525421d6a1bf85e22a6238aa6"></a><!-- doxytag: member="CViewConfigSectionProfiles::m_CurrentSection" ref="a81cb058525421d6a1bf85e22a6238aa6" args="" -->
+CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_view_config_section_profiles.html#a81cb058525421d6a1bf85e22a6238aa6">m_CurrentSection</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Section name combined from the viewname and the current profile name. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Abstract interface for persisting column configuration, that can switch between different column configuration profiles. </p>
+<p>Abstract interface for persisting view configuration, that can switch between different view configuration profiles. </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a68d2b89deceb3789132e36dabbcf0ec9"></a><!-- doxytag: member="CGridColumnConfigProfiles::CGridColumnConfigProfiles" ref="a68d2b89deceb3789132e36dabbcf0ec9" args="(const CString &amp;strViewName)" -->
+<a class="anchor" id="a283c75fcc872ae5be6bcf7fc67b6230c"></a><!-- doxytag: member="CViewConfigSectionProfiles::CViewConfigSectionProfiles" ref="a283c75fcc872ae5be6bcf7fc67b6230c" args="(const CString &amp;strViewName)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CGridColumnConfigProfiles::CGridColumnConfigProfiles </td>
+          <td class="memname">CViewConfigSectionProfiles::CViewConfigSectionProfiles </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strViewName</em></td>
@@ -108,7 +108,7 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div>
 <div class="memdoc">
 
-<p><a class="el" href="class_c_grid_column_config_profiles.html" title="Abstract interface for persisting column configuration, that can switch between different...">CGridColumnConfigProfiles</a> - Constructor. </p>
+<p><a class="el" href="class_c_view_config_section_profiles.html" title="Abstract interface for persisting view configuration, that can switch between different...">CViewConfigSectionProfiles</a> - Constructor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>strViewName</em>&nbsp;</td><td>Name to identify and persist the configuration </td></tr>
@@ -119,12 +119,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a0354f0c810f92e3c72623fcd51a0924a"></a><!-- doxytag: member="CGridColumnConfigProfiles::AddProfile" ref="a0354f0c810f92e3c72623fcd51a0924a" args="(const CString &amp;strProfile)" -->
+<a class="anchor" id="a40cb29e8ff8e28e4c389bd36ef6ccc82"></a><!-- doxytag: member="CViewConfigSectionProfiles::AddProfile" ref="a40cb29e8ff8e28e4c389bd36ef6ccc82" args="(const CString &amp;strProfile)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridColumnConfigProfiles::AddProfile </td>
+          <td class="memname">void CViewConfigSectionProfiles::AddProfile </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strProfile</em></td>
@@ -145,12 +145,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="a9059f6df6a4ba321b16b2a94f7a09c39"></a><!-- doxytag: member="CGridColumnConfigProfiles::DeleteProfile" ref="a9059f6df6a4ba321b16b2a94f7a09c39" args="(const CString &amp;strProfile)" -->
+<a class="anchor" id="aee21b73a4db611d8826f484abf431801"></a><!-- doxytag: member="CViewConfigSectionProfiles::DeleteProfile" ref="aee21b73a4db611d8826f484abf431801" args="(const CString &amp;strProfile)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridColumnConfigProfiles::DeleteProfile </td>
+          <td class="memname">void CViewConfigSectionProfiles::DeleteProfile </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strProfile</em></td>
@@ -171,12 +171,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="a477bdf38dfc19ec23978dec2b251fe4c"></a><!-- doxytag: member="CGridColumnConfigProfiles::GetActiveProfile" ref="a477bdf38dfc19ec23978dec2b251fe4c" args="()" -->
+<a class="anchor" id="a23d81e696ba0a5abe6211a7d49a9d4de"></a><!-- doxytag: member="CViewConfigSectionProfiles::GetActiveProfile" ref="a23d81e696ba0a5abe6211a7d49a9d4de" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CString CGridColumnConfigProfiles::GetActiveProfile </td>
+          <td class="memname">CString CViewConfigSectionProfiles::GetActiveProfile </td>
           <td>(</td>
           <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
@@ -191,12 +191,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="a19cd730f6ad8d4a36fd3944c4bec47ab"></a><!-- doxytag: member="CGridColumnConfigProfiles::GetProfiles" ref="a19cd730f6ad8d4a36fd3944c4bec47ab" args="(CSimpleArray&lt; CString &gt; &amp;profiles) const " -->
+<a class="anchor" id="a66aa5089d4bb3e7b98cec0a638a75f54"></a><!-- doxytag: member="CViewConfigSectionProfiles::GetProfiles" ref="a66aa5089d4bb3e7b98cec0a638a75f54" args="(CSimpleArray&lt; CString &gt; &amp;profiles) const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridColumnConfigProfiles::GetProfiles </td>
+          <td class="memname">void CViewConfigSectionProfiles::GetProfiles </td>
           <td>(</td>
           <td class="paramtype">CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
           <td class="paramname"> <em>profiles</em></td>
@@ -217,12 +217,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="a05d9844a7038416f453ad51f5e593667"></a><!-- doxytag: member="CGridColumnConfigProfiles::GetSectionName" ref="a05d9844a7038416f453ad51f5e593667" args="() const " -->
+<a class="anchor" id="a9856749bdc146c871c9dde85fc4334dc"></a><!-- doxytag: member="CViewConfigSectionProfiles::GetSectionName" ref="a9856749bdc146c871c9dde85fc4334dc" args="() const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const CString &amp; CGridColumnConfigProfiles::GetSectionName </td>
+          <td class="memname">const CString &amp; CViewConfigSectionProfiles::GetSectionName </td>
           <td>(</td>
           <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
@@ -235,16 +235,16 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Retrieves the section name of the currently active configuration profile. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Current section name </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_config.html#a732c817d324c4a34088945c1ea46058e">CGridColumnConfig</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_view_config_section.html#a3aa8f39c89836cd227c323a91f0b30c0">CViewConfigSection</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a36eeb26caf018cc4ba8ac63d080f88fe"></a><!-- doxytag: member="CGridColumnConfigProfiles::JoinSectionName" ref="a36eeb26caf018cc4ba8ac63d080f88fe" args="(const CString &amp;strViewName, const CString &amp;strProfile) const " -->
+<a class="anchor" id="af3e3ee7587886195cbd1c06d25539c26"></a><!-- doxytag: member="CViewConfigSectionProfiles::JoinSectionName" ref="af3e3ee7587886195cbd1c06d25539c26" args="(const CString &amp;strViewName, const CString &amp;strProfile) const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CString CGridColumnConfigProfiles::JoinSectionName </td>
+          <td class="memname">CString CViewConfigSectionProfiles::JoinSectionName </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strViewName</em>, </td>
@@ -276,12 +276,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="a7a16c4a079bfe6cb437942f23cf88be6"></a><!-- doxytag: member="CGridColumnConfigProfiles::SetActiveProfile" ref="a7a16c4a079bfe6cb437942f23cf88be6" args="(const CString &amp;strProfile)" -->
+<a class="anchor" id="aa31e6e1aef3d7015756b9d80af127988"></a><!-- doxytag: member="CViewConfigSectionProfiles::SetActiveProfile" ref="aa31e6e1aef3d7015756b9d80af127988" args="(const CString &amp;strProfile)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridColumnConfigProfiles::SetActiveProfile </td>
+          <td class="memname">void CViewConfigSectionProfiles::SetActiveProfile </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strProfile</em></td>
@@ -302,12 +302,12 @@ CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 
 </div>
 </div>
-<a class="anchor" id="add60c6a7eae823a40d1b7b738482ec23"></a><!-- doxytag: member="CGridColumnConfigProfiles::SplitSectionName" ref="add60c6a7eae823a40d1b7b738482ec23" args="(const CString &amp;strSection, CString &amp;strViewName, CString &amp;strProfile)" -->
+<a class="anchor" id="a8bbb198be4b50384abdb02ea82dc2117"></a><!-- doxytag: member="CViewConfigSectionProfiles::SplitSectionName" ref="a8bbb198be4b50384abdb02ea82dc2117" args="(const CString &amp;strSection, CString &amp;strViewName, CString &amp;strProfile)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridColumnConfigProfiles::SplitSectionName </td>
+          <td class="memname">void CViewConfigSectionProfiles::SplitSectionName </td>
           <td>(</td>
           <td class="paramtype">const CString &amp;&nbsp;</td>
           <td class="paramname"> <em>strSection</em>, </td>
