@@ -257,6 +257,14 @@ SOURCE=..\CGridListCtrlEx\CGridRowTraitXP.cpp
 
 SOURCE=..\CGridListCtrlEx\CGridRowTraitXP.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\ViewConfigSection.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\ViewConfigSection.h
+# End Source File
 # End Group
 # Begin Source File
 

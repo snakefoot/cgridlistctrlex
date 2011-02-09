@@ -21,7 +21,7 @@
 			IntermediateDirectory="Debug"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -47,12 +47,10 @@
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				TreatWChar_tAsBuiltInType="true"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -71,8 +69,6 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -103,7 +99,7 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="2"
 			CharacterSet="1"
 			>
 			<Tool
@@ -127,11 +123,9 @@
 				Name="VCCLCompilerTool"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="false"
-				RuntimeLibrary="0"
-				TreatWChar_tAsBuiltInType="true"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
+				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -153,8 +147,6 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -280,10 +272,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.cpp"
 					>
 				</File>
@@ -293,6 +281,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp"
 					>
 				</File>
 				<File
@@ -315,6 +307,10 @@
 					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\ViewConfigSection.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -332,10 +328,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
-					>
-				</File>
-				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 					>
 				</File>
@@ -345,6 +337,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitEdit.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
 					>
 				</File>
 				<File
@@ -377,6 +373,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\ViewConfigSection.h"
 					>
 				</File>
 			</Filter>
