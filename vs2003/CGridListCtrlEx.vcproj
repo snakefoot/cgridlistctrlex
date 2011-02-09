@@ -234,6 +234,9 @@
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.cpp">
 				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\ViewConfigSection.cpp">
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -282,6 +285,9 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridRowTraitXP.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\ViewConfigSection.h">
 				</File>
 			</Filter>
 		</Filter>
