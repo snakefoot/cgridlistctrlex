@@ -6,11 +6,11 @@
 #include "CGridListCtrlExDlg.h"
 
 
-#include "..\CGridListCtrlEx\CGridColumnManagerProfile.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitDateTime.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
 #include "..\CGridListCtrlEx\CGridRowTraitXP.h"
+#include "..\CGridListCtrlEx\ViewConfigSection.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -172,11 +172,11 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 		m_ListCtrl.SetCellImage(nItem, 1, nItem); // Assign flag-images
 	}
 
-	CGridColumnManagerProfile* pColumnProfile = new CGridColumnManagerProfile(_T("Sample List"));
-	pColumnProfile->AddColumnProfile(_T("Default"));
-	pColumnProfile->AddColumnProfile(_T("Special"));
+	CViewConfigSectionWinApp* pColumnProfile = new CViewConfigSectionWinApp(_T("Sample List"));
+	pColumnProfile->AddProfile(_T("Default"));
+	pColumnProfile->AddProfile(_T("Special"));
 	m_ListCtrl.SetupColumnConfig(pColumnProfile);
-	
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
