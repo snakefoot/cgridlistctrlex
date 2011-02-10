@@ -123,8 +123,6 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column trait for the entire column.  <a href="#a92785cf03b0ef02ffc199d963e3205b9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a9d9e631c62b9fc3d8404c8b746143129">GetColumnTraitSize</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the number of column traits registered.  <a href="#a9d9e631c62b9fc3d8404c8b746143129"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a44d39cf6e73f44cbc591da6a1a346f2b">SetupColumnConfig</a> (<a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *pColumnManager)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling column state persistence for the list control.  <a href="#a44d39cf6e73f44cbc591da6a1a346f2b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a7971391fd8c58022aa70c09f674b1695">CellHitTest</a> (const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Replicates the SubItemHitTest() but in a const version.  <a href="#a7971391fd8c58022aa70c09f674b1695"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#abd88cea0b9f581612971a5465f91d474">GetCellRect</a> (int nRow, int nCol, UINT nCode, CRect &amp;rect)</td></tr>
@@ -145,6 +143,43 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () co
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the icon of the specified cell.  <a href="#a2bef9cfbde01f35920492848f52b1ef7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a4ee937b9f7164ce10e8116fa8bd24ea5">GetCellColumnTrait</a> (int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column trait of a specified cell.  <a href="#a4ee937b9f7164ce10e8116fa8bd24ea5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a445dcda17c5ca8388037468ce6398e5c">SetupColumnConfig</a> (<a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *pColumnConfig)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling state persistence for the list control.  <a href="#a445dcda17c5ca8388037468ce6398e5c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a254a651b5cf36ad52260e2561924aa08">LoadState</a> (<a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loads and applies the column configuration for the list control.  <a href="#a254a651b5cf36ad52260e2561924aa08"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a12e01b07f1a7ec169bc14ac7073210ab">SaveState</a> (<a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Saves the column configuration of the list control.  <a href="#a12e01b07f1a7ec169bc14ac7073210ab"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1a4411aa8f7a81429307ece914c6fc1a">LoadColumnState</a> (int nConfigCol, int nOwnerCol, <a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loads the column state of a single column.  <a href="#a1a4411aa8f7a81429307ece914c6fc1a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a03c0b3ca0ed4c7af203fa3738ec5690f">SaveColumnState</a> (int nConfigCol, int nOwnerCol, <a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Saves the column state of a single column.  <a href="#a03c0b3ca0ed4c7af203fa3738ec5690f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ad8da8f343b98d30d4034b2a8502bf150">HasColumnEditor</a> (int nCol, CString &amp;strTitle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is there a column configuration editor available for this column ?  <a href="#ad8da8f343b98d30d4034b2a8502bf150"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afebdc7f5532bfef1dac1bf0e64214e7e">OpenColumnEditor</a> (int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open the column configuration editor for the column (If one available).  <a href="#afebdc7f5532bfef1dac1bf0e64214e7e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a67c86835fe62ad060fdca53b021eda40">HasColumnPicker</a> (CString &amp;strTitle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is there a column picker available that can add / remove columns.  <a href="#a67c86835fe62ad060fdca53b021eda40"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a1fa14cd8e50b94de79009627df6c0c"></a><!-- doxytag: member="CGridListCtrlEx::OpenColumnPicker" ref="a9a1fa14cd8e50b94de79009627df6c0c" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a9a1fa14cd8e50b94de79009627df6c0c">OpenColumnPicker</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open the column picker for the list control. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ab07a14b022b5f1a993055a4fc5200083">HasColumnDefaultState</a> (CString &amp;strTitle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Has the ability to reset the column configuration to its default configuration.  <a href="#ab07a14b022b5f1a993055a4fc5200083"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0257754311e02ce0c17d3a7d78b3a23a"></a><!-- doxytag: member="CGridListCtrlEx::ResetColumnDefaultState" ref="a0257754311e02ce0c17d3a7d78b3a23a" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a0257754311e02ce0c17d3a7d78b3a23a">ResetColumnDefaultState</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset the column configuration to its default configuration. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ae043a7c4ec5e39aeb4cbf32ac3a130b8">HasColumnProfiles</a> (CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;strTitle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Can switch between multiple column configurations.  <a href="#ae043a7c4ec5e39aeb4cbf32ac3a130b8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aef7514a4adfda5d3be9dcfe27db17dfd">SwichColumnProfile</a> (const CString &amp;strProfile)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch to different column configurations profile.  <a href="#aef7514a4adfda5d3be9dcfe27db17dfd"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaee600eae12aeaab41562868a4610009"></a><!-- doxytag: member="CGridListCtrlEx::OnSaveStateColumnPick" ref="aaee600eae12aeaab41562868a4610009" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aaee600eae12aeaab41562868a4610009">OnSaveStateColumnPick</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called after a column has been added / removed. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac1a45abaa3246d610ed27ec354535205"></a><!-- doxytag: member="CGridListCtrlEx::OnSaveStateColumnResize" ref="ac1a45abaa3246d610ed27ec354535205" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ac1a45abaa3246d610ed27ec354535205">OnSaveStateColumnResize</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called after a column has been resized. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab8aad338199cee806c57c92a7f00566"></a><!-- doxytag: member="CGridListCtrlEx::OnSaveStateKillFocus" ref="aab8aad338199cee806c57c92a7f00566" args="()" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aab8aad338199cee806c57c92a7f00566">OnSaveStateKillFocus</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when the list control looses focus to another control. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8c3c73cda2eb9543c9249d7c92c10104">OnDisplayCellText</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide text string when drawing cells Only called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText().  <a href="#a8c3c73cda2eb9543c9249d7c92c10104"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a027823c5282b5a67f3521116e52bba8b">OnDisplayCellImage</a> (int nRow, int nCol, int &amp;nImageId)</td></tr>
@@ -313,9 +348,9 @@ virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47187177b304ce1cabffab461358bca2"></a><!-- doxytag: member="CGridListCtrlEx::m_ColumnTraits" ref="a47187177b304ce1cabffab461358bca2" args="" -->
 CSimpleArray&lt; <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> * &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a47187177b304ce1cabffab461358bca2">m_ColumnTraits</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column traits registered (One for each column). <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a130f27e1cfdde55b7ab8fb529be353c5"></a><!-- doxytag: member="CGridListCtrlEx::m_pColumnManager" ref="a130f27e1cfdde55b7ab8fb529be353c5" args="" -->
-<a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a130f27e1cfdde55b7ab8fb529be353c5">m_pColumnManager</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column manager used to provide column state persistence. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1af3c639106209af0e154ae7ba00da04"></a><!-- doxytag: member="CGridListCtrlEx::m_pColumnConfig" ref="a1af3c639106209af0e154ae7ba00da04" args="" -->
+<a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1af3c639106209af0e154ae7ba00da04">m_pColumnConfig</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column state persistence. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8653b2be7338788ae297e8320c2411f8"></a><!-- doxytag: member="CGridListCtrlEx::m_pDefaultRowTrait" ref="a8653b2be7338788ae297e8320c2411f8" args="" -->
 <a class="el" href="class_c_grid_row_trait.html">CGridRowTrait</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8653b2be7338788ae297e8320c2411f8">m_pDefaultRowTrait</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default row trait used for special row drawing. <br/></td></tr>
@@ -1005,6 +1040,134 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="ab07a14b022b5f1a993055a4fc5200083"></a><!-- doxytag: member="CGridListCtrlEx::HasColumnDefaultState" ref="ab07a14b022b5f1a993055a4fc5200083" args="(CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::HasColumnDefaultState </td>
+          <td>(</td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Has the ability to reset the column configuration to its default configuration. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Default column configuration is available (true / false) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad8da8f343b98d30d4034b2a8502bf150"></a><!-- doxytag: member="CGridListCtrlEx::HasColumnEditor" ref="ad8da8f343b98d30d4034b2a8502bf150" args="(int nCol, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::HasColumnEditor </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Is there a column configuration editor available for this column ? </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Column editor available (true / false) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a67c86835fe62ad060fdca53b021eda40"></a><!-- doxytag: member="CGridListCtrlEx::HasColumnPicker" ref="a67c86835fe62ad060fdca53b021eda40" args="(CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::HasColumnPicker </td>
+          <td>(</td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Is there a column picker available that can add / remove columns. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Column picker available (true / false) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae043a7c4ec5e39aeb4cbf32ac3a130b8"></a><!-- doxytag: member="CGridListCtrlEx::HasColumnProfiles" ref="ae043a7c4ec5e39aeb4cbf32ac3a130b8" args="(CSimpleArray&lt; CString &gt; &amp;profiles, CString &amp;strTitle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CString CGridListCtrlEx::HasColumnProfiles </td>
+          <td>(</td>
+          <td class="paramtype">CSimpleArray&lt; CString &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>profiles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strTitle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Can switch between multiple column configurations. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>profiles</em>&nbsp;</td><td>List of available column profiles </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strTitle</em>&nbsp;</td><td>Title to show in the context menu when right-clicking the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Name of the current column profile </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae182fc1595ecdad45f8209f10af10492"></a><!-- doxytag: member="CGridListCtrlEx::InsertColumnTrait" ref="ae182fc1595ecdad45f8209f10af10492" args="(int nCol, CGridColumnTrait *pTrait)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1400,6 +1563,75 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>True if the row is selected </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1a4411aa8f7a81429307ece914c6fc1a"></a><!-- doxytag: member="CGridListCtrlEx::LoadColumnState" ref="a1a4411aa8f7a81429307ece914c6fc1a" args="(int nConfigCol, int nOwnerCol, CViewConfigSection &amp;config)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::LoadColumnState </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nConfigCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nOwnerCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>config</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Loads the column state of a single column. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nConfigCol</em>&nbsp;</td><td>The column index in the persisting interface </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nOwnerCol</em>&nbsp;</td><td>The column index in the owner list control </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>config</em>&nbsp;</td><td>The interface for persisting the configuration </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a254a651b5cf36ad52260e2561924aa08"></a><!-- doxytag: member="CGridListCtrlEx::LoadState" ref="a254a651b5cf36ad52260e2561924aa08" args="(CViewConfigSection &amp;config)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::LoadState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>config</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Loads and applies the column configuration for the list control. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>config</em>&nbsp;</td><td>The interface for persisting the configuration </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3990,6 +4222,32 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="afebdc7f5532bfef1dac1bf0e64214e7e"></a><!-- doxytag: member="CGridListCtrlEx::OpenColumnEditor" ref="afebdc7f5532bfef1dac1bf0e64214e7e" args="(int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OpenColumnEditor </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Open the column configuration editor for the column (If one available). </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a9ad2382c453ec7d11effac3af2c584ad"></a><!-- doxytag: member="CGridListCtrlEx::PreSubclassWindow" ref="a9ad2382c453ec7d11effac3af2c584ad" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -4026,6 +4284,75 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 <p>Registers the CListCtrl as a valid OLE drag drop target. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if successful; otherwise zero. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a03c0b3ca0ed4c7af203fa3738ec5690f"></a><!-- doxytag: member="CGridListCtrlEx::SaveColumnState" ref="a03c0b3ca0ed4c7af203fa3738ec5690f" args="(int nConfigCol, int nOwnerCol, CViewConfigSection &amp;config)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::SaveColumnState </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nConfigCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nOwnerCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>config</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Saves the column state of a single column. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nConfigCol</em>&nbsp;</td><td>The column index in the persisting interface </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nOwnerCol</em>&nbsp;</td><td>The column index in the owner list control </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>config</em>&nbsp;</td><td>The interface for persisting the configuration </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a12e01b07f1a7ec169bc14ac7073210ab"></a><!-- doxytag: member="CGridListCtrlEx::SaveState" ref="a12e01b07f1a7ec169bc14ac7073210ab" args="(CViewConfigSection &amp;config)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::SaveState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>config</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Saves the column configuration of the list control. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>config</em>&nbsp;</td><td>The interface for persisting the configuration </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -4325,15 +4652,15 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a44d39cf6e73f44cbc591da6a1a346f2b"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="a44d39cf6e73f44cbc591da6a1a346f2b" args="(CGridColumnManager *pColumnManager)" -->
+<a class="anchor" id="a445dcda17c5ca8388037468ce6398e5c"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="a445dcda17c5ca8388037468ce6398e5c" args="(CViewConfigSectionProfiles *pColumnConfig)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CGridListCtrlEx::SetupColumnConfig </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_grid_column_manager.html">CGridColumnManager</a> *&nbsp;</td>
-          <td class="paramname"> <em>pColumnManager</em></td>
+          <td class="paramtype"><a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *&nbsp;</td>
+          <td class="paramname"> <em>pColumnConfig</em></td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [virtual]</code></td>
         </tr>
@@ -4341,10 +4668,10 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 </div>
 <div class="memdoc">
 
-<p>Sets the interface for handling column state persistence for the list control. </p>
+<p>Sets the interface for handling state persistence for the list control. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pColumnManager</em>&nbsp;</td><td>The new column state interface handler </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pColumnConfig</em>&nbsp;</td><td>The new column state interface handler </td></tr>
   </table>
   </dd>
 </dl>
@@ -4425,6 +4752,32 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl class="return"><dt><b>Returns:</b></dt><dd>True / false depending on whether sort is possible </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_c_grid_list_ctrl_groups.html#ac01976bf2502bc87e9376ed1963cdf39">CGridListCtrlGroups</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef7514a4adfda5d3be9dcfe27db17dfd"></a><!-- doxytag: member="CGridListCtrlEx::SwichColumnProfile" ref="aef7514a4adfda5d3be9dcfe27db17dfd" args="(const CString &amp;strProfile)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::SwichColumnProfile </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strProfile</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Switch to different column configurations profile. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strProfile</em>&nbsp;</td><td>List of available column profiles </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
