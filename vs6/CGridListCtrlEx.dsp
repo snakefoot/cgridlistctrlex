@@ -159,18 +159,6 @@ SOURCE=..\DemoApplication\res\FLGSWED.ICO
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\CGridListCtrlEx\CGridColumnManager.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\CGridListCtrlEx\CGridColumnManagerProfile.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\CGridListCtrlEx\CGridColumnManagerProfile.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\CGridListCtrlEx\CGridColumnTrait.h
 # End Source File
 # Begin Source File
