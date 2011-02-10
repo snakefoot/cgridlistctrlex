@@ -9,6 +9,7 @@
 // Change History:
 // 	1.8.1 - Changed CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2010-11-15)
 //		  Renamed CGridColumnConfig to CViewConfigSection
+//		  Removed CGridColumnManager and moved LoadState/SaveState into CGridListCtrlEx
 //	1.8 - Added checkbox support for all column editor types (2010-10-01)
 //		  Added checkbox toggle for all selected rows
 //		  Added min and max width for columns
@@ -33,7 +34,8 @@
 //------------------------------------------------------------------------
 
 class COleDataSource;
-class CGridColumnManager;
+class CViewConfigSection;
+class CViewConfigSectionProfiles;
 class CGridColumnTrait;
 class CGridRowTrait;
 template<class T> class COleDropTargetWnd;
@@ -54,8 +56,8 @@ template<class T> class COleDropTargetWnd;
 //! - CGridRowTrait provides an interface to perform custom drawing at row level
 //!		- CGridRowTraitText implements alternate row coloring
 //!			- CGridRowTraitXP removes the white background for cell images on WinXP
-//! - CGridColumnManager provides column state persistence
-//!		- CGridColumnManagerProfile Implements persistence of column width and order of the visible columns
+//! - CViewConfigSection provides column state persistence
+//!		- CViewConfigSectionProfiles provides the ability switch between different column setups
 //------------------------------------------------------------------------
 
 //------------------------------------------------------------------------
@@ -112,7 +114,6 @@ public:
 	virtual int InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1, CGridColumnTrait* pTrait = NULL);
 	virtual CGridColumnTrait* GetColumnTrait(int nCol);
 	virtual int GetColumnTraitSize() const;
-	virtual void SetupColumnConfig(CGridColumnManager* pColumnManager);
 
 	// Cell / Subitem 
 	void CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
@@ -125,6 +126,24 @@ public:
 	int GetCellImage(int nRow, int nCol) const;
 	BOOL SetCellImage(int nRow, int nCol, int nImageId);
 	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol);
+
+	// Column Editor
+	virtual void SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig);
+	virtual void LoadState(CViewConfigSection& config);
+	virtual void SaveState(CViewConfigSection& config);
+	virtual void LoadColumnState(int nConfigCol, int nOwnerCol, CViewConfigSection& config);
+	virtual void SaveColumnState(int nConfigCol, int nOwnerCol, CViewConfigSection& config);
+	virtual bool HasColumnEditor(int nCol, CString& strTitle);
+	virtual void OpenColumnEditor(int nCol);
+	virtual bool HasColumnPicker(CString& strTitle);
+	virtual void OpenColumnPicker();
+	virtual bool HasColumnDefaultState(CString& strTitle);
+	virtual void ResetColumnDefaultState();
+	virtual CString HasColumnProfiles(CSimpleArray<CString>& profiles, CString& strTitle);
+	virtual void SwichColumnProfile(const CString& strProfile);
+	virtual void OnSaveStateColumnPick();
+	virtual void OnSaveStateColumnResize();
+	virtual void OnSaveStateKillFocus();
 
 	// DataModel callbacks
 	virtual bool OnDisplayCellText(int nRow, int nCol, CString& strResult);
@@ -149,7 +168,7 @@ protected:
 	CSimpleArray<CGridColumnTrait*> m_ColumnTraits;	//!< Column traits registered (One for each column)
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
-	CGridColumnManager* m_pColumnManager;	//!< Column manager used to provide column state persistence
+	CViewConfigSectionProfiles* m_pColumnConfig;	//!< Column state persistence
 	int InternalColumnPicker(CMenu& menu, int offset);
 	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 

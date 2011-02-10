@@ -2,13 +2,13 @@
 #include "CGridListCtrlEx.h"
 
 #include <shlwapi.h>	// IsThemeEnabled
-#include <afxole.h>		// 
+#include <afxole.h>		// COleDataSource
 
 #pragma warning(disable:4100)	// unreferenced formal parameter
 
-#include "CGridColumnManager.h"
 #include "CGridColumnTraitText.h"
 #include "CGridRowTraitText.h"
+#include "ViewConfigSection.h"
 
 //------------------------------------------------------------------------
 //! @cond INTERNAL
@@ -156,7 +156,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pOleDropTarget(NULL)
 	,m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
-	,m_pColumnManager(new CGridColumnManager)
+	,m_pColumnConfig(NULL)
 	,m_InvalidateMarkupText(true)
 {}
 
@@ -171,24 +171,357 @@ CGridListCtrlEx::~CGridListCtrlEx()
 	delete m_pDefaultRowTrait;
 	m_pDefaultRowTrait = NULL;
 
-	delete m_pColumnManager;
-	m_pColumnManager = NULL;
+	delete m_pColumnConfig;
+	m_pColumnConfig = NULL;
 
 	delete m_pOleDropTarget;
 	m_pOleDropTarget = NULL;
 }
 
 //------------------------------------------------------------------------
-//! Sets the interface for handling column state persistence for the list control
+//! Sets the interface for handling state persistence for the list control
 //! 
-//! @param pColumnManager The new column state interface handler
+//! @param pColumnConfig The new column state interface handler
 //------------------------------------------------------------------------
-void CGridListCtrlEx::SetupColumnConfig(CGridColumnManager* pColumnManager)
+void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig)
 {
-	ASSERT(pColumnManager!=NULL);
-	delete m_pColumnManager;
-	m_pColumnManager = pColumnManager;
-	m_pColumnManager->OnColumnSetup(*this);
+	delete m_pColumnConfig;
+	m_pColumnConfig = pColumnConfig;
+
+	if (!m_pColumnConfig->HasDefaultConfig())
+	{
+		// Validate that column data is setup correctly
+		CSimpleMap<int,int> uniqueChecker;
+		for(int nCol = 0; nCol < GetColumnCount(); ++nCol)
+		{
+			if (IsColumnAlwaysHidden(nCol))
+				continue;
+			int nColData = GetColumnData(nCol);
+			ASSERT(uniqueChecker.FindKey(nColData)==-1);
+			uniqueChecker.Add(nColData,nCol);
+		}
+
+		SaveState(m_pColumnConfig->GetDefaultConfig());
+	}
+
+	LoadState(*m_pColumnConfig);
+}
+
+//------------------------------------------------------------------------
+//! Loads and applies the column configuration for the list control
+//!
+//! @param config The interface for persisting the configuration
+//------------------------------------------------------------------------
+void CGridListCtrlEx::LoadState(CViewConfigSection& config)
+{
+	// Prevent updating the internal column-state-container while loading
+	CViewConfigSectionProfiles* pColumnConfig = m_pColumnConfig;
+	m_pColumnConfig = NULL;
+
+	int nVisibleCols = config.GetIntSetting(_T("ColumnCount"));
+
+	int nColCount = GetColumnCount();
+	int* pOrderArray = new int[nColCount];
+	GetColumnOrderArray(pOrderArray, nColCount);
+
+	SetRedraw(FALSE);
+
+	// All invisible columns must be place in the begining of the order-array
+	int nColOrder = nColCount;
+	for(int i = nVisibleCols-1; i >= 0; --i)
+	{
+		CString colSetting;
+		colSetting.Format(_T("ColumnData_%d"), i);
+		int nColData = config.GetIntSetting(colSetting);
+		for(int nCol = 0; nCol < nColCount; ++nCol)
+		{
+			// Check if already in array
+			bool alreadyIncluded = false;
+			for(int j = nColOrder; j < nColCount; ++j)
+				if (pOrderArray[j]==nCol)
+				{
+					alreadyIncluded = true;
+					break;
+				}
+			if (alreadyIncluded)
+				continue;
+
+			if (nColData==GetColumnData(nCol))
+			{
+				// Column still exists
+				if (IsColumnAlwaysHidden(nCol))
+					continue;
+
+				CGridColumnTrait::ColumnState& columnState = GetColumnTrait(nCol)->GetColumnState();
+				columnState.m_Visible = true;
+				LoadColumnState(i, nCol, config);
+				pOrderArray[--nColOrder] = nCol;
+				break;
+			}
+		}
+	}
+
+	// Are there any always visible columns, that we must ensure are visible ?
+	for(int nCol = nColCount-1; nCol >= 0; --nCol)
+	{
+		if (!IsColumnAlwaysVisible(nCol))
+			continue;
+
+		bool visible = false;
+		for(int i = nColOrder; i < nColCount; ++i)
+		{
+			if (pOrderArray[i]==nCol)
+			{
+				visible = true;
+				break;
+			}
+		}
+		if (!visible)
+		{
+			CGridColumnTrait::ColumnState& columnState = GetColumnTrait(nCol)->GetColumnState();
+			columnState.m_Visible = true;
+			pOrderArray[--nColOrder] = nCol;
+		}
+	}
+
+	// Did we find any visible columns in the saved configuration ?
+	if (nColOrder < nColCount)
+	{
+		// All remaining columns are marked as invisible
+		while(nColOrder > 0)
+		{
+			// Find nCol som ikke er i array
+			int nCol = -1;
+			for(nCol = nColCount-1; nCol >= 0; --nCol)
+			{
+				bool visible = false;
+				for(int j = nColOrder; j < nColCount; ++j)
+				{
+					if (pOrderArray[j]==nCol)
+					{
+						visible = true;
+						break;
+					}
+				}
+				if (!visible)
+					break;
+			}
+			ASSERT(nCol!=-1);
+			CGridColumnTrait::ColumnState& columnState = GetColumnTrait(nCol)->GetColumnState();
+			columnState.m_OrgPosition = -1;
+			columnState.m_OrgWidth = GetColumnWidth(nCol);
+			SetColumnWidth(nCol, 0);
+			columnState.m_Visible = false;
+			ASSERT(nColOrder>0);
+			pOrderArray[--nColOrder] = nCol;
+		}
+
+		// Only update the column configuration if there are visible columns
+		ASSERT(nColOrder==0);	// All entries in the order-array must be set
+		SetColumnOrderArray(nColCount, pOrderArray);
+	}
+
+	delete [] pOrderArray;
+
+	m_pColumnConfig = pColumnConfig;
+
+	SetRedraw(TRUE);
+	Invalidate(TRUE);
+	UpdateWindow();
+}
+
+//------------------------------------------------------------------------
+//! Loads the column state of a single column
+//!
+//! @param nConfigCol The column index in the persisting interface
+//! @param nOwnerCol The column index in the owner list control
+//! @param config The interface for persisting the configuration
+//------------------------------------------------------------------------
+void CGridListCtrlEx::LoadColumnState(int nConfigCol, int nOwnerCol, CViewConfigSection& config)
+{
+	CString colSetting;
+	if (IsColumnResizable(nOwnerCol))
+	{
+		colSetting.Format(_T("ColumnWidth_%d"), nConfigCol);
+		int width = config.GetIntSetting(colSetting);
+		SetColumnWidth(nOwnerCol, width);
+	}
+}
+
+//------------------------------------------------------------------------
+//! Saves the column configuration of the list control
+//!
+//! @param config The interface for persisting the configuration
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SaveState(CViewConfigSection& config)
+{
+	config.RemoveCurrentConfig();	// Reset the existing config
+
+	int nColCount = GetColumnCount();
+	int* pOrderArray = new int[nColCount];
+	GetColumnOrderArray(pOrderArray, nColCount);
+
+	int nVisibleCols = 0;
+	for(int i = 0 ; i < nColCount; ++i)
+	{
+		int nCol = pOrderArray[i];
+		int nColData = GetColumnData(nCol);
+
+		if (IsColumnVisible(nCol))
+		{
+			CString colSetting;
+			colSetting.Format(_T("ColumnData_%d"), nVisibleCols);
+			config.SetIntSetting(colSetting, nColData);
+
+			SaveColumnState(nVisibleCols, nCol, config);
+
+			nVisibleCols++;
+		}
+	}
+	config.SetIntSetting(_T("ColumnCount"), nVisibleCols);
+
+	delete [] pOrderArray;
+}
+
+
+//------------------------------------------------------------------------
+//! Saves the column state of a single column
+//!
+//! @param nConfigCol The column index in the persisting interface
+//! @param nOwnerCol The column index in the owner list control
+//! @param config The interface for persisting the configuration
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SaveColumnState(int nConfigCol, int nOwnerCol, CViewConfigSection& config)
+{
+	CString colSetting;
+	colSetting.Format(_T("ColumnWidth_%d"), nConfigCol);
+	config.SetIntSetting(colSetting, GetColumnWidth(nOwnerCol));
+}
+
+//------------------------------------------------------------------------
+//! Is there a column configuration editor available for this column ?
+//!
+//! @param nCol The index of the column
+//! @param strTitle Title to show in the context menu when right-clicking the column
+//! @return Column editor available (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::HasColumnEditor(int nCol, CString& strTitle)
+{
+	return false;
+}
+
+//------------------------------------------------------------------------
+//! Open the column configuration editor for the column (If one available)
+//!
+//! @param nCol The index of the column
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OpenColumnEditor(int nCol)
+{
+}
+
+//------------------------------------------------------------------------
+//! Is there a column picker available that can add / remove columns
+//!
+//! @param strTitle Title to show in the context menu when right-clicking the column
+//! @return Column picker available (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::HasColumnPicker(CString& strTitle)
+{
+	return false;
+}
+
+//------------------------------------------------------------------------
+//! Open the column picker for the list control
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OpenColumnPicker()
+{
+}
+
+//------------------------------------------------------------------------
+//! Has the ability to reset the column configuration to its default configuration
+//!
+//! @param strTitle Title to show in the context menu when right-clicking the column
+//! @return Default column configuration is available (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::HasColumnDefaultState(CString& strTitle)
+{
+	if (m_pColumnConfig==NULL)
+		return false;
+
+	strTitle = _T("Reset columns");
+	return m_pColumnConfig->HasDefaultConfig();
+}
+
+//------------------------------------------------------------------------
+//! Reset the column configuration to its default configuration
+//------------------------------------------------------------------------
+void CGridListCtrlEx::ResetColumnDefaultState()
+{
+	if (m_pColumnConfig==NULL)
+		return;
+
+	m_pColumnConfig->ResetConfigDefault();
+	LoadState(*m_pColumnConfig);
+}
+
+//------------------------------------------------------------------------
+//! Can switch between multiple column configurations
+//!
+//! @param profiles List of available column profiles
+//! @param strTitle Title to show in the context menu when right-clicking the column
+//! @return Name of the current column profile
+//------------------------------------------------------------------------
+CString CGridListCtrlEx::HasColumnProfiles(CSimpleArray<CString>& profiles, CString& strTitle)
+{
+	if (m_pColumnConfig==NULL)
+		return _T("");
+
+	strTitle = _T("Column Profiles");
+	m_pColumnConfig->GetProfiles(profiles);
+	return m_pColumnConfig->GetActiveProfile();
+}
+
+//------------------------------------------------------------------------
+//! Switch to different column configurations profile
+//!
+//! @param strProfile List of available column profiles
+//------------------------------------------------------------------------
+void CGridListCtrlEx::SwichColumnProfile(const CString& strProfile)
+{
+	if (m_pColumnConfig==NULL)
+		return;
+
+	// Save the current configuration before switching to the new one
+	SaveState(*m_pColumnConfig);
+	m_pColumnConfig->SetActiveProfile(strProfile);
+	LoadState(*m_pColumnConfig);
+}
+
+//------------------------------------------------------------------------
+//! Called after a column has been added / removed
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnSaveStateColumnPick()
+{
+	if (m_pColumnConfig!=NULL)
+		SaveState(*m_pColumnConfig);
+}
+
+//------------------------------------------------------------------------
+//! Called after a column has been resized
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnSaveStateColumnResize()
+{
+	if (m_pColumnConfig!=NULL)
+		SaveState(*m_pColumnConfig);
+}
+
+//------------------------------------------------------------------------
+//! Called when the list control looses focus to another control
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnSaveStateKillFocus()
+{
+	if (m_pColumnConfig!=NULL)
+		SaveState(*m_pColumnConfig);
 }
 
 //------------------------------------------------------------------------
@@ -1102,7 +1435,9 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 		columnState.m_Visible = false;
 		columnState.m_OrgWidth = orgWidth;
 	}
-	m_pColumnManager->OnColumnPick(*this);
+
+	OnSaveStateColumnPick();
+
 	SetRedraw(TRUE);
 	Invalidate(FALSE);
 	return TRUE;
@@ -2557,7 +2892,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles)
 {
 	CString title_profiles;
-	CString active_profile = m_pColumnManager->HasColumnProfiles(*this, profiles, title_profiles);
+	CString active_profile = HasColumnProfiles(profiles, title_profiles);
 	if (profiles.GetSize()>0)
 	{
 		menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
@@ -2595,13 +2930,13 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	VERIFY( menu.CreatePopupMenu() );
 
 	CString title_editor;
-	if (m_pColumnManager->HasColumnEditor(*this, nCol, title_editor))
+	if (HasColumnEditor(nCol, title_editor))
 	{
 		menu.AppendMenu(MF_STRING, 1, static_cast<LPCTSTR>(title_editor));
 	}
 
 	CString title_picker;
-	if (m_pColumnManager->HasColumnPicker(*this, title_picker))
+	if (HasColumnPicker(title_picker))
 	{
 		menu.AppendMenu(MF_STRING, 2, static_cast<LPCTSTR>(title_picker));
 	}
@@ -2617,7 +2952,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	InternalColumnProfileSwitcher(menu, GetColumnCount() + 5, profiles);
 
 	CString title_resetdefault;
-	if (m_pColumnManager->HasColumnsDefault(*this, title_resetdefault))
+	if (HasColumnDefaultState(title_resetdefault))
 	{
 		if (profiles.GetSize()==0)
 			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
@@ -2629,9 +2964,9 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	switch(nResult)
 	{
 		case 0: break;
-		case 1:	m_pColumnManager->OpenColumnEditor(*this, nCol); break;
-		case 2: m_pColumnManager->OpenColumnPicker(*this); break;
-		case 3: m_pColumnManager->ResetColumnsDefault(*this); break;
+		case 1:	OpenColumnEditor(nCol); break;
+		case 2: OpenColumnPicker(); break;
+		case 3: ResetColumnDefaultState(); break;
 		default:
 		{
 			int nCol = nResult-4;
@@ -2642,7 +2977,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 			else
 			{
 				int nProfile = nResult-GetColumnCount()-5;
-				m_pColumnManager->SwichColumnProfile(*this, profiles[nProfile]);
+				SwichColumnProfile(profiles[nProfile]);
 			}
 		} break;
 	}
@@ -2727,7 +3062,7 @@ BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	// HDN_ITEMCHANGING notifications. We fix this by calling it after the drag
 	// completed.
 	OnHeaderItemChanging(0, pNMHDR, pResult);
-	m_pColumnManager->OnColumnResize(*this);
+	OnSaveStateColumnResize();
 	return FALSE;
 }
 
@@ -2793,7 +3128,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	if (!IsColumnVisible(nCol) && lParam!=0)
 		return FALSE;
 
-	m_pColumnManager->OnColumnResize(*this);
+	OnSaveStateColumnResize();
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_SETCOLUMNWIDTH, wParam, lParam);
@@ -2807,7 +3142,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
-	m_pColumnManager->OnOwnerKillFocus(*this);
+	OnSaveStateKillFocus();
 }
 
 //------------------------------------------------------------------------
