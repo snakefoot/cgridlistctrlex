@@ -1800,7 +1800,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nCol < 0)
 		nCol = GetFirstVisibleColumn();
 
-	if (m_RepeatSearchCount > 0 || m_LastSearchString.GetLength()==1)
+	if (m_LastSearchString.GetLength()==1)
 		m_LastSearchRow = OnKeyboardSearch(nCol, nRow+1, m_LastSearchString);
 	else
 		m_LastSearchRow = OnKeyboardSearch(nCol, nRow, m_LastSearchString);
