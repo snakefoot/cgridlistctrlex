@@ -136,11 +136,11 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <h4>Load and Save Column Width and Position</h4>
 
-<p><code>CGridColumnManagerProfile</code> provides the ability to store the width, position and whether columns are shown. After having added all available columns to the <code>CGridListCtrlEx</code>, assign an instance of <code>CGridColumnManagerProfile</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code> and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
+<p><code>CViewConfigSectionWinApp</code> provides the ability to store the width, position and whether columns are shown. After having added all available columns to the <code>CGridListCtrlEx</code>, assign an instance of <code>CViewConfigSectionWinApp</code> using <code>CGridListCtrlEx::SetupColumnConfig()</code> and it will restore the last saved column configuration through <code>CWinApp</code>.</p>
 
-<pre lang="C++">m_ListCtrl.SetupColumnConfig(new CGridColumnManagerProfile(&quot;MyList&quot;));</pre>
+<pre lang="C++">m_ListCtrl.SetupColumnConfig(new CViewConfigSectionWinApp(&quot;MyList&quot;));</pre>
 
-<p>If using <code>CGridListCtrlEx</code> several places in your application, then one should ensure creation of a unique <code>CGridColumnManagerProfile</code> for each place.</p>
+<p>If using <code>CGridListCtrlEx</code> several places in your application, then one should ensure creation of a unique <code>CViewConfigSectionWinApp</code> for each place.</p>
 
 <h4>OLE Drag and Drop</h4>
 
@@ -236,10 +236,10 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </ul>
 </li>
 
-<li><code>CGridColumnnManager</code> - Specifies the interface for managing column persistence 
+<li><code>CViewConfigSection</code> - Abstract interface for persisting column setup
 <ul>
 
-<li><code>CGridColumnManagerProfile</code> - Implements the interface for working with multiple column configurations. </li>
+<li><code>CViewConfigSectionWinApp</code> - Implements the interface and can switch between multiple column setups. </li>
 </ul>
 </li>
 </ul>
