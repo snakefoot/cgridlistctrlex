@@ -151,7 +151,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pEditor(NULL)
 	,m_LastSearchCell(-1)
 	,m_LastSearchRow(-1)
-	,m_RepeatSearchCount(-1)
+	,m_RepeatSearchCount(0)
 	,m_EmptyMarkupText(_T("There are no items to show in this view."))
 	,m_pOleDropTarget(NULL)
 	,m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
@@ -1696,7 +1696,7 @@ int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& st
 	//	- Then search from top to current position
 	for(int j = 0; j < 2; ++j)
 	{
-		for(int i = nStartRow + 1; i < nRowCount; ++i)
+		for(int i = nStartRow; i < nRowCount; ++i)
 		{
 			CString cellText = GetItemText(i, nCol);
 			if (cellText.GetLength()>=strSearch.GetLength())
@@ -1706,7 +1706,7 @@ int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& st
 					return i;
 			}
 		}
-		nRowCount = nStartRow + 1;
+		nRowCount = nStartRow;
 		nStartRow = -1;
 	}
 
@@ -1755,7 +1755,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (GetKeyState(VK_CONTROL) < 0)
 	{
 		m_LastSearchString = _T("");
-		m_RepeatSearchCount = -1;
+		m_RepeatSearchCount = 0;
 		return;
 	}
 
@@ -1773,7 +1773,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		m_LastSearchString = _T("");
 
 	if (m_LastSearchString.IsEmpty())
-		m_RepeatSearchCount = -1;
+		m_RepeatSearchCount = 0;
 
 	m_LastSearchCell = GetFocusCell();
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
@@ -1787,9 +1787,9 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else
 	{
-		for(int i=0; i <=m_RepeatSearchCount; ++i)
+		for(int i=0; i < m_RepeatSearchCount; ++i)
 			m_LastSearchString.Insert(m_LastSearchString.GetLength()+1,m_LastSearchString.GetAt(0));
-		m_RepeatSearchCount = -1;
+		m_RepeatSearchCount = 0;
 		m_LastSearchString.Insert(m_LastSearchString.GetLength()+1, (TCHAR)nChar);
 	}
 
@@ -1800,7 +1800,10 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nCol < 0)
 		nCol = GetFirstVisibleColumn();
 
-	m_LastSearchRow = OnKeyboardSearch(nCol, nRow, m_LastSearchString);
+	if (m_RepeatSearchCount > 0 || m_LastSearchString.GetLength()==1)
+		m_LastSearchRow = OnKeyboardSearch(nCol, nRow+1, m_LastSearchString);
+	else
+		m_LastSearchRow = OnKeyboardSearch(nCol, nRow, m_LastSearchString);
 	if (m_LastSearchRow!=-1)
 	{
 		// De-select all other rows
