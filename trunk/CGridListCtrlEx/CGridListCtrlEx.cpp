@@ -536,8 +536,8 @@ bool CGridListCtrlEx::CheckOSVersion(WORD requestOS)
 	{
 		OSVERSIONINFO osver = {0};
 		osver.dwOSVersionInfoSize = sizeof(osver);
-		GetVersionEx(&osver);
-		 fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+		VERIFY( GetVersionEx(&osver) );
+		fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
 	}
 	return requestOS <= fullver;
 }
