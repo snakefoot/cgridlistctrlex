@@ -80,7 +80,7 @@ pTrait-&gt;AddItem(0, &quot;Hello&quot;);
 pTrait-&gt;AddItem(1, &quot;Goodbye&quot;);
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
 
-<p>We can specify the items of the <code>CComboBox</code> when inserting the columns (as shown above). If we want to provide the <code>CComboBox</code> items dynamically, then we can override the <code>CGridListCtrlEx::OnEditBegin()</code>, and then either use <code>dynamic_cast&lt;&gt;</code> or use the <code>CGridColumnTraitVisitor</code> to modify the items in the <code>CComboBox</code>.</p>
+<p>We can specify the items of the <code>CComboBox</code> when inserting the columns (as shown above). If we want to provide the <code>CComboBox</code> items dynamically, then we can override the <code>CGridListCtrlEx::OnEditBegin()</code>. Use <code>dynamic_cast&lt;&gt;</code> to either call the column trait method <code>CGridColumnTraitCombo::LoadList()</code>, or to work on the returned <code>CComboBox</code>-editor directly.</p>
 
 <h4>Sorting Rows</h4>
 
