@@ -127,9 +127,9 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	m_pComboBox = CreateComboBox(owner, nRow, nCol, rectCell);
 	VERIFY(m_pComboBox!=NULL);
 
-	// Add all items to list
 	if (m_ComboList.GetSize()>0)
 	{
+		// Add Fixed Items to ComboBox
 		LoadList(m_ComboList, -1);
 
 		// Guess the currently selected item in the list
@@ -142,6 +142,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	}
 	else
 	{
+		// Items are going to be added dynamically
 		CString item = owner.GetItemText(nRow, nCol);
 		m_pComboBox->SetWindowText(item);
 	}
