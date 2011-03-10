@@ -194,7 +194,7 @@ void CGridColumnTraitCombo::AddItem(int nItemData, const CString& strItemText)
 //! Fills the combobox with the items of the fixed item-list
 //!
 //! @param comboList List of CComboBox items
-//! @param nCurSel Unique identifier of the item currently selected
+//! @param nCurSel Index in the list to choose as currently selected (-1 = No selection)
 //------------------------------------------------------------------------
 void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel)
 {
