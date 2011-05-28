@@ -7,7 +7,7 @@
 // Version: 1.9
 //
 // Change History:
-// 	1.9 - Added new CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2010-11-15)
+// 	1.9 - Added new CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2011-05-30)
 //		  Renamed CGridColumnConfig to CViewConfigSection (Now general purpose settings manager)
 //		  Removed CGridColumnManager and moved LoadState/SaveState into CGridListCtrlEx (Breaking change)
 //		  Fixed breaking change in 1.8 where OnEditBegin overrides stopped working
