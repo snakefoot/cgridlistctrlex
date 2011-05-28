@@ -22,7 +22,7 @@ public:
 	void SetLimitText(UINT nMax);
 	UINT GetLimitText() const;
 
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);

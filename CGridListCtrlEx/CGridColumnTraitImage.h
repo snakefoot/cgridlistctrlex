@@ -33,9 +33,11 @@ public:
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
 protected:
+	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending) { return CGridColumnTraitText::OnSortRows(pszLeftValue, pszRightValue, bAscending); }
 	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending);
 	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const;
 	virtual int OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol) { return CGridColumnTraitText::OnEditBegin(owner, nRow, nCol); }
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);

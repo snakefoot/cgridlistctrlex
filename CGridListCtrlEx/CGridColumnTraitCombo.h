@@ -28,7 +28,7 @@ public:
 	void LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel);
 	void AddItem(int nItemData, const CString& strItemText);
 
-	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual void  OnEditEnd();
 
 protected:

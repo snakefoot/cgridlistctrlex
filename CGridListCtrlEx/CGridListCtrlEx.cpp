@@ -2092,7 +2092,7 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 //! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
+CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, const CPoint& pt)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
@@ -2131,18 +2131,10 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 //! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
+CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, const CPoint& pt)
 {
 	if (nCol==-1 || nRow==-1)
 		return NULL;
-
-	if (pt==CPoint(-1,-1))
-	{
-		CRect labelRect;
-		if (!GetCellRect(nRow, nCol, LVIR_LABEL, labelRect))
-			return NULL;
-		pt = labelRect.TopLeft();
-	}
 
 	m_pEditor = OnEditBegin(nRow, nCol, pt);
 	if (m_pEditor==NULL)
@@ -3466,46 +3458,6 @@ LRESULT CGridListCtrlEx::OnCopy(WPARAM wParam, LPARAM lParam)
 {
 	OnCopyToClipboard();
 	return DefWindowProc(WM_COPY, wParam, lParam); 
-}
-
-namespace {
-	class CMyOleDropSource : public COleDropSource
-	{
-		CImageList* m_pDragImage;
-
-	public:
-		explicit CMyOleDropSource(CImageList* pDragImage)
-			:m_pDragImage(pDragImage)
-		{}
-
-		~CMyOleDropSource()
-		{
-			if (m_pDragImage!=NULL)
-			{
-				::ReleaseCapture();
-				m_pDragImage->DragLeave(CWnd::FromHandle(GetDesktopWindow()));
-				m_pDragImage->EndDrag();
-				m_pDragImage->DeleteImageList();
-				delete m_pDragImage;
-			}
-		}
-
-		virtual SCODE GiveFeedback(DROPEFFECT dropEffect)
-		{
-			return COleDropSource::GiveFeedback(dropEffect);
-		}
-
-		virtual SCODE QueryContinueDrag(BOOL bEscapePressed, DWORD dwKeyState)
-		{
-			if (m_pDragImage!=NULL)
-			{
-				CPoint ptDropPoint;
-				::GetCursorPos(&ptDropPoint);
-				m_pDragImage->DragMove(ptDropPoint);
-			}
-			return COleDropSource::QueryContinueDrag(bEscapePressed, dwKeyState);
-		}
-	};
 }
 
 //------------------------------------------------------------------------
