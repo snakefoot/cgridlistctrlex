@@ -4,12 +4,13 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 1.8.1
+// Version: 1.9
 //
 // Change History:
-// 	1.8.1 - Changed CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2010-11-15)
-//		  Renamed CGridColumnConfig to CViewConfigSection
-//		  Removed CGridColumnManager and moved LoadState/SaveState into CGridListCtrlEx
+// 	1.9 - Added new CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2010-11-15)
+//		  Renamed CGridColumnConfig to CViewConfigSection (Now general purpose settings manager)
+//		  Removed CGridColumnManager and moved LoadState/SaveState into CGridListCtrlEx (Breaking change)
+//		  Fixed breaking change in 1.8 where OnEditBegin overrides stopped working
 //	1.8 - Added checkbox support for all column editor types (2010-10-01)
 //		  Added checkbox toggle for all selected rows
 //		  Added min and max width for columns
