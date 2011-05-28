@@ -77,10 +77,10 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get style used when creating CDataTimeCtrl for cell value editing. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a0fdcf1fafe6461159aeb0226dda9acb2">SetParseDateTime</a> (DWORD dwFlags=0, LCID lcid=LANG_USER_DEFAULT)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the flags for converting the datetime in text format to actual date.  <a href="#a0fdcf1fafe6461159aeb0226dda9acb2"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#aab51b8bb0814007f39b3a72c7e9b8661"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a58a16f0ee54caf5149541a34f370a516">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#a58a16f0ee54caf5149541a34f370a516"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#acba95b50bdbaeb960807e443f0dc3aa2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa95b405d67aeb3312719b018b4f193dc"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae5d750254c2499806fa7af709d32e7e"></a><!-- doxytag: member="CGridColumnTraitDateTime::Accept" ref="aae5d750254c2499806fa7af709d32e7e" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aae5d750254c2499806fa7af709d32e7e">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -155,7 +155,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
-<a class="anchor" id="aab51b8bb0814007f39b3a72c7e9b8661"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="aab51b8bb0814007f39b3a72c7e9b8661" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<a class="anchor" id="acba95b50bdbaeb960807e443f0dc3aa2"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="acba95b50bdbaeb960807e443f0dc3aa2" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -175,13 +175,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CPoint&nbsp;</td>
-          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -192,37 +186,36 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div>
 <div class="memdoc">
 
-<p>Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#aab51b8bb0814007f39b3a72c7e9b8661" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a58a16f0ee54caf5149541a34f370a516"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnSortRows" ref="a58a16f0ee54caf5149541a34f370a516" args="(const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)" -->
+<a class="anchor" id="aa95b405d67aeb3312719b018b4f193dc"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnSortRows" ref="aa95b405d67aeb3312719b018b4f193dc" args="(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int CGridColumnTraitDateTime::OnSortRows </td>
           <td>(</td>
-          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
-          <td class="paramname"> <em>leftItem</em>, </td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszLeftValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
-          <td class="paramname"> <em>rightItem</em>, </td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>pszRightValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -242,15 +235,15 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <p>Compares two cell values according to specified sort order. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>leftItem</em>&nbsp;</td><td>Left cell item </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>rightItem</em>&nbsp;</td><td>Right cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pszLeftValue</em>&nbsp;</td><td>Left cell value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pszRightValue</em>&nbsp;</td><td>Right cell value </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a3d9c0910f1579dad08f282a0c202f421">CGridColumnTraitImage</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a38f766b818c68b907c1bd50e4abd6b0c">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>

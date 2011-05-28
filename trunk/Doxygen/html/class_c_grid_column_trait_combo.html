@@ -81,8 +81,8 @@ Inheritance diagram for CGridColumnTraitCombo:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fills the combobox with the items of the fixed item-list.  <a href="#a6d594a5f5541af6ad54e568d14e99b24"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a7f7d7b7b3d3ad8fcefb8eb86afdb2eb1">AddItem</a> (int nItemData, const CString &amp;strItemText)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds combobox item to the fixed combobox item-list.  <a href="#a7f7d7b7b3d3ad8fcefb8eb86afdb2eb1"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ad1c343018b6625f811dc453ef4d08e86">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ad1c343018b6625f811dc453ef4d08e86" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to provide a CComboBox cell value editor.  <a href="#ad1c343018b6625f811dc453ef4d08e86"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to provide a CComboBox cell value editor.  <a href="#ae61ea24e0da2552779646d66cc9cb93a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ad71eff8d9d87af3df3e35072db553827">OnEditEnd</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ad71eff8d9d87af3df3e35072db553827" title="Overrides OnEditEnd() to ensure that temporary combobox variable is reset when cell...">OnEditEnd()</a> to ensure that temporary combobox variable is reset when cell value editing is completed.  <a href="#ad71eff8d9d87af3df3e35072db553827"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
@@ -287,14 +287,14 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>comboList</em>&nbsp;</td><td>List of CComboBox items </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nCurSel</em>&nbsp;</td><td>Unique identifier of the item currently selected </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCurSel</em>&nbsp;</td><td>Index in the list to choose as currently selected (-1 = No selection) </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="ad1c343018b6625f811dc453ef4d08e86"></a><!-- doxytag: member="CGridColumnTraitCombo::OnEditBegin" ref="ad1c343018b6625f811dc453ef4d08e86" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<a class="anchor" id="ae61ea24e0da2552779646d66cc9cb93a"></a><!-- doxytag: member="CGridColumnTraitCombo::OnEditBegin" ref="ae61ea24e0da2552779646d66cc9cb93a" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -314,13 +314,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CPoint&nbsp;</td>
-          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -331,19 +325,18 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 <div class="memdoc">
 
-<p>Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ad1c343018b6625f811dc453ef4d08e86" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to provide a CComboBox cell value editor. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to provide a CComboBox cell value editor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
-<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
