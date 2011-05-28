@@ -167,7 +167,7 @@ int CGridColumnTraitImage::OnSortRows(const LVITEM& leftItem, const LVITEM& righ
 		if (imageSort != 0)
 			return imageSort;
 	}
-	return CGridColumnTraitText::OnSortRows(leftItem, rightItem, bAscending);
+	return OnSortRows(leftItem.pszText, rightItem.pszText, bAscending);
 }
 
 //------------------------------------------------------------------------
@@ -194,10 +194,13 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 			{
 				if (nCurImageIdx==-1)
 				{
-					CRect rect;
-					VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rect) );
-					if (!rect.PtInRect(pt))
-						break;
+					if (pt!=CPoint(-1,-1))
+					{
+						CRect rect;
+						VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rect) );
+						if (!rect.PtInRect(pt))
+							break;
+					}
 
 					nCurImageIdx = owner.GetCellImage(nRow, nCol);
 					if (nCurImageIdx==-1)
@@ -300,6 +303,15 @@ int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int 
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
 {
+	// Check if the user used a shortcut key to edit the label
+	if (pt==CPoint(-1,-1)) 
+		return OnEditBegin(owner, nRow, nCol);
+
+	// Check if mouse click was inside the label-part of the cell
+	CRect labelRect;
+	if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && labelRect.PtInRect(pt))
+		return OnEditBegin(owner, nRow, nCol);
+
 	CRect iconRect;
 	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
 	{

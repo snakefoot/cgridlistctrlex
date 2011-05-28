@@ -118,16 +118,10 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit
 //! @param nCol The index of the column for the cell to edit
-//! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
 //------------------------------------------------------------------------
-CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt)
+CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	// Check if the user clicked the cell icon (or the label-column checkbox)
-	CRect labelRect;
-	if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
-		return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt);
-
 	// Convert cell-text to date/time format
 	CString cellText = owner.GetItemText(nRow, nCol);
 
@@ -159,26 +153,19 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 //------------------------------------------------------------------------
 //! Compares two cell values according to specified sort order
 //!
-//! @param leftItem Left cell item
-//! @param rightItem Right cell item
+//! @param pszLeftValue Left cell value
+//! @param pszRightValue Right cell value
 //! @param bAscending Perform sorting in ascending or descending order
 //! @return Is left value less than right value (-1) or equal (0) or larger (1)
 //------------------------------------------------------------------------
-int CGridColumnTraitDateTime::OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending)
+int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
-	if (m_SortImageIndex)
-	{
-		int imageSort = bAscending ? leftItem.iImage - rightItem.iImage : rightItem.iImage - leftItem.iImage;
-		if (imageSort != 0)
-			return imageSort;
-	}
-
 	COleDateTime leftDate;
-	if(leftDate.ParseDateTime(leftItem.pszText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	if(leftDate.ParseDateTime(pszLeftValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
 		leftDate.SetDateTime(1970, 1, 1, 0, 0, 0);
 
 	COleDateTime rightDate;
-	if(rightDate.ParseDateTime(rightItem.pszText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	if(rightDate.ParseDateTime(pszRightValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
 		rightDate.SetDateTime(1970, 1, 1, 0, 0, 0);
 
 	if (bAscending)
