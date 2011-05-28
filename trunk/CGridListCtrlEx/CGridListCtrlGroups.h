@@ -78,7 +78,7 @@ protected:
 
 public:
 // MFC headers with group-support is only availabe from VS.NET 
-#if _MSC_VER > 1300
+#if _MSC_VER < 1300
 	LRESULT InsertGroup(int index, PLVGROUP pgrp);
 	int SetGroupInfo(int iGroupId, PLVGROUP pgrp);
 	int GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;	
