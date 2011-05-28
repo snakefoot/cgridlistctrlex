@@ -121,7 +121,7 @@ public:
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual void SetFocusCell(int nCol, bool bRedraw = false);
 	virtual CWnd* EditCell(int nRow, int nCol) { return EditCell(nRow, nCol, CPoint(-1,-1)); }
-	virtual CWnd* EditCell(int nRow, int nCol, const CPoint& pt);
+	virtual CWnd* EditCell(int nRow, int nCol, CPoint pt);
 	bool IsCellEditorOpen() const;
 	bool IsCellCallback(int nRow, int nCol) const;
 	int GetCellImage(int nRow, int nCol) const;
@@ -225,7 +225,7 @@ protected:
 	// Cell editing handlers
 	virtual int OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(int nRow, int nCol) { return OnEditBegin(nRow, nCol, CPoint(-1,-1)); }
-	virtual CWnd* OnEditBegin(int nRow, int nCol, const CPoint& pt);
+	virtual CWnd* OnEditBegin(int nRow, int nCol, CPoint pt);
 	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers

@@ -2092,7 +2092,7 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 //! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, const CPoint& pt)
+CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait==NULL)
@@ -2131,7 +2131,7 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 //! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
-CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, const CPoint& pt)
+CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 {
 	if (nCol==-1 || nRow==-1)
 		return NULL;
