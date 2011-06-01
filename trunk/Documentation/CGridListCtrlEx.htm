@@ -1,8 +1,8 @@
 <span id="ArticleContent">
 <ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 77.61 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 76.96 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 742.77 KB</a> </li>
+<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 754.33 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -33,7 +33,9 @@
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
-<p><img src="CGridListCtrlEx/screenshot.png" width="497" height="292" alt="screenshot.png" /></p>
+
+<p><img width="497" height="292" alt="screenshot.png" src="CGridListCtrlEx/screenshot.png" complete="true" /></p>
+
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
 <h2>Background</h2>
@@ -89,7 +91,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>To configure a column trait to sort using number comparison:</p>
 
 <pre lang="C++">CGridColumnTraitEdit* pTrait = new CGridColumnTraitEdit;
-pTrait->SetSortFormatNumber(true);	// Numeric column
+pTrait-&gt;SetSortFormatNumber(true);	// Numeric column
 m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait);</pre>
 
 <p>The column trait <code>CGridColumnTraitDateTime</code> will automatically attempt to sort using date comparison.</p>
@@ -236,7 +238,7 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </ul>
 </li>
 
-<li><code>CViewConfigSection</code> - Abstract interface for persisting column setup
+<li><code>CViewConfigSection</code> - Abstract interface for persisting column setup 
 <ul>
 
 <li><code>CViewConfigSectionWinApp</code> - Implements the interface and can switch between multiple column setups. </li>
@@ -359,15 +361,14 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <li>Fixed several bugs </li>
 </ul>
 </li>
+
 <li><strong>Version 1.9</strong> (2011-05-30) 
 <ul>
-
 <li>Changed <code>CGridColumnTrait::OnSortRows</code> to take an <code>LVITEM</code> as argument instead of character strings</li>
 
 <li>Renamed <code>CGridColumnConfig</code> to <code>CViewConfigSection</code> </li>
 
-<li>Removed <code>CGridColumnManager</code> and moved LoadState/SaveState into <code>CGridListCtrlEx</code> (Breaking change) </li>
-
+<li>Removed <code>CGridColumnManager</code> and moved <code>LoadState</code>/<code>SaveState </code>into <code>CGridListCtrlEx</code> (breaking change) </li>
 </ul>
 </li>
 </ul>
