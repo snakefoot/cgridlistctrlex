@@ -211,29 +211,6 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 
 	if (IsGroupStateEnabled())
 	{
-#if _WIN32_WINNT >= 0x0600
-#ifdef ListView_HitTestEx
-#ifdef LVHT_EX_GROUP
-#ifdef ListView_GetGroupInfoByIndex
-		LVHITTESTINFO lvhitinfo = {0};
-		lvhitinfo.pt = point;
-		ListView_HitTestEx(m_hWnd, &lvhitinfo);
-		if ((lvhitinfo.flags & LVHT_EX_GROUP)==0)
-			return -1;
-
-		LVGROUP lg = {0};
-		lg.cbSize = sizeof(lg);
-		lg.mask = LVGF_GROUPID;
-		VERIFY( ListView_GetGroupInfoByIndex(m_hWnd, lvhitinfo.iGroup, &lg) );
-		return lg.iGroupId;
-#endif
-#endif
-#endif
-#endif
-	}
-
-	if (IsGroupStateEnabled())
-	{
 		// Running on Vista or newer, but compiled without _WIN32_WINNT >= 0x0600
 #ifndef LVM_GETGROUPINFOBYINDEX
 #define LVM_GETGROUPINFOBYINDEX   (LVM_FIRST + 153)
@@ -971,13 +948,6 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 		return;
 	
 	int nGroupId = GroupHitTest(point);
-	if (nGroupId!=-1)
-	{
-		if (HasGroupState(nGroupId, LVGS_COLLAPSED))
-			SetGroupState(nGroupId, LVGS_NORMAL);
-		else
-			SetGroupState(nGroupId, LVGS_COLLAPSED);
-	}
 }
 
 //------------------------------------------------------------------------
