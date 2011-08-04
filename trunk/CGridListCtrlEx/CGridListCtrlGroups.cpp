@@ -958,6 +958,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 		return;
 	
 	int nGroupId = GroupHitTest(point);
+	nGroupId;	// Avoid unreferenced variable warning
 }
 
 //------------------------------------------------------------------------
@@ -1112,7 +1113,7 @@ void CGridListCtrlGroups::OnPaint()
 }
 
 // MFC headers with group-support is only availabe from VS.NET 
-#if _MSC_VER < 1300
+#if _MSC_VER > 1300
 
 AFX_INLINE LRESULT CGridListCtrlGroups::InsertGroup(int index, PLVGROUP pgrp)
 {
