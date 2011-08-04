@@ -33,6 +33,12 @@ class COleDropTargetWnd : public COleDropTarget
 			,m_DragDestination(false)
 		{}
 
+		virtual ~COleDropTargetWnd()
+		{
+			if (m_pWnd != NULL)
+				COleDropTarget::Revoke();
+		}
+
 		BOOL Register(T* pWnd)
 		{
 			if (m_pWnd!=NULL)
