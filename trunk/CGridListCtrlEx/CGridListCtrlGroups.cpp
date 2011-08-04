@@ -122,8 +122,8 @@ CString CGridListCtrlGroups::GetGroupHeader(int nGroupId)
 #ifdef UNICODE
 	return lg.pszHeader;
 #elif  _MSC_VER >= 1300
-	CComBSTR header( lg.pszHeader );
-	return (LPCTSTR)COLE2T(header);
+	CString strHeader(lg.pszHeader);
+	return strHeader;
 #else
 	USES_CONVERSION;
 	return W2A(lg.pszHeader);
