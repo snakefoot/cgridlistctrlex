@@ -148,9 +148,9 @@ int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue
 	else
 	{
 		if (bAscending)
-			return _tcscmp( pszLeftValue, pszRightValue );
+			return _tcsicmp( pszLeftValue, pszRightValue );
 		else
-			return _tcscmp( pszRightValue, pszLeftValue );
+			return _tcsicmp( pszRightValue, pszLeftValue );
 	}
 }
 
