@@ -78,6 +78,24 @@ DWORD CGridColumnTraitDateTime::GetStyle() const
 }
 
 //------------------------------------------------------------------------
+//! Parse the input string into a datetime value
+//!
+//! @param lpszDate The input string
+//! @param dateTime The datetime value
+//! @return Could the input string be converted into a valid datetime value ?
+//------------------------------------------------------------------------
+BOOL CGridColumnTraitDateTime::ParseDateTime(LPCTSTR lpszDate, COleDateTime& dateTime)
+{
+	if(dateTime.ParseDateTime(lpszDate, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	{
+		dateTime.SetDateTime(1970, 1, 1, 0, 0, 0);
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
+
+//------------------------------------------------------------------------
 //! Create a CDateTimeCtrl as cell value editor
 //!
 //! @param owner The list control starting a cell edit
@@ -124,10 +142,8 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 {
 	// Convert cell-text to date/time format
 	CString cellText = owner.GetItemText(nRow, nCol);
-
-	COleDateTime dt;
-	if(dt.ParseDateTime(cellText, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
-		dt.SetDateTime(1970, 1, 1, 0, 0, 0);
+	COleDateTime dateTime;
+	ParseDateTime(cellText, dateTime);
 
 	// Get position of the cell to edit
 	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
@@ -136,15 +152,15 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, rectCell);
 	VERIFY(pDateTimeCtrl!=NULL);
 
-	pDateTimeCtrl->SetTime(dt);
+	pDateTimeCtrl->SetTime(dateTime);
 
 	// Check with the original string
 	CString timeText;
 	pDateTimeCtrl->GetWindowText(timeText);
 	if (cellText!=timeText)
 	{
-		dt.SetDateTime(1970, 1, 1, 0, 0, 0);
-		pDateTimeCtrl->SetTime(dt);
+		dateTime.SetDateTime(1970, 1, 1, 0, 0, 0);
+		pDateTimeCtrl->SetTime(dateTime);
 	}
 
 	return pDateTimeCtrl;
@@ -160,18 +176,14 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 //------------------------------------------------------------------------
 int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)
 {
-	COleDateTime leftDate;
-	if(leftDate.ParseDateTime(pszLeftValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
-		leftDate.SetDateTime(1970, 1, 1, 0, 0, 0);
-
-	COleDateTime rightDate;
-	if(rightDate.ParseDateTime(pszRightValue, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
-		rightDate.SetDateTime(1970, 1, 1, 0, 0, 0);
+	COleDateTime leftDateTime, rightDateTime;
+	ParseDateTime(pszLeftValue, leftDateTime);
+	ParseDateTime(pszRightValue, rightDateTime);
 
 	if (bAscending)
-		return (int)(leftDate - rightDate);
+		return (int)(leftDateTime - rightDateTime);
 	else
-		return (int)(rightDate - leftDate);
+		return (int)(rightDateTime - leftDateTime);
 }
 
 //------------------------------------------------------------------------
@@ -181,7 +193,7 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//{{AFX_MSG_MAP(CGridEditorDateTimeCtrl)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
-	ON_NOTIFY_REFLECT(DTN_DATETIMECHANGE, OnDateTimeChange)
+	ON_NOTIFY_REFLECT_EX(DTN_DATETIMECHANGE, OnDateTimeChange)
 	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -273,7 +285,7 @@ void CGridEditorDateTimeCtrl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //------------------------------------------------------------------------
-//! DTN_DATETIMECHANGE message handler to monitor date modifications
+//! DTN_DATETIMECHANGE notification handler to monitor date modifications
 //!
 //! @param pNMHDR Pointer to NMDATETIMECHANGE structure
 //! @param pResult Must be set to zero
