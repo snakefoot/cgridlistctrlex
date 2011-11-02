@@ -26,6 +26,7 @@ public:
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
+	virtual BOOL ParseDateTime(LPCTSTR lpszDate, COleDateTime& dt);
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
