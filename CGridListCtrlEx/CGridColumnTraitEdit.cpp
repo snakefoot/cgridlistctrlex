@@ -136,7 +136,7 @@ BEGIN_MESSAGE_MAP(CGridEditorText, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorText)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
-	ON_WM_CHAR()
+	ON_CONTROL_REFLECT_EX(EN_CHANGE, OnEnChange)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -148,6 +148,7 @@ CGridEditorText::CGridEditorText(int nRow, int nCol)
 	,m_Col(nCol)
 	,m_Completed(false)
 	,m_Modified(false)
+	,m_InitialModify(false)
 {}
 
 //------------------------------------------------------------------------
@@ -209,16 +210,17 @@ void CGridEditorText::OnNcDestroy()
 }
 
 //------------------------------------------------------------------------
-//! WM_CHAR message handler to monitor text modifications
+//! EN_CHANGE notification handler to monitor text modifications
 //!
-//! @param nChar Specifies the virtual key code of the given key.
-//! @param nRepCnt Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key).
-//! @param nFlags Specifies the scan code, key-transition code, previous key state, and context code
+//! @return Is final notification handler (Return FALSE to continue routing the notification)
 //------------------------------------------------------------------------
-void CGridEditorText::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+BOOL CGridEditorText::OnEnChange()
 {
-	m_Modified = true;
-	CEdit::OnChar(nChar, nRepCnt, nFlags);
+	if (m_InitialModify)
+		m_Modified = true;
+	else
+		m_InitialModify = true;
+	return FALSE;
 }
 
 //------------------------------------------------------------------------
