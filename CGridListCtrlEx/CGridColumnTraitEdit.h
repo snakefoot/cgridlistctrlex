@@ -44,7 +44,7 @@ public:
 protected:
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 	afx_msg void OnNcDestroy();
-	afx_msg BOOL OnEnChange();
+	afx_msg void OnEnChange();
 	virtual	BOOL PreTranslateMessage(MSG* pMsg);
 
 	int		m_Row;					//!< The index of the row being edited
