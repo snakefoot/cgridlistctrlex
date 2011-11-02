@@ -211,16 +211,13 @@ void CGridEditorText::OnNcDestroy()
 
 //------------------------------------------------------------------------
 //! EN_CHANGE notification handler to monitor text modifications
-//!
-//! @return Is final notification handler (Return FALSE to continue routing the notification)
 //------------------------------------------------------------------------
-BOOL CGridEditorText::OnEnChange()
+void CGridEditorText::OnEnChange()
 {
 	if (m_InitialModify)
 		m_Modified = true;
 	else
 		m_InitialModify = true;
-	return FALSE;
 }
 
 //------------------------------------------------------------------------
