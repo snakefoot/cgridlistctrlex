@@ -3570,8 +3570,6 @@ BOOL CGridListCtrlEx::RegisterDropTarget()
 	if (!m_pOleDropTarget->Register(this))
 	{
 		// Was AfxOleInit() called in derived CWinApp::InitInstance() ?
-		delete m_pOleDropTarget;
-		m_pOleDropTarget = NULL;
 		return FALSE;
 	}
 	return TRUE;
