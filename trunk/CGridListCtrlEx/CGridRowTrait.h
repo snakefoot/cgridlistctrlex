@@ -9,6 +9,9 @@
 class CGridRowTraitVisitor;
 class CGridListCtrlEx;
 
+#pragma warning(push)
+#pragma warning(disable:4100)	// unreferenced formal parameter
+
 //------------------------------------------------------------------------
 //! CGridRowTrait specifies an interface for handling custom drawing at
 //! row-level
@@ -25,3 +28,5 @@ public:
 	//!   - Will enable the use of the visitor-pattern ex. for serialization of column-traits
 	virtual void Accept(CGridRowTraitVisitor& visitor) {}
 };
+
+#pragma warning(pop)

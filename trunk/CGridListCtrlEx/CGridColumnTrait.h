@@ -9,6 +9,9 @@
 class CGridColumnTraitVisitor;
 class CGridListCtrlEx;
 
+#pragma warning(push)
+#pragma warning(disable:4100)	// unreferenced formal parameter
+
 //------------------------------------------------------------------------
 //! CGridColumnTrait specifies the methods needed for custom cell handling
 //------------------------------------------------------------------------
@@ -147,3 +150,5 @@ public:
 protected:
 	ColumnState m_ColumnState;
 };
+
+#pragma warning(pop)
