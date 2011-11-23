@@ -44,7 +44,7 @@ protected:
 class CGridEditorDateTimeCtrl : public CDateTimeCtrl
 {
 public:
-	CGridEditorDateTimeCtrl(int nRow, int nCol);
+	CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait = NULL);
 	
 protected:
 	virtual void EndEdit(bool bSuccess);
@@ -52,6 +52,7 @@ protected:
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 	afx_msg void OnNcDestroy();
 	afx_msg void OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnUserString(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
@@ -59,6 +60,8 @@ protected:
 	bool	m_Modified;				//!< Register if date was modified while the editor was open
 	int		m_Row;					//!< The index of the row being edited
 	int		m_Col;					//!< The index of the column being edited
+
+	CGridColumnTraitDateTime* m_pColumnTrait;	//!< Provides logic for parsing free text editing
 
 	DECLARE_MESSAGE_MAP();
 };
