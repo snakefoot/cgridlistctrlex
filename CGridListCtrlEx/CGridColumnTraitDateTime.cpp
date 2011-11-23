@@ -18,7 +18,7 @@
 CGridColumnTraitDateTime::CGridColumnTraitDateTime()
 	:m_ParseDateTimeFlags(0)
 	,m_ParseDateTimeLCID(LOCALE_USER_DEFAULT)
-	,m_DateTimeCtrlStyle(0)
+	,m_DateTimeCtrlStyle(DTS_APPCANPARSE)
 {}
 
 //------------------------------------------------------------------------
@@ -112,10 +112,10 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 	hd.mask = HDI_FORMAT;
 	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
 	if (hd.fmt & HDF_RIGHT)
-		dwStyle = DTS_RIGHTALIGN;
+		dwStyle |= DTS_RIGHTALIGN;
 
 	// Create control to edit the cell
-	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol);
+	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol, this);
 	VERIFY( pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0) );
 	if (!owner.UsingVisualStyle())
 		pDateTimeCtrl->ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);	// Remove sunken edge
@@ -194,6 +194,8 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	ON_WM_KILLFOCUS()
 	ON_WM_NCDESTROY()
 	ON_NOTIFY_REFLECT(DTN_DATETIMECHANGE, OnDateTimeChange)
+	ON_NOTIFY_REFLECT(DTN_USERSTRINGW, OnUserString)
+	ON_NOTIFY_REFLECT(DTN_USERSTRINGA, OnUserString)
 	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -204,11 +206,12 @@ END_MESSAGE_MAP()
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //------------------------------------------------------------------------
-CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol)
+CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
 	,m_Modified(false)
+	,m_pColumnTrait(pColumnTrait)
 {}
 
 //------------------------------------------------------------------------
@@ -257,7 +260,11 @@ void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 {
 	CDateTimeCtrl::OnKillFocus(pNewWnd);
 	if (GetMonthCalCtrl()==NULL)
-		EndEdit(true);
+	{
+		// Special case when a dynamic CEdit is created (DTS_APPCANPARSE)
+		if (pNewWnd == NULL || pNewWnd->GetParent()!=this)
+			EndEdit(true);
+	}
 }
 
 //------------------------------------------------------------------------
@@ -294,6 +301,51 @@ void CGridEditorDateTimeCtrl::OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	m_Modified = true;
 	*pResult = 0;
+}
+
+//------------------------------------------------------------------------
+//! DTN_USERSTRING notification handler to convert clipboard to datetime
+//!
+//! @param pNMHDR Pointer to NMDATETIMESTRING structure
+//! @param pResult Must be set to zero
+//------------------------------------------------------------------------
+void CGridEditorDateTimeCtrl::OnUserString(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	NMDATETIMESTRINGW* pDateInfoW = reinterpret_cast<NMDATETIMESTRINGW*>(pNMHDR);
+	NMDATETIMESTRINGA* pDateInfoA = reinterpret_cast<NMDATETIMESTRINGA*>(pNMHDR);
+
+	CString userstr;
+	if (pNMHDR->code == DTN_USERSTRINGA)
+		userstr = pDateInfoA->pszUserString;
+	else
+		userstr = pDateInfoW->pszUserString;
+
+	if (m_pColumnTrait)
+	{
+		COleDateTime dt;
+		if (m_pColumnTrait->ParseDateTime(userstr, dt))
+		{
+			if (pNMHDR->code == DTN_USERSTRINGA)
+			{
+				pDateInfoA->dwFlags = GDT_VALID;
+				dt.GetAsSystemTime(pDateInfoA->st);
+			}
+			else
+			{
+				pDateInfoW->dwFlags = GDT_VALID;
+				dt.GetAsSystemTime(pDateInfoW->st);
+			}
+		}
+		else
+		{
+			if (pNMHDR->code == DTN_USERSTRINGA)
+				pDateInfoA->dwFlags = GDT_NONE;
+			else
+				pDateInfoW->dwFlags = GDT_NONE;
+		}
+	}
+
+    *pResult = 0;
 }
 
 //------------------------------------------------------------------------
