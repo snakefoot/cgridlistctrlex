@@ -135,6 +135,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT_EX(NM_DBLCLK, OnItemDblClick)			// Cell Double Click
 	ON_NOTIFY_REFLECT_EX(LVN_ODFINDITEM, OnOwnerDataFindItem)	// Owner Data Find Item
 	ON_NOTIFY_REFLECT_EX(LVN_BEGINDRAG, OnBeginDrag)		// Begin Drag Dropb
+	ON_NOTIFY_REFLECT_EX(LVN_ITEMCHANGED, OnItemChanged)	// Cell State Change
 	ON_WM_CONTEXTMENU()	// OnContextMenu
 	ON_WM_KEYDOWN()		// OnKeyDown
 	ON_WM_LBUTTONDOWN()	// OnLButtonDown(UINT nFlags, CPoint point)
@@ -1649,7 +1650,10 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				{
 					int nFocusRow = GetFocusRow();
 					if (nFocusRow != -1)
-						OnOwnerDataToggleCheckBox(nFocusRow);
+					{
+						bool bChecked = OnOwnerDataDisplayCheckbox(nFocusRow);
+						OnOwnerDataToggleCheckBox(nFocusRow, !bChecked);
+					}
 				}
 			}
 			else
@@ -1683,8 +1687,9 @@ bool CGridListCtrlEx::OnOwnerDataDisplayCheckbox(int nRow)
 //! Remember to force a redraw to ensure the new checkbox state is displayed.
 //!
 //! @param nRow The row index where the checkbox should be toggled
+//! @param bChecked Whether the checkbox has been checked on unchecked
 //------------------------------------------------------------------------
-void CGridListCtrlEx::OnOwnerDataToggleCheckBox(int nRow)
+void CGridListCtrlEx::OnOwnerDataToggleCheckBox(int nRow, bool bChecked)
 {
 	// Force redraw so the new checkbox value is displayed
 	Invalidate();
@@ -3857,6 +3862,37 @@ bool CGridListCtrlEx::MoveSelectedRows(int nDropRow)
 }
 
 //------------------------------------------------------------------------
+//! LVN_ITEMCHANGED message handler called when a row changes state
+//!
+//! @param pNMHDR Pointer to LPNMLISTVIEW structure
+//! @param pResult Not used
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
+BOOL CGridListCtrlEx::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+
+	if (pNMLV->uChanged & LVIF_STATE && pNMLV->iSubItem == 0)
+	{
+		if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
+		{
+			switch(pNMLV->uNewState & LVIS_STATEIMAGEMASK)
+			{
+				case INDEXTOSTATEIMAGEMASK(BST_CHECKED + 1):	// new state: checked
+					OnOwnerDataToggleCheckBox(pNMLV->iItem, true);
+					break;
+				case INDEXTOSTATEIMAGEMASK(BST_UNCHECKED + 1):	// new state: unchecked
+					OnOwnerDataToggleCheckBox(pNMLV->iItem, false);
+					break;
+			}
+			*pResult = 0;
+		}
+	}
+
+	return FALSE;	// Let parent-dialog get chance
+}
+
+//------------------------------------------------------------------------
 //! NM_CLICK message handler called when left-clicking in a cell.
 //! Just to show how to catch the single click event.
 //!
@@ -3871,24 +3907,6 @@ BOOL CGridListCtrlEx::OnItemClick(NMHDR* pNMHDR, LRESULT* pResult)
 	// The iItem member of pItem is only valid if the icon or first-column label has been clicked
 	int nRow = pItem->iItem;
 	int nCol = pItem->iSubItem;
-
-	// Toggle checkbox for virtual list with checkbox style
-	if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
-	{
-		// Verify that the checkbox-area was clicked
-		CellHitTest(pItem->ptAction, nRow, nCol);
-		if (nRow!=-1 && nCol==0)
-		{
-			// Checkbox area is between the item-bounds and the item-icon
-			CRect iconRect, itemRect;
-			VERIFY( GetCellRect(nRow, nCol, LVIR_ICON, iconRect) );
-			VERIFY( GetCellRect(nRow, nCol, LVIR_BOUNDS, itemRect) );
-			CRect checkboxRect(itemRect.left, itemRect.top, iconRect.left, itemRect.bottom);
-			if (checkboxRect.PtInRect(pItem->ptAction))
-				OnOwnerDataToggleCheckBox(nRow);
-		}
-	}
-
 	CellHitTest(pItem->ptAction, nRow, nCol);
 
 	return FALSE;	// Let parent-dialog get chance

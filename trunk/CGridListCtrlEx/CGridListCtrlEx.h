@@ -164,7 +164,7 @@ public:
 	virtual bool OnDisplayToClipboard(int nRow, int nCol, CString& strResult);
 	virtual bool OnDisplayToDragDrop(CString& strResult);
 	virtual bool OnOwnerDataDisplayCheckbox(int nRow);
-	virtual void OnOwnerDataToggleCheckBox(int nRow);
+	virtual void OnOwnerDataToggleCheckBox(int nRow, bool bChecked);
 	virtual int  OnKeyboardSearch(int nCol, int nStartRow, const CString& strSearch);
 
 protected:
@@ -284,6 +284,7 @@ protected:
 	virtual afx_msg LRESULT OnCopy(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg LRESULT OnSetFont(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
