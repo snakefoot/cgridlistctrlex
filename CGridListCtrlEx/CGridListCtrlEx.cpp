@@ -2405,6 +2405,21 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 //! Override this method to change the colors used for drawing a cell
 //!
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @return Color is overrided
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayCellColor(NMLVCUSTOMDRAW* pLVCD)
+{
+	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nCol = pLVCD->iSubItem;
+	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
+	nItemData;	// Avoid unreferenced variable warning
+	return OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk);
+}
+
+//------------------------------------------------------------------------
+//! Override this method to change the colors used for drawing a cell
+//!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
 //! @param textColor The text color used when drawing the cell
@@ -2414,6 +2429,22 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor, COLORREF& backColor)
 {
 	return false;
+}
+
+//------------------------------------------------------------------------
+//! Override this method to change the font used for drawing a cell
+//!
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param font The font description to use for drawing the cell
+//! @return Font is overrided
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayCellFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& font)
+{
+	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nCol = pLVCD->iSubItem;
+	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
+	nItemData;	// Avoid unreferenced variable warning
+	return OnDisplayCellFont(nRow, nCol, font);
 }
 
 //------------------------------------------------------------------------
