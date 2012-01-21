@@ -93,11 +93,11 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			if (UpdateBackColor(pLVCD->clrTextBk))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
-			if (owner.OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk))
+			if (owner.OnDisplayCellColor(pLVCD))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			LOGFONT newFont = {0};
-			if (owner.OnDisplayCellFont(nRow, nCol, newFont))
+			if (owner.OnDisplayCellFont(pLVCD, newFont))
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;

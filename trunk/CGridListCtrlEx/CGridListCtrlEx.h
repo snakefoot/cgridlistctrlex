@@ -152,7 +152,9 @@ public:
 	virtual bool OnDisplayCellImage(int nRow, int nCol, int& nImageId);
 	virtual bool OnDisplayCellTooltip(const CPoint& point) const;
 	virtual bool OnDisplayCellTooltip(int nRow, int nCol, CString& strResult);
+	virtual bool OnDisplayCellColor(NMLVCUSTOMDRAW* pLVCD);
 	virtual bool OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor, COLORREF& backColor);
+	virtual bool OnDisplayCellFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& font);
 	virtual bool OnDisplayCellFont(int nRow, int nCol, LOGFONT& font);
 	virtual bool OnDisplayRowColor(int nRow, COLORREF& textColor, COLORREF& backColor);
 	virtual bool OnDisplayRowFont(int nRow, LOGFONT& font);
