@@ -63,16 +63,18 @@ protected:
 	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 	virtual bool MoveSelectedRows(int nGroupId);
 
-	//{{AFX_MSG(CGridListCtrlEx)
+	//{{AFX_MSG(CGridListCtrlGroups)
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual afx_msg BOOL OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnPaint();
+	virtual afx_msg LRESULT OnRemoveAllGroups(WPARAM wParam, LPARAM lParam);
 	//}}AFX_MSG
 
 	int m_GroupHeight;	//!< Cache the height of a group, because it is hard to guess (Hack)
+	int m_GroupCol;		//!< Rows are grouped according to this column
 
 	DECLARE_MESSAGE_MAP();
 
