@@ -1835,6 +1835,49 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 }
 
 //------------------------------------------------------------------------
+//! Override this method to provide text string and image index when drawing cells
+//!	 - Called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()
+//!  - Called when using I_IMAGECALLBACK with SetCellImage()
+//!
+//! @param lvi The item that requires cell text and image index
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnDisplayCellItem(LVITEM& lvi)
+{
+	if(lvi.mask & LVIF_TEXT)
+	{
+		// Request text
+		CString result;
+		if (OnDisplayCellText(lvi.iItem, lvi.iSubItem, result))
+		{
+	#if __STDC_WANT_SECURE_LIB__
+			_tcscpy_s(lvi.pszText, lvi.cchTextMax, static_cast<LPCTSTR>(result) );
+	#else
+			_tcsncpy(lvi.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
+	#endif
+		}
+	}
+
+	if (lvi.mask & LVIF_IMAGE)
+	{
+		// Request-Image
+		int result = -1;
+		if (OnDisplayCellImage(lvi.iItem, lvi.iSubItem, result))
+            lvi.iImage = result;
+		else
+			lvi.iImage = I_IMAGECALLBACK;
+	}
+
+	if (lvi.mask & LVIF_STATE)
+	{
+		// Request-selection/Focus state (Virtual-list/LVS_OWNERDATA)
+		// Use LVM_SETITEMSTATE to set selection/focus state in LVS_OWNERDATA
+	}
+
+	// OBS! Append LVIF_DI_SETITEM to the mask if the item-text/image from now on should be cached in the list (SetItem)
+	//	- Besides this bonus option, then don't touch the mask
+}
+
+//------------------------------------------------------------------------
 //! Override this method to provide text string when drawing cells
 //! Only called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()
 //!
@@ -1884,34 +1927,8 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	if (nCol < 0 || nCol >= GetHeaderCtrl()->GetItemCount())
 		return FALSE;	// requesting invalid item
 
-	int nColItemData = GetColumnData(nCol);
-	nColItemData;	// Avoid unreferenced variable warning
-	DWORD_PTR nRowItemData = GetItemData(nRow);
-	nRowItemData;	// Avoid unreferenced variable warning
-
-	if(pNMW->item.mask & LVIF_TEXT)
-	{
-		// Request text
-		CString result;
-		if (OnDisplayCellText(nRow, nCol, result))
-		{
-#if __STDC_WANT_SECURE_LIB__
-			_tcscpy_s(pNMW->item.pszText, pNMW->item.cchTextMax, static_cast<LPCTSTR>(result) );
-#else
-			_tcsncpy(pNMW->item.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
-#endif
-		}
-	}
-
 	if (pNMW->item.mask & LVIF_IMAGE)
 	{
-		// Request-Image
-		int result = -1;
-		if (OnDisplayCellImage(nRow, nCol, result))
-            pNMW->item.iImage = result;
-		else
-			pNMW->item.iImage = I_IMAGECALLBACK;
-
 		// Support checkboxes when using LVS_OWNERDATA (virtual list)
 		if (nCol==0)
 		{
@@ -1925,14 +1942,8 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 	}
 
-	if (pNMW->item.mask & LVIF_STATE)
-	{
-		// Request-selection/Focus state (Virtual-list/LVS_OWNERDATA)
-		// Use LVM_SETITEMSTATE to set selection/focus state in LVS_OWNERDATA
-	}
+	OnDisplayCellItem(pNMW->item);
 
-	// OBS! Append LVIF_DI_SETITEM to the mask if the item-text/image from now on should be cached in the list (SetItem)
-	//	- Besides this bonus option, then don't touch the mask
 	return FALSE;
 }
 

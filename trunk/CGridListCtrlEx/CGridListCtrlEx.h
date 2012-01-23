@@ -148,6 +148,7 @@ public:
 	virtual void OnSaveStateKillFocus();
 
 	// DataModel callbacks
+	virtual void OnDisplayCellItem(LVITEM& lvi);
 	virtual bool OnDisplayCellText(int nRow, int nCol, CString& strResult);
 	virtual bool OnDisplayCellImage(int nRow, int nCol, int& nImageId);
 	virtual bool OnDisplayCellTooltip(const CPoint& point) const;
