@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 	ON_NOTIFY_REFLECT_EX(LVN_LINKCLICK, OnGroupTaskClick)	// Task-Link Click
 	ON_NOTIFY_REFLECT_EX(LVN_GETEMPTYMARKUP, OnGetEmptyMarkup)	// Request text to display when empty
 #endif
+	ON_MESSAGE(LVM_REMOVEALLGROUPS, OnRemoveAllGroups)
 	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
@@ -38,6 +39,7 @@ END_MESSAGE_MAP()
 //------------------------------------------------------------------------
 CGridListCtrlGroups::CGridListCtrlGroups()
 	:m_GroupHeight(-1)
+	,m_GroupCol(-1)
 {}
 
 //------------------------------------------------------------------------
@@ -322,6 +324,8 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 {
 	CWaitCursor waitCursor;
 
+	m_GroupCol = -1;
+
 	SetSortArrow(-1, false);
 
 	SetRedraw(FALSE);
@@ -368,6 +372,8 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 
 		SetRedraw(TRUE);
 		Invalidate(FALSE);
+
+		m_GroupCol = nCol;
 		return TRUE;
 	}
 
@@ -962,6 +968,21 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 }
 
 //------------------------------------------------------------------------
+//! LVM_REMOVEALLGROUPS message handler to ensure that group by column is updated
+//!
+//! @param wParam Not used
+//! @param lParam Not used
+//! @return Not used
+//------------------------------------------------------------------------
+LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
+{
+	m_GroupCol = -1;
+
+	// Let CListCtrl handle the event
+	return DefWindowProc(LVM_INSERTCOLUMN, wParam, lParam);
+}
+
+//------------------------------------------------------------------------
 //! Override this method to provide the group a cell belongs to.
 //!
 //! @param nRow The index of the row
@@ -1063,7 +1084,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	CWaitCursor waitCursor;
 
-	if (IsGroupViewEnabled())
+	if (IsGroupViewEnabled() && m_GroupCol==nCol)
 	{
 		SetRedraw(FALSE);
 
