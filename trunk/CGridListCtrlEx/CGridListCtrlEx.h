@@ -130,7 +130,7 @@ public:
 	virtual CGridColumnTrait* GetCellColumnTrait(int nRow, int nCol);
 
 	// Column Editor
-	virtual void SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig);
+	virtual void SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig, bool bConfigOwner = true);
 	virtual void LoadState(CViewConfigSection& config);
 	virtual void SaveState(CViewConfigSection& config);
 	virtual void LoadColumnState(int nConfigCol, int nOwnerCol, CViewConfigSection& config);
@@ -174,6 +174,7 @@ protected:
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
 	CViewConfigSectionProfiles* m_pColumnConfig;	//!< Column state persistence
+	bool m_bConfigOwner;
 	int InternalColumnPicker(CMenu& menu, int offset);
 	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 
