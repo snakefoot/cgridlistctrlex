@@ -170,6 +170,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
 	,m_pDefaultRowTrait(new CGridRowTraitText)
 	,m_pColumnConfig(NULL)
+	,m_bConfigOwner(false)
 	,m_InvalidateMarkupText(true)
 {}
 
@@ -184,7 +185,8 @@ CGridListCtrlEx::~CGridListCtrlEx()
 	delete m_pDefaultRowTrait;
 	m_pDefaultRowTrait = NULL;
 
-	delete m_pColumnConfig;
+	if (m_bConfigOwner)
+		delete m_pColumnConfig;
 	m_pColumnConfig = NULL;
 
 	delete m_pOleDropTarget;
@@ -196,10 +198,12 @@ CGridListCtrlEx::~CGridListCtrlEx()
 //! 
 //! @param pColumnConfig The new column state interface handler
 //------------------------------------------------------------------------
-void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig)
+void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig, bool bConfigOwner)
 {
-	delete m_pColumnConfig;
+	if (m_bConfigOwner)
+		delete m_pColumnConfig;
 	m_pColumnConfig = pColumnConfig;
+	m_bConfigOwner = bConfigOwner;
 
 	if (!m_pColumnConfig->HasDefaultConfig())
 	{
