@@ -126,12 +126,17 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_GETEMPTYMARKUP message handler to show markup text when the list control is empty.  <a href="#a2ed834b2a075d572d4044bd29ceaa1f0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a2b555dd50310cdc63b8514f120fbb952">OnPaint</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_PAINT message handler called when needing to redraw list control.  <a href="#a2b555dd50310cdc63b8514f120fbb952"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a0812617a912478a8a87d2b0b60646b62">OnRemoveAllGroups</a> (WPARAM wParam, LPARAM lParam)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVM_REMOVEALLGROUPS message handler to ensure that group by column is updated.  <a href="#a0812617a912478a8a87d2b0b60646b62"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa17727c2b0b2d97855110e1b901d49ae"></a><!-- doxytag: member="CGridListCtrlGroups::DECLARE_MESSAGE_MAP" ref="aa17727c2b0b2d97855110e1b901d49ae" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae412a00b346d06e1759201b3dd14532a"></a><!-- doxytag: member="CGridListCtrlGroups::m_GroupHeight" ref="ae412a00b346d06e1759201b3dd14532a" args="" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#ae412a00b346d06e1759201b3dd14532a">m_GroupHeight</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cache the height of a group, because it is hard to guess (Hack). <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bfcca1952962e64b6c5f202de18588b"></a><!-- doxytag: member="CGridListCtrlGroups::m_GroupCol" ref="a8bfcca1952962e64b6c5f202de18588b" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a8bfcca1952962e64b6c5f202de18588b">m_GroupCol</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Rows are grouped according to this column. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_list_ctrl_groups.html" title="CGridListCtrlGroups extends the CGridListCtrlEx with grouping.">CGridListCtrlGroups</a> extends the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> with grouping. </p>
@@ -881,6 +886,43 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Used to display text when the list control is empty </p>
 
 <p>Reimplemented from <a class="el" href="class_c_grid_list_ctrl_ex.html#a7cc0de3814b2a080657e0f65ea3a5a42">CGridListCtrlEx</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0812617a912478a8a87d2b0b60646b62"></a><!-- doxytag: member="CGridListCtrlGroups::OnRemoveAllGroups" ref="a0812617a912478a8a87d2b0b60646b62" args="(WPARAM wParam, LPARAM lParam)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LRESULT CGridListCtrlGroups::OnRemoveAllGroups </td>
+          <td>(</td>
+          <td class="paramtype">WPARAM&nbsp;</td>
+          <td class="paramname"> <em>wParam</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LPARAM&nbsp;</td>
+          <td class="paramname"> <em>lParam</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>LVM_REMOVEALLGROUPS message handler to ensure that group by column is updated. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>wParam</em>&nbsp;</td><td>Not used </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>lParam</em>&nbsp;</td><td>Not used </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Not used </dd></dl>
 
 </div>
 </div>

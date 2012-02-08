@@ -81,6 +81,8 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#acba95b50bdbaeb960807e443f0dc3aa2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa95b405d67aeb3312719b018b4f193dc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#af995ddabf2677137162a6ad5f703f82b">ParseDateTime</a> (LPCTSTR lpszDate, COleDateTime &amp;dt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Parse the input string into a datetime value.  <a href="#af995ddabf2677137162a6ad5f703f82b"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae5d750254c2499806fa7af709d32e7e"></a><!-- doxytag: member="CGridColumnTraitDateTime::Accept" ref="aae5d750254c2499806fa7af709d32e7e" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aae5d750254c2499806fa7af709d32e7e">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -244,6 +246,43 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a38f766b818c68b907c1bd50e4abd6b0c">CGridColumnTraitImage</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af995ddabf2677137162a6ad5f703f82b"></a><!-- doxytag: member="CGridColumnTraitDateTime::ParseDateTime" ref="af995ddabf2677137162a6ad5f703f82b" args="(LPCTSTR lpszDate, COleDateTime &amp;dt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridColumnTraitDateTime::ParseDateTime </td>
+          <td>(</td>
+          <td class="paramtype">LPCTSTR&nbsp;</td>
+          <td class="paramname"> <em>lpszDate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">COleDateTime &amp;&nbsp;</td>
+          <td class="paramname"> <em>dateTime</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Parse the input string into a datetime value. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>lpszDate</em>&nbsp;</td><td>The input string </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dateTime</em>&nbsp;</td><td>The datetime value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Could the input string be converted into a valid datetime value ? </dd></dl>
 
 </div>
 </div>

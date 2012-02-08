@@ -50,8 +50,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p><a href="class_c_grid_editor_date_time_ctrl-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a4db9ccc497a453fb1b578e08a89f5f3c">CGridEditorDateTimeCtrl</a> (int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_editor_date_time_ctrl.html" title="CDateTimeCtrl for inplace edit. For internal use by CGridColumnTraitDateTime.">CGridEditorDateTimeCtrl</a> - Constructor.  <a href="#a4db9ccc497a453fb1b578e08a89f5f3c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a3d8ceeac1a475aa5ba3fffd409d9622d">CGridEditorDateTimeCtrl</a> (int nRow, int nCol, <a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a> *pColumnTrait=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_editor_date_time_ctrl.html" title="CDateTimeCtrl for inplace edit. For internal use by CGridColumnTraitDateTime.">CGridEditorDateTimeCtrl</a> - Constructor.  <a href="#a3d8ceeac1a475aa5ba3fffd409d9622d"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#ace5d9a944bfc4d86ad1a3507c404f3d8">EndEdit</a> (bool bSuccess)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The cell value editor was closed and the entered should be saved.  <a href="#ace5d9a944bfc4d86ad1a3507c404f3d8"></a><br/></td></tr>
@@ -60,7 +60,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a5f06512230a53863d7d798c15ddd8dba">OnNcDestroy</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_NCDESTROY message handler called when CDateTimeCtrl window is about to be destroyed.  <a href="#a5f06512230a53863d7d798c15ddd8dba"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a58dded4c5db3de02b5a587cd01843014">OnDateTimeChange</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_DATETIMECHANGE message handler to monitor date modifications.  <a href="#a58dded4c5db3de02b5a587cd01843014"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_DATETIMECHANGE notification handler to monitor date modifications.  <a href="#a58dded4c5db3de02b5a587cd01843014"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a858797af08a3ca480456ba502d8f8402">OnUserString</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_USERSTRING notification handler to convert clipboard to datetime.  <a href="#a858797af08a3ca480456ba502d8f8402"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a6b8a6be65d269719fde9888a650ec56b">OnChar</a> (UINT nChar, UINT nRepCnt, UINT nFlags)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CHAR message handler to monitor date modifications.  <a href="#a6b8a6be65d269719fde9888a650ec56b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a23984f2c2a7e1e9392db560d2b8bb291">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
@@ -80,11 +82,14 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4aa964554df17178204d30b3c84103ae"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::m_Col" ref="a4aa964554df17178204d30b3c84103ae" args="" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a4aa964554df17178204d30b3c84103ae">m_Col</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The index of the column being edited. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad94dab85ecaf857a76a8c7b395626a6f"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::m_pColumnTrait" ref="ad94dab85ecaf857a76a8c7b395626a6f" args="" -->
+<a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#ad94dab85ecaf857a76a8c7b395626a6f">m_pColumnTrait</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Provides logic for parsing free text editing. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>CDateTimeCtrl for inplace edit. For internal use by <a class="el" href="class_c_grid_column_trait_date_time.html" title="CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor.">CGridColumnTraitDateTime</a>. </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a4db9ccc497a453fb1b578e08a89f5f3c"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl" ref="a4db9ccc497a453fb1b578e08a89f5f3c" args="(int nRow, int nCol)" -->
+<a class="anchor" id="a3d8ceeac1a475aa5ba3fffd409d9622d"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl" ref="a3d8ceeac1a475aa5ba3fffd409d9622d" args="(int nRow, int nCol, CGridColumnTraitDateTime *pColumnTrait=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -98,7 +103,13 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_c_grid_column_trait_date_time.html">CGridColumnTraitDateTime</a> *&nbsp;</td>
+          <td class="paramname"> <em>pColumnTrait</em> = <code>NULL</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -215,7 +226,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 <div class="memdoc">
 
-<p>DTN_DATETIMECHANGE message handler to monitor date modifications. </p>
+<p>DTN_DATETIMECHANGE notification handler to monitor date modifications. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMDATETIMECHANGE structure </td></tr>
@@ -270,6 +281,42 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 <p>WM_NCDESTROY message handler called when CDateTimeCtrl window is about to be destroyed. </p>
 <p>Used to delete the inplace CDateTimeCtrl editor object as well. This is necessary when the CDateTimeCtrl is created dynamically. </p>
+
+</div>
+</div>
+<a class="anchor" id="a858797af08a3ca480456ba502d8f8402"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::OnUserString" ref="a858797af08a3ca480456ba502d8f8402" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorDateTimeCtrl::OnUserString </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>DTN_USERSTRING notification handler to convert clipboard to datetime. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMDATETIMESTRING structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Must be set to zero </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

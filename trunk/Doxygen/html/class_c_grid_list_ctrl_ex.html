@@ -123,16 +123,16 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column trait for the entire column.  <a href="#a92785cf03b0ef02ffc199d963e3205b9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a9d9e631c62b9fc3d8404c8b746143129">GetColumnTraitSize</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the number of column traits registered.  <a href="#a9d9e631c62b9fc3d8404c8b746143129"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a7971391fd8c58022aa70c09f674b1695">CellHitTest</a> (const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Replicates the SubItemHitTest() but in a const version.  <a href="#a7971391fd8c58022aa70c09f674b1695"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a95d4ea636dc23182628f95e992f2b839">CellHitTest</a> (const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Replicates the SubItemHitTest() but in a const version.  <a href="#a95d4ea636dc23182628f95e992f2b839"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#abd88cea0b9f581612971a5465f91d474">GetCellRect</a> (int nRow, int nCol, UINT nCode, CRect &amp;rect)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Improved version of GetSubItemRect().  <a href="#abd88cea0b9f581612971a5465f91d474"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5432414b97a9a6d22afeb89c980debad"></a><!-- doxytag: member="CGridListCtrlEx::GetFocusCell" ref="a5432414b97a9a6d22afeb89c980debad" args="() const " -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afcdd34c755fe8da1fea3b5b3efb06f8e">SetFocusCell</a> (int nCol, bool bRedraw=false)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the focus cell.  <a href="#afcdd34c755fe8da1fea3b5b3efb06f8e"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ce22d6fd584a03005b05f3b54cc2b8e"></a><!-- doxytag: member="CGridListCtrlEx::EditCell" ref="a0ce22d6fd584a03005b05f3b54cc2b8e" args="(int nRow, int nCol)" -->
-virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><b>EditCell</b> (int nRow, int nCol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a741660fd09e66a673a406cebd0dec3e3">EditCell</a> (int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Starts the edit of a cell and sends a message to the parent window.  <a href="#a741660fd09e66a673a406cebd0dec3e3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ae052907e1ed5f4fa72b73d7f3e4971cf">EditCell</a> (int nRow, int nCol, CPoint pt)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Starts the edit of a cell and sends a message to the parent window.  <a href="#ae052907e1ed5f4fa72b73d7f3e4971cf"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6318b3e79b0be4091411b752a329cc6e">IsCellEditorOpen</a> () const </td></tr>
@@ -145,8 +145,8 @@ virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><b>EditCell</b
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the icon of the specified cell.  <a href="#a2bef9cfbde01f35920492848f52b1ef7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_c_grid_column_trait.html">CGridColumnTrait</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a4ee937b9f7164ce10e8116fa8bd24ea5">GetCellColumnTrait</a> (int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the column trait of a specified cell.  <a href="#a4ee937b9f7164ce10e8116fa8bd24ea5"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a445dcda17c5ca8388037468ce6398e5c">SetupColumnConfig</a> (<a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *pColumnConfig)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling state persistence for the list control.  <a href="#a445dcda17c5ca8388037468ce6398e5c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a611b6578c8dd9332bc6a65bd6b71fecb">SetupColumnConfig</a> (<a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *pColumnConfig, bool bConfigOwner=true)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the interface for handling state persistence for the list control.  <a href="#a611b6578c8dd9332bc6a65bd6b71fecb"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a254a651b5cf36ad52260e2561924aa08">LoadState</a> (<a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loads and applies the column configuration for the list control.  <a href="#a254a651b5cf36ad52260e2561924aa08"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a12e01b07f1a7ec169bc14ac7073210ab">SaveState</a> (<a class="el" href="class_c_view_config_section.html">CViewConfigSection</a> &amp;config)</td></tr>
@@ -182,6 +182,13 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab8aad338199cee806c57c92a7f00566"></a><!-- doxytag: member="CGridListCtrlEx::OnSaveStateKillFocus" ref="aab8aad338199cee806c57c92a7f00566" args="()" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aab8aad338199cee806c57c92a7f00566">OnSaveStateKillFocus</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called when the list control looses focus to another control. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a18a57316e490a8a32be18f6e5a6e42a3">OnDisplayCellItem</a> (LVITEM &amp;lvi)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide text string and image index when drawing cells</p>
+<ul>
+<li>Called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()</li>
+<li>Called when using I_IMAGECALLBACK with <a class="el" href="class_c_grid_list_ctrl_ex.html#a2bef9cfbde01f35920492848f52b1ef7" title="Sets the icon of the specified cell.">SetCellImage()</a>. </li>
+</ul>
+ <a href="#a18a57316e490a8a32be18f6e5a6e42a3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8c3c73cda2eb9543c9249d7c92c10104">OnDisplayCellText</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide text string when drawing cells Only called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText().  <a href="#a8c3c73cda2eb9543c9249d7c92c10104"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a027823c5282b5a67f3521116e52bba8b">OnDisplayCellImage</a> (int nRow, int nCol, int &amp;nImageId)</td></tr>
@@ -190,8 +197,12 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method if wanting to specify whether a tooltip is available.  <a href="#a5ae0f01158ff0cb9880dbdc160e6605d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a665fa20b96c262ea092fec7b8c12993f">OnDisplayCellTooltip</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a cell.  <a href="#a665fa20b96c262ea092fec7b8c12993f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5fe92b7585e2531089e7047d97d21517">OnDisplayCellColor</a> (NMLVCUSTOMDRAW *pLVCD)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the colors used for drawing a cell.  <a href="#a5fe92b7585e2531089e7047d97d21517"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aabde4aaff8912c9b05378c4991aca7ba">OnDisplayCellColor</a> (int nRow, int nCol, COLORREF &amp;textColor, COLORREF &amp;backColor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the colors used for drawing a cell.  <a href="#aabde4aaff8912c9b05378c4991aca7ba"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5bb73597c634a8ca55a742365c5dc1e2">OnDisplayCellFont</a> (NMLVCUSTOMDRAW *pLVCD, LOGFONT &amp;font)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the font used for drawing a cell.  <a href="#a5bb73597c634a8ca55a742365c5dc1e2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a67384955cd0760ecbc259db45da29463">OnDisplayCellFont</a> (int nRow, int nCol, LOGFONT &amp;font)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the font used for drawing a cell.  <a href="#a67384955cd0760ecbc259db45da29463"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#acce1c73d347cd9726e5df4e0abf6474b">OnDisplayRowColor</a> (int nRow, COLORREF &amp;textColor, COLORREF &amp;backColor)</td></tr>
@@ -210,8 +221,8 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control what data is selected for drag drop operation.  <a href="#a0f0ebe0a183be430a7f357df947747b1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3e164b1264b6d69f63a906af2af48c48">OnOwnerDataDisplayCheckbox</a> (int nRow)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to display checkbox state for LVS_OWNERDATA (virtual list).  <a href="#a3e164b1264b6d69f63a906af2af48c48"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a610c81efd6d9f108afe22670c7ebcc54">OnOwnerDataToggleCheckBox</a> (int nRow)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react to check box being toggled for LVS_OWNERDATA (virtual list).  <a href="#a610c81efd6d9f108afe22670c7ebcc54"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1e7ce666a77ab7670feb60398099244b">OnOwnerDataToggleCheckBox</a> (int nRow, bool bChecked)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to react to check box being toggled for LVS_OWNERDATA (virtual list).  <a href="#a1e7ce666a77ab7670feb60398099244b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a99ec9f3c4879d6c609e2a2bbbe6b2016">OnKeyboardSearch</a> (int nCol, int nStartRow, const CString &amp;strSearch)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to optimize the keyboard search for LVS_OWNERDATA (virtual list).  <a href="#a99ec9f3c4879d6c609e2a2bbbe6b2016"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
@@ -255,8 +266,8 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs custom drawing of the CListCtrl using <a class="el" href="class_c_grid_column_trait.html" title="CGridColumnTrait specifies the methods needed for custom cell handling.">CGridColumnTrait</a>.  <a href="#a556eb2a94ab33da40ea4b45aeb71c710"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aaa3b0b1c223355c32e38d4d9e99042be">OnClickEditStart</a> (int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell edit should be started when clicked with the mouse.  <a href="#aaa3b0b1c223355c32e38d4d9e99042be"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e00c0e377d4f91b0880de673e5ef8c2"></a><!-- doxytag: member="CGridListCtrlEx::OnEditBegin" ref="a1e00c0e377d4f91b0880de673e5ef8c2" args="(int nRow, int nCol)" -->
-virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnEditBegin</b> (int nRow, int nCol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a4b5da30fe93b94d57c0f26adb481ab48">OnEditBegin</a> (int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#a4b5da30fe93b94d57c0f26adb481ab48"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aff8ad10fec3f11217421abc4f9f46c99">OnEditBegin</a> (int nRow, int nCol, CPoint pt)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#aff8ad10fec3f11217421abc4f9f46c99"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a72cb48f9b7ea05751e49f3f5bb7e70f7">OnEditComplete</a> (int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
@@ -307,20 +318,20 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVM_SETCOLUMNWIDTH message handler called when wanting to resize a column.  <a href="#a775ae32ee0f42784b73aeba7ff0e3087"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6ce3be8a671bae0274620efc2cdc2efd">OnHeaderDividerDblClick</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_DIVIDERDBLCLICK message handler called when double clicking the divider in the columns of the CHeaderCtrl.  <a href="#a6ce3be8a671bae0274620efc2cdc2efd"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3141df3157fce4dfa96b6bd27112f632">OnHeaderBeginResize</a> (UINT id, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_BEGINTRACK message handler called when resizing columns.  <a href="#a3141df3157fce4dfa96b6bd27112f632"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a19bb8f4e776d7f582476268e29e6e303">OnHeaderBeginResize</a> (UINT, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_BEGINTRACK message handler called when resizing columns.  <a href="#a19bb8f4e776d7f582476268e29e6e303"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8687667222a1ed587ccc9598732be1fd">OnHeaderBeginDrag</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_BEGINDRAG message handler called when about to move a column to a new position.  <a href="#a8687667222a1ed587ccc9598732be1fd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1fbb282bea677ce9d3659da04d3aea34">OnHeaderEndResize</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDTRACK message handler called after column resize.  <a href="#a1fbb282bea677ce9d3659da04d3aea34"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5560cbe72f220dc083f69b557fdb31e7">OnHeaderItemChanging</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ITEMCHANGING message handler called during column resize.  <a href="#a5560cbe72f220dc083f69b557fdb31e7"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a0aab5ad892c36498d97c3393649f1bff">OnHeaderEndDrag</a> (UINT id, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDDRAG message handler called after a column have been dragged, but before the column order has been updated.  <a href="#a0aab5ad892c36498d97c3393649f1bff"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aaad70ad26d6031e96f92c5aefcf5da15">OnHeaderEndDrag</a> (UINT, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDDRAG message handler called after a column have been dragged, but before the column order has been updated.  <a href="#aaad70ad26d6031e96f92c5aefcf5da15"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afea491c69be12d7d302d0416b345fae4">OnHeaderClick</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_COLUMNCLICK message handler called when clicking a column header.  <a href="#afea491c69be12d7d302d0416b345fae4"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a851a8c79640bd807a0d1ef1980d7066f">OnToolNeedText</a> (UINT id, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">TTN_NEEDTEXT message handler called when the tooltip timer fires.  <a href="#a851a8c79640bd807a0d1ef1980d7066f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3677463649729bedd0f7884ce9541360">OnToolNeedText</a> (UINT, NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">TTN_NEEDTEXT message handler called when the tooltip timer fires.  <a href="#a3677463649729bedd0f7884ce9541360"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa5ce088293b0668316711d6b787de176">OnBeginLabelEdit</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_BEGINLABELEDIT message handler called when start editing a cell.  <a href="#aa5ce088293b0668316711d6b787de176"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5b5c171fbec8c4870f8c2bf6363a9820">OnEndLabelEdit</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
@@ -346,6 +357,8 @@ virtual afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_SETFONT message handler.  <a href="#a2c44ca34390cc89253bddd1b53d8b012"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a587752a4addb6e81c848583ae8c1e3a4">OnBeginDrag</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_BEGINDRAG message handler called when performing left-click drag.  <a href="#a587752a4addb6e81c848583ae8c1e3a4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a77bbe98866808f84c22e7754c07674e0">OnItemChanged</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVN_ITEMCHANGED message handler called when a row changes state When using LVS_OWNERDATA style, this only gets called for single item state change.  <a href="#a77bbe98866808f84c22e7754c07674e0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32b25b0a99f902b476d445cdce4265f1"></a><!-- doxytag: member="CGridListCtrlEx::DECLARE_MESSAGE_MAP" ref="a32b25b0a99f902b476d445cdce4265f1" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
@@ -355,6 +368,9 @@ CSimpleArray&lt; <a class="el" href="class_c_grid_column_trait.html">CGridColumn
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1af3c639106209af0e154ae7ba00da04"></a><!-- doxytag: member="CGridListCtrlEx::m_pColumnConfig" ref="a1af3c639106209af0e154ae7ba00da04" args="" -->
 <a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a1af3c639106209af0e154ae7ba00da04">m_pColumnConfig</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column state persistence. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6e109f76e7ed4633b921bf8cd1131f1"></a><!-- doxytag: member="CGridListCtrlEx::m_bConfigOwner" ref="aa6e109f76e7ed4633b921bf8cd1131f1" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa6e109f76e7ed4633b921bf8cd1131f1">m_bConfigOwner</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Column state persistence object is freed by destructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8653b2be7338788ae297e8320c2411f8"></a><!-- doxytag: member="CGridListCtrlEx::m_pDefaultRowTrait" ref="a8653b2be7338788ae297e8320c2411f8" args="" -->
 <a class="el" href="class_c_grid_row_trait.html">CGridRowTrait</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8653b2be7338788ae297e8320c2411f8">m_pDefaultRowTrait</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default row trait used for special row drawing. <br/></td></tr>
@@ -425,12 +441,12 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <li>Column state persistence (width, order, etc.) </li>
 </ul>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a7971391fd8c58022aa70c09f674b1695"></a><!-- doxytag: member="CGridListCtrlEx::CellHitTest" ref="a7971391fd8c58022aa70c09f674b1695" args="(const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const " -->
+<a class="anchor" id="a95d4ea636dc23182628f95e992f2b839"></a><!-- doxytag: member="CGridListCtrlEx::CellHitTest" ref="a95d4ea636dc23182628f95e992f2b839" args="(const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridListCtrlEx::CellHitTest </td>
+          <td class="memname">UINT CGridListCtrlEx::CellHitTest </td>
           <td>(</td>
           <td class="paramtype">const CPoint &amp;&nbsp;</td>
           <td class="paramname"> <em>pt</em>, </td>
@@ -466,6 +482,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Returns the location of the cell hit (LVHT_NOWHERE, LVHT_ONITEMICON, LVHT_ONITEMLABEL, LVHT_ONITEMSTATEICON, LVHT_ONITEM) </dd></dl>
 
 </div>
 </div>
@@ -585,6 +602,43 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor (If NULL then block cell editing) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a741660fd09e66a673a406cebd0dec3e3"></a><!-- doxytag: member="CGridListCtrlEx::EditCell" ref="a741660fd09e66a673a406cebd0dec3e3" args="(int nRow, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridListCtrlEx::EditCell </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Starts the edit of a cell and sends a message to the parent window. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
   </table>
   </dd>
 </dl>
@@ -2356,6 +2410,33 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="a5fe92b7585e2531089e7047d97d21517"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayCellColor" ref="a5fe92b7585e2531089e7047d97d21517" args="(NMLVCUSTOMDRAW *pLVCD)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnDisplayCellColor </td>
+          <td>(</td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to change the colors used for drawing a cell. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Color is overrided </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a67384955cd0760ecbc259db45da29463"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayCellFont" ref="a67384955cd0760ecbc259db45da29463" args="(int nRow, int nCol, LOGFONT &amp;font)" -->
 <div class="memitem">
 <div class="memproto">
@@ -2392,6 +2473,43 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>font</em>&nbsp;</td><td>The font description to use for drawing the cell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Font is overrided </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5bb73597c634a8ca55a742365c5dc1e2"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayCellFont" ref="a5bb73597c634a8ca55a742365c5dc1e2" args="(NMLVCUSTOMDRAW *pLVCD, LOGFONT &amp;font)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnDisplayCellFont </td>
+          <td>(</td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LOGFONT &amp;&nbsp;</td>
+          <td class="paramname"> <em>font</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to change the font used for drawing a cell. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>font</em>&nbsp;</td><td>The font description to use for drawing the cell </td></tr>
   </table>
   </dd>
@@ -2441,6 +2559,37 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>True if there is an icon image to display </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a18a57316e490a8a32be18f6e5a6e42a3"></a><!-- doxytag: member="CGridListCtrlEx::OnDisplayCellItem" ref="a18a57316e490a8a32be18f6e5a6e42a3" args="(LVITEM &amp;lvi)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlEx::OnDisplayCellItem </td>
+          <td>(</td>
+          <td class="paramtype">LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>lvi</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to provide text string and image index when drawing cells</p>
+<ul>
+<li>Called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()</li>
+<li>Called when using I_IMAGECALLBACK with <a class="el" href="class_c_grid_list_ctrl_ex.html#a2bef9cfbde01f35920492848f52b1ef7" title="Sets the icon of the specified cell.">SetCellImage()</a>. </li>
+</ul>
+</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>lvi</em>&nbsp;</td><td>The item that requires cell text and image index </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3080,6 +3229,44 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
+<a class="anchor" id="a4b5da30fe93b94d57c0f26adb481ab48"></a><!-- doxytag: member="CGridListCtrlEx::OnEditBegin" ref="a4b5da30fe93b94d57c0f26adb481ab48" args="(int nRow, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridListCtrlEx::OnEditBegin </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override this method to control whether cell editing is allowed for a cell. </p>
+<p>Called when start editing a cell value</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor (If NULL then block cell editing) </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a72cb48f9b7ea05751e49f3f5bb7e70f7"></a><!-- doxytag: member="CGridListCtrlEx::OnEditComplete" ref="a72cb48f9b7ea05751e49f3f5bb7e70f7" args="(int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)" -->
 <div class="memitem">
 <div class="memproto">
@@ -3257,7 +3444,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a3141df3157fce4dfa96b6bd27112f632"></a><!-- doxytag: member="CGridListCtrlEx::OnHeaderBeginResize" ref="a3141df3157fce4dfa96b6bd27112f632" args="(UINT id, NMHDR *pNmhdr, LRESULT *pResult)" -->
+<a class="anchor" id="a19bb8f4e776d7f582476268e29e6e303"></a><!-- doxytag: member="CGridListCtrlEx::OnHeaderBeginResize" ref="a19bb8f4e776d7f582476268e29e6e303" args="(UINT, NMHDR *pNmhdr, LRESULT *pResult)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -3265,7 +3452,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="memname">BOOL CGridListCtrlEx::OnHeaderBeginResize </td>
           <td>(</td>
           <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>id</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3383,7 +3570,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a0aab5ad892c36498d97c3393649f1bff"></a><!-- doxytag: member="CGridListCtrlEx::OnHeaderEndDrag" ref="a0aab5ad892c36498d97c3393649f1bff" args="(UINT id, NMHDR *pNmhdr, LRESULT *pResult)" -->
+<a class="anchor" id="aaad70ad26d6031e96f92c5aefcf5da15"></a><!-- doxytag: member="CGridListCtrlEx::OnHeaderEndDrag" ref="aaad70ad26d6031e96f92c5aefcf5da15" args="(UINT, NMHDR *pNmhdr, LRESULT *pResult)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -3391,7 +3578,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="memname">BOOL CGridListCtrlEx::OnHeaderEndDrag </td>
           <td>(</td>
           <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>id</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3593,6 +3780,43 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Whether the column was succesfully inserted </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a77bbe98866808f84c22e7754c07674e0"></a><!-- doxytag: member="CGridListCtrlEx::OnItemChanged" ref="a77bbe98866808f84c22e7754c07674e0" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlEx::OnItemChanged </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>LVN_ITEMCHANGED message handler called when a row changes state When using LVS_OWNERDATA style, this only gets called for single item state change. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to LPNMLISTVIEW structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Not used </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
 
 </div>
 </div>
@@ -3926,7 +4150,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a610c81efd6d9f108afe22670c7ebcc54"></a><!-- doxytag: member="CGridListCtrlEx::OnOwnerDataToggleCheckBox" ref="a610c81efd6d9f108afe22670c7ebcc54" args="(int nRow)" -->
+<a class="anchor" id="a1e7ce666a77ab7670feb60398099244b"></a><!-- doxytag: member="CGridListCtrlEx::OnOwnerDataToggleCheckBox" ref="a1e7ce666a77ab7670feb60398099244b" args="(int nRow, bool bChecked)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -3934,9 +4158,18 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="memname">void CGridListCtrlEx::OnOwnerDataToggleCheckBox </td>
           <td>(</td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>nRow</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [virtual]</code></td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bChecked</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -3947,6 +4180,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The row index where the checkbox should be toggled </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bChecked</em>&nbsp;</td><td>Whether the checkbox has been checked on unchecked </td></tr>
   </table>
   </dd>
 </dl>
@@ -4136,7 +4370,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a851a8c79640bd807a0d1ef1980d7066f"></a><!-- doxytag: member="CGridListCtrlEx::OnToolNeedText" ref="a851a8c79640bd807a0d1ef1980d7066f" args="(UINT id, NMHDR *pNMHDR, LRESULT *pResult)" -->
+<a class="anchor" id="a3677463649729bedd0f7884ce9541360"></a><!-- doxytag: member="CGridListCtrlEx::OnToolNeedText" ref="a3677463649729bedd0f7884ce9541360" args="(UINT, NMHDR *pNMHDR, LRESULT *pResult)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -4656,7 +4890,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a445dcda17c5ca8388037468ce6398e5c"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="a445dcda17c5ca8388037468ce6398e5c" args="(CViewConfigSectionProfiles *pColumnConfig)" -->
+<a class="anchor" id="a611b6578c8dd9332bc6a65bd6b71fecb"></a><!-- doxytag: member="CGridListCtrlEx::SetupColumnConfig" ref="a611b6578c8dd9332bc6a65bd6b71fecb" args="(CViewConfigSectionProfiles *pColumnConfig, bool bConfigOwner=true)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -4664,9 +4898,18 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td class="memname">void CGridListCtrlEx::SetupColumnConfig </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_c_view_config_section_profiles.html">CViewConfigSectionProfiles</a> *&nbsp;</td>
-          <td class="paramname"> <em>pColumnConfig</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [virtual]</code></td>
+          <td class="paramname"> <em>pColumnConfig</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bConfigOwner</em> = <code>true</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -4676,6 +4919,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pColumnConfig</em>&nbsp;</td><td>The new column state interface handler </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bConfigOwner</em>&nbsp;</td><td>Destructor should free the column state object (true / false) </td></tr>
   </table>
   </dd>
 </dl>
