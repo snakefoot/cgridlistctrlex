@@ -197,6 +197,7 @@ CGridListCtrlEx::~CGridListCtrlEx()
 //! Sets the interface for handling state persistence for the list control
 //! 
 //! @param pColumnConfig The new column state interface handler
+//! @param bConfigOwner Destructor should free the column state object (true / false)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfig, bool bConfigOwner)
 {
@@ -1843,8 +1844,8 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 //------------------------------------------------------------------------
 //! Override this method to provide text string and image index when drawing cells
-//!	 - Called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()
-//!  - Called when using I_IMAGECALLBACK with SetCellImage()
+//!	- Called when using LPSTR_TEXTCALLBACK with CListCtrl::SetItemText()
+//!	- Called when using I_IMAGECALLBACK with SetCellImage()
 //!
 //! @param lvi The item that requires cell text and image index
 //------------------------------------------------------------------------
@@ -2118,6 +2119,19 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @return Pointer to the cell editor (If NULL then block cell editing)
+//------------------------------------------------------------------------
+CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol)
+{
+	return OnEditBegin(nRow, nCol, CPoint(-1,-1));
+}
+
+//------------------------------------------------------------------------
+//! Override this method to control whether cell editing is allowed for a cell.
+//! Called when start editing a cell value
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
 //! @param pt The position clicked, in client coordinates.
 //! @return Pointer to the cell editor (If NULL then block cell editing)
 //------------------------------------------------------------------------
@@ -2150,6 +2164,18 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 		pTrait->OnEditEnd();
 
 	return true;	// Accept edit
+}
+
+//------------------------------------------------------------------------
+//! Starts the edit of a cell and sends a message to the parent window.
+//!
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @return Pointer to the cell editor (If NULL then block cell editing)
+//------------------------------------------------------------------------
+CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
+{
+	return EditCell(nRow, nCol, CPoint(-1,-1));
 }
 
 //------------------------------------------------------------------------
