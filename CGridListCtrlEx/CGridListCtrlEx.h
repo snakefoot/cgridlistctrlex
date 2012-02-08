@@ -121,7 +121,7 @@ public:
 	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual void SetFocusCell(int nCol, bool bRedraw = false);
-	virtual CWnd* EditCell(int nRow, int nCol) { return EditCell(nRow, nCol, CPoint(-1,-1)); }
+	virtual CWnd* EditCell(int nRow, int nCol);
 	virtual CWnd* EditCell(int nRow, int nCol, CPoint pt);
 	bool IsCellEditorOpen() const;
 	bool IsCellCallback(int nRow, int nCol) const;
@@ -174,7 +174,7 @@ protected:
 	virtual void InsertColumnTrait(int nCol, CGridColumnTrait* pTrait);
 	virtual void DeleteColumnTrait(int nCol);
 	CViewConfigSectionProfiles* m_pColumnConfig;	//!< Column state persistence
-	bool m_bConfigOwner;
+	bool m_bConfigOwner; //!< Column state persistence object is freed by destructor
 	int InternalColumnPicker(CMenu& menu, int offset);
 	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
 
@@ -229,7 +229,7 @@ protected:
 
 	// Cell editing handlers
 	virtual int OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick);
-	virtual CWnd* OnEditBegin(int nRow, int nCol) { return OnEditBegin(nRow, nCol, CPoint(-1,-1)); }
+	virtual CWnd* OnEditBegin(int nRow, int nCol);
 	virtual CWnd* OnEditBegin(int nRow, int nCol, CPoint pt);
 	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
@@ -267,13 +267,13 @@ protected:
 	virtual afx_msg void OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg LRESULT OnSetColumnWidth(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult);
-	virtual afx_msg BOOL OnHeaderBeginResize(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
+	virtual afx_msg BOOL OnHeaderBeginResize(UINT, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult);
-	virtual afx_msg BOOL OnHeaderEndDrag(UINT id, NMHDR* pNmhdr, LRESULT* pResult);
+	virtual afx_msg BOOL OnHeaderEndDrag(UINT, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult);
-	virtual afx_msg BOOL OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg BOOL OnToolNeedText(UINT, NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnBeginLabelEdit(NMHDR* pNMHDR,LRESULT* pResult);
 	virtual afx_msg BOOL OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult);
