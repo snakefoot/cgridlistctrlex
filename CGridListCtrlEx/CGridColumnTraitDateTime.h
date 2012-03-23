@@ -54,6 +54,7 @@ protected:
 	afx_msg void OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnUserString(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
