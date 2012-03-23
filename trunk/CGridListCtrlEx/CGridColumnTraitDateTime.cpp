@@ -196,6 +196,7 @@ BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	ON_NOTIFY_REFLECT(DTN_DATETIMECHANGE, OnDateTimeChange)
 	ON_NOTIFY_REFLECT(DTN_USERSTRINGW, OnUserString)
 	ON_NOTIFY_REFLECT(DTN_USERSTRINGA, OnUserString)
+	ON_NOTIFY_REFLECT(DTN_CLOSEUP, OnCloseUp)
 	ON_WM_CHAR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -265,6 +266,20 @@ void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 		if (pNewWnd == NULL || pNewWnd->GetParent()!=this)
 			EndEdit(true);
 	}
+}
+
+//------------------------------------------------------------------------
+//! DTN_CLOSEUP notification message handler called when CMonthCalCtrl
+//! window has closed. Fallback solution for closing inplace CDateTimeCtrl,
+//! in case focus is not given back to the CDateTimeCtrl.
+//!
+//! @param pNMHDR Pointer to NMHDR structure
+//! @param pResult Is not used
+//------------------------------------------------------------------------
+void CGridEditorDateTimeCtrl::OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	if (GetFocus()!=this)
+		EndEdit(true);	// Force close if focus has been stolen
 }
 
 //------------------------------------------------------------------------
