@@ -19,10 +19,10 @@ struct CListCtrl_DataRecord
 	{
 		switch(col)
 		{
-		case 0: { static CString title0(_T("Country")); return title ? title0 : m_Country; }
-		case 1: { static CString title1(_T("Capital")); return title ? title1 : m_City; }
-		case 2: { static CString title2(_T("European Championship")); return title ? title2 : m_YearWon ? COleDateTime(m_YearWon,1,1,0,0,0).Format() : CString(); }
-		default:{ static CString emptyStr; return emptyStr; }
+		case 0: { static const CString title0(_T("Country")); return title ? title0 : m_Country; }
+		case 1: { static const CString title1(_T("Capital")); return title ? title1 : m_City; }
+		case 2: { static const CString title2(_T("European Championship")); return title ? title2 : m_YearWon ? COleDateTime(m_YearWon,1,1,0,0,0).Format() : CString(); }
+		default:{ static const CString emptyStr; return emptyStr; }
 		}
 	}
 
@@ -50,7 +50,7 @@ public:
 		m_Records.push_back( CListCtrl_DataRecord(_T("Berlin"), _T("Germany"), 1996) );
 		m_Records.push_back( CListCtrl_DataRecord(_T("Paris"), _T("France"), 2000) );
 		m_Records.push_back( CListCtrl_DataRecord(_T("Athen"), _T("Greece"), 2004) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweeden"), 0) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweden"), 0) );
 		m_Records.push_back( CListCtrl_DataRecord(_T("Barcelona"), _T("Spain"), 2008) );
 
 		if (m_RowMultiplier > 1)
