@@ -35,7 +35,7 @@ void CGridColumnTraitCombo::Accept(CGridColumnTraitVisitor& visitor)
 //!
 //! @param nMaxItems Max number of items to show at once in the dropdown list
 //------------------------------------------------------------------------
-void CGridColumnTraitCombo::SetMaxItems(int nMaxItems)
+void CGridColumnTraitCombo::SetMaxItems(UINT nMaxItems)
 {
 	m_MaxItems = nMaxItems;
 }
@@ -45,7 +45,7 @@ void CGridColumnTraitCombo::SetMaxItems(int nMaxItems)
 //!
 //! @return Number of items
 //------------------------------------------------------------------------
-int CGridColumnTraitCombo::GetMaxItems() const
+UINT CGridColumnTraitCombo::GetMaxItems() const
 {
 	return m_MaxItems;
 }
@@ -55,7 +55,7 @@ int CGridColumnTraitCombo::GetMaxItems() const
 //!
 //! @param nMaxWidth Max pixels in width to show when expanding the dropdown list
 //------------------------------------------------------------------------
-void CGridColumnTraitCombo::SetMaxWidth(int nMaxWidth)
+void CGridColumnTraitCombo::SetMaxWidth(UINT nMaxWidth)
 {
 	m_MaxWidth = nMaxWidth;
 }
@@ -65,7 +65,7 @@ void CGridColumnTraitCombo::SetMaxWidth(int nMaxWidth)
 //!
 //! @return Number of items
 //------------------------------------------------------------------------
-int CGridColumnTraitCombo::GetMaxWidth() const
+UINT CGridColumnTraitCombo::GetMaxWidth() const
 {
 	return m_MaxWidth;
 }
@@ -154,7 +154,8 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	{
 		// Expand to fit cell
 		int padding = rectCell.Height() - rectCombo.Height();
-		m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)+padding);
+		if (padding > 0)
+			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)+(UINT)padding);
 	}
 	else
 	if (rectCombo.Height() > rectCell.Height() + ::GetSystemMetrics(SM_CXBORDER))
@@ -165,7 +166,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
 			padding -= ::GetSystemMetrics(SM_CXEDGE);
 		if (padding > 0)
-			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-padding);
+			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-(UINT)padding);
 	}
 	return m_pComboBox;
 }
@@ -185,7 +186,7 @@ void CGridColumnTraitCombo::OnEditEnd()
 //! @param nItemData Unique identifier of the item
 //! @param strItemText Text identifier of the item
 //------------------------------------------------------------------------
-void CGridColumnTraitCombo::AddItem(int nItemData, const CString& strItemText)
+void CGridColumnTraitCombo::AddItem(DWORD_PTR nItemData, const CString& strItemText)
 {
 	m_ComboList.Add(nItemData, strItemText);
 }
@@ -196,7 +197,7 @@ void CGridColumnTraitCombo::AddItem(int nItemData, const CString& strItemText)
 //! @param comboList List of CComboBox items
 //! @param nCurSel Index in the list to choose as currently selected (-1 = No selection)
 //------------------------------------------------------------------------
-void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel)
+void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel)
 {
 	VERIFY(m_pComboBox!=NULL);
 
@@ -215,6 +216,10 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<int,CString>& comboList, i
 		m_pComboBox->SetCurSel(nCurSel);
 }
 
+
+CGridEditorComboBoxEdit::CGridEditorComboBoxEdit()
+{
+}
 
 //------------------------------------------------------------------------
 // CGridEditorComboBoxEdit (For internal use)
@@ -266,7 +271,7 @@ END_MESSAGE_MAP()
 //------------------------------------------------------------------------
 //! CGridEditorComboBox - Constructor
 //------------------------------------------------------------------------
-CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, int nMaxWidthPixels, int nMaxHeightItems)
+CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
@@ -319,7 +324,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 
 	LV_DISPINFO dispinfo = {0};
 	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
-	dispinfo.hdr.idFrom = GetDlgCtrlID();
+	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
 	dispinfo.hdr.code = LVN_ENDLABELEDIT;
 
 	dispinfo.item.iItem = m_Row;
@@ -329,10 +334,10 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
 		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
-		dispinfo.item.lParam = GetItemData(GetCurSel());
+		dispinfo.item.lParam = (LPARAM)GetItemData(GetCurSel());
 	}
 	ShowWindow(SW_HIDE);
-	GetParent()->GetParent()->SendMessage( WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
+	GetParent()->GetParent()->SendMessage( WM_NOTIFY, (WPARAM)GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
 	PostMessage(WM_CLOSE);
 }
 
@@ -390,9 +395,11 @@ void CGridEditorComboBox::OnDropDown()
 {
 	int itemHeight = GetItemHeight(-1);
 	int nNumEntries = GetCount();
+	if (nNumEntries < 0)
+		DebugBreak();
 
 	// Resize combobox according to actual element count
-	int visibleItemCount = 	m_MaxHeightItems < nNumEntries ? m_MaxHeightItems : nNumEntries; // min(m_MaxHeightItems, nNumEntries);
+	UINT visibleItemCount = m_MaxHeightItems < (UINT)nNumEntries ? m_MaxHeightItems : nNumEntries; // min(m_MaxHeightItems, nNumEntries);
 	CRect rectExpanded;
 	GetClientRect(rectExpanded);
 	rectExpanded.bottom += visibleItemCount * GetItemHeight(0);
@@ -404,7 +411,7 @@ void CGridEditorComboBox::OnDropDown()
 				);
 
 	// Resize combo-box width to fit contents
-	int nMaxItemWidth = 0;
+	UINT nMaxItemWidth = 0;
 	CString str;
 
 	// Find max-width of the elements
@@ -415,7 +422,7 @@ void CGridEditorComboBox::OnDropDown()
 	for (int i = 0; i < nNumEntries; i++)
 	{
 		GetLBText(i, str);
-		int nLength = pDC->GetTextExtent(str).cx;
+		UINT nLength = (UINT)pDC->GetTextExtent(str).cx;
 		nMaxItemWidth = nMaxItemWidth > nLength ? nMaxItemWidth : nLength;	// max(nMaxItemWidth, nLength);
 		if (nMaxItemWidth > m_MaxWidthPixels)
 		{
@@ -437,7 +444,8 @@ void CGridEditorComboBox::OnDropDown()
 	ReleaseDC(pDC);
 
 	SetDroppedWidth(nMaxItemWidth);
-	SetItemHeight(-1, itemHeight);
+	if (itemHeight >= 0)
+		SetItemHeight(-1, (UINT)itemHeight);
 }
 
 //------------------------------------------------------------------------

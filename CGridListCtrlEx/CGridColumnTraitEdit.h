@@ -23,6 +23,7 @@ public:
 	UINT GetLimitText() const;
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt); }
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
@@ -54,4 +55,9 @@ protected:
 	bool	m_InitialModify;
 
 	DECLARE_MESSAGE_MAP();
+
+private:
+	CGridEditorText();
+	CGridEditorText(const CGridEditorText&);
+	CGridEditorText& operator=(const CGridEditorText&);
 };

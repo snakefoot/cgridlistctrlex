@@ -594,8 +594,11 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		InternalColumnPicker(menu, 6);
 	}
 
+	int nColCount = GetColumnCount();
+	if (nColCount < 0)
+		DebugBreak();
 	CSimpleArray<CString> profiles;
-	InternalColumnProfileSwitcher(menu, GetColumnCount() + 7, profiles);
+	InternalColumnProfileSwitcher(menu, (UINT)nColCount + 7, profiles);
 
 	CString title_resetdefault;
 	if (HasColumnDefaultState(title_resetdefault))
@@ -943,7 +946,7 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 #if _WIN32_WINNT >= 0x0600
 	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
 	int nGroupId = pLinkInfo->iSubItem;
-	nGroupId;	// Avoid unreferenced variable warning
+	(nGroupId);	// Avoid unreferenced variable warning
 #endif
 	return FALSE;
 }
@@ -964,7 +967,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 		return;
 	
 	int nGroupId = GroupHitTest(point);
-	nGroupId;	// Avoid unreferenced variable warning
+	(nGroupId);	// Avoid unreferenced variable warning
 }
 
 //------------------------------------------------------------------------
@@ -1199,7 +1202,7 @@ AFX_INLINE void CGridListCtrlGroups::RemoveAllGroups()
 AFX_INLINE BOOL CGridListCtrlGroups::HasGroup(int iGroupId) const
 {
 	ASSERT(::IsWindow(m_hWnd));
-	return (BOOL)ListView_HasGroup(m_hWnd, iGroupId);
+	return (BOOL)ListView_HasGroup(m_hWnd, (WPARAM)iGroupId);
 }
 AFX_INLINE BOOL CGridListCtrlGroups::IsGroupViewEnabled() const
 {
