@@ -16,7 +16,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialog
@@ -33,6 +32,10 @@ public:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+
+private:
+	CAboutDlg(const CAboutDlg&);
+	CAboutDlg& operator=(const CAboutDlg&);
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -131,7 +134,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
 			const vector<CString>& countries = m_DataModel.GetCountries();
 			for(size_t i=0; i < countries.size() ; ++i)
-				pComboTrait->AddItem((int)i, countries[i]);
+				pComboTrait->AddItem((DWORD_PTR)i, countries[i]);
 			pTrait = pComboTrait;
 		}
 		if (col==1)	// City
