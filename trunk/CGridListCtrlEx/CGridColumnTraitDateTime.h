@@ -25,7 +25,9 @@ public:
 	void SetParseDateTime(DWORD dwFlags = 0, LCID lcid = LANG_USER_DEFAULT);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt); }
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
+	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending) { return CGridColumnTraitImage::OnSortRows(leftItem, rightItem, bAscending); }
 	virtual BOOL ParseDateTime(LPCTSTR lpszDate, COleDateTime& dt);
 
 protected:
@@ -65,4 +67,8 @@ protected:
 	CGridColumnTraitDateTime* m_pColumnTrait;	//!< Provides logic for parsing free text editing
 
 	DECLARE_MESSAGE_MAP();
+
+private:
+	CGridEditorDateTimeCtrl(const CGridEditorDateTimeCtrl&);
+	CGridEditorDateTimeCtrl& operator=(const CGridEditorDateTimeCtrl&);
 };

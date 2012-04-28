@@ -332,7 +332,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		// Send Notification to parent of ListView ctrl
 		LV_DISPINFO dispinfo = {0};
 		dispinfo.hdr.hwndFrom = owner.m_hWnd;
-		dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
+		dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
 		dispinfo.hdr.code = LVN_ENDLABELEDIT;
 
 		dispinfo.item.iItem = nRow;
@@ -347,7 +347,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 			dispinfo.item.cchTextMax = strNewImageText.GetLength();
 		}
 
-		owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+		owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
 
 		// Toggle all selected rows to the same image index as the one clicked
 		if (m_ToggleSelection)
@@ -369,7 +369,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 					// Send Notification to parent of ListView ctrl
 					LV_DISPINFO dispinfo = {0};
 					dispinfo.hdr.hwndFrom = owner.m_hWnd;
-					dispinfo.hdr.idFrom = owner.GetDlgCtrlID();
+					dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
 					dispinfo.hdr.code = LVN_ENDLABELEDIT;
 
 					dispinfo.item.iItem = nSelectedRow;
@@ -384,7 +384,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 						dispinfo.item.cchTextMax = strNewImageText.GetLength();
 					}
 
-					owner.GetParent()->SendMessage( WM_NOTIFY, owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+					owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
 				}
 			}
 		}
@@ -424,7 +424,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 					}
 
 					if (owner.GetStyle() & LVS_OWNERDATA)
-						owner.OnOwnerDataToggleCheckBox(nSelectedRow, bChecked);
+						owner.OnOwnerDataToggleCheckBox(nSelectedRow, bChecked ? true : false);
 					else
 						owner.SetCheck(nSelectedRow, bChecked);
 				}

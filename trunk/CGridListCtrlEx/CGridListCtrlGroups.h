@@ -98,4 +98,8 @@ public:
 #endif	// _MSC_VER < 1300
 #endif	// _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
 #endif	// _WIN32_WINNT >= 0x0501
+
+private:
+	CGridListCtrlGroups(const CGridListCtrlGroups&);
+	CGridListCtrlGroups& operator=(const CGridListCtrlGroups&);
 };

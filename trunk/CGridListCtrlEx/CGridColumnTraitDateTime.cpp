@@ -235,7 +235,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = {0};
 	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
-	dispinfo.hdr.idFrom = GetDlgCtrlID();
+	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
 	dispinfo.hdr.code = LVN_ENDLABELEDIT;
 
 	dispinfo.item.iItem = m_Row;
@@ -247,7 +247,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 		dispinfo.item.cchTextMax = str.GetLength();
 	}
 	ShowWindow(SW_HIDE);
-	GetParent()->GetParent()->SendMessage( WM_NOTIFY, GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
+	GetParent()->GetParent()->SendMessage( WM_NOTIFY, (WPARAM)GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
 	PostMessage(WM_CLOSE);
 }
 

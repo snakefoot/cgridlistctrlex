@@ -138,7 +138,7 @@ public:
 	};
 	inline ColumnState& GetColumnState() { return m_ColumnState; }
 
-	inline BOOL HasMetaFlag(DWORD flag) { return m_ColumnState.m_MetaFlags & flag; }
+	inline BOOL HasMetaFlag(DWORD flag) { return (m_ColumnState.m_MetaFlags & flag) ? TRUE : FALSE; }
 	void SetMetaFlag(DWORD flag, bool enable)
 	{
 		if (enable)

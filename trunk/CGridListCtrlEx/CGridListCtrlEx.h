@@ -175,8 +175,8 @@ protected:
 	virtual void DeleteColumnTrait(int nCol);
 	CViewConfigSectionProfiles* m_pColumnConfig;	//!< Column state persistence
 	bool m_bConfigOwner; //!< Column state persistence object is freed by destructor
-	int InternalColumnPicker(CMenu& menu, int offset);
-	int InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles);
+	int InternalColumnPicker(CMenu& menu, UINT offset);
+	int InternalColumnProfileSwitcher(CMenu& menu, UINT offset, CSimpleArray<CString>& profiles);
 
 	// Maintaining row traits
 	CGridRowTrait* m_pDefaultRowTrait;	//!< Default row trait used for special row drawing
@@ -290,6 +290,10 @@ protected:
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP();
+
+private:
+	CGridListCtrlEx(const CGridListCtrlEx&);
+	CGridListCtrlEx& operator=(const CGridListCtrlEx&);
 };
 
 //{{AFX_INSERT_LOCATION}}

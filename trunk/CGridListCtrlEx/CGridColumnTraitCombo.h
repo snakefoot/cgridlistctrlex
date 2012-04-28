@@ -16,30 +16,31 @@ class CGridColumnTraitCombo : public CGridColumnTraitImage
 public:
 	CGridColumnTraitCombo();
 
-	void SetMaxItems(int nMaxItems);
-	int  GetMaxItems() const;
+	void SetMaxItems(UINT nMaxItems);
+	UINT  GetMaxItems() const;
 
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle() const;
 
-	void SetMaxWidth(int nMaxWidth);
-	int  GetMaxWidth() const;
+	void SetMaxWidth(UINT nMaxWidth);
+	UINT  GetMaxWidth() const;
 
-	void LoadList(const CSimpleMap<int,CString>& comboList, int nCurSel);
-	void AddItem(int nItemData, const CString& strItemText);
+	void LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel);
+	void AddItem(DWORD_PTR nItemData, const CString& strItemText);
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt); }
 	virtual void  OnEditEnd();
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
 
-	CSimpleMap<int,CString> m_ComboList;	//!< Fixed list of items in the combo-box
+	CSimpleMap<DWORD_PTR,CString> m_ComboList;	//!< Fixed list of items in the combo-box
 	CComboBox* m_pComboBox;					//!< CComboBox currently open
 	DWORD m_ComboBoxStyle;					//!< Style to use when creating CComboBox
-	int m_MaxItems;							//!< Max height (in items) of the CComboBox when doing dropdown
-	int m_MaxWidth;							//!< Max width (in pixels) of the CComboBox when doing dropdown
+	UINT m_MaxItems;						//!< Max height (in items) of the CComboBox when doing dropdown
+	UINT m_MaxWidth;						//!< Max width (in pixels) of the CComboBox when doing dropdown
 
 private:
 	// Private because they doesn't handle CSimpleMap
@@ -55,10 +56,17 @@ private:
 //------------------------------------------------------------------------
 class CGridEditorComboBoxEdit : public CEdit
 {
+public:
+	CGridEditorComboBoxEdit();
+
 protected:
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 
 	DECLARE_MESSAGE_MAP();
+
+private:
+	CGridEditorComboBoxEdit(const CGridEditorComboBoxEdit&);
+	CGridEditorComboBoxEdit& operator=(const CGridEditorComboBoxEdit&);
 };
 
 //------------------------------------------------------------------------
@@ -70,7 +78,7 @@ protected:
 class CGridEditorComboBox : public CComboBox
 {
 public:
-	CGridEditorComboBox(int nRow, int nCol, int nMaxWidthPixels, int nMaxHeightItems);
+	CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems);
 
 	virtual BOOL Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	virtual void EndEdit(bool bSuccess);
@@ -92,6 +100,11 @@ protected:
 	bool	m_Modified;				//!< Register if selection was modified while the editor was open
 	int		m_Row;					//!< The index of the row being edited
 	int		m_Col;					//!< The index of the column being edited
-	int		m_MaxWidthPixels;		//!< Max width (in pixels) of the CComboBox when doing dropdown
-	int		m_MaxHeightItems;		//!< Max height (in items) of the CComboBox when doing dropdown
+	UINT	m_MaxWidthPixels;		//!< Max width (in pixels) of the CComboBox when doing dropdown
+	UINT	m_MaxHeightItems;		//!< Max height (in items) of the CComboBox when doing dropdown
+
+private:
+	CGridEditorComboBox();
+	CGridEditorComboBox(const CGridEditorComboBox&);
+	CGridEditorComboBox& operator=(const CGridEditorComboBox&);
 };

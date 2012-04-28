@@ -7,8 +7,15 @@
 #include "stdafx.h"
 #include "CGridListCtrlEx.h"
 
+#pragma warning(push)
+#pragma warning( disable:4812 )	// warning C4812: obsolete declaration style: please use '_CIP<_Interface,_IID>::_CIP' instead
+#pragma warning( disable:4625 )	// warning C4625: copy constructor could not be generated because a base class copy constructor is inaccessible
+#pragma warning( disable:4626 )	// warning C4626: assignment operator could not be generated because a base class assignment operator is inaccessible
+#pragma warning( disable:4263 )	// warning C4263: member function does not override any base class virtual member function
+#pragma warning( disable:4264 )	// warning C4264: no override available for virtual member function from base; function is hidden
 #include <shlwapi.h>	// IsThemeEnabled
 #include <afxole.h>		// COleDataSource
+#pragma warning(pop)
 
 #pragma warning(disable:4100)	// unreferenced formal parameter
 
@@ -25,6 +32,9 @@ class COleDropTargetWnd : public COleDropTarget
 		T* m_pWnd;
 		bool m_DragSource;
 		bool m_DragDestination;
+
+		COleDropTargetWnd(const COleDropTargetWnd&);
+		COleDropTargetWnd& operator=(const COleDropTargetWnd&);
 
 	public:
 		COleDropTargetWnd()
@@ -104,6 +114,10 @@ public:
 		if (m_pTarget!=NULL)
 			m_pTarget->SetDragSource(false);
 	}
+
+private:
+	COleDataSourceWnd(const COleDataSourceWnd&);
+	COleDataSourceWnd& operator=(const COleDataSourceWnd&);
 };
 //------------------------------------------------------------------------
 //! @endcond INTERNAL
@@ -239,7 +253,10 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 	int nVisibleCols = config.GetIntSetting(_T("ColumnCount"));
 
 	int nColCount = GetColumnCount();
-	int* pOrderArray = new int[nColCount];
+	if (nColCount < 0)
+		DebugBreak();
+
+	int* pOrderArray = new int[(UINT)nColCount];
 	GetColumnOrderArray(pOrderArray, nColCount);
 
 	SetRedraw(FALSE);
@@ -376,7 +393,10 @@ void CGridListCtrlEx::SaveState(CViewConfigSection& config)
 	config.RemoveCurrentConfig();	// Reset the existing config
 
 	int nColCount = GetColumnCount();
-	int* pOrderArray = new int[nColCount];
+	if (nColCount < 0)
+		DebugBreak();
+
+	int* pOrderArray = new int[(UINT)nColCount];
 	GetColumnOrderArray(pOrderArray, nColCount);
 
 	int nVisibleCols = 0;
@@ -983,7 +1003,7 @@ bool CGridListCtrlEx::IsRowSelected(int nRow) const
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 {
-	return SetItemState(nRow, bSelect ? LVIS_SELECTED : 0, LVIS_SELECTED);
+	return SetItemState(nRow, (UINT)(bSelect ? LVIS_SELECTED : 0), LVIS_SELECTED);
 }
 
 //------------------------------------------------------------------------
@@ -1321,7 +1341,10 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	SetRedraw(FALSE);
 
 	int nColCount = GetColumnCount();
-	int* pOrderArray = new int[nColCount];
+	if (nColCount < 0)
+		DebugBreak();
+
+	int* pOrderArray = new int[(UINT)nColCount];
 	VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 	if (bShow)
 	{
@@ -1815,7 +1838,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		for(int i=0; i < m_RepeatSearchCount; ++i)
 			m_LastSearchString.Insert(m_LastSearchString.GetLength()+1,m_LastSearchString.GetAt(0));
 		m_RepeatSearchCount = 0;
-		m_LastSearchString.Insert(m_LastSearchString.GetLength()+1, (TCHAR)nChar);
+		m_LastSearchString += (TCHAR)nChar;
 	}
 
 	int nRow = GetFocusRow();
@@ -1945,7 +1968,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 				pNMW->item.mask |= LVIF_STATE;
 				pNMW->item.stateMask = LVIS_STATEIMAGEMASK;
 				bool bChecked = OnOwnerDataDisplayCheckbox(nRow);
-				pNMW->item.state = bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1);
+				pNMW->item.state = (UINT)(bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1));
 			}
 		}
 	}
@@ -2198,14 +2221,14 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = {0};
 	dispinfo.hdr.hwndFrom = m_hWnd;
-	dispinfo.hdr.idFrom = GetDlgCtrlID();
+	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
 	dispinfo.hdr.code = LVN_BEGINLABELEDIT;
 
 	dispinfo.item.mask = LVIF_PARAM;
 	dispinfo.item.iItem = nRow;
 	dispinfo.item.iSubItem = nCol;
-	dispinfo.item.lParam = GetItemData(nRow);
-	if (GetParent()->SendMessage(WM_NOTIFY, GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
+	dispinfo.item.lParam = (LPARAM)GetItemData(nRow);
+	if (GetParent()->SendMessage(WM_NOTIFY, (WPARAM)GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
 	{
 		// Parent didn't want to start edit
 		OnEditComplete(nRow, nCol, NULL, NULL);
@@ -2251,8 +2274,8 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 	int nCol = pDispInfo->item.iSubItem;
 	int nRow = pDispInfo->item.iItem;
-	nRow;	// Avoid unreferenced variable warning
-	nCol;	// Avoid unreferenced variable warning
+	(nRow);	// Avoid unreferenced variable warning
+	(nCol);	// Avoid unreferenced variable warning
 
 	*pResult = FALSE;// Accept editing
 	return FALSE;	// Let parent-dialog get chance
@@ -2462,7 +2485,7 @@ bool CGridListCtrlEx::OnDisplayCellColor(NMLVCUSTOMDRAW* pLVCD)
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 	int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
-	nItemData;	// Avoid unreferenced variable warning
+	(nItemData);	// Avoid unreferenced variable warning
 	return OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk);
 }
 
@@ -2492,7 +2515,7 @@ bool CGridListCtrlEx::OnDisplayCellFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& font)
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 	int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
-	nItemData;	// Avoid unreferenced variable warning
+	(nItemData);	// Avoid unreferenced variable warning
 	return OnDisplayCellFont(nRow, nCol, font);
 }
 
@@ -2945,9 +2968,9 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //! @param offset Start offset to use when adding new menu items to the context menu
 //! @return Number of menu items added to the context menu
 //------------------------------------------------------------------------
-int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
+int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 {
-	for( int i = 0 ; i < GetColumnCount(); ++i)
+	for(int i = 0 ; i < GetColumnCount(); ++i)
 	{
 		if (IsColumnAlwaysHidden(i))
 			continue;	// Cannot be shown
@@ -2965,7 +2988,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
-		VERIFY( menu.AppendMenu(uFlags, offset+i, static_cast<LPCTSTR>(columnTitle)) );
+		VERIFY( menu.AppendMenu(uFlags, (UINT_PTR)offset+i, static_cast<LPCTSTR>(columnTitle)) );
 	}
 
 	return GetColumnTraitSize();
@@ -2979,7 +3002,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, int offset)
 //! @param profiles List of column profiles that one can change between
 //! @return Number of menu items added to the context menu
 //------------------------------------------------------------------------
-int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, int offset, CSimpleArray<CString>& profiles)
+int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, UINT offset, CSimpleArray<CString>& profiles)
 {
 	CString title_profiles;
 	CString active_profile = HasColumnProfiles(profiles, title_profiles);
@@ -3038,8 +3061,11 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		InternalColumnPicker(menu, 4);
 	}
 
+	int nColCount = GetColumnCount();
+	if (nColCount < 0)
+		DebugBreak();
 	CSimpleArray<CString> profiles;
-	InternalColumnProfileSwitcher(menu, GetColumnCount() + 5, profiles);
+	InternalColumnProfileSwitcher(menu, (UINT)nColCount + 5, profiles);
 
 	CString title_resetdefault;
 	if (HasColumnDefaultState(title_resetdefault))
@@ -3266,7 +3292,10 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		// Correct iOrder so it is just after the last hidden column
 		int nColCount = GetColumnCount();
-		int* pOrderArray = new int[nColCount];
+		if (nColCount < 0)
+			DebugBreak();
+
+		int* pOrderArray = new int[(UINT)nColCount];
 		VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 
 		for(int i = 0; i < nColCount ; ++i)
@@ -3405,7 +3434,7 @@ void CGridListCtrlEx::OnCopyToClipboard()
 	if (!OnDisplayToClipboard(result))
 		return;
 
-	int nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+	SIZE_T nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
 
 	// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
@@ -3570,7 +3599,7 @@ BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 	SetFocusCell(-1);
 
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
-	pLV;	// Avoid unreferenced variable warning
+	(pLV);	// Avoid unreferenced variable warning
 
 	COleDataSourceWnd<CGridListCtrlEx> oleDataSource(m_pOleDropTarget);
 	DROPEFFECT dropEffect = DoDragDrop(oleDataSource);
@@ -3611,7 +3640,7 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource)
 	if (!OnDisplayToDragDrop(result))
 		return DROPEFFECT_NONE;
 
-	int nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+	SIZE_T nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
 
 	// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);

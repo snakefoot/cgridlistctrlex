@@ -74,15 +74,11 @@ bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)
 //------------------------------------------------------------------------
 void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
-
 	switch (pLVCD->nmcd.dwDrawStage)
 	{
 		// Before painting a cell
 		case CDDS_ITEMPREPAINT | CDDS_SUBITEM:
 		{
-			int nCol = pLVCD->iSubItem;
-
 			m_OldTextColor = pLVCD->clrText;
 			m_OldBackColor = pLVCD->clrTextBk;
 
