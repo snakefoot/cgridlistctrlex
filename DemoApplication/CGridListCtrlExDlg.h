@@ -36,4 +36,7 @@ private:
 	CGridListCtrlGroups m_ListCtrl;
 	CListCtrl_DataModel m_DataModel;
 	CImageList m_ImageList;
+
+	CGridListCtrlExDlg(const CGridListCtrlExDlg&);
+	CGridListCtrlExDlg& operator=(const CGridListCtrlExDlg&);
 };
