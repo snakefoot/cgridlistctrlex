@@ -26,6 +26,10 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+
+private:
+	CGridListCtrlExApp(const CGridListCtrlExApp&);
+	CGridListCtrlExApp& operator=(const CGridListCtrlExApp&);
 };
 
 extern CGridListCtrlExApp theApp;
