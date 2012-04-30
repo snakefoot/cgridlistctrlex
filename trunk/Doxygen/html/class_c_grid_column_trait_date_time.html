@@ -79,8 +79,12 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the flags for converting the datetime in text format to actual date.  <a href="#a0fdcf1fafe6461159aeb0226dda9acb2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#acba95b50bdbaeb960807e443f0dc3aa2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a81525feb1113bc30320bd417d0c1daad">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a81525feb1113bc30320bd417d0c1daad"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa95b405d67aeb3312719b018b4f193dc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#ae7e519954b1e43237ba7c525e81b3247">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to checkbox state.  <a href="#ae7e519954b1e43237ba7c525e81b3247"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#af995ddabf2677137162a6ad5f703f82b">ParseDateTime</a> (LPCTSTR lpszDate, COleDateTime &amp;dt)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Parse the input string into a datetime value.  <a href="#af995ddabf2677137162a6ad5f703f82b"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
@@ -157,6 +161,59 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 
 </div>
 </div>
+<a class="anchor" id="a81525feb1113bc30320bd417d0c1daad"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="a81525feb1113bc30320bd417d0c1daad" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual CWnd* CGridColumnTraitDateTime::OnEditBegin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="acba95b50bdbaeb960807e443f0dc3aa2"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnEditBegin" ref="acba95b50bdbaeb960807e443f0dc3aa2" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
 <div class="memitem">
 <div class="memproto">
@@ -200,6 +257,52 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
 <p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172">CGridColumnTraitImage</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7e519954b1e43237ba7c525e81b3247"></a><!-- doxytag: member="CGridColumnTraitDateTime::OnSortRows" ref="ae7e519954b1e43237ba7c525e81b3247" args="(const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int CGridColumnTraitDateTime::OnSortRows </td>
+          <td>(</td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>leftItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>rightItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compares two cell values according to checkbox state. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>leftItem</em>&nbsp;</td><td>Left cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rightItem</em>&nbsp;</td><td>Right cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a3d9c0910f1579dad08f282a0c202f421">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>

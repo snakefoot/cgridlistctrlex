@@ -125,8 +125,8 @@ CHeaderCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetHeaderCtr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves the number of column traits registered.  <a href="#a9d9e631c62b9fc3d8404c8b746143129"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a95d4ea636dc23182628f95e992f2b839">CellHitTest</a> (const CPoint &amp;pt, int &amp;nRow, int &amp;nCol) const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Replicates the SubItemHitTest() but in a const version.  <a href="#a95d4ea636dc23182628f95e992f2b839"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#abd88cea0b9f581612971a5465f91d474">GetCellRect</a> (int nRow, int nCol, UINT nCode, CRect &amp;rect)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Improved version of GetSubItemRect().  <a href="#abd88cea0b9f581612971a5465f91d474"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a2fd6130ca19e09cb01006071e324bdb8">GetCellRect</a> (int nRow, int nCol, int nCode, CRect &amp;rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Improved version of GetSubItemRect().  <a href="#a2fd6130ca19e09cb01006071e324bdb8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5432414b97a9a6d22afeb89c980debad"></a><!-- doxytag: member="CGridListCtrlEx::GetFocusCell" ref="a5432414b97a9a6d22afeb89c980debad" args="() const " -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetFocusCell</b> () const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#afcdd34c755fe8da1fea3b5b3efb06f8e">SetFocusCell</a> (int nCol, bool bRedraw=false)</td></tr>
@@ -233,10 +233,10 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal maintenance function for the column trait container.  <a href="#ae182fc1595ecdad45f8209f10af10492"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a8e4586d9651830eda9400f6f6bbe69e0">DeleteColumnTrait</a> (int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal maintenance function for the column trait container.  <a href="#a8e4586d9651830eda9400f6f6bbe69e0"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#af75f258925f24fe7376731e14c57b7cc">InternalColumnPicker</a> (CMenu &amp;menu, int offset)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available columns to the context menu.  <a href="#af75f258925f24fe7376731e14c57b7cc"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa82896e81f3e078f87b06fbf73576508">InternalColumnProfileSwitcher</a> (CMenu &amp;menu, int offset, CSimpleArray&lt; CString &gt; &amp;profiles)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available column profiles to the context menu.  <a href="#aa82896e81f3e078f87b06fbf73576508"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#ab49ad4743ad784718ea4e0844e60e4e8">InternalColumnPicker</a> (CMenu &amp;menu, UINT offset)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available columns to the context menu.  <a href="#ab49ad4743ad784718ea4e0844e60e4e8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3857b77fd2e349c16c6ef6d258023d46">InternalColumnProfileSwitcher</a> (CMenu &amp;menu, UINT offset, CSimpleArray&lt; CString &gt; &amp;profiles)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Internal method to add all available column profiles to the context menu.  <a href="#a3857b77fd2e349c16c6ef6d258023d46"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#af9b4b8c7168a23fe672f7382f5452265">MoveFocusCell</a> (bool bMoveRight)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Shifts the cell focus left or right in the same row.  <a href="#af9b4b8c7168a23fe672f7382f5452265"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a6b6c3198a95f54920fc9af1c4be79f2d">SortColumn</a> (int nCol, bool bAscending)</td></tr>
@@ -806,7 +806,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="abd88cea0b9f581612971a5465f91d474"></a><!-- doxytag: member="CGridListCtrlEx::GetCellRect" ref="abd88cea0b9f581612971a5465f91d474" args="(int nRow, int nCol, UINT nCode, CRect &amp;rect)" -->
+<a class="anchor" id="a2fd6130ca19e09cb01006071e324bdb8"></a><!-- doxytag: member="CGridListCtrlEx::GetCellRect" ref="a2fd6130ca19e09cb01006071e324bdb8" args="(int nRow, int nCol, int nCode, CRect &amp;rect)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -825,7 +825,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>nCode</em>, </td>
         </tr>
         <tr>
@@ -1351,7 +1351,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="af75f258925f24fe7376731e14c57b7cc"></a><!-- doxytag: member="CGridListCtrlEx::InternalColumnPicker" ref="af75f258925f24fe7376731e14c57b7cc" args="(CMenu &amp;menu, int offset)" -->
+<a class="anchor" id="ab49ad4743ad784718ea4e0844e60e4e8"></a><!-- doxytag: member="CGridListCtrlEx::InternalColumnPicker" ref="ab49ad4743ad784718ea4e0844e60e4e8" args="(CMenu &amp;menu, UINT offset)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1364,7 +1364,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
+          <td class="paramtype">UINT&nbsp;</td>
           <td class="paramname"> <em>offset</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1388,7 +1388,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="aa82896e81f3e078f87b06fbf73576508"></a><!-- doxytag: member="CGridListCtrlEx::InternalColumnProfileSwitcher" ref="aa82896e81f3e078f87b06fbf73576508" args="(CMenu &amp;menu, int offset, CSimpleArray&lt; CString &gt; &amp;profiles)" -->
+<a class="anchor" id="a3857b77fd2e349c16c6ef6d258023d46"></a><!-- doxytag: member="CGridListCtrlEx::InternalColumnProfileSwitcher" ref="a3857b77fd2e349c16c6ef6d258023d46" args="(CMenu &amp;menu, UINT offset, CSimpleArray&lt; CString &gt; &amp;profiles)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1401,7 +1401,7 @@ class&nbsp;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&nbsp;</td>
+          <td class="paramtype">UINT&nbsp;</td>
           <td class="paramname"> <em>offset</em>, </td>
         </tr>
         <tr>

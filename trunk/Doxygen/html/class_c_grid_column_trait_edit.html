@@ -77,6 +77,8 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get max number of characters the CEdit will accept. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c" title="Overrides OnEditBegin() to provide a CEdit cell value editor.">OnEditBegin()</a> to provide a CEdit cell value editor.  <a href="#acbb77050df8e1134f6840c0e4832007c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#aeb7493d9a5fadb6c0f6fa2281c14302a">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#aeb7493d9a5fadb6c0f6fa2281c14302a"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af756c0562ed2a717dd67b38efab01c01"></a><!-- doxytag: member="CGridColumnTraitEdit::Accept" ref="af756c0562ed2a717dd67b38efab01c01" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#af756c0562ed2a717dd67b38efab01c01">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -142,6 +144,59 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aeb7493d9a5fadb6c0f6fa2281c14302a"></a><!-- doxytag: member="CGridColumnTraitEdit::OnEditBegin" ref="aeb7493d9a5fadb6c0f6fa2281c14302a" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, CPoint pt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual CWnd* CGridColumnTraitEdit::OnEditBegin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CPoint&nbsp;</td>
+          <td class="paramname"> <em>pt</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>

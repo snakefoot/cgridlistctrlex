@@ -65,6 +65,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_USERSTRING notification handler to convert clipboard to datetime.  <a href="#a858797af08a3ca480456ba502d8f8402"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a6b8a6be65d269719fde9888a650ec56b">OnChar</a> (UINT nChar, UINT nRepCnt, UINT nFlags)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_CHAR message handler to monitor date modifications.  <a href="#a6b8a6be65d269719fde9888a650ec56b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a0926f60027e154ac8c21fdfad4791dec">OnCloseUp</a> (NMHDR *pNMHDR, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">DTN_CLOSEUP notification message handler called when CMonthCalCtrl window has closed.  <a href="#a0926f60027e154ac8c21fdfad4791dec"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_date_time_ctrl.html#a23984f2c2a7e1e9392db560d2b8bb291">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched.  <a href="#a23984f2c2a7e1e9392db560d2b8bb291"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a33ca15f8761b1201e561091749cbee04"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::DECLARE_MESSAGE_MAP" ref="a33ca15f8761b1201e561091749cbee04" args="()" -->
@@ -195,6 +197,43 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
     <tr><td valign="top"></td><td valign="top"><em>nChar</em>&nbsp;</td><td>Specifies the virtual key code of the given key. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRepCnt</em>&nbsp;</td><td>Repeat count (the number of times the keystroke is repeated as a result of the user holding down the key). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nFlags</em>&nbsp;</td><td>Specifies the scan code, key-transition code, previous key state, and context code </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a0926f60027e154ac8c21fdfad4791dec"></a><!-- doxytag: member="CGridEditorDateTimeCtrl::OnCloseUp" ref="a0926f60027e154ac8c21fdfad4791dec" args="(NMHDR *pNMHDR, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorDateTimeCtrl::OnCloseUp </td>
+          <td>(</td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>DTN_CLOSEUP notification message handler called when CMonthCalCtrl window has closed. </p>
+<p>Fallback solution for closing inplace CDateTimeCtrl, in case focus is not given back to the CDateTimeCtrl.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to NMHDR structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>Is not used </td></tr>
   </table>
   </dd>
 </dl>

@@ -71,6 +71,8 @@ Inheritance diagram for CGridColumnTraitText:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides the custom draw handler, to allow custom coloring of cells with this column trait.  <a href="#a3a3e262526ce3c363311289a25092fe5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#aa93469a61a6ae6f4c0ef32f7e3393b3c">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa93469a61a6ae6f4c0ef32f7e3393b3c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a2f43ad22606a31ae9965a85de17ebf26">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait_text.html#aa93469a61a6ae6f4c0ef32f7e3393b3c" title="Compares two cell values according to specified sort order.">OnSortRows()</a> to provide your own special row sorting.  <a href="#a2f43ad22606a31ae9965a85de17ebf26"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#afdb6c2f36cf8cdb44c62afa69c736d84">SetSortFormatNumber</a> (bool bValue)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should cell values be compared as numbers when sorting.  <a href="#afdb6c2f36cf8cdb44c62afa69c736d84"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
@@ -221,6 +223,54 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </dl>
 
 <p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a0052602b747487fd286bfdbb776d5440">CGridColumnTrait</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f43ad22606a31ae9965a85de17ebf26"></a><!-- doxytag: member="CGridColumnTraitText::OnSortRows" ref="a2f43ad22606a31ae9965a85de17ebf26" args="(const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int CGridColumnTraitText::OnSortRows </td>
+          <td>(</td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>leftItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const LVITEM &amp;&nbsp;</td>
+          <td class="paramname"> <em>rightItem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bAscending</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Override <a class="el" href="class_c_grid_column_trait_text.html#aa93469a61a6ae6f4c0ef32f7e3393b3c" title="Compares two cell values according to specified sort order.">OnSortRows()</a> to provide your own special row sorting. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>leftItem</em>&nbsp;</td><td>Left cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rightItem</em>&nbsp;</td><td>Right cell item </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bAscending</em>&nbsp;</td><td>Perform sorting in ascending or descending order </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is left value less than right value (-1) or equal (0) or larger (1) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a5403eb8fcf7ba11ac68838eb47546ccd">CGridColumnTrait</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_date_time.html#ae7e519954b1e43237ba7c525e81b3247">CGridColumnTraitDateTime</a>, and <a class="el" href="class_c_grid_column_trait_image.html#a3d9c0910f1579dad08f282a0c202f421">CGridColumnTraitImage</a>.</p>
 
 </div>
 </div>
