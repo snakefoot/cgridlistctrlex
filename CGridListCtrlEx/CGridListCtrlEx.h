@@ -118,7 +118,7 @@ public:
 
 	// Cell / Subitem 
 	UINT CellHitTest(const CPoint& pt, int& nRow, int& nCol) const;
-	BOOL GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect);
+	BOOL GetCellRect(int nRow, int nCol, int nCode, CRect& rect);
 	inline int GetFocusCell() const { return m_FocusCell; }
 	virtual void SetFocusCell(int nCol, bool bRedraw = false);
 	virtual CWnd* EditCell(int nRow, int nCol);
