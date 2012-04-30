@@ -63,12 +63,12 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupId, const C
 
 	// Header-title must be unicode (Convert if necessary)
 #ifdef UNICODE
-	lg.pszHeader = (LPWSTR)(LPCTSTR)strHeader;
+	lg.pszHeader = (LPWSTR)static_cast<LPCTSTR>(strHeader);
 	lg.cchHeader = strHeader.GetLength();
 #else
-	CComBSTR header = strHeader;
+	CComBSTR header = static_cast<LPCTSTR>(strHeader);
 	lg.pszHeader = header;
-	lg.cchHeader = header.Length();
+	lg.cchHeader = (int)header.Length();
 #endif
 
 	return InsertGroup(nIndex, (PLVGROUP)&lg );
