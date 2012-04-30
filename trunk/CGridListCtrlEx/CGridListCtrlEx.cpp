@@ -1018,7 +1018,7 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 //!	@param rect Reference to a CRect object that contains the coordinates of the cell's bounding rectangle.
 //! @return Nonzero if successful; otherwise zero.
 //------------------------------------------------------------------------
-BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, UINT nCode, CRect& rect)
+BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 {
 	if (GetSubItemRect(nRow, nCol, nCode, rect)==FALSE)
 		return FALSE;
