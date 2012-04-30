@@ -50,7 +50,9 @@
 #pragma warning( disable:4820 )	// warning C4820: X bytes padding added after data member
 
 #pragma warning( push )
+#pragma warning( disable:4548 )	// warning C4548: expression before comma has no effect; expected expression with side-effect
 #pragma warning( disable:4812 )	// warning C4812: obsolete declaration style: please use '_CIP<_Interface,_IID>::_CIP' instead
+#pragma warning( disable:4996 )	// warning C4996: This function or variable may be unsafe.
 #pragma warning( disable:4005 )	// warning C4005: '_WIN32_WINDOWS' : macro redefinition
 #pragma warning( disable:4668 )	// warning C4668: '__midl' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
 #pragma warning( disable:4820 )	// warning C4820: X bytes padding added after data member
