@@ -122,6 +122,8 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 	// Create edit control to edit the cell
 	CEdit* pEdit = CreateEdit(owner, nRow, nCol, rectCell);
 	VERIFY(pEdit!=NULL);
+	if (pEdit==NULL)
+		return NULL;
 
 	pEdit->SetWindowText(owner.GetItemText(nRow, nCol));
 	pEdit->SetSel(0, -1, 0);

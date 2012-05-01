@@ -4,9 +4,14 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 1.9
+// Version: 2.0
 //
 // Change History:
+//	2.0 - Added copy/paste support for CDateTimeCtrl editor (DTS_APPCANPARSE)
+//		  When having grouped by column, then column header click now sorts instead of grouping by column.
+//		  Changed the row sorting to be case insensitive by default
+//		  Fixed bug where cell editor discarded changes performed using the mouse (copy/paste using context menu)
+//		  Fixed several compiler warnings, and small bugs
 // 	1.9 - Added new CGridColumnTrait::OnSortRows() to take LVITEM as parameter (2011-05-30)
 //		  Renamed CGridColumnConfig to CViewConfigSection (Now general purpose settings manager)
 //		  Removed CGridColumnManager and moved LoadState/SaveState into CGridListCtrlEx (Breaking change)
