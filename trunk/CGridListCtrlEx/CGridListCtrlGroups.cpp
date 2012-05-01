@@ -630,10 +630,10 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		case 5: ResetColumnDefaultState(); break;
 		default:
 		{
-			int nCol = nResult-6;
-			if (nCol < GetColumnCount())
+			int nShowCol = nResult-6;
+			if (nShowCol < GetColumnCount())
 			{
-				ShowColumn(nCol, !IsColumnVisible(nCol));
+				ShowColumn(nShowCol, !IsColumnVisible(nShowCol));
 			}
 			else
 			{

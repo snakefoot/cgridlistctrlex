@@ -200,6 +200,8 @@ void CGridColumnTraitCombo::AddItem(DWORD_PTR nItemData, const CString& strItemT
 void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel)
 {
 	VERIFY(m_pComboBox!=NULL);
+	if (m_pComboBox==NULL)
+		return;
 
 	m_pComboBox->SetRedraw(FALSE);
 	m_pComboBox->InitStorage(comboList.GetSize(), 32);

@@ -362,29 +362,29 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 					if (nSelectedRow==nRow)
 						continue;	// Don't flip the clicked row
 
-					int nOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
-					if (nOldImageIdx==nNewImageIdx)
+					int nNextOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
+					if (nNextOldImageIdx==nNewImageIdx)
 						continue;	// Already flipped
 
 					// Send Notification to parent of ListView ctrl
-					LV_DISPINFO dispinfo = {0};
-					dispinfo.hdr.hwndFrom = owner.m_hWnd;
-					dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
-					dispinfo.hdr.code = LVN_ENDLABELEDIT;
+					LV_DISPINFO nextDispinfo = {0};
+					nextDispinfo.hdr.hwndFrom = owner.m_hWnd;
+					nextDispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
+					nextDispinfo.hdr.code = LVN_ENDLABELEDIT;
 
-					dispinfo.item.iItem = nSelectedRow;
-					dispinfo.item.iSubItem = nCol;
-					dispinfo.item.mask = LVIF_IMAGE;
-					dispinfo.item.iImage = nNewImageIdx;
+					nextDispinfo.item.iItem = nSelectedRow;
+					nextDispinfo.item.iSubItem = nCol;
+					nextDispinfo.item.mask = LVIF_IMAGE;
+					nextDispinfo.item.iImage = nNewImageIdx;
 
 					if (strNewImageText!=strOldImageText)
 					{
-						dispinfo.item.mask |= LVIF_TEXT;
-						dispinfo.item.pszText = strNewImageText.GetBuffer(0);
-						dispinfo.item.cchTextMax = strNewImageText.GetLength();
+						nextDispinfo.item.mask |= LVIF_TEXT;
+						nextDispinfo.item.pszText = strNewImageText.GetBuffer(0);
+						nextDispinfo.item.cchTextMax = strNewImageText.GetLength();
 					}
 
-					owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+					owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&nextDispinfo );
 				}
 			}
 		}
@@ -392,8 +392,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	else if (nCol==0 && m_ToggleSelection && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
 	{
 		// Check if we should toggle the label-column checkboxes for all the selected rows
-		CRect labelRect;
-		if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && !labelRect.PtInRect(pt))
+		if (!labelRect.PtInRect(pt))
 		{
 			// The click event for check-boxes doesn't change selection or focus
 			if (owner.IsRowSelected(nRow))

@@ -151,6 +151,8 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	// Create control to edit the cell
 	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, rectCell);
 	VERIFY(pDateTimeCtrl!=NULL);
+	if (pDateTimeCtrl==NULL)
+		return NULL;
 
 	pDateTimeCtrl->SetTime(dateTime);
 

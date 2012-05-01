@@ -960,7 +960,7 @@ CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 	lvc.pszText = sColText;
 	lvc.cchTextMax = sizeof(sColText)-1;
 	VERIFY( GetColumn(nCol, &lvc) );
-	return lvc.pszText;
+	return CString(lvc.pszText, lvc.cchTextMax-1);
 }
 
 //------------------------------------------------------------------------
@@ -3085,10 +3085,10 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		case 3: ResetColumnDefaultState(); break;
 		default:
 		{
-			int nCol = nResult-4;
-			if (nCol < GetColumnCount())
+			int nShowCol = nResult-4;
+			if (nShowCol < GetColumnCount())
 			{
-				ShowColumn(nCol, !IsColumnVisible(nCol));
+				ShowColumn(nShowCol, !IsColumnVisible(nShowCol));
 			}
 			else
 			{
