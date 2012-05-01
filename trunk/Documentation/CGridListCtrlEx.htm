@@ -1,8 +1,9 @@
 <span id="ArticleContent">
-<ul class="download">
-<li><a href="CGridListCtrlEx/CGridListCtrlEx.zip">Download source code - 76.96 KB</a> </li>
 
-<li><a href="CGridListCtrlEx/CGridListCtrlEx_Demo.zip">Download demo - 754.33 KB</a> </li>
+<ul class="download">
+<li><a href="cgridlistctrlex.zip">Download source code - 76.96 KB</a> </li>
+
+<li><a href="cgridlistctrlex_demo.zip">Download demo - 754.33 KB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -29,12 +30,11 @@
 <li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a> </li>
 
 <li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (includes reordering of items) </li>
-
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
 
-<p><img width="497" height="292" alt="screenshot.png" src="CGridListCtrlEx/screenshot.png" complete="true" /></p>
+<p><img width="497" height="292" alt="screenshot.png" src="screenshot.png" complete="true" /></p>
 
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
@@ -105,6 +105,17 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <h4>Formatting Cells/Subitems</h4>
 
 <p>If we want to change the foreground/background color or the font style (bold, italic, underline), then we can override the methods <code>CGridListCtrlEx::OnDisplayCellColor()</code> and <code>CGridListCtrlEx::OnDisplayCellFont()</code>.</p>
+
+<pre lang="C++">bool MyGridCtrl::OnDisplayCellColor(int nRow, int nCol, COLORREF&amp; textColor, COLORREF&amp; backColor)
+{
+   if (nRow == 3 && nCol == 3)
+   {
+      textColor = RGB(0,255,0);
+      backColor = RGB(0,0,255);
+      return true;  // I want to override the color of this cell
+   }
+   return false;  // Use default color
+}</pre>
 
 <h4>Displaying Cell/Subitem Images</h4>
 
@@ -214,7 +225,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <ul>
 <li><code>CGridColumnTraitText</code> - Implements cell formatting 
 <ul>
-
 <li><code>CGridColumnTraitImage</code> - Implements cell editing by switching between images (can mimic a checkbox) 
 <ul>
 <li><code>CGridColumnTraitEdit</code> - Implements cell editing with <code>CEdit</code> </li>
@@ -230,7 +240,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </li>
 
 <li><code>CGridRowTrait</code> - Specifies the interface of a row trait 
-
 <ul>
 <li><code>CGridRowTraitText</code> - Implements row formatting </li>
 
@@ -240,7 +249,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><code>CViewConfigSection</code> - Abstract interface for persisting column setup 
 <ul>
-
 <li><code>CViewConfigSectionWinApp</code> - Implements the interface and can switch between multiple column setups. </li>
 </ul>
 </li>
@@ -351,7 +359,6 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 
 <li><strong>Version 1.8</strong> (2010-10-01) 
 <ul>
-
 <li>Made <code>CGridColumnTraitImage</code> a base class for all editor column traits, so they all can mimic checkbox support </li>
 
 <li>Implemented multiple selection checkbox support, so checkboxes are flipped for all selected rows </li>
@@ -371,6 +378,21 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 <li>Removed <code>CGridColumnManager</code> and moved <code>LoadState</code>/<code>SaveState </code>into <code>CGridListCtrlEx</code> (breaking change) </li>
 </ul>
 </li>
+
+<li><strong>Version 2.0</strong> (2012-05-01) 
+<ul>
+<li>Added copy/paste support for <code>CDateTimeCtrl</code> editor (<code>DTS_APPCANPARSE</code>)</li>
+
+<li>When having grouped by column, then column header click now sorts instead of grouping by column</li>
+
+<li>Changed the row sorting to be case insensitive by default</li>
+
+<li>Fixed bug where cell editor discarded changes performed using the mouse (copy/paste using context menu)</li>
+
+<li>Fixed several compiler warnings, and small bugs</li>
+</ul>
+</li>
+
 </ul>
 
 </span>
