@@ -2339,9 +2339,9 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 
 	// Editor Control automatically kills themselves after posting this message
-	m_pEditor = NULL;
-	if( GetFocus() != this )
+	if( GetFocus() == m_pEditor )
 		SetFocus();
+	m_pEditor = NULL;
 	return FALSE;		// Parent dialog should get a chance
 }
 
