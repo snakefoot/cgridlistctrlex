@@ -104,6 +104,14 @@ CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRo
 	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems);
 	VERIFY( pComboBox->Create( WS_CHILD | m_ComboBoxStyle, rect, &owner, 0) );
 
+	HDITEM hd = {0};
+	hd.mask = HDI_FORMAT;
+	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
+	if (hd.fmt & HDF_RIGHT)
+		pComboBox->ModifyStyleEx(0,WS_EX_RIGHT);
+	else
+		pComboBox->ModifyStyleEx(0,WS_EX_LEFT);
+
 	// Configure font
 	pComboBox->SetFont(owner.GetCellFont());
 	return pComboBox;
