@@ -244,7 +244,7 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 			}
 		}
 
-		if (m_ImageIndexes.GetSize()==0)
+		if (m_ImageIndexes.GetSize()<=1)
 			return startEdit ? 1 : 0;	// No images to flip between
 
 		CRect iconRect;
@@ -267,7 +267,7 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 //------------------------------------------------------------------------
 int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	if (m_ImageIndexes.GetSize()==0)
+	if (m_ImageIndexes.GetSize()<=1)
 		return -1;
 
 	int nImageIdx = owner.GetCellImage(nRow, nCol);
