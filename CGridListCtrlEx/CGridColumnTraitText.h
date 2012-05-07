@@ -29,8 +29,9 @@ protected:
 	COLORREF m_BackColor;	//!< Background color to use for this column
 	bool m_SortFormatNumber;//!< Column contains integers
 
-	virtual bool UpdateTextColor(COLORREF& textColor);
-	virtual bool UpdateBackColor(COLORREF& backColor);
+	virtual bool UpdateTextFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& textFont);
+	virtual bool UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& textColor);
+	virtual bool UpdateBackColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& backColor);
 
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int GetCellFontHeight(CGridListCtrlEx& owner);
