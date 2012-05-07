@@ -208,6 +208,7 @@ END_MESSAGE_MAP()
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param pColumnTrait The parent column trait, used for datetime validation
 //------------------------------------------------------------------------
 CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait)
 	:m_Row(nRow)
