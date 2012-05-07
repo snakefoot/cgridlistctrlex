@@ -95,8 +95,11 @@ CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nC
 	pEdit->SetFont(owner.GetCellFont());
 
 	// First item (Label) doesn't have a margin (Subitems does)
-	if (nCol==0)
+	if (nCol==0 || (hd.fmt & HDF_CENTER))
 		pEdit->SetMargins(0, 0);
+	else
+	if (hd.fmt & HDF_RIGHT)
+		pEdit->SetMargins(0, 7);
 	else
 		pEdit->SetMargins(4, 0);
 
