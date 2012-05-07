@@ -338,6 +338,8 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 		dispinfo.item.cchTextMax = str.GetLength();
 		dispinfo.item.lParam = (LPARAM)GetItemData(GetCurSel());
 	}
+	if (::GetFocus()==m_Edit.GetSafeHwnd())
+		GetParent()->SetFocus();	// Force close the internal CEdit control
 	ShowWindow(SW_HIDE);
 	GetParent()->GetParent()->SendMessage( WM_NOTIFY, (WPARAM)GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
 	PostMessage(WM_CLOSE);
