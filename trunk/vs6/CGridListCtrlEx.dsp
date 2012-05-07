@@ -163,14 +163,6 @@ SOURCE=..\CGridListCtrlEx\CGridColumnTrait.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\CGridListCtrlEx\CGridColumnTraitCombo.cpp
 # End Source File
 # Begin Source File
@@ -192,6 +184,22 @@ SOURCE=..\CGridListCtrlEx\CGridColumnTraitEdit.cpp
 # Begin Source File
 
 SOURCE=..\CGridListCtrlEx\CGridColumnTraitEdit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitHyperLink.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitHyperLink.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.h
 # End Source File
 # Begin Source File
 

@@ -284,6 +284,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitHyperLink.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitText.cpp"
 					>
 				</File>
@@ -329,6 +333,10 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitHyperLink.h"
 					>
 				</File>
 				<File

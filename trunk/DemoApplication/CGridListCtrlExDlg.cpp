@@ -9,6 +9,7 @@
 #include "..\CGridListCtrlEx\CGridColumnTraitDateTime.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitEdit.h"
 #include "..\CGridListCtrlEx\CGridColumnTraitCombo.h"
+#include "..\CGridListCtrlEx\CGridColumnTraitHyperLink.h"
 #include "..\CGridListCtrlEx\CGridRowTraitXP.h"
 #include "..\CGridListCtrlEx\ViewConfigSection.h"
 
@@ -148,6 +149,12 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			pDateTimeTrait->AddImageIndex(nStateImageIdx+1, COleDateTime(1970,1,1,0,0,0).Format(), true);	// Checked (and editable)
 			pDateTimeTrait->SetToggleSelection(true);
 			pTrait = pDateTimeTrait;
+		}
+		if (col==3)	// Year won
+		{
+			CGridColumnTraitHyperLink* pHyperLinkTrait = new CGridColumnTraitHyperLink;
+			pHyperLinkTrait->SetShellFilePrefix(_T("http://en.wikipedia.org/wiki/UEFA_Euro_"));
+			pTrait = pHyperLinkTrait;
 		}
 
 		m_ListCtrl.InsertColumnTrait(col+1, title, LVCFMT_LEFT, 100, col, pTrait);
