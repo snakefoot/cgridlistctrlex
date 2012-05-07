@@ -35,10 +35,11 @@ void CGridColumnTraitText::Accept(CGridColumnTraitVisitor& visitor)
 //------------------------------------------------------------------------
 //! Changes the text color if one is specified
 //!
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
 //! @param textColor Current text color
 //! @return New text color was specified (true / false)
 //------------------------------------------------------------------------
-bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
+bool CGridColumnTraitText::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& textColor)
 {
 	if (m_TextColor!=COLORREF(-1))
 	{
@@ -51,16 +52,29 @@ bool CGridColumnTraitText::UpdateTextColor(COLORREF& textColor)
 //------------------------------------------------------------------------
 //! Changes the background color if one is specified
 //!
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
 //! @param backColor Current background color
 //! @return New background color was specified (true / false)
 //------------------------------------------------------------------------
-bool CGridColumnTraitText::UpdateBackColor(COLORREF& backColor)
+bool CGridColumnTraitText::UpdateBackColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& backColor)
 {
 	if (m_BackColor!=COLORREF(-1))
 	{
 		backColor = m_BackColor;
 		return true;
 	}
+	return false;
+}
+
+//------------------------------------------------------------------------
+//! Specifies af the font color if one is specified
+//!
+//! @param pLVCD Pointer to NMLVCUSTOMDRAW structure
+//! @param textFont New font specification
+//! @return New font was specified (true / false)
+//------------------------------------------------------------------------
+bool CGridColumnTraitText::UpdateTextFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& textFont)
+{
 	return false;
 }
 
@@ -83,17 +97,19 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			m_OldBackColor = pLVCD->clrTextBk;
 
 			// Only change cell colors when not selected
-			if (UpdateTextColor(pLVCD->clrText))
+			if (UpdateTextColor(pLVCD, pLVCD->clrText))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
-			if (UpdateBackColor(pLVCD->clrTextBk))
+			if (UpdateBackColor(pLVCD, pLVCD->clrTextBk))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			if (owner.OnDisplayCellColor(pLVCD))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
 			LOGFONT newFont = {0};
-			if (owner.OnDisplayCellFont(pLVCD, newFont))
+			bool createFont = owner.OnDisplayCellFont(pLVCD, newFont);
+			createFont |= UpdateTextFont(pLVCD, newFont);
+			if (createFont)
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;
@@ -113,6 +129,7 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = pDC->SelectObject(m_pOldFont);
 				delete pNewFont;
+				m_pOldFont = NULL;
 			}
 
 			pLVCD->clrText = m_OldTextColor;

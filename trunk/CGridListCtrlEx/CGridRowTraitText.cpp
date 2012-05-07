@@ -229,6 +229,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 					m_FontAllocated = false;
 					delete pNewFont;
 				}
+				m_pOldFont = NULL;
 			}
 
 			if (CRect(pLVCD->nmcd.rc)==CRect(0,0,0,0))
