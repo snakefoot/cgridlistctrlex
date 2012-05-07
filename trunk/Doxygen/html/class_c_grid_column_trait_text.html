@@ -52,11 +52,12 @@ Inheritance diagram for CGridColumnTraitText:</div>
  <div class="center">
   <img src="class_c_grid_column_trait_text.png" usemap="#CGridColumnTraitText_map" alt=""/>
   <map id="CGridColumnTraitText_map" name="CGridColumnTraitText_map">
-<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="174,0,338,24"/>
-<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="174,112,338,136"/>
-<area href="class_c_grid_column_trait_combo.html" alt="CGridColumnTraitCombo" shape="rect" coords="0,168,164,192"/>
-<area href="class_c_grid_column_trait_date_time.html" alt="CGridColumnTraitDateTime" shape="rect" coords="174,168,338,192"/>
-<area href="class_c_grid_column_trait_edit.html" alt="CGridColumnTraitEdit" shape="rect" coords="348,168,512,192"/>
+<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="270,0,440,24"/>
+<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="270,112,440,136"/>
+<area href="class_c_grid_column_trait_combo.html" alt="CGridColumnTraitCombo" shape="rect" coords="0,168,170,192"/>
+<area href="class_c_grid_column_trait_date_time.html" alt="CGridColumnTraitDateTime" shape="rect" coords="180,168,350,192"/>
+<area href="class_c_grid_column_trait_edit.html" alt="CGridColumnTraitEdit" shape="rect" coords="360,168,530,192"/>
+<area href="class_c_grid_column_trait_hyper_link.html" alt="CGridColumnTraitHyperLink" shape="rect" coords="540,168,710,192"/>
 </map>
  </div>
 </div>
@@ -76,10 +77,12 @@ Inheritance diagram for CGridColumnTraitText:</div>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#afdb6c2f36cf8cdb44c62afa69c736d84">SetSortFormatNumber</a> (bool bValue)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should cell values be compared as numbers when sorting.  <a href="#afdb6c2f36cf8cdb44c62afa69c736d84"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a500631f1f439f0a063ec918a7a2b1640">UpdateTextColor</a> (COLORREF &amp;textColor)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the text color if one is specified.  <a href="#a500631f1f439f0a063ec918a7a2b1640"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a93851ab2e2ad899bddaab16f3a04c69c">UpdateBackColor</a> (COLORREF &amp;backColor)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the background color if one is specified.  <a href="#a93851ab2e2ad899bddaab16f3a04c69c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a02616da1f73d28e49a1c0ce6baca01ac">UpdateTextFont</a> (NMLVCUSTOMDRAW *pLVCD, LOGFONT &amp;textFont)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specifies af the font color if one is specified.  <a href="#a02616da1f73d28e49a1c0ce6baca01ac"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a3c255e5e444d504b037ba49608aaf460">UpdateTextColor</a> (NMLVCUSTOMDRAW *pLVCD, COLORREF &amp;textColor)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the text color if one is specified.  <a href="#a3c255e5e444d504b037ba49608aaf460"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a829800d676cfee5e9cd27a4f19c6cb19">UpdateBackColor</a> (NMLVCUSTOMDRAW *pLVCD, COLORREF &amp;backColor)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the background color if one is specified.  <a href="#a829800d676cfee5e9cd27a4f19c6cb19"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a105b61e35243056a6ebab4e5677fdfa5"></a><!-- doxytag: member="CGridColumnTraitText::Accept" ref="a105b61e35243056a6ebab4e5677fdfa5" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_text.html#a105b61e35243056a6ebab4e5677fdfa5">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
@@ -348,17 +351,26 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a93851ab2e2ad899bddaab16f3a04c69c"></a><!-- doxytag: member="CGridColumnTraitText::UpdateBackColor" ref="a93851ab2e2ad899bddaab16f3a04c69c" args="(COLORREF &amp;backColor)" -->
+<a class="anchor" id="a829800d676cfee5e9cd27a4f19c6cb19"></a><!-- doxytag: member="CGridColumnTraitText::UpdateBackColor" ref="a829800d676cfee5e9cd27a4f19c6cb19" args="(NMLVCUSTOMDRAW *pLVCD, COLORREF &amp;backColor)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool CGridColumnTraitText::UpdateBackColor </td>
           <td>(</td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">COLORREF &amp;&nbsp;</td>
-          <td class="paramname"> <em>backColor</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected, virtual]</code></td>
+          <td class="paramname"> <em>backColor</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -367,6 +379,7 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Changes the background color if one is specified. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>backColor</em>&nbsp;</td><td>Current background color </td></tr>
   </table>
   </dd>
@@ -375,17 +388,26 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a500631f1f439f0a063ec918a7a2b1640"></a><!-- doxytag: member="CGridColumnTraitText::UpdateTextColor" ref="a500631f1f439f0a063ec918a7a2b1640" args="(COLORREF &amp;textColor)" -->
+<a class="anchor" id="a3c255e5e444d504b037ba49608aaf460"></a><!-- doxytag: member="CGridColumnTraitText::UpdateTextColor" ref="a3c255e5e444d504b037ba49608aaf460" args="(NMLVCUSTOMDRAW *pLVCD, COLORREF &amp;textColor)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool CGridColumnTraitText::UpdateTextColor </td>
           <td>(</td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">COLORREF &amp;&nbsp;</td>
-          <td class="paramname"> <em>textColor</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected, virtual]</code></td>
+          <td class="paramname"> <em>textColor</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -394,11 +416,53 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Changes the text color if one is specified. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>textColor</em>&nbsp;</td><td>Current text color </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>New text color was specified (true / false) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_hyper_link.html#ac5875c2e0325a39e7f0bc85170ce5895">CGridColumnTraitHyperLink</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a02616da1f73d28e49a1c0ce6baca01ac"></a><!-- doxytag: member="CGridColumnTraitText::UpdateTextFont" ref="a02616da1f73d28e49a1c0ce6baca01ac" args="(NMLVCUSTOMDRAW *pLVCD, LOGFONT &amp;textFont)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitText::UpdateTextFont </td>
+          <td>(</td>
+          <td class="paramtype">NMLVCUSTOMDRAW *&nbsp;</td>
+          <td class="paramname"> <em>pLVCD</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LOGFONT &amp;&nbsp;</td>
+          <td class="paramname"> <em>textFont</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Specifies af the font color if one is specified. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pLVCD</em>&nbsp;</td><td>Pointer to NMLVCUSTOMDRAW structure </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>textFont</em>&nbsp;</td><td>New font specification </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>New font was specified (true / false) </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_hyper_link.html#aed49ea587d454cf8857d778e289c6880">CGridColumnTraitHyperLink</a>.</p>
 
 </div>
 </div>
