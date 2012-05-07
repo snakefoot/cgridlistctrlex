@@ -5,7 +5,7 @@ struct CListCtrl_DataRecord
 	CListCtrl_DataRecord()
 	{}
 
-	CListCtrl_DataRecord(const CString& city, const CString& country, int year)
+	CListCtrl_DataRecord(const CString& city, const CString& country, COleDateTime year)
 		:m_City(city)
 		,m_Country(country)
 		,m_YearWon(year)
@@ -13,7 +13,7 @@ struct CListCtrl_DataRecord
 
 	CString	m_City;
 	CString	m_Country;
-	int     m_YearWon;
+	COleDateTime m_YearWon;
 
 	CString GetCellText(int col, bool title) const
 	{
@@ -21,12 +21,13 @@ struct CListCtrl_DataRecord
 		{
 		case 0: { static const CString title0(_T("Country")); return title ? title0 : m_Country; }
 		case 1: { static const CString title1(_T("Capital")); return title ? title1 : m_City; }
-		case 2: { static const CString title2(_T("European Championship")); return title ? title2 : m_YearWon ? COleDateTime(m_YearWon,1,1,0,0,0).Format() : CString(); }
+		case 2: { static const CString title2(_T("European Championship")); return title ? title2 : m_YearWon.GetStatus()==m_YearWon.valid ? m_YearWon.Format() : CString(); }
+		case 3: { static const CString title3(_T("Wiki")); return title ? title3 : m_YearWon.GetStatus()==m_YearWon.valid ? m_YearWon.Format(_T("%Y")) : CString(); }
 		default:{ static const CString emptyStr; return emptyStr; }
 		}
 	}
 
-	int  GetColCount() const { return 3; }
+	int  GetColCount() const { return 4; }
 };
 
 class CListCtrl_DataModel
@@ -46,12 +47,12 @@ public:
 	void InitDataModel()
 	{
 		m_Records.clear();
-		m_Records.push_back( CListCtrl_DataRecord(_T("Copenhagen"), _T("Denmark"), 1992) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Berlin"), _T("Germany"), 1996) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Paris"), _T("France"), 2000) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Athen"), _T("Greece"), 2004) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweden"), 0) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Barcelona"), _T("Spain"), 2008) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Copenhagen"), _T("Denmark"), COleDateTime(1992,6,26,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Berlin"), _T("Germany"), COleDateTime(1996,6,30,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Paris"), _T("France"), COleDateTime(2000,7,2,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Athen"), _T("Greece"), COleDateTime(2004,7,4,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweden"), COleDateTime(0,0,0,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Barcelona"), _T("Spain"), COleDateTime(2008,6,29,0,0,0)) );
 
 		if (m_RowMultiplier > 1)
 		{
