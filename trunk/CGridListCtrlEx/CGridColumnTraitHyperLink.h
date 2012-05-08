@@ -25,6 +25,9 @@ public:
 	void SetShellOperation(const CString& strShellOperation);
 	CString GetShellOperation() const;
 
+	void SetShellApplication(const CString& strShellAppliction);
+	CString GetShellApplication() const;
+
 	void SetShellFilePrefix(const CString& strShellFilePrefix);
 	CString GetShellFilePrefix() const;
 
@@ -47,6 +50,7 @@ protected:
 	COLORREF m_LinkColor;
 	COLORREF m_LinkColorHot;
 	CString m_ShellOperation;
+	CString m_ShellApplication;
 	CString m_ShellFilePrefix;
 	CString m_ShellFileSuffix;
 	INT		m_ShellShowCommand;
