@@ -91,6 +91,8 @@ public:
 	virtual CFont* GetCellFont();
 	virtual void SetCellMargin(double margin);
 	void SetEmptyMarkupText(const CString& strText);
+	void SetTooltipMaxWidth(int width) { m_TooltipMaxWidth = width; }
+	int GetTooltipMaxWidth() const { return m_TooltipMaxWidth; }
 	static bool CheckOSVersion(WORD requestOS);
 
 	// Row
@@ -207,6 +209,8 @@ protected:
 	CWnd* m_pEditor;			//!< Cell value editor currently in use
 
 	bool m_UsingVisualStyle;	//!< Vista Style has been enabled (alpha blend)
+
+	int m_TooltipMaxWidth;		//!< Whether tooltips should be split in multiple lines
 
 	// Maintaining margin
 	CFont m_GridFont;			//!< Original font of the the list control
