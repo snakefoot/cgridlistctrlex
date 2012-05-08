@@ -69,6 +69,24 @@ CString CGridColumnTraitHyperLink::GetShellOperation() const
 }
 
 //------------------------------------------------------------------------
+//! Set the ShellExecute application to use to launch the file specifier
+//!
+//! @param strShellAppliction Application path (If blank then it just uses the default handler for the file type)
+//------------------------------------------------------------------------
+void CGridColumnTraitHyperLink::SetShellApplication(const CString& strShellAppliction)
+{
+	m_ShellApplication = strShellAppliction;
+}
+
+//------------------------------------------------------------------------
+//! Get the ShellExecute application to use to launch the file specifier
+//------------------------------------------------------------------------
+CString CGridColumnTraitHyperLink::GetShellApplication() const
+{
+	return m_ShellApplication;
+}
+
+//------------------------------------------------------------------------
 //! Set the file specifier prefix for the ShellExecute operation
 //! (Ex. protocol details like 'mailto:' or 'http://')
 //!
@@ -252,5 +270,8 @@ void CGridColumnTraitHyperLink::OnShellExecute(CGridListCtrlEx& owner, int nRow,
 {
 	(nRow);	// Avoid unreferenced variable warning
 	(nCol);	// Avoid unreferenced variable warning
-	ShellExecute(owner.m_hWnd, m_ShellOperation.IsEmpty() ? (LPCTSTR)NULL : static_cast<LPCTSTR>(m_ShellOperation), m_ShellFilePrefix + cellText + m_ShellFileSuffix, NULL, NULL, m_ShellShowCommand);
+	if (m_ShellApplication.IsEmpty())
+		ShellExecute(owner.m_hWnd, m_ShellOperation.IsEmpty() ? (LPCTSTR)NULL : static_cast<LPCTSTR>(m_ShellOperation), m_ShellFilePrefix + cellText + m_ShellFileSuffix, NULL, NULL, m_ShellShowCommand);
+	else
+		ShellExecute(owner.m_hWnd, m_ShellOperation.IsEmpty() ? (LPCTSTR)NULL : static_cast<LPCTSTR>(m_ShellOperation), m_ShellApplication, m_ShellFilePrefix + cellText + m_ShellFileSuffix, NULL, m_ShellShowCommand);
 }
