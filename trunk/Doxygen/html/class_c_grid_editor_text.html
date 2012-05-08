@@ -55,6 +55,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_editor_text.html" title="CEdit for inplace edit. For internal use by CGridColumnTraitEdit.">CGridEditorText</a> - Constructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a8e811f383b21d7a53e6245f584a8fd69">EndEdit</a> (bool bSuccess)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The cell value editor was closed and the entered should be saved.  <a href="#a8e811f383b21d7a53e6245f584a8fd69"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3cf99dcb67c5c9dbe4e78794df67740"></a><!-- doxytag: member="CGridEditorText::SetLineHeight" ref="af3cf99dcb67c5c9dbe4e78794df67740" args="(int nLineHeight)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetLineHeight</b> (int nLineHeight)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8ef16bdf2b6398a9e82dfcb33ed5763"></a><!-- doxytag: member="CGridEditorText::SetMaxLines" ref="af8ef16bdf2b6398a9e82dfcb33ed5763" args="(UINT nMaxLines)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMaxLines</b> (UINT nMaxLines)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a9ba8fb9ddf7a8650ddfacef3e54ba4ea">SetInitialText</a> (const CString &amp;cellText)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The CEdit will fire an EN_CHANGE event for the initial cell text.  <a href="#a9ba8fb9ddf7a8650ddfacef3e54ba4ea"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a6f099dde071e9337d7a3812b1729301c">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CEdit is loosing focus to other control.  <a href="#a6f099dde071e9337d7a3812b1729301c"></a><br/></td></tr>
@@ -80,8 +86,15 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9debb990b92dd17c637b20f0a93d4d9"></a><!-- doxytag: member="CGridEditorText::m_Modified" ref="af9debb990b92dd17c637b20f0a93d4d9" args="" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#af9debb990b92dd17c637b20f0a93d4d9">m_Modified</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register if text was modified while the editor was open. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a237f9c053e3e4ba0346a67f68ad1ba85"></a><!-- doxytag: member="CGridEditorText::m_InitialModify" ref="a237f9c053e3e4ba0346a67f68ad1ba85" args="" -->
-bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_InitialModify</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4eb201237cc38379a4cd23032502829"></a><!-- doxytag: member="CGridEditorText::m_InitialText" ref="ab4eb201237cc38379a4cd23032502829" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#ab4eb201237cc38379a4cd23032502829">m_InitialText</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initial text modication should not set that the editor text was modified. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b7abadcee62b3b2c36aebac44333827"></a><!-- doxytag: member="CGridEditorText::m_LineHeight" ref="a1b7abadcee62b3b2c36aebac44333827" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a1b7abadcee62b3b2c36aebac44333827">m_LineHeight</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The height of a single line (depends on current font). <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1fcffea996c9155f992f8e0fb95e9394"></a><!-- doxytag: member="CGridEditorText::m_MaxLines" ref="a1fcffea996c9155f992f8e0fb95e9394" args="" -->
+UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a1fcffea996c9155f992f8e0fb95e9394">m_MaxLines</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max number of lines the CEdit will display at a time. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>CEdit for inplace edit. For internal use by <a class="el" href="class_c_grid_column_trait_edit.html" title="CGridColumnTraitEdit implements a CEdit as cell-editor.">CGridColumnTraitEdit</a>. </p>
@@ -184,6 +197,33 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_InitialModify</b></
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if the message was translated and should not be dispatched; 0 if the message was not translated and should be dispatched. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9ba8fb9ddf7a8650ddfacef3e54ba4ea"></a><!-- doxytag: member="CGridEditorText::SetInitialText" ref="a9ba8fb9ddf7a8650ddfacef3e54ba4ea" args="(const CString &amp;cellText)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorText::SetInitialText </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>cellText</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The CEdit will fire an EN_CHANGE event for the initial cell text. </p>
+<p>The initial EN_CHANGE event should not be seen as a text modification</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cellText</em>&nbsp;</td><td>Initial CEdit text </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
