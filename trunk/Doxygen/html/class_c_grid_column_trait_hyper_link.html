@@ -80,6 +80,11 @@ COLORREF&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a52a2dde86f76718f58391cfc5d4be7"></a><!-- doxytag: member="CGridColumnTraitHyperLink::GetShellOperation" ref="a3a52a2dde86f76718f58391cfc5d4be7" args="() const " -->
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a3a52a2dde86f76718f58391cfc5d4be7">GetShellOperation</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the ShellExecute file operation to perform on the file-specifier. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#ac9c5f06903a508d70d2b561f1d9f8394">SetShellApplication</a> (const CString &amp;strShellAppliction)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the ShellExecute application to use to launch the file specifier.  <a href="#ac9c5f06903a508d70d2b561f1d9f8394"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77c4ade2d1cb0d44d8f925cb900cbbf3"></a><!-- doxytag: member="CGridColumnTraitHyperLink::GetShellApplication" ref="a77c4ade2d1cb0d44d8f925cb900cbbf3" args="() const " -->
+CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a77c4ade2d1cb0d44d8f925cb900cbbf3">GetShellApplication</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the ShellExecute application to use to launch the file specifier. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#aba3650c29322dffb260808533fd17dd4">SetShellFilePrefix</a> (const CString &amp;strShellFilePrefix)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the file specifier prefix for the ShellExecute operation (Ex.  <a href="#aba3650c29322dffb260808533fd17dd4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83ec29ab483b4ce4d082eeb6fdbc89b5"></a><!-- doxytag: member="CGridColumnTraitHyperLink::GetShellFilePrefix" ref="a83ec29ab483b4ce4d082eeb6fdbc89b5" args="() const " -->
@@ -117,6 +122,8 @@ COLORREF&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_LinkColor</b></
 COLORREF&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_LinkColorHot</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3851dd827c46daaf5579979c4da9fd33"></a><!-- doxytag: member="CGridColumnTraitHyperLink::m_ShellOperation" ref="a3851dd827c46daaf5579979c4da9fd33" args="" -->
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_ShellOperation</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a875aeffd9ad3b5807982dade337e853f"></a><!-- doxytag: member="CGridColumnTraitHyperLink::m_ShellApplication" ref="a875aeffd9ad3b5807982dade337e853f" args="" -->
+CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_ShellApplication</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a842cb9b13e03a88a61a04e5cf5cf44b8"></a><!-- doxytag: member="CGridColumnTraitHyperLink::m_ShellFilePrefix" ref="a842cb9b13e03a88a61a04e5cf5cf44b8" args="" -->
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_ShellFilePrefix</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75b77cf332b585084a1d3c6d673f4ca0"></a><!-- doxytag: member="CGridColumnTraitHyperLink::m_ShellFileSuffix" ref="a75b77cf332b585084a1d3c6d673f4ca0" args="" -->
@@ -433,6 +440,32 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><b>m_ShellShowCommand</b>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>linkColor</em>&nbsp;</td><td>RGB colors to use when drawing the link text </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ac9c5f06903a508d70d2b561f1d9f8394"></a><!-- doxytag: member="CGridColumnTraitHyperLink::SetShellApplication" ref="ac9c5f06903a508d70d2b561f1d9f8394" args="(const CString &amp;strShellAppliction)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitHyperLink::SetShellApplication </td>
+          <td>(</td>
+          <td class="paramtype">const CString &amp;&nbsp;</td>
+          <td class="paramname"> <em>strShellAppliction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the ShellExecute application to use to launch the file specifier. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>strShellAppliction</em>&nbsp;</td><td>Application path (If blank then it just uses the default handler for the file type) </td></tr>
   </table>
   </dd>
 </dl>
