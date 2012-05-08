@@ -47,11 +47,11 @@ protected:
 	virtual void OnShellExecute(CGridListCtrlEx& owner, int nRow, int nCol, const CString& cellText);
 	virtual CRect GetTextRect(CGridListCtrlEx& owner, int nRow, int nCol, const CString& cellText);
 
-	COLORREF m_LinkColor;
-	COLORREF m_LinkColorHot;
-	CString m_ShellOperation;
-	CString m_ShellApplication;
-	CString m_ShellFilePrefix;
-	CString m_ShellFileSuffix;
-	INT		m_ShellShowCommand;
+	COLORREF m_LinkColor;			//!< Standard link Color
+	COLORREF m_LinkColorHot;		//!< Hot link color (mouse over)
+	CString m_ShellOperation;		//!< ShellExecute operation (Ex. "open")
+	CString m_ShellApplication;		//!< ShellExecute application (If blank it launches cell text with default application)
+	CString m_ShellFilePrefix;		//!< ShellExecute file specifier prefix
+	CString m_ShellFileSuffix;		//!< ShellExecute file specifier suffix
+	INT		m_ShellShowCommand;		//!< ShellExecute show application flags (Ex. SW_SHOWNORMAL)
 };

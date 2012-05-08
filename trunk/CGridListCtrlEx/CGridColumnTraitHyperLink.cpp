@@ -185,7 +185,7 @@ bool CGridColumnTraitHyperLink::UpdateTextFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& t
 CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, int nCol, const CString& cellText)
 {
 	CRect rect;
-	ASSERT(nItem != -1);
+	ASSERT(nRow != -1);
 	CDC* pDC = owner.GetDC();
 	CFont* pOldFont = pDC->SelectObject(owner.GetCellFont());
 	CSize size = pDC->GetTextExtent(cellText);
