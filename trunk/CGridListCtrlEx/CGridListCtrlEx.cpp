@@ -186,6 +186,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 	,m_pColumnConfig(NULL)
 	,m_bConfigOwner(false)
 	,m_InvalidateMarkupText(true)
+	,m_TooltipMaxWidth(SHRT_MAX)
 {}
 
 //------------------------------------------------------------------------
@@ -2087,6 +2088,15 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	CString tooltip;
 	if (!OnDisplayCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
 		return FALSE;
+
+	if (m_TooltipMaxWidth > 0)
+	{
+#if _MFC_VER <= 0x0600
+		AfxGetThreadState()->m_pToolTip->SetMaxTipWidth(m_TooltipMaxWidth);
+#else
+		AfxGetModuleThreadState()->m_pToolTip->SetMaxTipWidth(m_TooltipMaxWidth);
+#endif
+	}
 
 	// Non-unicode applications can receive requests for tooltip-text in unicode
 	TOOLTIPTEXTA* pTTTA = reinterpret_cast<TOOLTIPTEXTA*>(pNMHDR);
