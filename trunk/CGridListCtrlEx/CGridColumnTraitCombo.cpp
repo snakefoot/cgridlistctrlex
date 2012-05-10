@@ -96,13 +96,14 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 //! @param owner The list control starting a cell edit
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param dwStyle The windows style to use when creating the CEdit
 //! @param rect The rectangle where the inplace cell value editor should be placed
 //! @return Pointer to the cell editor to use
 //------------------------------------------------------------------------
-CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
+CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
 	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems);
-	VERIFY( pComboBox->Create( WS_CHILD | m_ComboBoxStyle, rect, &owner, 0) );
+	VERIFY( pComboBox->Create( WS_CHILD | dwStyle, rect, &owner, 0) );
 
 	HDITEM hd = {0};
 	hd.mask = HDI_FORMAT;
@@ -132,7 +133,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 
 	// Create edit control to edit the cell
 	//	- Stores the pointer, so elements can be dynamically added later
-	m_pComboBox = CreateComboBox(owner, nRow, nCol, rectCell);
+	m_pComboBox = CreateComboBox(owner, nRow, nCol, m_ComboBoxStyle, rectCell);
 	VERIFY(m_pComboBox!=NULL);
 
 	if (m_ComboList.GetSize()>0)
