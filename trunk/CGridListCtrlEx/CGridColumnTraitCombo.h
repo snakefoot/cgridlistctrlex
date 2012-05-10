@@ -27,6 +27,7 @@ public:
 
 	void LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel);
 	void AddItem(DWORD_PTR nItemData, const CString& strItemText);
+	void ClearFixedItems();
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) { return CGridColumnTraitImage::OnEditBegin(owner, nRow, nCol, pt); }

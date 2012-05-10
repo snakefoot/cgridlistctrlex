@@ -201,6 +201,14 @@ void CGridColumnTraitCombo::AddItem(DWORD_PTR nItemData, const CString& strItemT
 }
 
 //------------------------------------------------------------------------
+//! Clears the list of fixed combobox items
+//------------------------------------------------------------------------
+void CGridColumnTraitCombo::ClearFixedItems()
+{
+	m_ComboList.RemoveAll();
+}
+
+//------------------------------------------------------------------------
 //! Fills the combobox with the items of the fixed item-list
 //!
 //! @param comboList List of CComboBox items
