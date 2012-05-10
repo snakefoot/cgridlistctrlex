@@ -60,6 +60,7 @@ template<class T> class COleDropTargetWnd;
 //!		- CGridColumnTraitDateTime Implements cell editing using CDateTimeCtrl
 //!		- CGridColumnTraitHyperLink Implements cell behavior as hyperlinks
 //!		- CGridColumnTraitImage Implements cell editing using cell-image (can mimic checkbox)
+//!		- CGridColumnTraitMultilineEdit Implements cell editing using multiline CEdit 
 //! - CGridRowTrait provides an interface to perform custom drawing at row level
 //!		- CGridRowTraitText implements alternate row coloring
 //!			- CGridRowTraitXP removes the white background for cell images on WinXP
