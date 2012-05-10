@@ -91,8 +91,8 @@ Inheritance diagram for CGridColumnTraitCombo:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae78cb80f5de89141f014c05dba8d54db"></a><!-- doxytag: member="CGridColumnTraitCombo::Accept" ref="ae78cb80f5de89141f014c05dba8d54db" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ae78cb80f5de89141f014c05dba8d54db">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CComboBox *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#aeb67fd2a88977792ef9f78a637f809be">CreateComboBox</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, const CRect &amp;rect)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CComboBox as cell value editor.  <a href="#aeb67fd2a88977792ef9f78a637f809be"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CComboBox *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a1434b9bd4c30abca4c6980ad7c07c118">CreateComboBox</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CComboBox as cell value editor.  <a href="#a1434b9bd4c30abca4c6980ad7c07c118"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ab3aacff30e999c7989700e7e2e6cbe"></a><!-- doxytag: member="CGridColumnTraitCombo::m_ComboList" ref="a6ab3aacff30e999c7989700e7e2e6cbe" args="" -->
 CSimpleMap&lt; DWORD_PTR, CString &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a6ab3aacff30e999c7989700e7e2e6cbe">m_ComboList</a></td></tr>
@@ -149,7 +149,7 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="aeb67fd2a88977792ef9f78a637f809be"></a><!-- doxytag: member="CGridColumnTraitCombo::CreateComboBox" ref="aeb67fd2a88977792ef9f78a637f809be" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, const CRect &amp;rect)" -->
+<a class="anchor" id="a1434b9bd4c30abca4c6980ad7c07c118"></a><!-- doxytag: member="CGridColumnTraitCombo::CreateComboBox" ref="a1434b9bd4c30abca4c6980ad7c07c118" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -174,6 +174,12 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">DWORD&nbsp;</td>
+          <td class="paramname"> <em>dwStyle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const CRect &amp;&nbsp;</td>
           <td class="paramname"> <em>rect</em></td><td>&nbsp;</td>
         </tr>
@@ -192,6 +198,7 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting a cell edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dwStyle</em>&nbsp;</td><td>The windows style to use when creating the CEdit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The rectangle where the inplace cell value editor should be placed </td></tr>
   </table>
   </dd>

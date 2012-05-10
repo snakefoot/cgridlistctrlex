@@ -91,8 +91,8 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae5d750254c2499806fa7af709d32e7e"></a><!-- doxytag: member="CGridColumnTraitDateTime::Accept" ref="aae5d750254c2499806fa7af709d32e7e" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aae5d750254c2499806fa7af709d32e7e">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CDateTimeCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a513db893fdc200c67ba2dc19565fa5ee">CreateDateTimeCtrl</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, const CRect &amp;rect)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CDateTimeCtrl as cell value editor.  <a href="#a513db893fdc200c67ba2dc19565fa5ee"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CDateTimeCtrl *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a560a97e53255ed35cb6191c98fcc165b">CreateDateTimeCtrl</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CDateTimeCtrl as cell value editor.  <a href="#a560a97e53255ed35cb6191c98fcc165b"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43bc44c35d3fbc02141dadea71c4f33f"></a><!-- doxytag: member="CGridColumnTraitDateTime::m_Format" ref="a43bc44c35d3fbc02141dadea71c4f33f" args="" -->
 CString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a43bc44c35d3fbc02141dadea71c4f33f">m_Format</a></td></tr>
@@ -110,7 +110,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_date_time.html" title="CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor.">CGridColumnTraitDateTime</a> implements a CDateTimeCtrl as cell-editor. </p>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a513db893fdc200c67ba2dc19565fa5ee"></a><!-- doxytag: member="CGridColumnTraitDateTime::CreateDateTimeCtrl" ref="a513db893fdc200c67ba2dc19565fa5ee" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, const CRect &amp;rect)" -->
+<a class="anchor" id="a560a97e53255ed35cb6191c98fcc165b"></a><!-- doxytag: member="CGridColumnTraitDateTime::CreateDateTimeCtrl" ref="a560a97e53255ed35cb6191c98fcc165b" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -135,6 +135,12 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">DWORD&nbsp;</td>
+          <td class="paramname"> <em>dwStyle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const CRect &amp;&nbsp;</td>
           <td class="paramname"> <em>rect</em></td><td>&nbsp;</td>
         </tr>
@@ -153,6 +159,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting a cell edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dwStyle</em>&nbsp;</td><td>The windows style to use when creating the CEdit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The rectangle where the inplace cell value editor should be placed </td></tr>
   </table>
   </dd>

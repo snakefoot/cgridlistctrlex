@@ -52,9 +52,10 @@ Inheritance diagram for CGridColumnTraitEdit:</div>
  <div class="center">
   <img src="class_c_grid_column_trait_edit.png" usemap="#CGridColumnTraitEdit_map" alt=""/>
   <map id="CGridColumnTraitEdit_map" name="CGridColumnTraitEdit_map">
-<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="0,112,145,136"/>
-<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="0,56,145,80"/>
-<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="0,0,145,24"/>
+<area href="class_c_grid_column_trait_image.html" alt="CGridColumnTraitImage" shape="rect" coords="0,112,180,136"/>
+<area href="class_c_grid_column_trait_text.html" alt="CGridColumnTraitText" shape="rect" coords="0,56,180,80"/>
+<area href="class_c_grid_column_trait.html" alt="CGridColumnTrait" shape="rect" coords="0,0,180,24"/>
+<area href="class_c_grid_column_trait_multiline_edit.html" alt="CGridColumnTraitMultilineEdit" shape="rect" coords="0,224,180,248"/>
 </map>
  </div>
 </div>
@@ -75,11 +76,6 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd9adb29a9ef02acc602a0f093102463"></a><!-- doxytag: member="CGridColumnTraitEdit::GetLimitText" ref="acd9adb29a9ef02acc602a0f093102463" args="() const " -->
 UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#acd9adb29a9ef02acc602a0f093102463">GetLimitText</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get max number of characters the CEdit will accept. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#ab73e95a4c2bef4f2a6a62aa7f4f03cf3">SetMaxLines</a> (UINT nMaxLines)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set max number of lines that can the CEdit will display at a time For multiline editing then add these styles ES_MULTILINE | ES_WANTRETURN | ES_AUTOVSCROLL.  <a href="#ab73e95a4c2bef4f2a6a62aa7f4f03cf3"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f064d23ad87940a1ce4d8286a556c4d"></a><!-- doxytag: member="CGridColumnTraitEdit::GetMaxLines" ref="a3f064d23ad87940a1ce4d8286a556c4d" args="() const " -->
-UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#a3f064d23ad87940a1ce4d8286a556c4d">GetMaxLines</a> () const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get max number of lines that can the CEdit will display at a time. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c" title="Overrides OnEditBegin() to provide a CEdit cell value editor.">OnEditBegin()</a> to provide a CEdit cell value editor.  <a href="#acbb77050df8e1134f6840c0e4832007c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#aeb7493d9a5fadb6c0f6fa2281c14302a">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
@@ -88,8 +84,8 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af756c0562ed2a717dd67b38efab01c01"></a><!-- doxytag: member="CGridColumnTraitEdit::Accept" ref="af756c0562ed2a717dd67b38efab01c01" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#af756c0562ed2a717dd67b38efab01c01">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual CEdit *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#ad3224f55e198c7730dedf4a456056f4a">CreateEdit</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, const CRect &amp;rect, const CString &amp;cellText)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CEdit as cell value editor.  <a href="#ad3224f55e198c7730dedf4a456056f4a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CEdit *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#a0e79b8f7c0e9f51296bb870007f8e051">CreateEdit</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a CEdit as cell value editor.  <a href="#a0e79b8f7c0e9f51296bb870007f8e051"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adad126fd1fd246ddd6ae8140fe8371b9"></a><!-- doxytag: member="CGridColumnTraitEdit::m_EditStyle" ref="adad126fd1fd246ddd6ae8140fe8371b9" args="" -->
 DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#adad126fd1fd246ddd6ae8140fe8371b9">m_EditStyle</a></td></tr>
@@ -97,14 +93,11 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41b4fce3a436843cd23caffbc97912ca"></a><!-- doxytag: member="CGridColumnTraitEdit::m_EditLimitText" ref="a41b4fce3a436843cd23caffbc97912ca" args="" -->
 UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#a41b4fce3a436843cd23caffbc97912ca">m_EditLimitText</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max number of characters the CEdit will accept. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ae5a9f318c75f936c0a800ec749494c"></a><!-- doxytag: member="CGridColumnTraitEdit::m_EditMaxLines" ref="a4ae5a9f318c75f936c0a800ec749494c" args="" -->
-UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#a4ae5a9f318c75f936c0a800ec749494c">m_EditMaxLines</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max number of lines the CEdit will display at a time. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_edit.html" title="CGridColumnTraitEdit implements a CEdit as cell-editor.">CGridColumnTraitEdit</a> implements a CEdit as cell-editor. </p>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="ad3224f55e198c7730dedf4a456056f4a"></a><!-- doxytag: member="CGridColumnTraitEdit::CreateEdit" ref="ad3224f55e198c7730dedf4a456056f4a" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, const CRect &amp;rect, const CString &amp;cellText)" -->
+<a class="anchor" id="a0e79b8f7c0e9f51296bb870007f8e051"></a><!-- doxytag: member="CGridColumnTraitEdit::CreateEdit" ref="a0e79b8f7c0e9f51296bb870007f8e051" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol, DWORD dwStyle, const CRect &amp;rect)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -129,14 +122,14 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const CRect &amp;&nbsp;</td>
-          <td class="paramname"> <em>rect</em>, </td>
+          <td class="paramtype">DWORD&nbsp;</td>
+          <td class="paramname"> <em>dwStyle</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const CString &amp;&nbsp;</td>
-          <td class="paramname"> <em>cellText</em></td><td>&nbsp;</td>
+          <td class="paramtype">const CRect &amp;&nbsp;</td>
+          <td class="paramname"> <em>rect</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -153,12 +146,14 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting a cell edit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dwStyle</em>&nbsp;</td><td>The windows style to use when creating the CEdit </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The rectangle where the inplace cell value editor should be placed </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>cellText</em>&nbsp;</td><td>The text which is going to be initially displayed in the CEdit </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_c_grid_column_trait_multiline_edit.html#aa230ebc3047a37e0eb81309d6c7408b9">CGridColumnTraitMultilineEdit</a>.</p>
 
 </div>
 </div>
@@ -281,32 +276,6 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nMaxChars</em>&nbsp;</td><td>The text limit, in characters. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="ab73e95a4c2bef4f2a6a62aa7f4f03cf3"></a><!-- doxytag: member="CGridColumnTraitEdit::SetMaxLines" ref="ab73e95a4c2bef4f2a6a62aa7f4f03cf3" args="(UINT nMaxLines)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CGridColumnTraitEdit::SetMaxLines </td>
-          <td>(</td>
-          <td class="paramtype">UINT&nbsp;</td>
-          <td class="paramname"> <em>nMaxLines</em></td>
-          <td>&nbsp;)&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Set max number of lines that can the CEdit will display at a time For multiline editing then add these styles ES_MULTILINE | ES_WANTRETURN | ES_AUTOVSCROLL. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nMaxLines</em>&nbsp;</td><td>The text limit, in lines. </td></tr>
   </table>
   </dd>
 </dl>
