@@ -32,7 +32,7 @@ public:
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
-	virtual CDateTimeCtrl* CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
+	virtual CDateTimeCtrl* CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect);
 
 	CString m_Format;				//!< DateTime format used to display the date
 	DWORD	m_ParseDateTimeFlags;	//!< Flags for locale settings and parsing (COleDateTime::ParseDateTime)

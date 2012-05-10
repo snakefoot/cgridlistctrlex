@@ -18,7 +18,6 @@
 CGridColumnTraitEdit::CGridColumnTraitEdit()
 	:m_EditStyle(ES_AUTOHSCROLL | ES_NOHIDESEL | WS_BORDER)
 	,m_EditLimitText(UINT_MAX)
-	,m_EditMaxLines(0)
 {
 }
 
@@ -66,43 +65,6 @@ UINT CGridColumnTraitEdit::GetLimitText() const
 	return m_EditLimitText;
 }
 
-//------------------------------------------------------------------------
-//! Set max number of lines that can the CEdit will display at a time
-//!	For multiline editing then add these styles ES_MULTILINE | ES_WANTRETURN | ES_AUTOVSCROLL
-//!
-//! @param nMaxLines The text limit, in lines.
-//------------------------------------------------------------------------
-void CGridColumnTraitEdit::SetMaxLines(UINT nMaxLines)
-{
-	m_EditMaxLines = nMaxLines;
-}
-
-//------------------------------------------------------------------------
-//! Get max number of lines that can the CEdit will display at a time
-//------------------------------------------------------------------------
-UINT CGridColumnTraitEdit::GetMaxLines() const
-{
-	return m_EditMaxLines;
-}
-
-namespace
-{
-	int CharacterCount(const CString& csHaystack, LPCTSTR sNeedle)
-	{
-		if (csHaystack.IsEmpty())
-			return 0;
-
-		int nFind = -1;
-		int nCount = 0;
-		do
-		{
-			nCount++;
-			nFind = csHaystack.Find( sNeedle, nFind + 1 );
-		} while (nFind != -1);
-		
-		return nCount-1;
-	}
-}
 
 //------------------------------------------------------------------------
 //! Create a CEdit as cell value editor
@@ -110,62 +72,14 @@ namespace
 //! @param owner The list control starting a cell edit
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param dwStyle The windows style to use when creating the CEdit
 //! @param rect The rectangle where the inplace cell value editor should be placed
-//! @param cellText The text which is going to be initially displayed in the CEdit
 //! @return Pointer to the cell editor to use
 //------------------------------------------------------------------------
-CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect, const CString& cellText)
+CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
-	// Get the text-style of the cell to edit
-	DWORD dwStyle = m_EditStyle;
-	HDITEM hd = {0};
-	hd.mask = HDI_FORMAT;
-	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
-	if (hd.fmt & HDF_CENTER)
-		dwStyle |= ES_CENTER;
-	else if (hd.fmt & HDF_RIGHT)
-		dwStyle |= ES_RIGHT;
-	else
-		dwStyle |= ES_LEFT;
-
 	CGridEditorText* pEdit = new CGridEditorText(nRow, nCol);
-
-	CRect limitRect(rect);
-	if (m_EditMaxLines > 1 && dwStyle & ES_MULTILINE)
-	{
-		// Calculate the number of lines in the cell text, expand the CEdit to match this
-		int nLineHeight = GetCellFontHeight(owner);
-		int nLineCount = CharacterCount(cellText, _T("\n"));
-		if (nLineCount > 0)
-		{
-			if ((UINT)nLineCount > m_EditMaxLines-1)
-				nLineCount = m_EditMaxLines-1;
-			limitRect.bottom += nLineHeight*nLineCount;
-		}
-
-		pEdit->SetMaxLines(m_EditMaxLines);
-		pEdit->SetLineHeight(nLineHeight);
-	}
-
-	VERIFY( pEdit->Create( WS_CHILD | dwStyle, limitRect, &owner, 0) );
-
-	// Configure font
-	pEdit->SetFont(owner.GetCellFont());
-
-	// First item (Label) doesn't have a margin (Subitems does)
-	if (nCol==0 || (hd.fmt & HDF_CENTER))
-		pEdit->SetMargins(0, 0);
-	else
-	if (hd.fmt & HDF_RIGHT)
-		pEdit->SetMargins(0, 7);
-	else
-		pEdit->SetMargins(4, 0);
-
-	if (m_EditLimitText!=UINT_MAX)
-		pEdit->SetLimitText(m_EditLimitText);
-
-	pEdit->SetInitialText(cellText);
-
+	VERIFY( pEdit->Create( WS_CHILD | dwStyle, rect, &owner, 0) );
 	return pEdit;
 }
 
@@ -182,14 +96,41 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 	// Get position of the cell to edit
 	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
 
-	CString cellText = owner.GetItemText(nRow, nCol);
+	// Get the text-style of the cell to edit
+	DWORD dwStyle = m_EditStyle;
+	HDITEM hditem = {0};
+	hditem.mask = HDI_FORMAT;
+	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hditem) );
+	if (hditem.fmt & HDF_CENTER)
+		dwStyle |= ES_CENTER;
+	else if (hditem.fmt & HDF_RIGHT)
+		dwStyle |= ES_RIGHT;
+	else
+		dwStyle |= ES_LEFT;
 
 	// Create edit control to edit the cell
-	CEdit* pEdit = CreateEdit(owner, nRow, nCol, rectCell, cellText);
+	CEdit* pEdit = CreateEdit(owner, nRow, nCol, dwStyle, rectCell);
 	VERIFY(pEdit!=NULL);
 	if (pEdit==NULL)
 		return NULL;
 
+	// Configure font
+	pEdit->SetFont(owner.GetCellFont());
+
+	// First item (Label) doesn't have a margin (Subitems does)
+	if (nCol==0 || (dwStyle & ES_CENTER))
+		pEdit->SetMargins(0, 0);
+	else
+	if (dwStyle & ES_RIGHT)
+		pEdit->SetMargins(0, 7);
+	else
+		pEdit->SetMargins(4, 0);
+
+	if (m_EditLimitText!=UINT_MAX)
+		pEdit->SetLimitText(m_EditLimitText);
+
+	CString cellText = owner.GetItemText(nRow, nCol);
+	pEdit->SetWindowText(cellText);
 	pEdit->SetSel(0, -1, 0);
 	return pEdit;
 }
@@ -213,22 +154,8 @@ CGridEditorText::CGridEditorText(int nRow, int nCol)
 	,m_Col(nCol)
 	,m_Completed(false)
 	,m_Modified(false)
-	,m_InitialText(true)
-	,m_LineHeight(0)
-	,m_MaxLines(0)
+	,m_InitialModify(true)
 {}
-
-//------------------------------------------------------------------------
-//! The CEdit will fire an EN_CHANGE event for the initial cell text.
-//! The initial EN_CHANGE event should not be seen as a text modification
-//!
-//! @param cellText Initial CEdit text
-//------------------------------------------------------------------------
-void CGridEditorText::SetInitialText(const CString& cellText)
-{
-	SetWindowText(cellText);
-	m_InitialText = false;
-}
 
 //------------------------------------------------------------------------
 //! The cell value editor was closed and the entered should be saved.
@@ -293,30 +220,10 @@ void CGridEditorText::OnNcDestroy()
 //------------------------------------------------------------------------
 void CGridEditorText::OnEnChange()
 {
-	if (!m_InitialText)
-	{
-		if (m_MaxLines > 1 && GetStyle() & ES_MULTILINE && m_LineHeight > 0)
-		{
-			// Get number of text lines
-			CString cellText;
-			GetWindowText(cellText);
-			int nLineCount = CharacterCount(cellText, _T("\n"));
-			if (nLineCount > 0)
-				if ((UINT)nLineCount > m_MaxLines-1)
-					nLineCount = m_MaxLines-1;
-
-			// Check if the current rect matches the number of lines
-			CRect rect;
-			GetWindowRect(&rect);
-			if (rect.Height() / m_LineHeight != nLineCount + 1)
-			{
-				rect.bottom += (nLineCount + 1 - rect.Height() / m_LineHeight) * m_LineHeight;
-				GetParent()->ScreenToClient(&rect);
-				MoveWindow(rect.left, rect.top, rect.Width(), rect.Height(), TRUE);
-			}
-		}
+	if (!m_InitialModify)
 		m_Modified = true;
-	}
+	else
+		m_InitialModify = false;
 }
 
 //------------------------------------------------------------------------

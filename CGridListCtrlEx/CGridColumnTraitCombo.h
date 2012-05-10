@@ -34,7 +34,7 @@ public:
 
 protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
-	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect);
+	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect);
 
 	CSimpleMap<DWORD_PTR,CString> m_ComboList;	//!< Fixed list of items in the combo-box
 	CComboBox* m_pComboBox;					//!< CComboBox currently open

@@ -101,32 +101,17 @@ BOOL CGridColumnTraitDateTime::ParseDateTime(LPCTSTR lpszDate, COleDateTime& dat
 //! @param owner The list control starting a cell edit
 //! @param nRow The index of the row
 //! @param nCol The index of the column
+//! @param dwStyle The windows style to use when creating the CEdit
 //! @param rect The rectangle where the inplace cell value editor should be placed
 //! @return Pointer to the cell editor to use
 //------------------------------------------------------------------------
-CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, const CRect& rect)
+CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
-	// Get the text-style of the cell to edit
-	DWORD dwStyle = m_DateTimeCtrlStyle;
-	HDITEM hd = {0};
-	hd.mask = HDI_FORMAT;
-	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
-	if (hd.fmt & HDF_RIGHT)
-		dwStyle |= DTS_RIGHTALIGN;
-
 	// Create control to edit the cell
 	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol, this);
 	VERIFY( pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0) );
 	if (!owner.UsingVisualStyle())
 		pDateTimeCtrl->ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);	// Remove sunken edge
-
-	// Configure font
-	pDateTimeCtrl->SetFont(owner.GetCellFont());
-
-	// Configure datetime format
-	if (!m_Format.IsEmpty())
-		pDateTimeCtrl->SetFormat(m_Format);
-
 	return pDateTimeCtrl;
 }
 
@@ -148,11 +133,26 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	// Get position of the cell to edit
 	CRect rectCell = GetCellEditRect(owner, nRow, nCol);
 
+	// Get the text-style of the cell to edit
+	DWORD dwStyle = m_DateTimeCtrlStyle;
+	HDITEM hd = {0};
+	hd.mask = HDI_FORMAT;
+	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
+	if (hd.fmt & HDF_RIGHT)
+		dwStyle |= DTS_RIGHTALIGN;
+
 	// Create control to edit the cell
-	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, rectCell);
+	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, dwStyle, rectCell);
 	VERIFY(pDateTimeCtrl!=NULL);
 	if (pDateTimeCtrl==NULL)
 		return NULL;
+
+	// Configure font
+	pDateTimeCtrl->SetFont(owner.GetCellFont());
+
+	// Configure datetime format
+	if (!m_Format.IsEmpty())
+		pDateTimeCtrl->SetFormat(m_Format);
 
 	pDateTimeCtrl->SetTime(dateTime);
 
