@@ -87,7 +87,6 @@ CEdit* CGridColumnTraitMultilineEdit::CreateEdit(CGridListCtrlEx& owner, int nRo
 				nLineCount = m_EditMaxLines-1;
 			limitRect.bottom += nLineHeight*nLineCount;
 		}
-
 		pEdit->SetMaxLines(m_EditMaxLines);
 		pEdit->SetLineHeight(nLineHeight);
 	}
@@ -113,7 +112,6 @@ CGridMultilineEditorText::CGridMultilineEditorText(int nRow, int nCol)
 	,m_LineHeight(0)
 	,m_MaxLines(0)
 {
-	m_InitialModify = false;// ES_MULTILINE causes EN_CHANGE not to fire at initial SetWindowText
 }
 
 //------------------------------------------------------------------------
@@ -121,28 +119,28 @@ CGridMultilineEditorText::CGridMultilineEditorText(int nRow, int nCol)
 //------------------------------------------------------------------------
 void CGridMultilineEditorText::OnEnChange()
 {
-	if (!m_InitialModify)
-	{
-		// If multiline support, then resize the edit according to contents
-		if ((m_MaxLines > 1) && (GetStyle() & ES_MULTILINE) && (m_LineHeight > 0))
-		{
-			// Get number of text lines
-			CString cellText;
-			GetWindowText(cellText);
-			int nLineCount = CharacterCount(cellText, _T("\n"));
-			if (nLineCount > 0)
-				if ((UINT)nLineCount > m_MaxLines-1)
-					nLineCount = m_MaxLines-1;
+	if (!m_InitialModify && (GetStyle() & ES_MULTILINE))
+		m_InitialModify = false;// ES_MULTILINE causes EN_CHANGE not to fire at initial SetWindowText
 
-			// Check if the current rect matches the number of lines
-			CRect rect;
-			GetWindowRect(&rect);
-			if (rect.Height() / m_LineHeight != nLineCount + 1)
-			{
-				rect.bottom += (nLineCount + 1 - rect.Height() / m_LineHeight) * m_LineHeight;
-				GetParent()->ScreenToClient(&rect);
-				MoveWindow(rect.left, rect.top, rect.Width(), rect.Height(), TRUE);
-			}
+	// If multiline support, then resize the edit according to contents
+	if ((m_MaxLines > 1) && (GetStyle() & ES_MULTILINE) && (m_LineHeight > 0))
+	{
+		// Get number of text lines
+		CString cellText;
+		GetWindowText(cellText);
+		int nLineCount = CharacterCount(cellText, _T("\n"));
+		if (nLineCount > 0)
+			if ((UINT)nLineCount > m_MaxLines-1)
+				nLineCount = m_MaxLines-1;
+
+		// Check if the current rect matches the number of lines
+		CRect rect;
+		GetWindowRect(&rect);
+		if (rect.Height() / m_LineHeight != nLineCount + 1)
+		{
+			rect.bottom += (nLineCount + 1 - rect.Height() / m_LineHeight) * m_LineHeight;
+			GetParent()->ScreenToClient(&rect);
+			MoveWindow(rect.left, rect.top, rect.Width(), rect.Height(), TRUE);
 		}
 	}
 	CGridEditorText::OnEnChange();
