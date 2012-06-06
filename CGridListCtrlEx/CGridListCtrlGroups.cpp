@@ -39,6 +39,8 @@ END_MESSAGE_MAP()
 //------------------------------------------------------------------------
 CGridListCtrlGroups::CGridListCtrlGroups()
 	:m_GroupCol(-1)
+	,m_GroupSort(-1)
+	,m_SortSecondaryGroupView(2)
 {}
 
 //------------------------------------------------------------------------
@@ -325,6 +327,8 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 
 	m_GroupCol = -1;
 
+	m_GroupSort = -1;
+
 	SetSortArrow(-1, false);
 
 	SetRedraw(FALSE);
@@ -342,30 +346,30 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 		{
 			CString cellText = GetItemText(nRow, nCol);
 
-			int nGroupId = groups.FindKey(cellText);
-			if (nGroupId==-1)
+			int nGroupIdx = groups.FindKey(cellText);
+			if (nGroupIdx==-1)
 			{
 				CSimpleArray<int> rows;
 				groups.Add(cellText, rows);
-				nGroupId = groups.FindKey(cellText);
+				nGroupIdx = groups.FindKey(cellText);
 			}
-			groups.GetValueAt(nGroupId).Add(nRow);
+			groups.GetValueAt(nGroupIdx).Add(nRow);
 		}
 
 		// Look through all groups and assign rows to group
-		for(int nGroupId = 0; nGroupId < groups.GetSize(); ++nGroupId)
+		for(int nGroupIdx = 0; nGroupIdx < groups.GetSize(); ++nGroupIdx)
 		{
-			const CSimpleArray<int>& groupRows = groups.GetValueAt(nGroupId);
+			const CSimpleArray<int>& groupRows = groups.GetValueAt(nGroupIdx);
 			DWORD dwState = LVGS_NORMAL;
 #ifdef LVGS_COLLAPSIBLE
 			if (IsGroupStateEnabled())
 				dwState = LVGS_COLLAPSIBLE;
 #endif
-			VERIFY( InsertGroupHeader(nGroupId, nGroupId, groups.GetKeyAt(nGroupId), dwState) != -1);
+			VERIFY( InsertGroupHeader(nGroupIdx, nGroupIdx+1, groups.GetKeyAt(nGroupIdx), dwState) != -1);
 
 			for(int groupRow = 0; groupRow < groupRows.GetSize(); ++groupRow)
 			{
-				VERIFY( SetRowGroupId(groupRows[groupRow], nGroupId) );
+				VERIFY( SetRowGroupId(groupRows[groupRow], nGroupIdx+1) );
 			}
 		}
 
@@ -979,6 +983,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 {
 	m_GroupCol = -1;
+	m_GroupSort = -1;
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_REMOVEALLGROUPS, wParam, lParam);
@@ -1030,6 +1035,17 @@ BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	return CGridListCtrlEx::OnGetDispInfo(pNMHDR, pResult);
 }
 
+//------------------------------------------------------------------------
+//! Configure whether sorting on secondary column is allowed when grouped
+//! by primary column
+//!
+//! @param nEnable 0 = Group on sort, 1 = Allow sort, 2 = Fix sort for WinXP
+//------------------------------------------------------------------------
+void CGridListCtrlGroups::SetSortSecondaryGroupView(int nEnable)
+{
+	m_SortSecondaryGroupView = nEnable;
+}
+
 namespace {
 	struct PARAMSORT
 	{
@@ -1075,6 +1091,51 @@ namespace {
 	}
 }
 
+namespace
+{
+	struct group_info
+	{
+		int m_GroupId;
+		CString m_GroupHeader;
+		int m_CompareMethod;
+		CGridColumnTrait* m_pTrait;
+
+		explicit group_info(int groupId)
+		{
+			m_GroupId = groupId;
+		}
+
+		bool operator==(const group_info& other) const
+		{
+			if (m_GroupId==other.m_GroupId)
+				return true;
+			else
+				return false;
+		}
+	};
+
+	int group_info_cmp(const void *a, const void *b) 
+	{ 
+		struct group_info *ia = (struct group_info *)a;
+		struct group_info *ib = (struct group_info *)b;
+
+		if (ia->m_CompareMethod==-1)
+		{
+			return ia->m_GroupId - ib->m_GroupId;
+		}
+		else
+		{
+			LVITEM leftItem = {0};
+			leftItem.pszText = const_cast<LPTSTR>((LPCTSTR)ia->m_GroupHeader);
+			leftItem.cchTextMax = ia->m_GroupHeader.GetLength();
+			LVITEM rightItem = {0};
+			rightItem.pszText = const_cast<LPTSTR>((LPCTSTR)ib->m_GroupHeader);
+			rightItem.cchTextMax = ib->m_GroupHeader.GetLength();
+			return ia->m_pTrait->OnSortRows(leftItem, rightItem, ia->m_CompareMethod ? true : false);
+		}
+	}
+}
+
 //------------------------------------------------------------------------
 //! Changes the row sorting in regard to the specified column
 //!
@@ -1086,7 +1147,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	CWaitCursor waitCursor;
 
-	if (IsGroupViewEnabled() && m_GroupCol==nCol)
+	if (IsGroupViewEnabled() && (m_GroupCol==nCol || m_SortSecondaryGroupView==0))
 	{
 		SetRedraw(FALSE);
 
@@ -1107,6 +1168,8 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 		// Avoid bug in CListCtrl::SortGroups() which differs from ListView_SortGroups
 		if (!ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort))
 			return false;
+
+		m_GroupSort = bAscending ? 1 : 0;
 	}
 	else
 	{
@@ -1117,7 +1180,70 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 		}
 		else
 		{
-			return false;	// Sorting not supported in group view for WinXP
+			if (m_SortSecondaryGroupView!=2)
+				return false;
+
+			// WinXP doesn't support item sorting when items are grouped
+			// The workaround is to re-create the groups after having sorted the items
+			SetRedraw(FALSE);
+			if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
+				return false;
+
+			int pos = GetScrollPos(SB_VERT);
+
+			// Find all groups and register what group each row belongs to
+			int* rowGroupArray = new int[GetItemCount()];
+			CGridColumnTrait* pColumnTrait = m_GroupCol!=-1 ? GetColumnTrait(m_GroupCol) : NULL;
+			CSimpleArray<group_info> groupNames;
+			for(int nRow=0; nRow < GetItemCount(); ++nRow)
+			{
+				int nGroupId = GetRowGroupId(nRow);
+				group_info groupinfo(nGroupId);
+				if (nGroupId!=-1 && groupNames.Find(groupinfo)==-1)
+				{
+					groupinfo.m_GroupHeader = GetGroupHeader(nGroupId);
+					groupinfo.m_pTrait = pColumnTrait;
+					groupinfo.m_CompareMethod = m_GroupCol!=-1 ? m_GroupSort : -1;
+					groupNames.Add(groupinfo);
+				}
+				rowGroupArray[nRow] = nGroupId;
+			}
+
+			// Attempt to order the found groups in their current order
+			qsort(groupNames.m_aT, groupNames.GetSize(), sizeof(struct group_info), group_info_cmp);
+
+			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
+			int nGroupCol = m_GroupCol;
+			BOOL bGroupSort = m_GroupSort;
+
+			RemoveAllGroups();
+			EnableGroupView(FALSE);
+			EnableGroupView(TRUE);
+
+			// Restore these again
+			m_GroupCol = nGroupCol;
+			m_GroupSort = bGroupSort;
+
+			// Regenerate groups again in the original order
+			for(int nGroupIdx = 0; nGroupIdx < groupNames.GetSize(); ++nGroupIdx)
+			{
+				int nGroupId = groupNames[nGroupIdx].m_GroupId;
+				const CString& strGroupName = groupNames[nGroupIdx].m_GroupHeader;
+				DWORD dwState = LVGS_NORMAL;
+				VERIFY( InsertGroupHeader(nGroupIdx, nGroupId, strGroupName, dwState) != -1);
+			}
+
+			// Re-add the now sorted items to their original groups
+			for(int nRow2 = 0; nRow2 < GetItemCount(); ++nRow2)
+			{
+				VERIFY( SetRowGroupId(nRow2, rowGroupArray[nRow2]) );
+			}
+
+			delete [] rowGroupArray;
+
+			Scroll(CSize(0,pos));
+			SetRedraw(TRUE);
+			Invalidate(FALSE);
 		}
 	}
 
