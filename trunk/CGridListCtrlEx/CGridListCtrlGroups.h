@@ -37,6 +37,7 @@ public:
 
 	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
 
+	virtual void SetSortSecondaryGroupView(int nEnable);
 	virtual bool SortColumn(int nCol, bool bAscending);
 
 	virtual BOOL HasGroupState(int nGroupId, DWORD dwState);
@@ -74,6 +75,8 @@ protected:
 	//}}AFX_MSG
 
 	int m_GroupCol;		//!< Rows are grouped according to this column
+	int m_GroupSort;	//!< Groups are sorted (-1 = Unsorted, 1 = Ascending, 0 = Descending)
+	int m_SortSecondaryGroupView;	//!< When grouped by primary column, then allow sort of secondary column (0 = Always group, 1 = Allow sort, 2 = Fix sort for xp)
 
 	DECLARE_MESSAGE_MAP();
 
