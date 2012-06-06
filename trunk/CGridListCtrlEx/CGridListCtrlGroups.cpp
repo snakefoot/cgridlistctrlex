@@ -1183,6 +1183,9 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			if (m_SortSecondaryGroupView!=2)
 				return false;
 
+			if (GetItemCount()<=0)
+				return true;
+
 			// WinXP doesn't support item sorting when items are grouped
 			// The workaround is to re-create the groups after having sorted the items
 			SetRedraw(FALSE);
@@ -1192,7 +1195,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			int pos = GetScrollPos(SB_VERT);
 
 			// Find all groups and register what group each row belongs to
-			int* rowGroupArray = new int[GetItemCount()];
+			int* rowGroupArray = new int[(unsigned int)GetItemCount()];
 			CGridColumnTrait* pColumnTrait = m_GroupCol!=-1 ? GetColumnTrait(m_GroupCol) : NULL;
 			CSimpleArray<group_info> groupNames;
 			for(int nRow=0; nRow < GetItemCount(); ++nRow)
@@ -1209,8 +1212,11 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 				rowGroupArray[nRow] = nGroupId;
 			}
 
+			if (groupNames.GetSize() <= 0)
+				return true;
+
 			// Attempt to order the found groups in their current order
-			qsort(groupNames.m_aT, groupNames.GetSize(), sizeof(struct group_info), group_info_cmp);
+			qsort(groupNames.m_aT, (unsigned int)groupNames.GetSize(), sizeof(struct group_info), group_info_cmp);
 
 			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
 			int nGroupCol = m_GroupCol;
