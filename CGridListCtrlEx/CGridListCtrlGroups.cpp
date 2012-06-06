@@ -38,8 +38,7 @@ END_MESSAGE_MAP()
 //! Constructor 
 //------------------------------------------------------------------------
 CGridListCtrlGroups::CGridListCtrlGroups()
-	:m_GroupHeight(-1)
-	,m_GroupCol(-1)
+	:m_GroupCol(-1)
 {}
 
 //------------------------------------------------------------------------
@@ -101,10 +100,10 @@ BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupId)
 int CGridListCtrlGroups::GetRowGroupId(int nRow)
 {
 	LVITEM lvi = {0};
-    lvi.mask = LVIF_GROUPID;
-    lvi.iItem = nRow;
+	lvi.mask = LVIF_GROUPID;
+	lvi.iItem = nRow;
 	VERIFY( GetItem(&lvi) );
-    return lvi.iGroupId;
+	return lvi.iGroupId;
 }
 
 //------------------------------------------------------------------------
@@ -449,7 +448,7 @@ BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dro
 	int nGroupId = nRow!=-1 ? GetRowGroupId(nRow) : GroupHitTest(point);
 	if (nGroupId==-1)
 		return FALSE;
-		
+
 	if (MoveSelectedRows(nGroupId))
 	{
 		if (nRow!=-1)
@@ -471,7 +470,7 @@ bool CGridListCtrlGroups::MoveSelectedRows(int nDropGroupId)
 {
 	if (GetStyle() & LVS_OWNERDATA)
 		return false;
-	
+
 	if (nDropGroupId==-1)
 		return false;
 
@@ -656,7 +655,7 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 {
 	CMenu menu;
 	VERIFY( menu.CreatePopupMenu() );
-	
+
 	const CString& groupHeader = GetGroupHeader(nGroupId);
 
 	// Provide menu-options for collapsing groups, if the collapsible state is not available
@@ -965,7 +964,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 	if (!IsGroupStateEnabled())
 		return;
-	
+
 	int nGroupId = GroupHitTest(point);
 	(nGroupId);	// Avoid unreferenced variable warning
 }
@@ -982,7 +981,7 @@ LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 	m_GroupCol = -1;
 
 	// Let CListCtrl handle the event
-	return DefWindowProc(LVM_INSERTCOLUMN, wParam, lParam);
+	return DefWindowProc(LVM_REMOVEALLGROUPS, wParam, lParam);
 }
 
 //------------------------------------------------------------------------
@@ -1111,8 +1110,15 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 	}
 	else
 	{
-		if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
-			return false;
+		if (!IsGroupViewEnabled() || IsGroupStateEnabled())
+		{
+			if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
+				return false;
+		}
+		else
+		{
+			return false;	// Sorting not supported in group view for WinXP
+		}
 	}
 
 	return true;
@@ -1133,7 +1139,7 @@ void CGridListCtrlGroups::OnPaint()
 	}
 #endif
 
-    CGridListCtrlEx::OnPaint();
+	CGridListCtrlEx::OnPaint();
 }
 
 // MFC headers with group-support is only availabe from VS.NET 
