@@ -81,6 +81,8 @@ Inheritance diagram for CGridListCtrlGroups:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if it is possible to modify the collapse state of a group.  <a href="#ae5a7ffe070b2bbc1d1d2212ccbece7b8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#aba831cd5b40fba97fcc96725d01a2e33">CheckEntireGroup</a> (int nGroupId, bool bChecked)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the checkbox of the label column (first column).  <a href="#aba831cd5b40fba97fcc96725d01a2e33"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a41a67f489d18fc790cf2f87d568fe7d4">SetSortSecondaryGroupView</a> (int nEnable)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Configure whether sorting on secondary column is allowed when grouped by primary column.  <a href="#a41a67f489d18fc790cf2f87d568fe7d4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#ac01976bf2502bc87e9376ed1963cdf39">SortColumn</a> (int nCol, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Changes the row sorting in regard to the specified column.  <a href="#ac01976bf2502bc87e9376ed1963cdf39"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a75dd0564d15a713795923bf65a5899b4">HasGroupState</a> (int nGroupId, DWORD dwState)</td></tr>
@@ -103,6 +105,34 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the image icon in the group header together with top and bottom description.  <a href="#a822722f3d42b161acaccdcc4cb3f2cd0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#aff2f5d332e263d27a78c97274195ba5b">OnDisplayCellGroup</a> (int nRow, int nCol, int &amp;nGroupId)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide the group a cell belongs to.  <a href="#aff2f5d332e263d27a78c97274195ba5b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ee3233ea0d64c8090b1f364bda45836"></a><!-- doxytag: member="CGridListCtrlGroups::InsertGroup" ref="a8ee3233ea0d64c8090b1f364bda45836" args="(int index, PLVGROUP pgrp)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsertGroup</b> (int index, PLVGROUP pgrp)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90e1fac8eb6e59ac041d653ba8761599"></a><!-- doxytag: member="CGridListCtrlGroups::SetGroupInfo" ref="a90e1fac8eb6e59ac041d653ba8761599" args="(int iGroupId, PLVGROUP pgrp)" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetGroupInfo</b> (int iGroupId, PLVGROUP pgrp)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a478d68f472c8694644b162e9f0440ced"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupInfo" ref="a478d68f472c8694644b162e9f0440ced" args="(int iGroupId, PLVGROUP pgrp) const " -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetGroupInfo</b> (int iGroupId, PLVGROUP pgrp) const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36809b503168a7b7e9ae2bc2d37cfe01"></a><!-- doxytag: member="CGridListCtrlGroups::RemoveGroup" ref="a36809b503168a7b7e9ae2bc2d37cfe01" args="(int iGroupId)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveGroup</b> (int iGroupId)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fdafeebea12a964ab85ef3b165ce95e"></a><!-- doxytag: member="CGridListCtrlGroups::MoveGroup" ref="a6fdafeebea12a964ab85ef3b165ce95e" args="(int iGroupId, int toIndex)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MoveGroup</b> (int iGroupId, int toIndex)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60cde3dce4d15aaf57e3542367bdbaca"></a><!-- doxytag: member="CGridListCtrlGroups::MoveItemToGroup" ref="a60cde3dce4d15aaf57e3542367bdbaca" args="(int idItemFrom, int idGroupTo)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MoveItemToGroup</b> (int idItemFrom, int idGroupTo)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e69e26577621b8a488ec9016c64515b"></a><!-- doxytag: member="CGridListCtrlGroups::SetGroupMetrics" ref="a4e69e26577621b8a488ec9016c64515b" args="(PLVGROUPMETRICS pGroupMetrics)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetGroupMetrics</b> (PLVGROUPMETRICS pGroupMetrics)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9854075398d1e03187131b385a45cb94"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupMetrics" ref="a9854075398d1e03187131b385a45cb94" args="(PLVGROUPMETRICS pGroupMetrics) const " -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetGroupMetrics</b> (PLVGROUPMETRICS pGroupMetrics) const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb4aaf0337c87991f3349f1c34f371a6"></a><!-- doxytag: member="CGridListCtrlGroups::EnableGroupView" ref="aeb4aaf0337c87991f3349f1c34f371a6" args="(BOOL fEnable)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>EnableGroupView</b> (BOOL fEnable)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ffab3c13234cdadc262784efe3f90e3"></a><!-- doxytag: member="CGridListCtrlGroups::SortGroups" ref="a1ffab3c13234cdadc262784efe3f90e3" args="(PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>SortGroups</b> (PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51aa1c602d5625ae7a8cc6fb848fa1ef"></a><!-- doxytag: member="CGridListCtrlGroups::InsertGroupSorted" ref="a51aa1c602d5625ae7a8cc6fb848fa1ef" args="(PLVINSERTGROUPSORTED pStructInsert)" -->
+LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsertGroupSorted</b> (PLVINSERTGROUPSORTED pStructInsert)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe42813e10772956077b03452cad1dad"></a><!-- doxytag: member="CGridListCtrlGroups::RemoveAllGroups" ref="afe42813e10772956077b03452cad1dad" args="()" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveAllGroups</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19fe55cc34a1a8151d0e386e1348bb1d"></a><!-- doxytag: member="CGridListCtrlGroups::HasGroup" ref="a19fe55cc34a1a8151d0e386e1348bb1d" args="(int iGroupId) const " -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasGroup</b> (int iGroupId) const </td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a616affbb5c6cf20967838839d0fd2f55"></a><!-- doxytag: member="CGridListCtrlGroups::IsGroupViewEnabled" ref="a616affbb5c6cf20967838839d0fd2f55" args="() const " -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>IsGroupViewEnabled</b> () const </td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a0c4b9123cd41d2e62e7058e9c3ebd06d">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the context menu when activating context menu in client area with no rows.  <a href="#a0c4b9123cd41d2e62e7058e9c3ebd06d"></a><br/></td></tr>
@@ -131,12 +161,15 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa17727c2b0b2d97855110e1b901d49ae"></a><!-- doxytag: member="CGridListCtrlGroups::DECLARE_MESSAGE_MAP" ref="aa17727c2b0b2d97855110e1b901d49ae" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae412a00b346d06e1759201b3dd14532a"></a><!-- doxytag: member="CGridListCtrlGroups::m_GroupHeight" ref="ae412a00b346d06e1759201b3dd14532a" args="" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#ae412a00b346d06e1759201b3dd14532a">m_GroupHeight</a></td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cache the height of a group, because it is hard to guess (Hack). <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bfcca1952962e64b6c5f202de18588b"></a><!-- doxytag: member="CGridListCtrlGroups::m_GroupCol" ref="a8bfcca1952962e64b6c5f202de18588b" args="" -->
 int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a8bfcca1952962e64b6c5f202de18588b">m_GroupCol</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Rows are grouped according to this column. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a825823c82360d1a1224d38c94e24a1e2"></a><!-- doxytag: member="CGridListCtrlGroups::m_GroupSort" ref="a825823c82360d1a1224d38c94e24a1e2" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a825823c82360d1a1224d38c94e24a1e2">m_GroupSort</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Groups are sorted (-1 = Unsorted, 1 = Ascending, 0 = Descending). <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a822a67af4fb050d8af746be5ca4c43dc"></a><!-- doxytag: member="CGridListCtrlGroups::m_SortSecondaryGroupView" ref="a822a67af4fb050d8af746be5ca4c43dc" args="" -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a822a67af4fb050d8af746be5ca4c43dc">m_SortSecondaryGroupView</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">When grouped by primary column, then allow sort of secondary column (0 = Always group, 1 = Allow sort, 2 = Fix sort for xp). <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_list_ctrl_groups.html" title="CGridListCtrlGroups extends the CGridListCtrlEx with grouping.">CGridListCtrlGroups</a> extends the <a class="el" href="class_c_grid_list_ctrl_ex.html" title="CGridListCtrlEx extends the CListCtrl with several features.">CGridListCtrlEx</a> with grouping. </p>
@@ -1167,6 +1200,32 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Nonzero if successful; otherwise zero </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a41a67f489d18fc790cf2f87d568fe7d4"></a><!-- doxytag: member="CGridListCtrlGroups::SetSortSecondaryGroupView" ref="a41a67f489d18fc790cf2f87d568fe7d4" args="(int nEnable)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridListCtrlGroups::SetSortSecondaryGroupView </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nEnable</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Configure whether sorting on secondary column is allowed when grouped by primary column. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nEnable</em>&nbsp;</td><td>0 = Group on sort, 1 = Allow sort, 2 = Fix sort for WinXP </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
