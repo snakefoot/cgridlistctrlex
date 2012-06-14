@@ -73,6 +73,10 @@ Inheritance diagram for CGridListCtrlGroups:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Moves a row into a group.  <a href="#aa1438ddcf8d23c87174fa50e47db6c07"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#aadb2d3de352115392114c7d8aa83f397">GroupHitTest</a> (const CPoint &amp;point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find the group-id below the given point.  <a href="#aadb2d3de352115392114c7d8aa83f397"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a5b5ecf5a7d7351646cf2cfa070ea094a">FixRowGroupId</a> (int nRow)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Finds the matching group-id for the row, based on current grouping If it cannot find a group-id, then it creates a new group.  <a href="#a5b5ecf5a7d7351646cf2cfa070ea094a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#af21dc96018e28128ed06d162941c4cd4">GetGroupIds</a> (CSimpleArray&lt; int &gt; &amp;groupIds)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all registered group-ids.  <a href="#af21dc96018e28128ed06d162941c4cd4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a23084fd5ca72817a6646488abe7ab2ab">GroupByColumn</a> (int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a group for each unique values within a column.  <a href="#a23084fd5ca72817a6646488abe7ab2ab"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a2a8f1de1ccb1a25dbe9178be2da55a8f">DeleteEntireGroup</a> (int nGroupId)</td></tr>
@@ -89,11 +93,11 @@ Inheritance diagram for CGridListCtrlGroups:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks whether a group has a certain state.  <a href="#a75dd0564d15a713795923bf65a5899b4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a9ef9aaac06c7d8ba42c8c2f651d7d706">SetGroupState</a> (int nGroupId, DWORD dwState)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the state of a group.  <a href="#a9ef9aaac06c7d8ba42c8c2f651d7d706"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af44dd5939f2a0125591cd5fc07b8c824"></a><!-- doxytag: member="CGridListCtrlGroups::CollapseAllGroups" ref="af44dd5939f2a0125591cd5fc07b8c824" args="()" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#af44dd5939f2a0125591cd5fc07b8c824">CollapseAllGroups</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f77396fc0df8e69b6665e025fc423a2"></a><!-- doxytag: member="CGridListCtrlGroups::CollapseAllGroups" ref="a0f77396fc0df8e69b6665e025fc423a2" args="()" -->
+virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a0f77396fc0df8e69b6665e025fc423a2">CollapseAllGroups</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Collapse all groups. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a9084f43e3a7e6fd8c483ab2398f50e"></a><!-- doxytag: member="CGridListCtrlGroups::ExpandAllGroups" ref="a1a9084f43e3a7e6fd8c483ab2398f50e" args="()" -->
-virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a1a9084f43e3a7e6fd8c483ab2398f50e">ExpandAllGroups</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c0bb80de5d2e99d32570adf69464432"></a><!-- doxytag: member="CGridListCtrlGroups::ExpandAllGroups" ref="a1c0bb80de5d2e99d32570adf69464432" args="()" -->
+virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a1c0bb80de5d2e99d32570adf69464432">ExpandAllGroups</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Expand all groups. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#ac15825ca65dfe1f7d35794ba991cedc2">SetGroupFooter</a> (int nGroupId, const CString &amp;strFooter, DWORD dwAlign=0)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the description text of the group footer.  <a href="#ac15825ca65dfe1f7d35794ba991cedc2"></a><br/></td></tr>
@@ -105,34 +109,6 @@ virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the image icon in the group header together with top and bottom description.  <a href="#a822722f3d42b161acaccdcc4cb3f2cd0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#aff2f5d332e263d27a78c97274195ba5b">OnDisplayCellGroup</a> (int nRow, int nCol, int &amp;nGroupId)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to provide the group a cell belongs to.  <a href="#aff2f5d332e263d27a78c97274195ba5b"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8ee3233ea0d64c8090b1f364bda45836"></a><!-- doxytag: member="CGridListCtrlGroups::InsertGroup" ref="a8ee3233ea0d64c8090b1f364bda45836" args="(int index, PLVGROUP pgrp)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsertGroup</b> (int index, PLVGROUP pgrp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90e1fac8eb6e59ac041d653ba8761599"></a><!-- doxytag: member="CGridListCtrlGroups::SetGroupInfo" ref="a90e1fac8eb6e59ac041d653ba8761599" args="(int iGroupId, PLVGROUP pgrp)" -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetGroupInfo</b> (int iGroupId, PLVGROUP pgrp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a478d68f472c8694644b162e9f0440ced"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupInfo" ref="a478d68f472c8694644b162e9f0440ced" args="(int iGroupId, PLVGROUP pgrp) const " -->
-int&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetGroupInfo</b> (int iGroupId, PLVGROUP pgrp) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36809b503168a7b7e9ae2bc2d37cfe01"></a><!-- doxytag: member="CGridListCtrlGroups::RemoveGroup" ref="a36809b503168a7b7e9ae2bc2d37cfe01" args="(int iGroupId)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveGroup</b> (int iGroupId)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fdafeebea12a964ab85ef3b165ce95e"></a><!-- doxytag: member="CGridListCtrlGroups::MoveGroup" ref="a6fdafeebea12a964ab85ef3b165ce95e" args="(int iGroupId, int toIndex)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MoveGroup</b> (int iGroupId, int toIndex)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60cde3dce4d15aaf57e3542367bdbaca"></a><!-- doxytag: member="CGridListCtrlGroups::MoveItemToGroup" ref="a60cde3dce4d15aaf57e3542367bdbaca" args="(int idItemFrom, int idGroupTo)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MoveItemToGroup</b> (int idItemFrom, int idGroupTo)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e69e26577621b8a488ec9016c64515b"></a><!-- doxytag: member="CGridListCtrlGroups::SetGroupMetrics" ref="a4e69e26577621b8a488ec9016c64515b" args="(PLVGROUPMETRICS pGroupMetrics)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetGroupMetrics</b> (PLVGROUPMETRICS pGroupMetrics)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9854075398d1e03187131b385a45cb94"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupMetrics" ref="a9854075398d1e03187131b385a45cb94" args="(PLVGROUPMETRICS pGroupMetrics) const " -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetGroupMetrics</b> (PLVGROUPMETRICS pGroupMetrics) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb4aaf0337c87991f3349f1c34f371a6"></a><!-- doxytag: member="CGridListCtrlGroups::EnableGroupView" ref="aeb4aaf0337c87991f3349f1c34f371a6" args="(BOOL fEnable)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>EnableGroupView</b> (BOOL fEnable)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ffab3c13234cdadc262784efe3f90e3"></a><!-- doxytag: member="CGridListCtrlGroups::SortGroups" ref="a1ffab3c13234cdadc262784efe3f90e3" args="(PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)" -->
-BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>SortGroups</b> (PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51aa1c602d5625ae7a8cc6fb848fa1ef"></a><!-- doxytag: member="CGridListCtrlGroups::InsertGroupSorted" ref="a51aa1c602d5625ae7a8cc6fb848fa1ef" args="(PLVINSERTGROUPSORTED pStructInsert)" -->
-LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsertGroupSorted</b> (PLVINSERTGROUPSORTED pStructInsert)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afe42813e10772956077b03452cad1dad"></a><!-- doxytag: member="CGridListCtrlGroups::RemoveAllGroups" ref="afe42813e10772956077b03452cad1dad" args="()" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><b>RemoveAllGroups</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19fe55cc34a1a8151d0e386e1348bb1d"></a><!-- doxytag: member="CGridListCtrlGroups::HasGroup" ref="a19fe55cc34a1a8151d0e386e1348bb1d" args="(int iGroupId) const " -->
-BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>HasGroup</b> (int iGroupId) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a616affbb5c6cf20967838839d0fd2f55"></a><!-- doxytag: member="CGridListCtrlGroups::IsGroupViewEnabled" ref="a616affbb5c6cf20967838839d0fd2f55" args="() const " -->
-BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>IsGroupViewEnabled</b> () const </td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a0c4b9123cd41d2e62e7058e9c3ebd06d">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override this method to change the context menu when activating context menu in client area with no rows.  <a href="#a0c4b9123cd41d2e62e7058e9c3ebd06d"></a><br/></td></tr>
@@ -158,6 +134,8 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>IsGroupViewEnabled</b
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_PAINT message handler called when needing to redraw list control.  <a href="#a2b555dd50310cdc63b8514f120fbb952"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg LRESULT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a0812617a912478a8a87d2b0b60646b62">OnRemoveAllGroups</a> (WPARAM wParam, LPARAM lParam)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">LVM_REMOVEALLGROUPS message handler to ensure that group by column is updated.  <a href="#a0812617a912478a8a87d2b0b60646b62"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual afx_msg BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a5f13dd6c77cf9b59d0aa991ae04c8bce">OnHeaderEndDrag</a> (UINT, NMHDR *pNmhdr, LRESULT *pResult)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">HDN_ENDDRAG message handler called after a column have been dragged, but before the column order has been updated.  <a href="#a5f13dd6c77cf9b59d0aa991ae04c8bce"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa17727c2b0b2d97855110e1b901d49ae"></a><!-- doxytag: member="CGridListCtrlGroups::DECLARE_MESSAGE_MAP" ref="aa17727c2b0b2d97855110e1b901d49ae" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><b>DECLARE_MESSAGE_MAP</b> ()</td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
@@ -238,6 +216,33 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
+<a class="anchor" id="a5b5ecf5a7d7351646cf2cfa070ea094a"></a><!-- doxytag: member="CGridListCtrlGroups::FixRowGroupId" ref="a5b5ecf5a7d7351646cf2cfa070ea094a" args="(int nRow)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CGridListCtrlGroups::FixRowGroupId </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Finds the matching group-id for the row, based on current grouping If it cannot find a group-id, then it creates a new group. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>ID of the group </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab10834d8fa987edc3661e8b23daa631d"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupHeader" ref="ab10834d8fa987edc3661e8b23daa631d" args="(int nGroupId)" -->
 <div class="memitem">
 <div class="memproto">
@@ -262,6 +267,33 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Group header title </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af21dc96018e28128ed06d162941c4cd4"></a><!-- doxytag: member="CGridListCtrlGroups::GetGroupIds" ref="af21dc96018e28128ed06d162941c4cd4" args="(CSimpleArray&lt; int &gt; &amp;groupIds)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlGroups::GetGroupIds </td>
+          <td>(</td>
+          <td class="paramtype">CSimpleArray&lt; int &gt; &amp;&nbsp;</td>
+          <td class="paramname"> <em>groupIds</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Find all registered group-ids. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>groupIds</em>&nbsp;</td><td>Array of group-ids found </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Succeeded in finding groups </dd></dl>
 
 </div>
 </div>
@@ -858,6 +890,52 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5f13dd6c77cf9b59d0aa991ae04c8bce"></a><!-- doxytag: member="CGridListCtrlGroups::OnHeaderEndDrag" ref="a5f13dd6c77cf9b59d0aa991ae04c8bce" args="(UINT, NMHDR *pNmhdr, LRESULT *pResult)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridListCtrlGroups::OnHeaderEndDrag </td>
+          <td>(</td>
+          <td class="paramtype">UINT&nbsp;</td>
+          <td class="paramname"> <em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">NMHDR *&nbsp;</td>
+          <td class="paramname"> <em>pNMHDR</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LRESULT *&nbsp;</td>
+          <td class="paramname"> <em>pResult</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>HDN_ENDDRAG message handler called after a column have been dragged, but before the column order has been updated. </p>
+<p>Used to dirty cached col id</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pNMHDR</em>&nbsp;</td><td>Pointer to an NMHEADER structure with information about the column just resized </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pResult</em>&nbsp;</td><td>If the owner is performing external (manual) drag-and-drop management, it must be set to FALSE </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Is final message handler (Return FALSE to continue routing the message) </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_c_grid_list_ctrl_ex.html#aaad70ad26d6031e96f92c5aefcf5da15">CGridListCtrlEx</a>.</p>
 
 </div>
 </div>
