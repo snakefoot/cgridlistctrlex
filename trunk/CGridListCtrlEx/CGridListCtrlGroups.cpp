@@ -215,12 +215,6 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 	if (IsGroupStateEnabled())
 	{
 		// Running on Vista or newer, but compiled without _WIN32_WINNT >= 0x0600
-#ifndef LVM_GETGROUPINFOBYINDEX
-#define LVM_GETGROUPINFOBYINDEX   (LVM_FIRST + 153)
-#endif
-#ifndef LVM_GETGROUPCOUNT
-#define LVM_GETGROUPCOUNT         (LVM_FIRST + 152)
-#endif
 #ifndef LVM_GETGROUPRECT
 #define LVM_GETGROUPRECT          (LVM_FIRST + 98)
 #endif
@@ -228,22 +222,21 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 #define LVGGR_HEADER		      (1)
 #endif
 
-		LRESULT groupCount = SNDMSG((m_hWnd), LVM_GETGROUPCOUNT, (WPARAM)0, (LPARAM)0);
-		if (groupCount <= 0)
+		CSimpleArray<int> groupIds;
+		if (!GetGroupIds(groupIds))
 			return -1;
-		for(int i = 0 ; i < groupCount; ++i)
+
+		for(int i = 0 ; i < groupIds.GetSize(); ++i)
 		{
 			LVGROUP lg = {0};
 			lg.cbSize = sizeof(lg);
 			lg.mask = LVGF_GROUPID;
 
-			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPINFOBYINDEX, (WPARAM)(i), (LPARAM)(&lg)) );
-
 			CRect rect(0,LVGGR_HEADER,0,0);
-			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPRECT, (WPARAM)(lg.iGroupId), (LPARAM)(RECT*)(&rect)) );
+			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPRECT, (WPARAM)(groupIds[i]), (LPARAM)(RECT*)(&rect)) );
 
 			if (rect.PtInRect(point))
-				return lg.iGroupId;
+				return groupIds[i];
 		}
 		// Don't try other ways to find the group
 		return -1;
@@ -313,6 +306,47 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 		}
 	}
 	RemoveGroup(nGroupId);
+}
+
+BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
+{
+	if (!IsGroupViewEnabled())
+		return FALSE;
+
+	if (IsGroupStateEnabled())
+	{
+		// Running on Vista or newer, but compiled without _WIN32_WINNT >= 0x0600
+#ifndef LVM_GETGROUPINFOBYINDEX
+#define LVM_GETGROUPINFOBYINDEX   (LVM_FIRST + 153)
+#endif
+#ifndef LVM_GETGROUPCOUNT
+#define LVM_GETGROUPCOUNT         (LVM_FIRST + 152)
+#endif
+		LRESULT groupCount = SNDMSG((m_hWnd), LVM_GETGROUPCOUNT, (WPARAM)0, (LPARAM)0);
+		if (groupCount <= 0)
+			return FALSE;
+		for(int i = 0 ; i < groupCount; ++i)
+		{
+			LVGROUP lg = {0};
+			lg.cbSize = sizeof(lg);
+			lg.mask = LVGF_GROUPID;
+
+			VERIFY( SNDMSG((m_hWnd), LVM_GETGROUPINFOBYINDEX, (WPARAM)(i), (LPARAM)(&lg)) );
+			groupIds.Add(lg.iGroupId);
+		}
+		return TRUE;
+	}
+	else
+	{
+		// The less optimal way, but that is only on WinXP
+		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
+		{
+			int nGroupId = GetRowGroupId(nRow);
+			if (nGroupId!=-1 && groupIds.Find(nGroupId)==-1)
+				groupIds.Add(nGroupId);
+		}
+		return TRUE;
+	}
 }
 
 //------------------------------------------------------------------------
@@ -388,45 +422,47 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 //------------------------------------------------------------------------
 //! Collapse all groups
 //------------------------------------------------------------------------
-void CGridListCtrlGroups::CollapseAllGroups()
+BOOL CGridListCtrlGroups::CollapseAllGroups()
 {
 	if (!IsGroupStateEnabled())
-		return;
+		return FALSE;
 
-	// Loop through all rows and find possible groups
-	for(int nRow=0; nRow<GetItemCount(); ++nRow)
+	CSimpleArray<int> groupIds;
+	if (!GetGroupIds(groupIds))
+		return FALSE;
+
+	for(int i = 0; i < groupIds.GetSize(); ++i)
 	{
-		int nGroupId = GetRowGroupId(nRow);
-		if (nGroupId!=-1)
+		if (!HasGroupState(groupIds[i],LVGS_COLLAPSED))
 		{
-			if (!HasGroupState(nGroupId,LVGS_COLLAPSED))
-			{
-				SetGroupState(nGroupId,LVGS_COLLAPSED);
-			}
+			VERIFY( SetGroupState(groupIds[i],LVGS_COLLAPSED) );
 		}
 	}
+	
+	return TRUE;
 }
 
 //------------------------------------------------------------------------
 //! Expand all groups
 //------------------------------------------------------------------------
-void CGridListCtrlGroups::ExpandAllGroups()
+BOOL CGridListCtrlGroups::ExpandAllGroups()
 {
 	if (!IsGroupStateEnabled())
-		return;
+		return FALSE;
 
-	// Loop through all rows and find possible groups
-	for(int nRow=0; nRow<GetItemCount(); ++nRow)
+	CSimpleArray<int> groupIds;
+	if (!GetGroupIds(groupIds))
+		return FALSE;
+
+	for(int i = 0; i < groupIds.GetSize(); ++i)
 	{
-		int nGroupId = GetRowGroupId(nRow);
-		if (nGroupId!=-1)
+		if (HasGroupState(groupIds[i],LVGS_COLLAPSED))
 		{
-			if (HasGroupState(nGroupId,LVGS_COLLAPSED))
-			{
-				SetGroupState(nGroupId,LVGS_NORMAL);
-			}
+			VERIFY( SetGroupState(groupIds[i],LVGS_NORMAL) );
 		}
 	}
+
+	return TRUE;
 }
 
 //------------------------------------------------------------------------
@@ -1069,7 +1105,7 @@ namespace {
 			{
 				static const CString emptyStr;
 				return emptyStr;
-			}			
+			}
 			return m_GroupNames.GetValueAt(groupIdx);
 		}
 	};
@@ -1153,17 +1189,20 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 
 		GroupByColumn(nCol);
 
-		// Cannot use GetGroupInfo during sort
-		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
-		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
-		{
-			int nGroupId = GetRowGroupId(nRow);
-			if (nGroupId!=-1 && paramsort.m_GroupNames.FindKey(nGroupId)==-1)
-				paramsort.m_GroupNames.Add(nGroupId, GetGroupHeader(nGroupId));
-		}
-
 		SetRedraw(TRUE);
 		Invalidate(FALSE);
+
+		CSimpleArray<int> groupIds;
+		if (!GetGroupIds(groupIds))
+			return false;
+
+		// Cannot use GetGroupInfo during sort
+		PARAMSORT paramsort(m_hWnd, nCol, bAscending, GetColumnTrait(nCol));
+		for(int i=0 ; i < groupIds.GetSize() ; ++i)
+		{
+			int nGroupId = groupIds[i];
+			paramsort.m_GroupNames.Add(nGroupId, GetGroupHeader(nGroupId));
+		}
 
 		// Avoid bug in CListCtrl::SortGroups() which differs from ListView_SortGroups
 		if (!ListView_SortGroups(m_hWnd, SortFuncGroup, &paramsort))
