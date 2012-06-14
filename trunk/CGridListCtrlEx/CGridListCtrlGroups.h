@@ -30,6 +30,7 @@ public:
 	virtual int GetRowGroupId(int nRow);
 	virtual BOOL SetRowGroupId(int nRow, int nGroupId);
 	virtual int GroupHitTest(const CPoint& point);
+	virtual int FixRowGroupId(int nRow);
 
 	virtual BOOL GetGroupIds(CSimpleArray<int>& groupIds);
 

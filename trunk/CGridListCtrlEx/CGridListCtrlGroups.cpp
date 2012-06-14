@@ -94,6 +94,53 @@ BOOL CGridListCtrlGroups::SetRowGroupId(int nRow, int nGroupId)
 }
 
 //------------------------------------------------------------------------
+//! Finds the matching group-id for the row, based on current grouping
+//! If it cannot find a group-id, then it creates a new group
+//!
+//! @param nRow The index of the row
+//! @return ID of the group
+//------------------------------------------------------------------------
+int CGridListCtrlGroups::FixRowGroupId(int nRow)
+{
+	if (!IsGroupViewEnabled())
+		return -1;
+
+	if (nRow < 0 || nRow >= GetItemCount())
+		return -1;
+
+	if (m_GroupCol < 0)
+	{
+		if (GetItemCount()<=1)
+			EnableGroupView(FALSE);	// Rows with no groupid are not displayed in group-view
+		return -1;
+	}
+
+	const CString& cellText = GetItemText(nRow, m_GroupCol);
+
+	CSimpleArray<int> groupIds;
+	if (!GetGroupIds(groupIds))
+	{
+		if (GetItemCount()<=1)
+			EnableGroupView(FALSE);	// Rows with no groupid are not displayed in group-view
+		return -1;
+	}
+
+	for(int i = 0; i < groupIds.GetSize(); ++i)
+	{
+		if (cellText==GetGroupHeader(groupIds[i]))
+		{
+			SetRowGroupId(nRow, groupIds[i]);
+			return groupIds[i];
+		}
+	}
+
+	int nNewGroupId = groupIds.GetSize()+1;
+	VERIFY( InsertGroupHeader(groupIds.GetSize(), nNewGroupId, cellText) != -1);
+	SetRowGroupId(nRow, nNewGroupId);
+	return nNewGroupId;
+}
+
+//------------------------------------------------------------------------
 //! Retrieves the group id of a row
 //!
 //! @param nRow The index of the row
