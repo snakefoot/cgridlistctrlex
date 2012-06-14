@@ -31,6 +31,8 @@ public:
 	virtual BOOL SetRowGroupId(int nRow, int nGroupId);
 	virtual int GroupHitTest(const CPoint& point);
 
+	virtual BOOL GetGroupIds(CSimpleArray<int>& groupIds);
+
 	virtual BOOL GroupByColumn(int nCol);
 	virtual void DeleteEntireGroup(int nGroupId);
 	virtual BOOL IsGroupStateEnabled();
@@ -43,8 +45,8 @@ public:
 	virtual BOOL HasGroupState(int nGroupId, DWORD dwState);
 	virtual BOOL SetGroupState(int nGroupId, DWORD dwState);
 
-	virtual void CollapseAllGroups();
-	virtual void ExpandAllGroups();
+	virtual BOOL CollapseAllGroups();
+	virtual BOOL ExpandAllGroups();
 
 	virtual BOOL SetGroupFooter(int nGroupId, const CString& strFooter, DWORD dwAlign = 0);
 	virtual BOOL SetGroupTask(int nGroupId, const CString& strTask);
