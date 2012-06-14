@@ -341,8 +341,9 @@ void CGridListCtrlGroups::CheckEntireGroup(int nGroupId, bool bChecked)
 //! Removes the group and all the rows part of the group
 //!
 //! @param nGroupId ID of the group
+//! @return Succeeded in removing the entire group
 //------------------------------------------------------------------------
-void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
+BOOL CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 {
 	for (int nRow=0; nRow<GetItemCount(); ++nRow)
 	{
@@ -352,7 +353,7 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 			nRow--;
 		}
 	}
-	RemoveGroup(nGroupId);
+	return RemoveGroup(nGroupId)!=-1;
 }
 
 //------------------------------------------------------------------------

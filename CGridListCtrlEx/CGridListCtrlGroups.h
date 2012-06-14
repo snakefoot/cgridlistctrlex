@@ -35,7 +35,7 @@ public:
 	virtual BOOL GetGroupIds(CSimpleArray<int>& groupIds);
 
 	virtual BOOL GroupByColumn(int nCol);
-	virtual void DeleteEntireGroup(int nGroupId);
+	virtual BOOL DeleteEntireGroup(int nGroupId);
 	virtual BOOL IsGroupStateEnabled();
 
 	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
