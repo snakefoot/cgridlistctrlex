@@ -79,8 +79,8 @@ Inheritance diagram for CGridListCtrlGroups:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all registered group-ids.  <a href="#af21dc96018e28128ed06d162941c4cd4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a23084fd5ca72817a6646488abe7ab2ab">GroupByColumn</a> (int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a group for each unique values within a column.  <a href="#a23084fd5ca72817a6646488abe7ab2ab"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a2a8f1de1ccb1a25dbe9178be2da55a8f">DeleteEntireGroup</a> (int nGroupId)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes the group and all the rows part of the group.  <a href="#a2a8f1de1ccb1a25dbe9178be2da55a8f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#a52f15c5e22603b00bb6e287c035ac63d">DeleteEntireGroup</a> (int nGroupId)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes the group and all the rows part of the group.  <a href="#a52f15c5e22603b00bb6e287c035ac63d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#ae5a7ffe070b2bbc1d1d2212ccbece7b8">IsGroupStateEnabled</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if it is possible to modify the collapse state of a group.  <a href="#ae5a7ffe070b2bbc1d1d2212ccbece7b8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_groups.html#aba831cd5b40fba97fcc96725d01a2e33">CheckEntireGroup</a> (int nGroupId, bool bChecked)</td></tr>
@@ -190,12 +190,12 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 
 </div>
 </div>
-<a class="anchor" id="a2a8f1de1ccb1a25dbe9178be2da55a8f"></a><!-- doxytag: member="CGridListCtrlGroups::DeleteEntireGroup" ref="a2a8f1de1ccb1a25dbe9178be2da55a8f" args="(int nGroupId)" -->
+<a class="anchor" id="a52f15c5e22603b00bb6e287c035ac63d"></a><!-- doxytag: member="CGridListCtrlGroups::DeleteEntireGroup" ref="a52f15c5e22603b00bb6e287c035ac63d" args="(int nGroupId)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridListCtrlGroups::DeleteEntireGroup </td>
+          <td class="memname">BOOL CGridListCtrlGroups::DeleteEntireGroup </td>
           <td>(</td>
           <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>nGroupId</em></td>
@@ -213,6 +213,7 @@ int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Succeeded in removing the entire group </dd></dl>
 
 </div>
 </div>
