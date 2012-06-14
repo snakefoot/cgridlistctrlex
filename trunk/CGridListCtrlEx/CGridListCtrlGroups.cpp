@@ -1032,6 +1032,22 @@ LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 }
 
 //------------------------------------------------------------------------
+//! HDN_ENDDRAG message handler called after a column have been dragged,
+//! but before the column order has been updated. Used to dirty cached col id
+//!
+//! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
+//! @param pResult If the owner is performing external (manual) drag-and-drop management, it must be set to FALSE
+//! @return Is final message handler (Return FALSE to continue routing the message)
+//------------------------------------------------------------------------
+BOOL CGridListCtrlGroups::OnHeaderEndDrag(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+{
+	// Cached column index has become dirty
+	m_GroupCol = -1;
+	m_GroupSort = -1;
+	return CGridListCtrlEx::OnHeaderEndDrag(id, pNMHDR, pResult);
+}
+
+//------------------------------------------------------------------------
 //! Override this method to provide the group a cell belongs to.
 //!
 //! @param nRow The index of the row
@@ -1189,7 +1205,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 {
 	CWaitCursor waitCursor;
 
-	if (IsGroupViewEnabled() && (m_GroupCol==nCol || m_SortSecondaryGroupView==0))
+	if (IsGroupViewEnabled() && (m_GroupCol==-1 || m_GroupCol==nCol || m_SortSecondaryGroupView==0))
 	{
 		SetRedraw(FALSE);
 
