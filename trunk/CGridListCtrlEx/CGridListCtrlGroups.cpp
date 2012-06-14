@@ -308,6 +308,12 @@ void CGridListCtrlGroups::DeleteEntireGroup(int nGroupId)
 	RemoveGroup(nGroupId);
 }
 
+//------------------------------------------------------------------------
+//! Find all registered group-ids
+//!
+//! @param groupIds Array of group-ids found
+//! @return Succeeded in finding groups
+//------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
 {
 	if (!IsGroupViewEnabled())
