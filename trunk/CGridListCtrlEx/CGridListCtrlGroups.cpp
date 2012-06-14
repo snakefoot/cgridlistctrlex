@@ -1207,12 +1207,16 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 
 	if (IsGroupViewEnabled() && (m_GroupCol==-1 || m_GroupCol==nCol || m_SortSecondaryGroupView==0))
 	{
-		SetRedraw(FALSE);
+		// If already grouped, then no need to group them again
+		if (m_GroupCol!=nCol)
+		{
+			SetRedraw(FALSE);
+			
+			GroupByColumn(nCol);
 
-		GroupByColumn(nCol);
-
-		SetRedraw(TRUE);
-		Invalidate(FALSE);
+			SetRedraw(TRUE);
+			Invalidate(FALSE);
+		}
 
 		CSimpleArray<int> groupIds;
 		if (!GetGroupIds(groupIds))
