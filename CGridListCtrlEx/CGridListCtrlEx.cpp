@@ -3305,6 +3305,11 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		if (nColCount < 0)
 			DebugBreak();
 
+		// Reset cached members, since they are no longer true
+		m_FocusCell = -1;
+		m_SortCol = -1;
+		m_Ascending = false;
+
 		int* pOrderArray = new int[(UINT)nColCount];
 		VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
 
