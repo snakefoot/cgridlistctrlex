@@ -73,6 +73,7 @@ protected:
 	virtual afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual afx_msg BOOL OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual afx_msg void OnDestroy();
 	virtual afx_msg void OnPaint();
 	virtual afx_msg LRESULT OnRemoveAllGroups(WPARAM wParam, LPARAM lParam);
 	virtual afx_msg BOOL OnHeaderEndDrag(UINT, NMHDR* pNmhdr, LRESULT* pResult);
