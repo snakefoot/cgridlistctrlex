@@ -392,11 +392,11 @@ BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
 	}
 	else
 	{
-		// The less optimal way, but that is only on WinXP
+		// The less optimal way, but that is only on WinXP (Doesn't support negative group ids)
 		for(int nRow=0 ; nRow < GetItemCount() ; ++nRow)
 		{
 			int nGroupId = GetRowGroupId(nRow);
-			if (nGroupId!=-1 && groupIds.Find(nGroupId)==-1)
+			if (nGroupId>=0 && groupIds.Find(nGroupId)==-1)
 				groupIds.Add(nGroupId);
 		}
 		return TRUE;
@@ -1090,8 +1090,12 @@ LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 BOOL CGridListCtrlGroups::OnHeaderEndDrag(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// Cached column index has become dirty
-	m_GroupCol = -1;
-	m_GroupSort = -1;
+	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
+	if (pNMH->pitem->mask & HDI_ORDER)
+	{
+		m_GroupCol = -1;
+		m_GroupSort = -1;
+	}
 	return CGridListCtrlEx::OnHeaderEndDrag(id, pNMHDR, pResult);
 }
 
