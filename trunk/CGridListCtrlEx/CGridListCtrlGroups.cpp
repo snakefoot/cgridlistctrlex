@@ -1370,6 +1370,16 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 }
 
 //------------------------------------------------------------------------
+//! Notify that the window has been destroyed
+//------------------------------------------------------------------------
+void CGridListCtrlGroups::OnDestroy()
+{
+	m_GroupCol = -1;
+	m_GroupSort = -1;
+	CGridListCtrlEx::OnDestroy();
+}
+
+//------------------------------------------------------------------------
 //! WM_PAINT message handler called when needing to redraw list control.
 //! Used to display text when the list control is empty
 //------------------------------------------------------------------------
