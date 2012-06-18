@@ -125,7 +125,7 @@ int CGridListCtrlGroups::FixRowGroupId(int nRow)
 		return -1;
 	}
 
-	if (groupIds.GetSize()==0
+	if (groupIds.GetSize()==0)
 	{
 		if (!IsGroupStateEnabled())
 		{
