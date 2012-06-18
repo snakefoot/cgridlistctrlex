@@ -4,9 +4,14 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 2.0
+// Version: 2.1
 //
 // Change History:
+//	2.1 - Fixed bug introduced in 2.0, where grouping of items no longer worked on WinXP.
+//		  Improved performance when sorting item groups, especially on Vista/Win7+.
+//		  Added new column trait CGridColumnTraitHyperLink, that can display cell text as weblinks.
+//		  Added new column trait CGridColumnTraitMultilineEdit, that can edit cell text that contains newlines
+//		  Fixed several small bugs
 //	2.0 - Added copy/paste support for CDateTimeCtrl editor (DTS_APPCANPARSE)
 //		  When having grouped by column, then column header click now sorts instead of grouping by column.
 //		  Changed the row sorting to be case insensitive by default
