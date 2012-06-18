@@ -220,6 +220,9 @@
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.cpp">
 				</File>
 				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitMultilineEdit.cpp">
+				</File>
+				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitText.cpp">
 				</File>
 				<File
@@ -258,6 +261,9 @@
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitImage.h">
+				</File>
+				<File
+					RelativePath="..\CGridListCtrlEx\CGridColumnTraitMultilineEdit.h">
 				</File>
 				<File
 					RelativePath="..\CGridListCtrlEx\CGridColumnTraitText.h">
