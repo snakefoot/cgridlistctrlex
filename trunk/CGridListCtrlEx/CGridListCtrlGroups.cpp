@@ -125,18 +125,31 @@ int CGridListCtrlGroups::FixRowGroupId(int nRow)
 		return -1;
 	}
 
+	if (groupIds.GetSize()==0
+	{
+		if (!IsGroupStateEnabled())
+		{
+			// WinXP Hack - Reset groups, when no items are assigned to any groups (Avoid conflicts with "invisible" group-ids)
+			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
+			int groupCol = m_GroupCol;
+			RemoveAllGroups();
+			EnableGroupView(TRUE);
+			m_GroupCol = groupCol;
+		}
+	}
+
 	for(int i = 0; i < groupIds.GetSize(); ++i)
 	{
 		if (cellText==GetGroupHeader(groupIds[i]))
 		{
-			SetRowGroupId(nRow, groupIds[i]);
+			VERIFY( SetRowGroupId(nRow, groupIds[i]) );
 			return groupIds[i];
 		}
 	}
 
 	int nNewGroupId = groupIds.GetSize()+1;
 	VERIFY( InsertGroupHeader(groupIds.GetSize(), nNewGroupId, cellText) != -1);
-	SetRowGroupId(nRow, nNewGroupId);
+	VERIFY( SetRowGroupId(nRow, nNewGroupId) );
 	return nNewGroupId;
 }
 
@@ -1307,7 +1320,11 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			// The workaround is to re-create the groups after having sorted the items
 			SetRedraw(FALSE);
 			if (!CGridListCtrlEx::SortColumn(nCol, bAscending))
+			{
+				SetRedraw(TRUE);
+				Invalidate(FALSE);
 				return false;
+			}
 
 			int pos = GetScrollPos(SB_VERT);
 
@@ -1330,7 +1347,11 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			}
 
 			if (groupNames.GetSize() <= 0)
+			{
+				SetRedraw(TRUE);
+				Invalidate(FALSE);
 				return true;
+			}
 
 			// Attempt to order the found groups in their current order
 			qsort(groupNames.m_aT, (unsigned int)groupNames.GetSize(), sizeof(struct group_info), group_info_cmp);
