@@ -1,9 +1,10 @@
 <span id="ArticleContent">
 
-<ul class="download">
-<li><a href="cgridlistctrlex.zip">Download source code - 76.96 KB</a> </li>
 
-<li><a href="cgridlistctrlex_demo.zip">Download demo - 754.33 KB</a> </li>
+<ul class="download">
+<li><a href="cgridlistctrlex.zip">Download source code - 79.3 KB</a> </li>
+
+<li><a href="cgridlistctrlex_demo.zip">Download demo - 1 MB</a> </li>
 </ul>
 
 <h2>Introduction</h2>
@@ -21,6 +22,8 @@
 
 <li><a href="nirs2000.aspx">Cell editing</a> </li>
 
+<li><a href="hyperlinklistctrl.aspx">HyperLinks</a> </li>
+
 <li><a href="lvcustomdraw.aspx">Custom row and cell coloring</a> </li>
 
 <li><a href="CListCtrl_Grouping.aspx">Grouping</a> </li>
@@ -29,12 +32,12 @@
 
 <li><a href="clistctrl_persist_state.aspx">Persist column width, position and visibility</a> </li>
 
-<li><a href="http://www.codeproject.com/KB/shell/explorerdragdrop.aspx">OLE Drag and Drop</a> (includes reordering of items) </li>
+<li><a href="explorerdragdrop.aspx">OLE Drag and Drop</a> (includes reordering of items) </li>
 </ul>
 
 <p>This article demonstrates how to use <code>CGridListCtrlEx</code>, which implements all the above features while maintaining the Windows XP/Vista look.</p>
 
-<p><img width="497" height="292" alt="screenshot.png" src="screenshot.png" complete="true" /></p>
+<p><img width="556" height="290" complete="true" src="screenshot.png" alt="screenshot.png" /></p>
 
 <p>The <a href="http://code.google.com/p/cgridlistctrlex/">Google Code - CGridListCtrlEx</a> can be used if wanting SubVersion access, and there is also <a href="http://cgridlistctrlex.googlecode.com/svn/trunk/Doxygen/html/index.html">Doxygen Documentation</a>.</p>
 
@@ -108,7 +111,7 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 
 <pre lang="C++">bool MyGridCtrl::OnDisplayCellColor(int nRow, int nCol, COLORREF&amp; textColor, COLORREF&amp; backColor)
 {
-   if (nRow == 3 && nCol == 3)
+   if (nRow == 3 &amp;&amp; nCol == 3)
    {
       textColor = RGB(0,255,0);
       backColor = RGB(0,0,255);
@@ -128,6 +131,44 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>When using subitem images and running the application on Windows XP or using classic style, it will show a white background when a row is selected. This can be fixed by using <code>CGridRowTraitXP</code>:</p>
 
 <pre lang="C++">m_ListCtrl.SetDefaultRowTrait(new CGridRowTraitXP);</pre>
+
+<h4>Checkbox Support</h4>
+
+<p><code>CListCtrl</code> supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
+
+<pre lang="C++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
+
+<p>Remember not to use <code>InsertHiddenLabelColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
+
+<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code> (and its specializations):</p>
+
+<pre lang="C++">// Appends the unchecked/checked state images to the list control image list
+int nStateImageIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
+m_ListCtrl.SetImageList(&amp;m_ImageList, LVSIL_SMALL);
+// Creates an image column, that can switch between the 2 images
+CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
+for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
+	m_ListCtrl.SetCellImage(i, nCol, nStateImageIdx);	// Uncheck item</pre>
+
+<p>The label column will automatically display the image column when assigning an <code>CImageList</code> using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
+
+<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state, one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
+
+<p><code>CGridColumnTraitImage</code> supports sorting according to whether the checkbox is enabled. Use <code>CGridColumnTraitImage::SetSortImageIndex()</code> to enable this. </p>
+
+<p><code>CGridColumnTraitImage</code> also supports toggling of checkboxes for all selected rows. Use <code>CGridColumnTraitImage::SetToggleSelection()</code> to enable this. </p>
+
+<h4>Hyperlink support</h4>
+<p>Hyperlink columns can display the cell contents as links, which can be clicked and will launch an external applications like the default web-browser (http) or email-client (mailto).</p>
+
+<p>The <code>CGridColumnTraitHyperLink</code> allows one to supply a prefix (and suffix) for the celltext, which allows one to add extra protocol details without it being displayed:</p>
+
+<pre lang="C++">CGridColumnTraitHyperLink* pHyperLinkTrait = new CGridColumnTraitHyperLink;
+pHyperLinkTrait-&gt;SetShellFilePrefix(_T(&quot;http://en.wikipedia.org/wiki/UEFA_Euro_&quot;));
+m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pHyperLinkTrait);</pre>
+
+<p>It is also possible with <code>CGridColumnTraitHyperLink::SetShellApplication()</code> to specify a custom application to be launched, instead of just the default application launched based on the protocol prefix.</p>
 
 <h4>Changing Row Height</h4>
 
@@ -164,33 +205,6 @@ m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 100, nCol, pTrait
 <p>To implement your own special behavior for a drop operation, either override <code>OnDropSelf()</code> or <code>OnDropExternal()</code> depending on what situation you want to handle.</p>
 
 <p>To control what is placed in the drag-source when a drag is initiated, override <code>OnDisplayToDragDrop()</code>.</p>
-
-<h4>Checkbox Support</h4>
-
-<p><code>CListCtrl</code> supports checkboxes for the label column out of the box. Just apply the extended style <code>LVS_EX_CHECKBOXES</code>:</p>
-
-<pre lang="C++">m_ListCtrl.SetExtendedStyle(m_ListCtrl.GetExtendedStyle() | LVS_EX_CHECKBOXES);</pre>
-
-<p>Remember not to use <code>InsertHiddenLabelColumn()</code> as it will hide the label column and its checkbox. One can use <code>GetCheck()</code> / <code>SetCheck()</code> to retrieve/modify the checkbox value.</p>
-
-<p>If wanting to have checkboxes for multiple columns, then one can use <code>CGridColumnTraitImage</code> (and its specializations):</p>
-
-<pre lang="C++">// Appends the unchecked/checked state images to the list control image list
-int nStateImageIdx = CGridColumnTraitImage::AppendStateImages(m_ListCtrl, m_ImageList);
-m_ListCtrl.SetImageList(&amp;m_ImageList, LVSIL_SMALL);
-// Creates an image column, that can switch between the 2 images
-CGridColumnTrait* pTrait = new CGridColumnTraitImage(nStateIdx, 2);
-m_ListCtrl.InsertColumnTrait(nCol, title.c_str(), LVCFMT_LEFT, 20, nCol, pTrait);
-for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
-	m_ListCtrl.SetCellImage(i, nCol, nStateImageIdx);	// Uncheck item</pre>
-
-<p>The label column will automatically display the image column when assigning an <code>CImageList</code> using <code>SetImageList()</code>. It is not possible to disable this behavior, but one can hide the label column using <code>InsertHiddenLabelColumn()</code>. </p>
-
-<p><code>CGridColumnTraitImage</code> uses the cell image to draw the checkbox, so it is not possible to have both cell image and checkbox in the same column. To get and set the checked / unchecked state, one can use <code>GetCellImage()</code> / <code>SetCellImage()</code>.</p>
-
-<p><code>CGridColumnTraitImage</code> supports sorting according to whether the checkbox is enabled. Use <code>CGridColumnTraitImage::SetSortImageIndex()</code> to enable this. </p>
-
-<p><code>CGridColumnTraitImage</code> also supports toggling of checkboxes for all selected rows. Use <code>CGridColumnTraitImage::SetToggleSelection()</code> to enable this. </p>
 
 <h2>How Does the CGridColumnTrait Work</h2>
 
@@ -393,6 +407,21 @@ for(int i=0; i &lt; m_ListCtrl.GetItemCount(); ++i)
 </ul>
 </li>
 
+<li><strong>Version 2.1</strong> (2012-06-20) 
+<ul>
+<li>Fixed bug introduced in 2.0, where grouping of items no longer worked on WinXP.</li>
+
+<li>Improved performance when sorting item groups, especially on Vista/Win7+.</li>
+
+<li>Added new column trait <code>CGridColumnTraitHyperLink</code>, that can display cell text as weblinks. Updated demo application to display the new column type.</li>
+
+<li>Added new column trait <code>CGridColumnTraitMultilineEdit</code>, that can edit cell text that contains newlines (still displayed in a single line).</li>
+
+<li>Fixed several small bugs</li>
 </ul>
+</li>
+
+</ul>
+
 
 </span>
