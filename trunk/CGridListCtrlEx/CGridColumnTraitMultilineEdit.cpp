@@ -130,8 +130,10 @@ void CGridMultilineEditorText::OnEnChange()
 		GetWindowText(cellText);
 		int nLineCount = CharacterCount(cellText, _T("\n"));
 		if (nLineCount > 0)
+		{
 			if ((UINT)nLineCount > m_MaxLines-1)
 				nLineCount = m_MaxLines-1;
+		}
 
 		// Check if the current rect matches the number of lines
 		CRect rect;
