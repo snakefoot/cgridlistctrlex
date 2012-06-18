@@ -203,6 +203,14 @@ SOURCE=..\CGridListCtrlEx\CGridColumnTraitImage.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitMultilineEdit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\CGridListCtrlEx\CGridColumnTraitMultilineEdit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\CGridListCtrlEx\CGridColumnTraitText.cpp
 # End Source File
 # Begin Source File
