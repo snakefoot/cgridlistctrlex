@@ -72,6 +72,18 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupId, const C
 	lg.cchHeader = (int)header.Length();
 #endif
 
+#ifdef _DEBUG
+	if (IsGroupStateEnabled())
+	{
+		// Extra check as Vista/Win7+ doesn't complain about inserting the same groupid twice
+		CSimpleArray<int> groupIds;
+		if (GetGroupIds(groupIds))
+		{
+			for(int i = 0 ; i < groupIds.GetSize(); ++i)
+				VERIFY( groupIds[i] != nGroupId );
+		}
+	}
+#endif
 	return InsertGroup(nIndex, (PLVGROUP)&lg );
 }
 
