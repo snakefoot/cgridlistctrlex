@@ -25,6 +25,9 @@ public:
 	void SetMaxWidth(UINT nMaxWidth);
 	UINT  GetMaxWidth() const;
 
+	void SetShowDropDown(BOOL bShowIt);
+	BOOL GetShowDropDown() const;
+
 	void LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel);
 	void AddItem(DWORD_PTR nItemData, const CString& strItemText);
 	void ClearFixedItems();
@@ -42,6 +45,7 @@ protected:
 	DWORD m_ComboBoxStyle;					//!< Style to use when creating CComboBox
 	UINT m_MaxItems;						//!< Max height (in items) of the CComboBox when doing dropdown
 	UINT m_MaxWidth;						//!< Max width (in pixels) of the CComboBox when doing dropdown
+	BOOL m_ShowDropDown;					//!< Show drop down of the CComboBox at edit begin
 
 private:
 	// Private because they doesn't handle CSimpleMap

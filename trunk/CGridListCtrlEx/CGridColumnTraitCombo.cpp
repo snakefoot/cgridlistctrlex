@@ -20,6 +20,7 @@ CGridColumnTraitCombo::CGridColumnTraitCombo()
 	,m_MaxWidth(200)
 	,m_ComboBoxStyle(WS_VSCROLL | WS_HSCROLL | CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT)
 	,m_pComboBox(NULL)
+	,m_ShowDropDown(FALSE)
 {}
 
 //------------------------------------------------------------------------
@@ -68,6 +69,26 @@ void CGridColumnTraitCombo::SetMaxWidth(UINT nMaxWidth)
 UINT CGridColumnTraitCombo::GetMaxWidth() const
 {
 	return m_MaxWidth;
+}
+
+//------------------------------------------------------------------------
+//! Set whether to show drop down of the CComboBox at edit begin
+//!
+//! @param bShowIt Show drop down of the CComboBox at edit begin
+//------------------------------------------------------------------------
+void CGridColumnTraitCombo::SetShowDropDown(BOOL bShowIt)
+{
+	m_ShowDropDown = bShowIt;
+}
+
+//------------------------------------------------------------------------
+//! Retrieves whether to show drop down of the CComboBox at edit begin
+//!
+//! @return Show drop down of the CComboBox at edit begin
+//------------------------------------------------------------------------
+BOOL CGridColumnTraitCombo::GetShowDropDown() const
+{
+	return m_ShowDropDown;
 }
 
 //------------------------------------------------------------------------
@@ -177,6 +198,10 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		if (padding > 0)
 			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-(UINT)padding);
 	}
+
+	if (m_ShowDropDown)
+		m_pComboBox->ShowDropDown();
+
 	return m_pComboBox;
 }
 
