@@ -83,7 +83,7 @@ private:
 class CGridEditorComboBox : public CComboBox
 {
 public:
-	CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems);
+	CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown);
 
 	virtual BOOL Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID);
 	virtual void EndEdit(bool bSuccess);
@@ -91,6 +91,7 @@ public:
 protected:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
+	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnNcDestroy();
 	afx_msg void OnDestroy();
 	afx_msg void OnDropDown();
@@ -107,6 +108,7 @@ protected:
 	int		m_Col;					//!< The index of the column being edited
 	UINT	m_MaxWidthPixels;		//!< Max width (in pixels) of the CComboBox when doing dropdown
 	UINT	m_MaxHeightItems;		//!< Max height (in items) of the CComboBox when doing dropdown
+	BOOL	m_ShowDropDown;			//!< Show drop down of the CComboBox at edit begin
 
 private:
 	CGridEditorComboBox();
