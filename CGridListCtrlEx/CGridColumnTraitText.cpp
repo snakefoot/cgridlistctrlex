@@ -215,11 +215,34 @@ CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, in
 	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 		rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
 
-	if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES)
+	if (nCol==0)
+	{
+		if (owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+		{
+			// First column (Label) doesn't have a margin when imagelist is assigned
+		}
+		else
+		if (owner.GetImageList(LVSIL_SMALL)!=NULL)
+		{
+			// First column (Label) doesn't have a margin when checkboxes are enabled
+		}
+		else
+		{
+			// Label column has extra margin when no subitem images or checkbox
+			rectCell.left -= 4;
+		}
+	}
+	else
+	if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
 	{
 		// Add margin to cell image
-		if (owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow,nCol)!=I_IMAGECALLBACK)
-			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+	}
+	else
+	{
+		// Overlap the focus rectangle, unless we are the first column
+		if (nCol!=owner.GetFirstVisibleColumn())
+			rectCell.left -= ::GetSystemMetrics(SM_CXBORDER);
 	}
 
 	// Check if there is enough room for normal margin

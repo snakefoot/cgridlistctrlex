@@ -117,8 +117,15 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 	// Configure font
 	pEdit->SetFont(owner.GetCellFont());
 
-	// First item (Label) doesn't have a margin (Subitems does)
-	if (nCol==0 || (dwStyle & ES_CENTER))
+	// First column (Label) doesn't have a margin when imagelist is assigned
+	if (nCol==0 && owner.GetImageList(LVSIL_SMALL)!=NULL)
+		pEdit->SetMargins(0, 0);
+	else
+	// First column (Label) doesn't have a margin when checkboxes are enabled
+	if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+		pEdit->SetMargins(0, 0);
+	else
+	if (dwStyle & ES_CENTER)
 		pEdit->SetMargins(0, 0);
 	else
 	if (dwStyle & ES_RIGHT)
