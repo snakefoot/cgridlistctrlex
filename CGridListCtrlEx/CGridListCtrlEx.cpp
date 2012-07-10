@@ -958,7 +958,7 @@ CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 	// Retrieve column-title
 	LVCOLUMN lvc = {0};
 	lvc.mask = LVCF_TEXT;
-	TCHAR sColText[256];
+	TCHAR sColText[256] = {0};
 	lvc.pszText = sColText;
 	lvc.cchTextMax = sizeof(sColText)/sizeof(TCHAR);
 	VERIFY( GetColumn(nCol, &lvc) );
