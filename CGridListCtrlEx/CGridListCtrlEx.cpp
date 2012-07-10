@@ -947,7 +947,8 @@ int CGridListCtrlEx::GetColumnOrder(int nCol) const
 }
 
 //------------------------------------------------------------------------
-//! Retrieve column title of a column in the list control 
+//! Retrieve column title of a column in the list control
+//! NOTE! It will only return the first 255 characters of the header
 //!
 //! @param nCol Index of the column
 //! @return Column header text of the specified column
@@ -959,9 +960,12 @@ CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 	lvc.mask = LVCF_TEXT;
 	TCHAR sColText[256];
 	lvc.pszText = sColText;
-	lvc.cchTextMax = sizeof(sColText)-1;
+	lvc.cchTextMax = sizeof(sColText)/sizeof(TCHAR);
 	VERIFY( GetColumn(nCol, &lvc) );
-	return CString(lvc.pszText, lvc.cchTextMax-1);
+	lvc.pszText[sizeof(sColText)/sizeof(TCHAR)-1] = 0;	// Ensure null terminated
+	CString header(lvc.pszText);						// Allocate only until null termination
+	VERIFY( header.GetLength()<lvc.cchTextMax-1 );		// Verify that the column header is complete
+	return header;
 }
 
 //------------------------------------------------------------------------
