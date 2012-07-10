@@ -123,7 +123,7 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 //------------------------------------------------------------------------
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
-	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems);
+	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems, m_ShowDropDown);
 	VERIFY( pComboBox->Create( WS_CHILD | dwStyle, rect, &owner, 0) );
 
 	HDITEM hd = {0};
@@ -198,9 +198,6 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		if (padding > 0)
 			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-(UINT)padding);
 	}
-
-	if (m_ShowDropDown)
-		m_pComboBox->ShowDropDown();
 
 	return m_pComboBox;
 }
@@ -301,6 +298,7 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	//{{AFX_MSG_MAP(CGridEditorComboBox)
 	ON_WM_KILLFOCUS()
+	ON_WM_SETFOCUS()
 	ON_WM_DESTROY()
 	ON_WM_NCDESTROY()
 	ON_WM_CHAR()
@@ -315,13 +313,14 @@ END_MESSAGE_MAP()
 //------------------------------------------------------------------------
 //! CGridEditorComboBox - Constructor
 //------------------------------------------------------------------------
-CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems)
+CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown)
 	:m_Row(nRow)
 	,m_Col(nCol)
 	,m_Completed(false)
 	,m_Modified(false)
 	,m_MaxWidthPixels(nMaxWidthPixels)
 	,m_MaxHeightItems(nMaxHeightItems)
+	,m_ShowDropDown(bShowDropDown)
 {}
 
 //------------------------------------------------------------------------
@@ -385,6 +384,23 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	ShowWindow(SW_HIDE);
 	GetParent()->GetParent()->SendMessage( WM_NOTIFY, (WPARAM)GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
 	PostMessage(WM_CLOSE);
+}
+
+//------------------------------------------------------------------------
+//! WM_SETFOCUS message handler called when CComboBox is receiving focus
+//! from other control. Used to display drop down automatically
+//!
+//! @param pOldWnd Contains the CWnd object that loses the input focus (may be NULL).
+//------------------------------------------------------------------------
+void CGridEditorComboBox::OnSetFocus(CWnd* pOldWnd)
+{
+	CComboBox::OnSetFocus(pOldWnd);
+
+	if (m_ShowDropDown)
+	{
+		m_ShowDropDown = FALSE;
+		ShowDropDown(TRUE);
+	}
 }
 
 //------------------------------------------------------------------------
