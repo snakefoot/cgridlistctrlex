@@ -1064,20 +1064,34 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 		return TRUE;
 	}
 
-	if (nCode == LVIR_LABEL && nCol>0)
+	if (nCode == LVIR_LABEL)
 	{
-		if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
-			return TRUE;	// no image in subitem
+		if (nCol > 0)
+		{
+			if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
+				return TRUE;	// no image in subitem
 
-		int nImage = GetCellImage(nRow, nCol);
-		if (nImage == I_IMAGECALLBACK)
-			return TRUE;	// No image in subitem
+			int nImage = GetCellImage(nRow, nCol);
+			if (nImage == I_IMAGECALLBACK)
+				return TRUE;	// No image in subitem
 
-		CRect iconRect;
-		if (GetSubItemRect(nRow, nCol, LVIR_ICON, iconRect)==FALSE)
-			return FALSE;
+			CRect iconRect;
+			if (GetSubItemRect(nRow, nCol, LVIR_ICON, iconRect)==FALSE)
+				return FALSE;
 
-		rect.left += iconRect.Width();
+			rect.left += iconRect.Width();
+		}
+		else
+		{
+			if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
+				return TRUE;	// First column (Label) doesn't have a margin when imagelist is assigned
+
+			if (GetImageList(LVSIL_SMALL)!=NULL)
+				return TRUE;	// First column (Label) doesn't have a margin when checkboxes are enabled
+
+			// Label column has extra margin when no subitem images or checkbox
+			return GetCellRect(nRow, nCol, LVIR_BOUNDS, rect);
+		}
 	}
 
 	return TRUE;
