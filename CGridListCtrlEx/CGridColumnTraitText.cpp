@@ -215,19 +215,22 @@ CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, in
 	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 		rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
 
-	if (nCol > 0)
+	if (nCol==0 && owner.GetImageList(LVSIL_SMALL)!=NULL)
 	{
-		if (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
-		{
-			// Add margin to cell image
-			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
-		}
-		else
-		{
-			// Overlap the focus rectangle, unless we are the first column
-			if (nCol!=owner.GetFirstVisibleColumn())
-				rectCell.left -= ::GetSystemMetrics(SM_CXBORDER);
-		}
+		// Add margin to cell image
+		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+	}
+	else
+	if (nCol > 0 (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES) && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
+	{
+		// Add margin to cell image
+		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+	}
+	else
+	{
+		// Overlap the focus rectangle, unless we are first in column order
+		if (nCol!=owner.GetFirstVisibleColumn())
+			rectCell.left -= ::GetSystemMetrics(SM_CXBORDER);
 	}
 
 	// Check if there is enough room for normal margin

@@ -1071,6 +1071,9 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 			if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
 				return TRUE;	// no image in subitem
 
+			if (GetImageList(LVSIL_SMALL)==NULL)
+				return TRUE;	// no image in subitem
+
 			int nImage = GetCellImage(nRow, nCol);
 			if (nImage == I_IMAGECALLBACK)
 				return TRUE;	// No image in subitem
@@ -1084,12 +1087,12 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 		else
 		{
 			if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
-				return TRUE;	// First column (Label) doesn't have a margin when imagelist is assigned
+				return TRUE;	// First column gets correct margin when imagelist is assigned
 
 			if (GetImageList(LVSIL_SMALL)!=NULL)
-				return TRUE;	// First column (Label) doesn't have a margin when checkboxes are enabled
+				return TRUE;	// First column gets correct margin when checkboxes are enabled
 
-			// Label column has extra margin when no subitem images or checkbox
+			// Label column gets extra margin when no subitem images or checkbox (Remove this)
 			return GetCellRect(nRow, nCol, LVIR_BOUNDS, rect);
 		}
 	}
@@ -2266,7 +2269,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	}
 
 	// Show editor
-	m_pEditor->ShowWindow(SW_SHOW);
+	m_pEditor->ShowWindow(SW_SHOWNORMAL);
 	m_pEditor->SetFocus();
 	return m_pEditor;
 }

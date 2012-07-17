@@ -123,7 +123,11 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 	else
 	// First column (Label) doesn't have a margin when checkboxes are enabled
 	if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
-		pEdit->SetMargins(0, 0);
+		pEdit->SetMargins(1, 0);
+	else
+	// Label column doesn't have margin when not first in column order
+	if (nCol==0 && owner.GetFirstVisibleColumn()!=nCol)
+		pEdit->SetMargins(1, 0);
 	else
 	if (dwStyle & ES_CENTER)
 		pEdit->SetMargins(0, 0);
