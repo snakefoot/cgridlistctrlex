@@ -50,8 +50,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p><a href="class_c_grid_editor_combo_box-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3143942bd8cf4eb31179fc89476e8ceb"></a><!-- doxytag: member="CGridEditorComboBox::CGridEditorComboBox" ref="a3143942bd8cf4eb31179fc89476e8ceb" args="(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems)" -->
-&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a3143942bd8cf4eb31179fc89476e8ceb">CGridEditorComboBox</a> (int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a586156ace1a3ff1b9f78bc75d98989d9"></a><!-- doxytag: member="CGridEditorComboBox::CGridEditorComboBox" ref="a586156ace1a3ff1b9f78bc75d98989d9" args="(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown)" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a586156ace1a3ff1b9f78bc75d98989d9">CGridEditorComboBox</a> (int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="class_c_grid_editor_combo_box.html" title="CComboBox for inplace edit. For internal use by CGridColumnTraitCombo.">CGridEditorComboBox</a> - Constructor. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a6f4017c25cb8975536a6164b5c49c29d">Create</a> (DWORD dwStyle, const RECT &amp;rect, CWnd *pParentWnd, UINT nID)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates the CComboBox control, and subclasses the internal CEdit control to implement special behavior for completing cell value editing.  <a href="#a6f4017c25cb8975536a6164b5c49c29d"></a><br/></td></tr>
@@ -62,6 +62,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched.  <a href="#aef79807e892663c60d6e8b55581f950b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#aa541b699ebc183da99a8f352ad3497f5">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CComboBox is loosing focus to other control.  <a href="#aa541b699ebc183da99a8f352ad3497f5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a44144220f4585f3efebc8a377bbbc0a4">OnSetFocus</a> (CWnd *pOldWnd)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_SETFOCUS message handler called when CComboBox is receiving focus from other control.  <a href="#a44144220f4585f3efebc8a377bbbc0a4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a04e0d96a3f968b9aa5c22f6f92428d57">OnNcDestroy</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_NCDESTROY message handler called when CComboBox window is about to be destroyed.  <a href="#a04e0d96a3f968b9aa5c22f6f92428d57"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#a00d8bf93aaccd2a3e02ff539a2c4a684">OnDestroy</a> ()</td></tr>
@@ -98,6 +100,9 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af21dfacdeb0121a1102fc86d1ca5796e"></a><!-- doxytag: member="CGridEditorComboBox::m_MaxHeightItems" ref="af21dfacdeb0121a1102fc86d1ca5796e" args="" -->
 UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#af21dfacdeb0121a1102fc86d1ca5796e">m_MaxHeightItems</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max height (in items) of the CComboBox when doing dropdown. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae447f1e528c443ad3069466817651aec"></a><!-- doxytag: member="CGridEditorComboBox::m_ShowDropDown" ref="ae447f1e528c443ad3069466817651aec" args="" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_combo_box.html#ae447f1e528c443ad3069466817651aec">m_ShowDropDown</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show drop down of the CComboBox at edit begin. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>CComboBox for inplace edit. For internal use by <a class="el" href="class_c_grid_column_trait_combo.html" title="CGridColumnTraitCombo implements a CComboBox as cell-editor.">CGridColumnTraitCombo</a>. </p>
@@ -343,6 +348,33 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>WM_NCDESTROY message handler called when CComboBox window is about to be destroyed. </p>
 <p>Used to delete the inplace CComboBox editor object as well. This is necessary when the CComboBox is created dynamically. </p>
+
+</div>
+</div>
+<a class="anchor" id="a44144220f4585f3efebc8a377bbbc0a4"></a><!-- doxytag: member="CGridEditorComboBox::OnSetFocus" ref="a44144220f4585f3efebc8a377bbbc0a4" args="(CWnd *pOldWnd)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridEditorComboBox::OnSetFocus </td>
+          <td>(</td>
+          <td class="paramtype">CWnd *&nbsp;</td>
+          <td class="paramname"> <em>pOldWnd</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>WM_SETFOCUS message handler called when CComboBox is receiving focus from other control. </p>
+<p>Used to display drop down automatically</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>pOldWnd</em>&nbsp;</td><td>Contains the CWnd object that loses the input focus (may be NULL). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

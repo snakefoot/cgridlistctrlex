@@ -77,6 +77,10 @@ Inheritance diagram for CGridColumnTraitCombo:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set max width (in pixels) of the CComboBox when doing dropdown.  <a href="#afa65de374b0c049b9a29e77667e82cdd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a7bcef88469a52dcd73dca534431deb2c">GetMaxWidth</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves max width (in pixels) of the CComboBox when doing dropdown.  <a href="#a7bcef88469a52dcd73dca534431deb2c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a4c80d8442a673911099e86d3a7762ced">SetShowDropDown</a> (BOOL bShowIt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set whether to show drop down of the CComboBox at edit begin.  <a href="#a4c80d8442a673911099e86d3a7762ced"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ace13777c8faeb729833bccb13bec7f4c">GetShowDropDown</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retrieves whether to show drop down of the CComboBox at edit begin.  <a href="#ace13777c8faeb729833bccb13bec7f4c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ab04bd725aaeaa5d1bafa698a06f9345f">LoadList</a> (const CSimpleMap&lt; DWORD_PTR, CString &gt; &amp;comboList, int nCurSel)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fills the combobox with the items of the fixed item-list.  <a href="#ab04bd725aaeaa5d1bafa698a06f9345f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a6cefe404217cbc08956f9e9078113b3f">AddItem</a> (DWORD_PTR nItemData, const CString &amp;strItemText)</td></tr>
@@ -112,6 +116,9 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab754fe1cc70ac8641da996476fe2b5a5"></a><!-- doxytag: member="CGridColumnTraitCombo::m_MaxWidth" ref="ab754fe1cc70ac8641da996476fe2b5a5" args="" -->
 UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ab754fe1cc70ac8641da996476fe2b5a5">m_MaxWidth</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Max width (in pixels) of the CComboBox when doing dropdown. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ceb31be2e094da76ddc980dd0280bd7"></a><!-- doxytag: member="CGridColumnTraitCombo::m_ShowDropDown" ref="a0ceb31be2e094da76ddc980dd0280bd7" args="" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#a0ceb31be2e094da76ddc980dd0280bd7">m_ShowDropDown</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show drop down of the CComboBox at edit begin. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_combo.html" title="CGridColumnTraitCombo implements a CComboBox as cell-editor.">CGridColumnTraitCombo</a> implements a CComboBox as cell-editor. </p>
@@ -247,6 +254,26 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <p>Retrieves max width (in pixels) of the CComboBox when doing dropdown. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Number of items </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ace13777c8faeb729833bccb13bec7f4c"></a><!-- doxytag: member="CGridColumnTraitCombo::GetShowDropDown" ref="ace13777c8faeb729833bccb13bec7f4c" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BOOL CGridColumnTraitCombo::GetShowDropDown </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Retrieves whether to show drop down of the CComboBox at edit begin. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Show drop down of the CComboBox at edit begin </dd></dl>
 
 </div>
 </div>
@@ -472,6 +499,32 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>nMaxWidth</em>&nbsp;</td><td>Max pixels in width to show when expanding the dropdown list </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4c80d8442a673911099e86d3a7762ced"></a><!-- doxytag: member="CGridColumnTraitCombo::SetShowDropDown" ref="a4c80d8442a673911099e86d3a7762ced" args="(BOOL bShowIt)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitCombo::SetShowDropDown </td>
+          <td>(</td>
+          <td class="paramtype">BOOL&nbsp;</td>
+          <td class="paramname"> <em>bShowIt</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set whether to show drop down of the CComboBox at edit begin. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bShowIt</em>&nbsp;</td><td>Show drop down of the CComboBox at edit begin </td></tr>
   </table>
   </dd>
 </dl>
