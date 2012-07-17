@@ -221,7 +221,7 @@ CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, in
 		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
 	}
 	else
-	if (nCol > 0 (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES) && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
+	if (nCol > 0 && (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES) && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
 	{
 		// Add margin to cell image
 		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
