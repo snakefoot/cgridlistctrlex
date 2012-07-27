@@ -26,6 +26,8 @@ void CGridColumnTraitHyperLink::SetLinkColor(COLORREF linkColor)
 
 //------------------------------------------------------------------------
 //! Get the standard link color
+//!
+//! @return The normal link color
 //------------------------------------------------------------------------
 COLORREF CGridColumnTraitHyperLink::GetLinkColor() const
 {
@@ -44,6 +46,8 @@ void CGridColumnTraitHyperLink::SetLinkColorHot(COLORREF linkColor)
 
 //------------------------------------------------------------------------
 //! Get the link color when mouse is over the cell
+//!
+//! @return The link color for mouse over
 //------------------------------------------------------------------------
 COLORREF CGridColumnTraitHyperLink::GetLinkColorHot() const
 {
@@ -62,6 +66,8 @@ void CGridColumnTraitHyperLink::SetShellOperation(const CString& strShellOperati
 
 //------------------------------------------------------------------------
 //! Get the ShellExecute file operation to perform on the file-specifier
+//!
+//! @return The shell file operation to perform on link click
 //------------------------------------------------------------------------
 CString CGridColumnTraitHyperLink::GetShellOperation() const
 {
@@ -80,6 +86,8 @@ void CGridColumnTraitHyperLink::SetShellApplication(const CString& strShellAppli
 
 //------------------------------------------------------------------------
 //! Get the ShellExecute application to use to launch the file specifier
+//!
+//! @return The application path of the shell application to launch
 //------------------------------------------------------------------------
 CString CGridColumnTraitHyperLink::GetShellApplication() const
 {
@@ -99,6 +107,8 @@ void CGridColumnTraitHyperLink::SetShellFilePrefix(const CString& strShellFilePr
 
 //------------------------------------------------------------------------
 //! Get the file specifier prefix for the ShellExecute operation
+//!
+//! @return The prefix inserted at the beginning of the filename specifier
 //------------------------------------------------------------------------
 CString CGridColumnTraitHyperLink::GetShellFilePrefix() const
 {
@@ -117,6 +127,8 @@ void CGridColumnTraitHyperLink::SetShellFileSuffix(const CString& strShellFileSu
 
 //------------------------------------------------------------------------
 //! Get the file specifier suffix for the ShellExecute operation
+//!
+//! @return The suffix appended to the end of the filename specifier
 //------------------------------------------------------------------------
 CString CGridColumnTraitHyperLink::GetShellFileSuffix() const
 {
@@ -135,6 +147,8 @@ void CGridColumnTraitHyperLink::SetShellShowCommand(INT nShellShowCommand)
 
 //------------------------------------------------------------------------
 //! Get the show window flags for the ShellExecute operation
+//!
+//! @return The flags for how the shell application should be displayed
 //------------------------------------------------------------------------
 INT CGridColumnTraitHyperLink::GetShellShowCommand() const
 {

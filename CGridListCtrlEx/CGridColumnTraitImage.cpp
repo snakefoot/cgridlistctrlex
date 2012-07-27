@@ -18,6 +18,7 @@
 CGridColumnTraitImage::CGridColumnTraitImage()
 :m_SortImageIndex(false)
 ,m_ToggleSelection(false)
+,m_SingleClickEdit(false)
 {
 }
 
@@ -46,6 +47,16 @@ void CGridColumnTraitImage::SetSortImageIndex(bool bValue)
 }
 
 //------------------------------------------------------------------------
+//! Get whether primary sorting is based on image index (checkbox sorting)
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridColumnTraitImage::GetSortImageIndex() const
+{
+	return m_SortImageIndex;
+}
+
+//------------------------------------------------------------------------
 //! Should images (checkboxes) be flipped for all selected rows, when
 //! icon is clicked.
 //!
@@ -54,6 +65,38 @@ void CGridColumnTraitImage::SetSortImageIndex(bool bValue)
 void CGridColumnTraitImage::SetToggleSelection(bool bValue)
 {
 	m_ToggleSelection = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Get whether images (checkboxes) should be flipped for all selected rows,
+//! when icon is clicked.
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridColumnTraitImage::GetToggleSelection() const
+{
+	return m_ToggleSelection;
+}
+//------------------------------------------------------------------------
+//! Should cell editor be launched on first mouse-click, or should it wait
+//! for cell to have focus first. Enabling single click editor, will make
+//! it difficult for the user to perform a double-click.
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::SetSingleClickEdit(bool bValue)
+{
+	m_SingleClickEdit = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Get whether editor should be launched on first mouse-click.
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridColumnTraitImage::GetSingleClickEdit() const
+{
+	return m_SingleClickEdit;
 }
 
 //------------------------------------------------------------------------
@@ -228,7 +271,15 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
 {
 	// Begin edit if the cell has focus already
-	bool startEdit = nRow!=-1 && nCol!=-1 && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol && !bDblClick;
+	bool startEdit = false;
+	if (nRow!=-1 && nCol!=-1 && !bDblClick)
+	{
+		if (m_SingleClickEdit)
+			startEdit = true;
+		else
+		if (owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
+			startEdit = true;
+	}
 
 	// Check if the cell can be edited without having focus first
 	if (m_ToggleSelection)
