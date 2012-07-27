@@ -79,8 +79,16 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Updates the image text for the specified image index.  <a href="#a594374275e5efb3f41aa1989146e97b0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ac5e39f6974b30476565f887fa8b8d139">SetSortImageIndex</a> (bool bValue)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should primary sorting be based on the image index (checkbox sorting).  <a href="#ac5e39f6974b30476565f887fa8b8d139"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a206096031cf874f73837f742c6542ad0">GetSortImageIndex</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get whether primary sorting is based on image index (checkbox sorting).  <a href="#a206096031cf874f73837f742c6542ad0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#aab4c08d50c9677aaa87d659fa34b79b8">SetToggleSelection</a> (bool bValue)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should images (checkboxes) be flipped for all selected rows, when icon is clicked.  <a href="#aab4c08d50c9677aaa87d659fa34b79b8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a95862bc81e5e509e9192bf1291cbd5c2">GetToggleSelection</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get whether images (checkboxes) should be flipped for all selected rows, when icon is clicked.  <a href="#a95862bc81e5e509e9192bf1291cbd5c2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#acfdfa9226d5356b9a3c199f16d89433d">SetSingleClickEdit</a> (bool bValue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should cell editor be launched on first mouse-click, or should it wait for cell to have focus first.  <a href="#acfdfa9226d5356b9a3c199f16d89433d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a567a718b8e629760324c0c12b82899f9">GetSingleClickEdit</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get whether editor should be launched on first mouse-click.  <a href="#a567a718b8e629760324c0c12b82899f9"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ada490bda7a4d39a2fa69ebfca191aa85">AppendStateImages</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CImageList &amp;imagelist)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
@@ -111,6 +119,9 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6cd207e84c42ab12b48da840c0367be"></a><!-- doxytag: member="CGridColumnTraitImage::m_ToggleSelection" ref="ac6cd207e84c42ab12b48da840c0367be" args="" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ac6cd207e84c42ab12b48da840c0367be">m_ToggleSelection</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should the image of all selected rows be flipped, when clicked ? <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfe65b7cec54659dadf69b4f219ff3ef"></a><!-- doxytag: member="CGridColumnTraitImage::m_SingleClickEdit" ref="abfe65b7cec54659dadf69b4f219ff3ef" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#abfe65b7cec54659dadf69b4f219ff3ef">m_SingleClickEdit</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should it start editor on first click, instead of first waiting for cell to have focus first. <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> implements an image switcher (can mimic a checkbox). </p>
@@ -300,6 +311,66 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>New image index (-1 if no new image) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a567a718b8e629760324c0c12b82899f9"></a><!-- doxytag: member="CGridColumnTraitImage::GetSingleClickEdit" ref="a567a718b8e629760324c0c12b82899f9" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitImage::GetSingleClickEdit </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Get whether editor should be launched on first mouse-click. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Enabled / Disabled </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a206096031cf874f73837f742c6542ad0"></a><!-- doxytag: member="CGridColumnTraitImage::GetSortImageIndex" ref="a206096031cf874f73837f742c6542ad0" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitImage::GetSortImageIndex </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Get whether primary sorting is based on image index (checkbox sorting). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Enabled / Disabled </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a95862bc81e5e509e9192bf1291cbd5c2"></a><!-- doxytag: member="CGridColumnTraitImage::GetToggleSelection" ref="a95862bc81e5e509e9192bf1291cbd5c2" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitImage::GetToggleSelection </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Get whether images (checkboxes) should be flipped for all selected rows, when icon is clicked. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Enabled / Disabled </dd></dl>
 
 </div>
 </div>
@@ -659,6 +730,33 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
     <tr><td valign="top"></td><td valign="top"><em>nImageIdx</em>&nbsp;</td><td>The index of the image in the list control imagelist </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>strImageText</em>&nbsp;</td><td>The associated cell text to the image </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bEditable</em>&nbsp;</td><td>Is the cell editable when this image is displayed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="acfdfa9226d5356b9a3c199f16d89433d"></a><!-- doxytag: member="CGridColumnTraitImage::SetSingleClickEdit" ref="acfdfa9226d5356b9a3c199f16d89433d" args="(bool bValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::SetSingleClickEdit </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Should cell editor be launched on first mouse-click, or should it wait for cell to have focus first. </p>
+<p>Enabling single click editor, will make it difficult for the user to perform a double-click.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>Enabled / Disabled </td></tr>
   </table>
   </dd>
 </dl>
