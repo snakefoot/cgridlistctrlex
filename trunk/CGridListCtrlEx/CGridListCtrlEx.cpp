@@ -2387,13 +2387,18 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	int startEdit = 0;
-
 	// Find out what subitem was double-clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
+
+	int startEdit = 0;
 	if (nRow!=-1)
+	{
+		if( GetFocus() != this )
+			SetFocus();	// Force focus to finish editing
+
 		startEdit = OnClickEditStart(nRow, nCol, point, true);
+	}
 
 	if (startEdit!=2)
 		CListCtrl::OnLButtonDblClk(nFlags, point);
@@ -2412,13 +2417,6 @@ void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	int startEdit = 1;
-	if (IsCellEditorOpen())
-		startEdit = 0;	// If the cell-editor is already open, then it should just be closed
-
-	if( GetFocus() != this )
-		SetFocus();	// Force focus to finish editing
-
 	// Find out what subitem was clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
@@ -2430,9 +2428,10 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		return;
 	}
 
-	if (startEdit!=0)
-		startEdit = OnClickEditStart(nRow, nCol, point, false);
+	if( GetFocus() != this )
+		SetFocus();	// Force focus to finish editing
 
+	int startEdit = OnClickEditStart(nRow, nCol, point, false);
 	if (startEdit!=2)
 	{
 		// Update the focused cell before calling CListCtrl::OnLButtonDown()

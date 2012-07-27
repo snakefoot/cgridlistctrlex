@@ -41,6 +41,8 @@ void CGridColumnTraitEdit::SetStyle(DWORD dwStyle)
 
 //------------------------------------------------------------------------
 //! Get style used when creating CEdit for cell value editing
+//!
+//! @return Style flags
 //------------------------------------------------------------------------
 DWORD CGridColumnTraitEdit::GetStyle() const
 {
@@ -59,6 +61,8 @@ void CGridColumnTraitEdit::SetLimitText(UINT nMaxChars)
 
 //------------------------------------------------------------------------
 //! Get max number of characters the CEdit will accept
+//!
+//! @return The text limit, in characters
 //------------------------------------------------------------------------
 UINT CGridColumnTraitEdit::GetLimitText() const
 {

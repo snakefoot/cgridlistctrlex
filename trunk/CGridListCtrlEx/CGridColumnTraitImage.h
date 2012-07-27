@@ -28,7 +28,13 @@ public:
 	void SetImageText(int nImageIdx, const CString& strImageText, bool bEditable = true);
 
 	void SetSortImageIndex(bool bValue);
+	bool GetSortImageIndex() const;
+
 	void SetToggleSelection(bool bValue);
+	bool GetToggleSelection() const;
+
+	void SetSingleClickEdit(bool bValue);
+	bool GetSingleClickEdit() const;
 
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
@@ -59,4 +65,5 @@ protected:
 
 	bool m_SortImageIndex;	//!< Should image be used as primary sort index ?
 	bool m_ToggleSelection;	//!< Should the image of all selected rows be flipped, when clicked ?
+	bool m_SingleClickEdit;	//!< Should it start editor on first click, instead of first waiting for cell to have focus first
 };

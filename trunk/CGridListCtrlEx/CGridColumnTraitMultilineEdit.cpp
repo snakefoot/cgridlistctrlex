@@ -34,6 +34,8 @@ void CGridColumnTraitMultilineEdit::SetMaxLines(UINT nMaxLines)
 
 //------------------------------------------------------------------------
 //! Get max number of lines that can the CEdit will display at a time
+//!
+//! @return Max number of display lines for the multiline CEdit
 //------------------------------------------------------------------------
 UINT CGridColumnTraitMultilineEdit::GetMaxLines() const
 {

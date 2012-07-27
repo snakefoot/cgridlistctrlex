@@ -30,9 +30,9 @@ void CGridColumnTraitDateTime::Accept(CGridColumnTraitVisitor& visitor)
 }
 
 //------------------------------------------------------------------------
-//! Set the DateTime format used to display the date
+//! Set the DateTime format used to display the date in the editor
 //!
-//! @param strFormat Format string that defines the desired display
+//! @param strFormat Date Format string
 //------------------------------------------------------------------------
 void CGridColumnTraitDateTime::SetFormat(const CString& strFormat)
 {
@@ -40,7 +40,9 @@ void CGridColumnTraitDateTime::SetFormat(const CString& strFormat)
 }
 
 //------------------------------------------------------------------------
-//! Get the DateTime format used to display the date
+//! Get the DateTime format used to display the date in the editor
+//!
+//! @return Date Format string
 //------------------------------------------------------------------------
 CString CGridColumnTraitDateTime::GetFormat() const
 {
@@ -71,6 +73,8 @@ void CGridColumnTraitDateTime::SetStyle(DWORD dwStyle)
 
 //------------------------------------------------------------------------
 //! Get style used when creating CDataTimeCtrl for cell value editing
+//!
+//! @return Style Flags
 //------------------------------------------------------------------------
 DWORD CGridColumnTraitDateTime::GetStyle() const
 {
