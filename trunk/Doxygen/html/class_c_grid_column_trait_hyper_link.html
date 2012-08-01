@@ -150,7 +150,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the standard link color. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The normal link color </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Link RGB Colors </dd></dl>
 
 </div>
 </div>
@@ -170,7 +170,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the link color when mouse is over the cell. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The link color for mouse over </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Link RGB Colors </dd></dl>
 
 </div>
 </div>
@@ -190,7 +190,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the ShellExecute application to use to launch the file specifier. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The application path of the shell application to launch </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Application path </dd></dl>
 
 </div>
 </div>
@@ -210,7 +210,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the file specifier prefix for the ShellExecute operation. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The prefix inserted at the beginning of the filename specifier </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Prefix to insert infront of the filename specifier </dd></dl>
 
 </div>
 </div>
@@ -230,7 +230,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the file specifier suffix for the ShellExecute operation. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The suffix appended to the end of the filename specifier </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Suffix to append after the filename specifier </dd></dl>
 
 </div>
 </div>
@@ -250,7 +250,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the ShellExecute file operation to perform on the file-specifier. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The shell file operation to perform on link click </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Link Action Name </dd></dl>
 
 </div>
 </div>
@@ -270,7 +270,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <div class="memdoc">
 
 <p>Get the show window flags for the ShellExecute operation. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The flags for how the shell application should be displayed </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Show Command Flags </dd></dl>
 
 </div>
 </div>
@@ -553,7 +553,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Set the standard link color. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>linkColor</em>&nbsp;</td><td>RGB colors to use when drawing the link text </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>linkColor</em>&nbsp;</td><td>Link RGB Colors </td></tr>
   </table>
   </dd>
 </dl>
@@ -579,7 +579,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Set the link color when mouse is over the cell. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>linkColor</em>&nbsp;</td><td>RGB colors to use when drawing the link text </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>linkColor</em>&nbsp;</td><td>Link RGB Colors </td></tr>
   </table>
   </dd>
 </dl>
@@ -605,7 +605,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Set the ShellExecute application to use to launch the file specifier. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>strShellAppliction</em>&nbsp;</td><td>Application path (If blank then it just uses the default handler for the file type) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Application</em>&nbsp;</td><td>path (If blank then it just uses the default handler for the file type) </td></tr>
   </table>
   </dd>
 </dl>
@@ -684,7 +684,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Set the ShellExecute file operation to perform on the file-specifier. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>strShellOperation</em>&nbsp;</td><td>File operation to perform on the file-specifier </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>strShellOperation</em>&nbsp;</td><td>Link Action Name </td></tr>
   </table>
   </dd>
 </dl>
@@ -710,7 +710,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <p>Set the show window flags for the ShellExecute operation. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nShellShowCommand</em>&nbsp;</td><td>The flags for specifying how the application should be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nShellShowCommand</em>&nbsp;</td><td>Show Command Flags </td></tr>
   </table>
   </dd>
 </dl>
