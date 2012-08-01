@@ -79,8 +79,9 @@ bool CGridColumnTraitImage::GetToggleSelection() const
 }
 //------------------------------------------------------------------------
 //! Should cell editor be launched on first mouse-click, or should it wait
-//! for cell to have focus first. Enabling single click editor, will make
-//! it difficult for the user to perform a double-click.
+//! for cell to have focus first.
+//!	- Enabling single click editor, will make it difficult to make a double-click.
+//!	- Enabling single click editor, will make it difficult to make row drag-drop.
 //!
 //! @param bValue Enabled / Disabled
 //------------------------------------------------------------------------
