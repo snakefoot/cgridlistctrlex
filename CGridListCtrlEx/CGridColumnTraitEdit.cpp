@@ -156,7 +156,6 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 BEGIN_MESSAGE_MAP(CGridEditorText, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorText)
 	ON_WM_KILLFOCUS()
-	ON_WM_NCDESTROY()
 	ON_CONTROL_REFLECT(EN_CHANGE, OnEnChange)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -220,13 +219,14 @@ void CGridEditorText::OnKillFocus(CWnd *pNewWnd)
 }
 
 //------------------------------------------------------------------------
-//! WM_NCDESTROY message handler called when CEdit window is about to
-//! be destroyed. Used to delete the inplace CEdit editor object as well.
-//! This is necessary when the CDateTimeCtrl is created dynamically.
+//! Called by the default OnNcDestroy (WM_NCDESTROY) message handler, 
+//! when CEdit window has been be destroyed. 
+//! Used to delete the inplace CEdit editor object as well.
+//! This is necessary when the CEdit is created dynamically.
 //------------------------------------------------------------------------
-void CGridEditorText::OnNcDestroy()
+void CGridEditorText::PostNcDestroy()
 {
-	CEdit::OnNcDestroy();
+	CEdit::PostNcDestroy();
 	delete this;
 }
 

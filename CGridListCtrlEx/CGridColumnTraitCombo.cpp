@@ -300,7 +300,6 @@ BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	ON_WM_KILLFOCUS()
 	ON_WM_SETFOCUS()
 	ON_WM_DESTROY()
-	ON_WM_NCDESTROY()
 	ON_WM_CHAR()
 	ON_CONTROL_REFLECT(CBN_CLOSEUP, OnCloseUp)
 	ON_CONTROL_REFLECT(CBN_DROPDOWN, OnDropDown)
@@ -423,13 +422,14 @@ void CGridEditorComboBox::OnKillFocus(CWnd* pNewWnd)
 }
 
 //------------------------------------------------------------------------
-//! WM_NCDESTROY message handler called when CComboBox window is about to
-//! be destroyed. Used to delete the inplace CComboBox editor object as well.
+//! Called by the default OnNcDestroy (WM_NCDESTROY) message handler, 
+//! when CComboBox window has been be destroyed. 
+//! Used to delete the inplace CComboBox editor object as well.
 //! This is necessary when the CComboBox is created dynamically.
 //------------------------------------------------------------------------
-void CGridEditorComboBox::OnNcDestroy()
+void CGridEditorComboBox::PostNcDestroy()
 {
-	CComboBox::OnNcDestroy();
+	CComboBox::PostNcDestroy();
 	delete this;
 }
 
