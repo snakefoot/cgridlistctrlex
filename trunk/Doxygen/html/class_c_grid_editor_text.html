@@ -68,11 +68,11 @@ Inheritance diagram for CGridEditorText:</div>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a6f099dde071e9337d7a3812b1729301c">OnKillFocus</a> (CWnd *pNewWnd)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_KILLFOCUS message handler called when CEdit is loosing focus to other control.  <a href="#a6f099dde071e9337d7a3812b1729301c"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#ad27921c27057d2b9ed8a824bae695468">OnNcDestroy</a> ()</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">WM_NCDESTROY message handler called when CEdit window is about to be destroyed.  <a href="#ad27921c27057d2b9ed8a824bae695468"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a679c3d5b1c15dbc0967dd89da8c79030"></a><!-- doxytag: member="CGridEditorText::OnEnChange" ref="a679c3d5b1c15dbc0967dd89da8c79030" args="()" -->
 afx_msg void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a679c3d5b1c15dbc0967dd89da8c79030">OnEnChange</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">EN_CHANGE notification handler to monitor text modifications. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a38db61360ea15403850012d6be8b5fa3">PostNcDestroy</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Called by the default OnNcDestroy (WM_NCDESTROY) message handler, when CEdit window has been be destroyed.  <a href="#a38db61360ea15403850012d6be8b5fa3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_editor_text.html#a791e42a109ebd39ee596308948acaa9e">PreTranslateMessage</a> (MSG *pMsg)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hook to proces windows messages before they are dispatched.  <a href="#a791e42a109ebd39ee596308948acaa9e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9270ec5c4fc564e5108d87cf74faa024"></a><!-- doxytag: member="CGridEditorText::DECLARE_MESSAGE_MAP" ref="a9270ec5c4fc564e5108d87cf74faa024" args="()" -->
@@ -150,23 +150,23 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="ad27921c27057d2b9ed8a824bae695468"></a><!-- doxytag: member="CGridEditorText::OnNcDestroy" ref="ad27921c27057d2b9ed8a824bae695468" args="()" -->
+<a class="anchor" id="a38db61360ea15403850012d6be8b5fa3"></a><!-- doxytag: member="CGridEditorText::PostNcDestroy" ref="a38db61360ea15403850012d6be8b5fa3" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CGridEditorText::OnNcDestroy </td>
+          <td class="memname">void CGridEditorText::PostNcDestroy </td>
           <td>(</td>
           <td class="paramname"></td>
           <td>&nbsp;)&nbsp;</td>
-          <td><code> [protected]</code></td>
+          <td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 
-<p>WM_NCDESTROY message handler called when CEdit window is about to be destroyed. </p>
-<p>Used to delete the inplace CEdit editor object as well. This is necessary when the CDateTimeCtrl is created dynamically. </p>
+<p>Called by the default OnNcDestroy (WM_NCDESTROY) message handler, when CEdit window has been be destroyed. </p>
+<p>Used to delete the inplace CEdit editor object as well. This is necessary when the CEdit is created dynamically. </p>
 
 </div>
 </div>
