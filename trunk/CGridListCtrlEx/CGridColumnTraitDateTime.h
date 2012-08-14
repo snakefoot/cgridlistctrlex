@@ -49,14 +49,14 @@ public:
 	CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait = NULL);
 	
 protected:
-	virtual void EndEdit(bool bSuccess);
-
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
-	afx_msg void OnNcDestroy();
 	afx_msg void OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnUserString(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg void OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult);
+
+	virtual void EndEdit(bool bSuccess);
+	virtual void PostNcDestroy();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event

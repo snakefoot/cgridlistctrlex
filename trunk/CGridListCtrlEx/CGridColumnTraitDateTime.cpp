@@ -198,7 +198,6 @@ int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightV
 BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//{{AFX_MSG_MAP(CGridEditorDateTimeCtrl)
 	ON_WM_KILLFOCUS()
-	ON_WM_NCDESTROY()
 	ON_NOTIFY_REFLECT(DTN_DATETIMECHANGE, OnDateTimeChange)
 	ON_NOTIFY_REFLECT(DTN_USERSTRINGW, OnUserString)
 	ON_NOTIFY_REFLECT(DTN_USERSTRINGA, OnUserString)
@@ -290,13 +289,14 @@ void CGridEditorDateTimeCtrl::OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 //------------------------------------------------------------------------
-//! WM_NCDESTROY message handler called when CDateTimeCtrl window is about to
-//! be destroyed. Used to delete the inplace CDateTimeCtrl editor object as well.
+//! Called by the default OnNcDestroy (WM_NCDESTROY) message handler, 
+//! when CDateTimeCtrl window has been be destroyed. 
+//! Used to delete the inplace CDateTimeCtrl editor object as well.
 //! This is necessary when the CDateTimeCtrl is created dynamically.
 //------------------------------------------------------------------------
-void CGridEditorDateTimeCtrl::OnNcDestroy()
+void CGridEditorDateTimeCtrl::PostNcDestroy()
 {
-	CDateTimeCtrl::OnNcDestroy();
+	CDateTimeCtrl::PostNcDestroy();
 	delete this;
 }
 

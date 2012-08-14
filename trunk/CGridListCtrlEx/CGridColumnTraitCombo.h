@@ -89,15 +89,16 @@ public:
 	virtual void EndEdit(bool bSuccess);
 
 protected:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
-	afx_msg void OnNcDestroy();
 	afx_msg void OnDestroy();
 	afx_msg void OnDropDown();
 	afx_msg void OnCloseUp();
 	afx_msg void OnChangeSelection();
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
+
+	virtual void PostNcDestroy();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 	DECLARE_MESSAGE_MAP();
 
