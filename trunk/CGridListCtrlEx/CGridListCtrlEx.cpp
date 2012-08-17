@@ -72,27 +72,37 @@ class COleDropTargetWnd : public COleDropTarget
 		{
 			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
 			m_DragDestination = true;
-			return m_pWnd->OnDragEnter(pDataObject, dwKeyState, point);
+			if (m_pWnd!=NULL)
+				return m_pWnd->OnDragEnter(pDataObject, dwKeyState, point);
+			else
+				return DROPEFFECT_NONE;
 		}
 
 		virtual DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
 		{
 			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
-			return m_pWnd->OnDragOver(pDataObject, dwKeyState, point);
+			if (m_pWnd!=NULL)
+				return m_pWnd->OnDragOver(pDataObject, dwKeyState, point);
+			else
+				return DROPEFFECT_NONE;
 		}
 
 		virtual void OnDragLeave(CWnd* pWnd)
 		{
 			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
 			m_DragDestination = false;
-			m_pWnd->OnDragLeave();
+			if (m_pWnd!=NULL)
+				m_pWnd->OnDragLeave();
 		}
 
 		virtual BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 		{
 			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
 			m_DragDestination = false;
-			return m_pWnd->OnDrop(pDataObject, dropEffect, point);
+			if (m_pWnd!=NULL)
+				return m_pWnd->OnDrop(pDataObject, dropEffect, point);
+			else
+				return FALSE;
 		}
 };
 
@@ -590,7 +600,8 @@ namespace {
 		HMODULE hinstDll = ::LoadLibrary(_T("comctl32.dll"));
 		if (hinstDll)
 		{
-			DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
+			DLLGETVERSIONPROC pDllGetVersion = NULL;
+			(FARPROC&)pDllGetVersion = ::GetProcAddress(hinstDll, "DllGetVersion");
 			if (pDllGetVersion != NULL)
 			{
 				DLLVERSIONINFO dvi = {0};
@@ -607,8 +618,8 @@ namespace {
 	bool IsThemeEnabled()
 	{
 		bool XPStyle = false;
-		bool (__stdcall *pIsAppThemed)();
-		bool (__stdcall *pIsThemeActive)();
+		bool (CALLBACK *pIsAppThemed)() = NULL;
+		bool (CALLBACK *pIsThemeActive)() = NULL;
 
 		// Test if operating system has themes enabled
 		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
@@ -633,9 +644,9 @@ namespace {
 	{
 		LRESULT lResult = S_FALSE;
 	
-		HRESULT (__stdcall *pSetWindowTheme)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList);
-		HANDLE (__stdcall *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList);
-		HRESULT (__stdcall *pCloseThemeData)(HANDLE hTheme);
+		HRESULT (CALLBACK *pSetWindowTheme)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList) = NULL;
+		HANDLE (CALLBACK *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList) = NULL;
+		HRESULT (CALLBACK *pCloseThemeData)(HANDLE hTheme) = NULL;
 
 		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
 		if (hinstDll)

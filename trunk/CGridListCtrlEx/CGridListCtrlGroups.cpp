@@ -641,22 +641,25 @@ void CGridListCtrlGroups::OnContextMenu(CWnd* pWnd, CPoint point)
 namespace {
 	bool IsCommonControlsEnabled()
 	{
-		// Test if application has access to common controls (Required for grouping)
+		bool commoncontrols = false;
+	
+		// Test if application has access to common controls
 		HMODULE hinstDll = ::LoadLibrary(_T("comctl32.dll"));
 		if (hinstDll)
 		{
-			DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
-			::FreeLibrary(hinstDll);
+			DLLGETVERSIONPROC pDllGetVersion = NULL;
+			(FARPROC&)pDllGetVersion = ::GetProcAddress(hinstDll, "DllGetVersion");
 			if (pDllGetVersion != NULL)
 			{
 				DLLVERSIONINFO dvi = {0};
 				dvi.cbSize = sizeof(dvi);
 				HRESULT hRes = pDllGetVersion ((DLLVERSIONINFO *) &dvi);
 				if (SUCCEEDED(hRes))
-					return dvi.dwMajorVersion >= 6;
+					commoncontrols = dvi.dwMajorVersion >= 6;
 			}
+			::FreeLibrary(hinstDll);
 		}
-		return false;
+		return commoncontrols;
 	}
 }
 
@@ -1341,10 +1344,11 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			int pos = GetScrollPos(SB_VERT);
 
 			// Find all groups and register what group each row belongs to
-			int* rowGroupArray = new int[(unsigned int)GetItemCount()];
+			int nItemCount = GetItemCount();
+			int* rowGroupArray = new int[(unsigned int)nItemCount];
 			CGridColumnTrait* pColumnTrait = m_GroupCol!=-1 ? GetColumnTrait(m_GroupCol) : NULL;
 			CSimpleArray<group_info> groupNames;
-			for(int nRow=0; nRow < GetItemCount(); ++nRow)
+			for(int nRow=0; nRow < nItemCount; ++nRow)
 			{
 				int nGroupId = GetRowGroupId(nRow);
 				group_info groupinfo(nGroupId);
@@ -1390,7 +1394,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			}
 
 			// Re-add the now sorted items to their original groups
-			for(int nRow2 = 0; nRow2 < GetItemCount(); ++nRow2)
+			for(int nRow2 = 0; nRow2 < nItemCount; ++nRow2)
 			{
 				VERIFY( SetRowGroupId(nRow2, rowGroupArray[nRow2]) );
 			}
