@@ -77,11 +77,11 @@ bool CGridColumnTraitImage::GetToggleSelection() const
 {
 	return m_ToggleSelection;
 }
+
 //------------------------------------------------------------------------
 //! Should cell editor be launched on first mouse-click, or should it wait
 //! for cell to have focus first.
 //!	- Enabling single click editor, will make it difficult to make a double-click.
-//!	- Enabling single click editor, will make it difficult to make row drag-drop.
 //!
 //! @param bValue Enabled / Disabled
 //------------------------------------------------------------------------
@@ -260,7 +260,10 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 }
 
 //------------------------------------------------------------------------
-//! Check if the cell is editable when clicked
+//! Checks if the mouse click should start the cell editor (OnEditBegin)
+//! Normally the cell needs to have focus first before cell editor can be started
+//! - Except when using ToggleSelection, and have clicked a checkbox (image)
+//! - Except when using SingleClickEdit, which makes it impossible to do double click
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
@@ -367,6 +370,9 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	CRect iconRect;
 	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
 	{
+		if (m_ImageIndexes.GetSize()<=1)
+			return NULL;	// No images to flip between
+
 		int nOldImageIdx = owner.GetCellImage(nRow, nCol);
 		int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
 		if (nNewImageIdx == -1)

@@ -231,7 +231,7 @@ CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, i
 }
 
 //------------------------------------------------------------------------
-//! Overrides OnEditBegin() to launch ShellExecute when manually starting editor (F2 shortcut key)
+//! Overrides OnEditBegin() to launch ShellExecute when starting editor
 //!
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit

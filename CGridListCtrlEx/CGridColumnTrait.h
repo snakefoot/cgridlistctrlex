@@ -40,7 +40,8 @@ public:
 	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult) {}
 
 	//! Override OnClickEditStart() to control whether cell edit should be started
-	//! when clicked with the mouse.
+	//! when clicked with the mouse. OnEditBegin() will be called when return value >= 1.
+	//! Do NOT start the editor within this method, as it will cause havoc in the mouse click handler.
 	//!
 	//! @param owner The list control being clicked
 	//! @param nRow The index of the row
