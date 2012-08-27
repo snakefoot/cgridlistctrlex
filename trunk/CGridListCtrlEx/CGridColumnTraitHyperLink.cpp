@@ -264,11 +264,13 @@ int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow
 			return startEdit;
 	}
 
-	CString cellText = owner.GetItemText(nRow, nCol);
-	if (!GetTextRect(owner,nRow,nCol,cellText).PtInRect(pt))
-		return 0;
+	if (nRow!=-1 && nCol!=-1 && !bDblClick)
+	{
+		CString cellText = owner.GetItemText(nRow, nCol);
+		if (GetTextRect(owner,nRow,nCol,cellText).PtInRect(pt))
+			return 1;
+	}
 
-	OnShellExecute(owner, nRow, nCol, cellText);
 	return 0;
 }
 
