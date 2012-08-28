@@ -36,6 +36,9 @@ public:
 	void SetSingleClickEdit(bool bValue);
 	bool GetSingleClickEdit() const;
 
+	void SetIconClickBeginEdit(bool bValue);
+	bool GetIconClickBeginEdit() const;
+
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
 	
 protected:
@@ -66,4 +69,5 @@ protected:
 	bool m_SortImageIndex;	//!< Should image be used as primary sort index ?
 	bool m_ToggleSelection;	//!< Should the image of all selected rows be flipped, when clicked ?
 	bool m_SingleClickEdit;	//!< Should it start editor on first click, instead of first waiting for cell to have focus first
+	bool m_IconClickBeginEdit; //!< Should it start editor when clicking the icon area ?
 };

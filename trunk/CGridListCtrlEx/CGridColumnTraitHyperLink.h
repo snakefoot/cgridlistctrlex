@@ -22,9 +22,6 @@ public:
 	void SetLinkColorHot(COLORREF linkColor);
 	COLORREF GetLinkColorHot() const;
 
-	void SetIconClickExecute(bool bValue);
-	bool GetIconClickExecute() const;
-
 	void SetShellOperation(const CString& strShellOperation);
 	CString GetShellOperation() const;
 
@@ -52,7 +49,6 @@ protected:
 
 	COLORREF m_LinkColor;			//!< Standard link Color
 	COLORREF m_LinkColorHot;		//!< Hot link color (mouse over)
-	bool m_IconClickExecute;		//!< ShellExecute is activated for icon-click
 	CString m_ShellOperation;		//!< ShellExecute operation (Ex. "open")
 	CString m_ShellApplication;		//!< ShellExecute application (If blank it launches cell text with default application)
 	CString m_ShellFilePrefix;		//!< ShellExecute file specifier prefix
