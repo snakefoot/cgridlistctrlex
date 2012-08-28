@@ -99,11 +99,11 @@ Inheritance diagram for CGridColumnTraitHyperLink:</div>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#aed49ea587d454cf8857d778e289c6880">UpdateTextFont</a> (NMLVCUSTOMDRAW *pLVCD, LOGFONT &amp;textFont)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specifies af the font color if one is specified.  <a href="#aed49ea587d454cf8857d778e289c6880"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7" title="Overrides OnEditBegin() to launch ShellExecute when manually starting editor (F2...">OnEditBegin()</a> to launch ShellExecute when manually starting editor (F2 shortcut key).  <a href="#a42f8ea5934d65b74c6205a1205c8b1e7"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7" title="Overrides OnEditBegin() to launch ShellExecute when starting editor.">OnEditBegin()</a> to launch ShellExecute when starting editor.  <a href="#a42f8ea5934d65b74c6205a1205c8b1e7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a3211c69719930f6f4733652be54d4af5">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a3211c69719930f6f4733652be54d4af5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a4ef2ad4c00ff677fa3cffcb8e5225fe2">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if the mouse click hits the cell text, and if so launch the ShellExecute.  <a href="#a4ef2ad4c00ff677fa3cffcb8e5225fe2"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if the mouse click should start the cell editor (OnEditBegin) Validates that the click was on the text-link within the label-part.  <a href="#a4ef2ad4c00ff677fa3cffcb8e5225fe2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a614d8c3dd142fab9a9e3d01edb20a5ca">OnShellExecute</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, const CString &amp;cellText)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Performs the ShellExecute operation on the given file specifier.  <a href="#a614d8c3dd142fab9a9e3d01edb20a5ca"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CRect&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_hyper_link.html#a651fb815d2c0968e5f65649f86f76542">GetTextRect</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, const CString &amp;cellText)</td></tr>
@@ -368,7 +368,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 <div class="memdoc">
 
-<p>Check if the mouse click hits the cell text, and if so launch the ShellExecute. </p>
+<p>Checks if the mouse click should start the cell editor (OnEditBegin) Validates that the click was on the text-link within the label-part. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
@@ -469,7 +469,7 @@ INT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 </div>
 <div class="memdoc">
 
-<p>Overrides <a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7" title="Overrides OnEditBegin() to launch ShellExecute when manually starting editor (F2...">OnEditBegin()</a> to launch ShellExecute when manually starting editor (F2 shortcut key). </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7" title="Overrides OnEditBegin() to launch ShellExecute when starting editor.">OnEditBegin()</a> to launch ShellExecute when starting editor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>

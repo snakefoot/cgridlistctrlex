@@ -89,6 +89,10 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should cell editor be launched on first mouse-click, or should it wait for cell to have focus first.  <a href="#acfdfa9226d5356b9a3c199f16d89433d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a567a718b8e629760324c0c12b82899f9">GetSingleClickEdit</a> () const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get whether editor should be launched on first mouse-click.  <a href="#a567a718b8e629760324c0c12b82899f9"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a1d11fbbb95d29d151fa5457f5851c5c3">SetIconClickBeginEdit</a> (bool bValue)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Configure whether the icon-click should trigger OnBeginEdit.  <a href="#a1d11fbbb95d29d151fa5457f5851c5c3"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ac0d8faee861f3680bea0822fdb38843b">GetIconClickBeginEdit</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get whether mouse-click on icon, should also perform OnBeginEdit.  <a href="#ac0d8faee861f3680bea0822fdb38843b"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#ada490bda7a4d39a2fa69ebfca191aa85">AppendStateImages</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, CImageList &amp;imagelist)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Appends the checkbox state images to the list control image list.  <a href="#ada490bda7a4d39a2fa69ebfca191aa85"></a><br/></td></tr>
@@ -100,7 +104,12 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="memItemLeft" align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a36318c4778486cc897dcddb98882ac25">IsCellReadOnly</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt) const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if current image index blocks for editing of cell label.  <a href="#a36318c4778486cc897dcddb98882ac25"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a6ba02cf22b69207ae90360ab47911c04">OnClickEditStart</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt, bool bDblClick)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if the cell is editable when clicked.  <a href="#a6ba02cf22b69207ae90360ab47911c04"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if the mouse click should start the cell editor (OnEditBegin) Normally the cell needs to have focus first before cell editor can be started</p>
+<ul>
+<li>Except when using ToggleSelection, and have clicked a checkbox (image)</li>
+<li>Except when using SingleClickEdit, which makes it impossible to do double click. </li>
+</ul>
+ <a href="#a6ba02cf22b69207ae90360ab47911c04"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control.  <a href="#a5805e0700f450c1b79f86ac5bbcac172"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
@@ -122,6 +131,9 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfe65b7cec54659dadf69b4f219ff3ef"></a><!-- doxytag: member="CGridColumnTraitImage::m_SingleClickEdit" ref="abfe65b7cec54659dadf69b4f219ff3ef" args="" -->
 bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#abfe65b7cec54659dadf69b4f219ff3ef">m_SingleClickEdit</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should it start editor on first click, instead of first waiting for cell to have focus first. <br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fe09f1159b7c2a538a9ed870e491a81"></a><!-- doxytag: member="CGridColumnTraitImage::m_IconClickBeginEdit" ref="a3fe09f1159b7c2a538a9ed870e491a81" args="" -->
+bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a3fe09f1159b7c2a538a9ed870e491a81">m_IconClickBeginEdit</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Should it start editor when clicking the icon area ? <br/></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p><a class="el" href="class_c_grid_column_trait_image.html" title="CGridColumnTraitImage implements an image switcher (can mimic a checkbox).">CGridColumnTraitImage</a> implements an image switcher (can mimic a checkbox). </p>
@@ -314,6 +326,26 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
+<a class="anchor" id="ac0d8faee861f3680bea0822fdb38843b"></a><!-- doxytag: member="CGridColumnTraitImage::GetIconClickBeginEdit" ref="ac0d8faee861f3680bea0822fdb38843b" args="() const " -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridColumnTraitImage::GetIconClickBeginEdit </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Get whether mouse-click on icon, should also perform OnBeginEdit. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Enabled / Disabled </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a567a718b8e629760324c0c12b82899f9"></a><!-- doxytag: member="CGridColumnTraitImage::GetSingleClickEdit" ref="a567a718b8e629760324c0c12b82899f9" args="() const " -->
 <div class="memitem">
 <div class="memproto">
@@ -470,7 +502,12 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 <div class="memdoc">
 
-<p>Check if the cell is editable when clicked. </p>
+<p>Checks if the mouse click should start the cell editor (OnEditBegin) Normally the cell needs to have focus first before cell editor can be started</p>
+<ul>
+<li>Except when using ToggleSelection, and have clicked a checkbox (image)</li>
+<li>Except when using SingleClickEdit, which makes it impossible to do double click. </li>
+</ul>
+</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
@@ -693,6 +730,32 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
+<a class="anchor" id="a1d11fbbb95d29d151fa5457f5851c5c3"></a><!-- doxytag: member="CGridColumnTraitImage::SetIconClickBeginEdit" ref="a1d11fbbb95d29d151fa5457f5851c5c3" args="(bool bValue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CGridColumnTraitImage::SetIconClickBeginEdit </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>bValue</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Configure whether the icon-click should trigger OnBeginEdit. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bValue</em>&nbsp;</td><td>Enabled / Disabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a594374275e5efb3f41aa1989146e97b0"></a><!-- doxytag: member="CGridColumnTraitImage::SetImageText" ref="a594374275e5efb3f41aa1989146e97b0" args="(int nImageIdx, const CString &amp;strImageText, bool bEditable=true)" -->
 <div class="memitem">
 <div class="memproto">
@@ -755,7 +818,6 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Should cell editor be launched on first mouse-click, or should it wait for cell to have focus first. </p>
 <ul>
 <li>Enabling single click editor, will make it difficult to make a double-click.</li>
-<li>Enabling single click editor, will make it difficult to make row drag-drop.</li>
 </ul>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">

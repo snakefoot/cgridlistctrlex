@@ -227,6 +227,18 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetMetaFlag</b> (DWOR
 <div class="memdoc">
 
 <p>Override <a class="el" href="class_c_grid_column_trait.html#aa46a3ac2293851b66e3a376019980d68" title="Override OnClickEditStart() to control whether cell edit should be started when clicked...">OnClickEditStart()</a> to control whether cell edit should be started when clicked with the mouse. </p>
+<p><a class="el" href="class_c_grid_column_trait.html#a46da2be04a6554e41d2358f8a0f2b767" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> will be called when return value &gt;= 1. Do NOT start the editor within this method, as it will cause havoc in the mouse click handler.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pt</em>&nbsp;</td><td>The position clicked, in client coordinates. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bDblClick</em>&nbsp;</td><td>The position was double clicked </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>How should the cell editor be started (0 = No editor, 1 = Start Editor, 2 = Start Editor and block click-event)</dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control being clicked </td></tr>
