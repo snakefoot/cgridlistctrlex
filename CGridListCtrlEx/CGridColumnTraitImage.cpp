@@ -299,14 +299,12 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 			}
 		}
 
-		if (m_ImageIndexes.GetSize()<=1)
-			return startEdit ? 1 : 0;	// No images to flip between
-
-		CRect iconRect;
-		if (!owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) || !iconRect.PtInRect(pt))
-			return startEdit ? 1 : 0;	// Didn't click the image icon
-
-		return 2;	// Don't change focus or change selection
+		if (m_ImageIndexes.GetSize()>1)
+		{
+			CRect iconRect;
+			if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+				return 2;	// Clicked the image-icon (Don't change focus or change selection)
+		}
 	}
 
 	return startEdit ? 1 : 0;

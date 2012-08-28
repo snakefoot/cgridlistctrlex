@@ -246,7 +246,8 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 }
 
 //------------------------------------------------------------------------
-//! Check if the mouse click hits the cell text, and if so launch the ShellExecute
+//! Checks if the mouse click should start the cell editor (OnEditBegin)
+//!		- Focus is not needed first, when clicking a hyperlink, but one must click the text-link
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
@@ -257,21 +258,23 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 //------------------------------------------------------------------------
 int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
 {
-	if (m_ToggleSelection)
-	{
-		int startEdit = CGridColumnTraitImage::OnClickEditStart(owner, nRow, nCol, pt, bDblClick);
-		if (startEdit != 0)
-			return startEdit;
-	}
-
 	if (nRow!=-1 && nCol!=-1 && !bDblClick)
 	{
-		CString cellText = owner.GetItemText(nRow, nCol);
-		if (GetTextRect(owner,nRow,nCol,cellText).PtInRect(pt))
-			return 1;
+		// Check if mouse click was inside the label-part of the cell
+		CRect cellRect;
+		if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, cellRect) && cellRect.PtInRect(pt))
+		{
+			// Check if mouse click was inside the text-link of the cell
+			CString cellText = owner.GetItemText(nRow, nCol);
+			if (GetTextRect(owner,nRow,nCol,cellText).PtInRect(pt))
+				return 1;
+			else
+				return 0;
+		}
 	}
 
-	return 0;
+	// Check if mouse click was on the icon-part
+	return CGridColumnTraitImage::OnClickEditStart(owner, nRow, nCol, pt, bDblClick);
 }
 
 //------------------------------------------------------------------------
