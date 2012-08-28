@@ -12,6 +12,7 @@ CGridColumnTraitHyperLink::CGridColumnTraitHyperLink()
 	m_ShellShowCommand = SW_SHOWNORMAL;
 	m_LinkColor = RGB(22, 74, 170);
 	m_LinkColorHot = RGB(0, 85, 255);
+	m_IconClickExecute = false;
 }
 
 //------------------------------------------------------------------------
@@ -33,6 +34,27 @@ COLORREF CGridColumnTraitHyperLink::GetLinkColor() const
 {
 	return m_LinkColor;
 }
+
+//------------------------------------------------------------------------
+//! Configure whether the icon-click should trigger ShellExecute
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridColumnTraitHyperLink::SetIconClickExecute(bool bValue)
+{
+	m_IconClickExecute = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Get whether mouse-click on icon, should also perform ShellExecute
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridColumnTraitHyperLink::GetIconClickExecute() const
+{
+	return m_IconClickExecute;
+}
+
 
 //------------------------------------------------------------------------
 //! Set the link color when mouse is over the cell
@@ -261,8 +283,8 @@ int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow
 	if (nRow!=-1 && nCol!=-1 && !bDblClick)
 	{
 		// Check if mouse click was inside the label-part of the cell
-		CRect cellRect;
-		if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, cellRect) && cellRect.PtInRect(pt))
+		CRect labelRect;
+		if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && labelRect.PtInRect(pt))
 		{
 			// Check if mouse click was inside the text-link of the cell
 			CString cellText = owner.GetItemText(nRow, nCol);
@@ -271,9 +293,16 @@ int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow
 			else
 				return 0;
 		}
+
+		if (m_IconClickExecute)
+		{
+			CRect iconRect;
+			if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+				return 1;
+		}
 	}
 
-	// Check if mouse click was on the icon-part
+	// Check if mouse click was on the icon- or checkbox-part
 	return CGridColumnTraitImage::OnClickEditStart(owner, nRow, nCol, pt, bDblClick);
 }
 
