@@ -19,6 +19,7 @@ CGridColumnTraitImage::CGridColumnTraitImage()
 :m_SortImageIndex(false)
 ,m_ToggleSelection(false)
 ,m_SingleClickEdit(false)
+,m_IconClickBeginEdit(false)
 {
 }
 
@@ -98,6 +99,27 @@ void CGridColumnTraitImage::SetSingleClickEdit(bool bValue)
 bool CGridColumnTraitImage::GetSingleClickEdit() const
 {
 	return m_SingleClickEdit;
+}
+
+
+//------------------------------------------------------------------------
+//! Configure whether the icon-click should trigger OnBeginEdit
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridColumnTraitImage::SetIconClickBeginEdit(bool bValue)
+{
+	m_IconClickBeginEdit = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Get whether mouse-click on icon, should also perform OnBeginEdit
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridColumnTraitImage::GetIconClickBeginEdit() const
+{
+	return m_IconClickBeginEdit;
 }
 
 //------------------------------------------------------------------------
@@ -285,7 +307,7 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 			startEdit = true;
 	}
 
-	// Check if the cell can be edited without having focus first
+	// Check if the cell-image / cell-checkbox can be edited without having focus first
 	if (m_ToggleSelection)
 	{
 		if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
@@ -369,7 +391,13 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
 	{
 		if (m_ImageIndexes.GetSize()<=1)
-			return NULL;	// No images to flip between
+		{
+			// No images to flip between
+			if (m_IconClickBeginEdit)
+				return OnEditBegin(owner, nRow, nCol);
+			else
+				return NULL;
+		}
 
 		int nOldImageIdx = owner.GetCellImage(nRow, nCol);
 		int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
