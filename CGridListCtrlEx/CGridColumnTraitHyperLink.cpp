@@ -248,7 +248,7 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 
 //------------------------------------------------------------------------
 //! Checks if the mouse click should start the cell editor (OnEditBegin)
-//!		- Focus is not needed first, when clicking a hyperlink, but one must click the text-link
+//!		- Validates that the click was on the text-link within the label-part
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
