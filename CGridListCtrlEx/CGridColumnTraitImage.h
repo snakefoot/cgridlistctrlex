@@ -50,6 +50,8 @@ protected:
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt);
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual int FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBeginImage(CGridListCtrlEx& owner, int nRow, int nCol);
+	virtual CWnd* OnEditBeginCheckbox(CGridListCtrlEx& owner, int nRow, int nCol);
 
 	//! @cond INTERNAL
 	struct ImageCell

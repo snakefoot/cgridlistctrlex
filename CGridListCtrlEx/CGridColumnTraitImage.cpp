@@ -368,7 +368,7 @@ int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int 
 }
 
 //------------------------------------------------------------------------
-//! Reacts to clicking on the cell image, and switch to the next image index
+//! Overrides OnEditBegin() to allow special handling when clicking image or checkbox
 //!
 //! @param owner The list control starting edit
 //! @param nRow The index of the row for the cell to edit
@@ -387,132 +387,160 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	if (owner.GetCellRect(nRow, nCol, LVIR_LABEL, labelRect) && labelRect.PtInRect(pt))
 		return OnEditBegin(owner, nRow, nCol);
 
+	// Check if mouse click was inside the image-part of the cell
 	CRect iconRect;
 	if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
+		return OnEditBeginImage(owner, nRow, nCol);
+
+	if (nCol==0 && m_ToggleSelection && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
 	{
-		if (m_ImageIndexes.GetSize()<=1)
-		{
-			// No images to flip between
-			if (m_IconClickBeginEdit)
-				return OnEditBegin(owner, nRow, nCol);
-			else
-				return NULL;
-		}
-
-		int nOldImageIdx = owner.GetCellImage(nRow, nCol);
-		int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
-		if (nNewImageIdx == -1)
-			return NULL;
-
-		CString strOldImageText, strNewImageText;
-		for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
-		{
-			if (m_ImageIndexes.GetKeyAt(i)==nOldImageIdx)
-				strOldImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
-			if (m_ImageIndexes.GetKeyAt(i)==nNewImageIdx)
-				strNewImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
-		}
-
-		// Send Notification to parent of ListView ctrl
-		LV_DISPINFO dispinfo = {0};
-		dispinfo.hdr.hwndFrom = owner.m_hWnd;
-		dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
-		dispinfo.hdr.code = LVN_ENDLABELEDIT;
-
-		dispinfo.item.iItem = nRow;
-		dispinfo.item.iSubItem = nCol;
-		dispinfo.item.mask = LVIF_IMAGE;
-		dispinfo.item.iImage = nNewImageIdx;
-
-		if (strNewImageText!=strOldImageText)
-		{
-			dispinfo.item.mask |= LVIF_TEXT;
-			dispinfo.item.pszText = strNewImageText.GetBuffer(0);
-			dispinfo.item.cchTextMax = strNewImageText.GetLength();
-		}
-
-		owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
-
-		// Toggle all selected rows to the same image index as the one clicked
-		if (m_ToggleSelection)
-		{
-			// The click event for check-boxes doesn't change selection or focus
-			if (owner.IsRowSelected(nRow))
-			{
-				POSITION pos = owner.GetFirstSelectedItemPosition();
-				while(pos!=NULL)
-				{
-					int nSelectedRow = owner.GetNextSelectedItem(pos);
-					if (nSelectedRow==nRow)
-						continue;	// Don't flip the clicked row
-
-					int nNextOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
-					if (nNextOldImageIdx==nNewImageIdx)
-						continue;	// Already flipped
-
-					// Send Notification to parent of ListView ctrl
-					LV_DISPINFO nextDispinfo = {0};
-					nextDispinfo.hdr.hwndFrom = owner.m_hWnd;
-					nextDispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
-					nextDispinfo.hdr.code = LVN_ENDLABELEDIT;
-
-					nextDispinfo.item.iItem = nSelectedRow;
-					nextDispinfo.item.iSubItem = nCol;
-					nextDispinfo.item.mask = LVIF_IMAGE;
-					nextDispinfo.item.iImage = nNewImageIdx;
-
-					if (strNewImageText!=strOldImageText)
-					{
-						nextDispinfo.item.mask |= LVIF_TEXT;
-						nextDispinfo.item.pszText = strNewImageText.GetBuffer(0);
-						nextDispinfo.item.cchTextMax = strNewImageText.GetLength();
-					}
-
-					owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&nextDispinfo );
-				}
-			}
-		}
-	}
-	else if (nCol==0 && m_ToggleSelection && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
-	{
-		// Check if we should toggle the label-column checkboxes for all the selected rows
+		// Check if mouse click was inside the checkbox-part of the label-column
 		if (!labelRect.PtInRect(pt))
+			return OnEditBeginCheckbox(owner, nRow, nCol);
+	}
+
+	return NULL;	// Editor is never really started
+}
+
+//------------------------------------------------------------------------
+//! Reacts to clicking on the image, and allows all selected rows to be flipped
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+//------------------------------------------------------------------------
+CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, int nCol)
+{
+	if (m_ImageIndexes.GetSize()<=1)
+	{
+		// No images to flip between
+		if (m_IconClickBeginEdit)
+			return OnEditBegin(owner, nRow, nCol);
+		else
+			return NULL;
+	}
+
+	int nOldImageIdx = owner.GetCellImage(nRow, nCol);
+	int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
+	if (nNewImageIdx == -1)
+		return NULL;
+
+	CString strOldImageText, strNewImageText;
+	for(int i=0; i < m_ImageIndexes.GetSize(); ++i)
+	{
+		if (m_ImageIndexes.GetKeyAt(i)==nOldImageIdx)
+			strOldImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
+		if (m_ImageIndexes.GetKeyAt(i)==nNewImageIdx)
+			strNewImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
+	}
+
+	// Send Notification to parent of ListView ctrl
+	LV_DISPINFO dispinfo = {0};
+	dispinfo.hdr.hwndFrom = owner.m_hWnd;
+	dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
+	dispinfo.hdr.code = LVN_ENDLABELEDIT;
+
+	dispinfo.item.iItem = nRow;
+	dispinfo.item.iSubItem = nCol;
+	dispinfo.item.mask = LVIF_IMAGE;
+	dispinfo.item.iImage = nNewImageIdx;
+
+	if (strNewImageText!=strOldImageText)
+	{
+		dispinfo.item.mask |= LVIF_TEXT;
+		dispinfo.item.pszText = strNewImageText.GetBuffer(0);
+		dispinfo.item.cchTextMax = strNewImageText.GetLength();
+	}
+
+	owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+
+	// Toggle all selected rows to the same image index as the one clicked
+	if (m_ToggleSelection)
+	{
+		// The click event for check-boxes doesn't change selection or focus
+		if (owner.IsRowSelected(nRow))
 		{
-			// The click event for check-boxes doesn't change selection or focus
-			if (owner.IsRowSelected(nRow))
+			POSITION pos = owner.GetFirstSelectedItemPosition();
+			while(pos!=NULL)
 			{
-				BOOL bChecked = FALSE;
-				if (owner.GetStyle() & LVS_OWNERDATA)
-					bChecked = owner.OnOwnerDataDisplayCheckbox(nRow) ? TRUE : FALSE;
-				else
-					bChecked = owner.GetCheck(nRow);	// The clicked row have already been changed by the click-event. We flip the other rows
+				int nSelectedRow = owner.GetNextSelectedItem(pos);
+				if (nSelectedRow==nRow)
+					continue;	// Don't flip the clicked row
 
-				POSITION pos = owner.GetFirstSelectedItemPosition();
-				while(pos!=NULL)
+				int nNextOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
+				if (nNextOldImageIdx==nNewImageIdx)
+					continue;	// Already flipped
+
+				// Send Notification to parent of ListView ctrl
+				LV_DISPINFO nextDispinfo = {0};
+				nextDispinfo.hdr.hwndFrom = owner.m_hWnd;
+				nextDispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
+				nextDispinfo.hdr.code = LVN_ENDLABELEDIT;
+
+				nextDispinfo.item.iItem = nSelectedRow;
+				nextDispinfo.item.iSubItem = nCol;
+				nextDispinfo.item.mask = LVIF_IMAGE;
+				nextDispinfo.item.iImage = nNewImageIdx;
+
+				if (strNewImageText!=strOldImageText)
 				{
-					int nSelectedRow = owner.GetNextSelectedItem(pos);
-					if (nSelectedRow==nRow)
-						continue;	// Don't flip the clicked row
-
-					if (owner.GetStyle() & LVS_OWNERDATA)
-					{
-						BOOL bSelChecked = owner.OnOwnerDataDisplayCheckbox(nSelectedRow) ? TRUE : FALSE;
-						if (bChecked==bSelChecked)
-							continue;	// Already flipped
-					}
-					else
-					{
-						if (owner.GetCheck(nSelectedRow)==bChecked)
-							continue;	// Already flipped
-					}
-
-					if (owner.GetStyle() & LVS_OWNERDATA)
-						owner.OnOwnerDataToggleCheckBox(nSelectedRow, bChecked ? true : false);
-					else
-						owner.SetCheck(nSelectedRow, bChecked);
+					nextDispinfo.item.mask |= LVIF_TEXT;
+					nextDispinfo.item.pszText = strNewImageText.GetBuffer(0);
+					nextDispinfo.item.cchTextMax = strNewImageText.GetLength();
 				}
+
+				owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&nextDispinfo );
 			}
 		}
 	}
-	return NULL;	// Editor is never really started
+
+	return NULL;
+}
+
+//------------------------------------------------------------------------
+//! Reacts to clicking on the checkbox, and allows all selected rows to be flipped
+//!
+//! @param owner The list control starting edit
+//! @param nRow The index of the row for the cell to edit
+//! @param nCol The index of the column for the cell to edit
+//! @return Pointer to the cell editor to use (NULL if cell edit is not possible)
+//------------------------------------------------------------------------
+CWnd* CGridColumnTraitImage::OnEditBeginCheckbox(CGridListCtrlEx& owner, int nRow, int nCol)
+{
+	// The click event for check-boxes doesn't change selection or focus
+	if (owner.IsRowSelected(nRow))
+	{
+		BOOL bChecked = FALSE;
+		if (owner.GetStyle() & LVS_OWNERDATA)
+			bChecked = owner.OnOwnerDataDisplayCheckbox(nRow) ? TRUE : FALSE;
+		else
+			bChecked = owner.GetCheck(nRow);	// The clicked row have already been changed by the click-event. We flip the other rows
+
+		POSITION pos = owner.GetFirstSelectedItemPosition();
+		while(pos!=NULL)
+		{
+			int nSelectedRow = owner.GetNextSelectedItem(pos);
+			if (nSelectedRow==nRow)
+				continue;	// Don't flip the clicked row
+
+			if (owner.GetStyle() & LVS_OWNERDATA)
+			{
+				BOOL bSelChecked = owner.OnOwnerDataDisplayCheckbox(nSelectedRow) ? TRUE : FALSE;
+				if (bChecked==bSelChecked)
+					continue;	// Already flipped
+			}
+			else
+			{
+				if (owner.GetCheck(nSelectedRow)==bChecked)
+					continue;	// Already flipped
+			}
+
+			if (owner.GetStyle() & LVS_OWNERDATA)
+				owner.OnOwnerDataToggleCheckBox(nSelectedRow, bChecked ? true : false);
+			else
+				owner.SetCheck(nSelectedRow, bChecked);
+		}
+	}
+	return NULL;
 }
