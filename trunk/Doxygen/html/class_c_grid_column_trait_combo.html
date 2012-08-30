@@ -91,7 +91,7 @@ void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to provide a CComboBox cell value editor.  <a href="#ae61ea24e0da2552779646d66cc9cb93a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ac52a1cf430c478e4af9b78aeb02a50f2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#ac52a1cf430c478e4af9b78aeb02a50f2"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox.  <a href="#ac52a1cf430c478e4af9b78aeb02a50f2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_combo.html#ad71eff8d9d87af3df3e35072db553827">OnEditEnd</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ad71eff8d9d87af3df3e35072db553827" title="Overrides OnEditEnd() to ensure that temporary combobox variable is reset when cell...">OnEditEnd()</a> to ensure that temporary combobox variable is reset when cell value editing is completed.  <a href="#ad71eff8d9d87af3df3e35072db553827"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
@@ -370,7 +370,7 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a" title="Overrides OnEditBegin() to provide a CComboBox cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>

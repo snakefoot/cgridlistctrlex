@@ -78,7 +78,7 @@ Inheritance diagram for CGridColumnTraitDateTime:</div>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to provide a CDateTimeCtrl cell value editor.  <a href="#acba95b50bdbaeb960807e443f0dc3aa2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#a81525feb1113bc30320bd417d0c1daad">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a81525feb1113bc30320bd417d0c1daad"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox.  <a href="#a81525feb1113bc30320bd417d0c1daad"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#aa95b405d67aeb3312719b018b4f193dc">OnSortRows</a> (LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compares two cell values according to specified sort order.  <a href="#aa95b405d67aeb3312719b018b4f193dc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_date_time.html#ae7e519954b1e43237ba7c525e81b3247">OnSortRows</a> (const LVITEM &amp;leftItem, const LVITEM &amp;rightItem, bool bAscending)</td></tr>
@@ -243,7 +243,7 @@ DWORD&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2" title="Overrides OnEditBegin() to provide a CDateTimeCtrl cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>

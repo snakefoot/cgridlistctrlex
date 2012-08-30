@@ -113,12 +113,16 @@ Inheritance diagram for CGridColumnTraitImage:</div>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Override <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to provide your own special cell-edit control.  <a href="#a5805e0700f450c1b79f86ac5bbcac172"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a64719019b986858ae317aacb20cfc93c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#a64719019b986858ae317aacb20cfc93c"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to allow special handling when clicking image or checkbox.  <a href="#a64719019b986858ae317aacb20cfc93c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afab1c0f10273f90f8ac171eec86cfb1c"></a><!-- doxytag: member="CGridColumnTraitImage::Accept" ref="afab1c0f10273f90f8ac171eec86cfb1c" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#afab1c0f10273f90f8ac171eec86cfb1c">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Accept Visitor Pattern. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a330c264bfd6c1ea27d4bbf41e440ee59">FlipImageIndex</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch to the next image index.  <a href="#a330c264bfd6c1ea27d4bbf41e440ee59"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a7f5a38e7be701ac4913bc3724e32e60f">OnEditBeginImage</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the image, and allows all selected rows to be flipped.  <a href="#a7f5a38e7be701ac4913bc3724e32e60f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a54d9460697352ceb969457c20573e932">OnEditBeginCheckbox</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the checkbox, and allows all selected rows to be flipped.  <a href="#a54d9460697352ceb969457c20573e932"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">INTERNAL CSimpleMap&lt; int, <br class="typebreak"/>
 ImageCell &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_image.html#a97a90793323ce2e3f7aa08f27782f167">m_ImageIndexes</a></td></tr>
@@ -563,7 +567,7 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_image.html#a5805e0700f450c1b79f86ac5bbcac172" title="Override OnEditBegin() to provide your own special cell-edit control.">OnEditBegin()</a> to allow special handling when clicking image or checkbox. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
@@ -631,6 +635,94 @@ bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Reimplemented from <a class="el" href="class_c_grid_column_trait.html#a46da2be04a6554e41d2358f8a0f2b767">CGridColumnTrait</a>.</p>
 
 <p>Reimplemented in <a class="el" href="class_c_grid_column_trait_combo.html#ae61ea24e0da2552779646d66cc9cb93a">CGridColumnTraitCombo</a>, <a class="el" href="class_c_grid_column_trait_date_time.html#acba95b50bdbaeb960807e443f0dc3aa2">CGridColumnTraitDateTime</a>, <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c">CGridColumnTraitEdit</a>, and <a class="el" href="class_c_grid_column_trait_hyper_link.html#a42f8ea5934d65b74c6205a1205c8b1e7">CGridColumnTraitHyperLink</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a54d9460697352ceb969457c20573e932"></a><!-- doxytag: member="CGridColumnTraitImage::OnEditBeginCheckbox" ref="a54d9460697352ceb969457c20573e932" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridColumnTraitImage::OnEditBeginCheckbox </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reacts to clicking on the checkbox, and allows all selected rows to be flipped. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7f5a38e7be701ac4913bc3724e32e60f"></a><!-- doxytag: member="CGridColumnTraitImage::OnEditBeginImage" ref="a7f5a38e7be701ac4913bc3724e32e60f" args="(CGridListCtrlEx &amp;owner, int nRow, int nCol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CWnd * CGridColumnTraitImage::OnEditBeginImage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>nCol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reacts to clicking on the image, and allows all selected rows to be flipped. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nRow</em>&nbsp;</td><td>The index of the row for the cell to edit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nCol</em>&nbsp;</td><td>The index of the column for the cell to edit </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Pointer to the cell editor to use (NULL if cell edit is not possible) </dd></dl>
 
 </div>
 </div>

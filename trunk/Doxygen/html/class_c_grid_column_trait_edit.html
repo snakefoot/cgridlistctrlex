@@ -77,7 +77,7 @@ Inheritance diagram for CGridColumnTraitEdit:</div>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c" title="Overrides OnEditBegin() to provide a CEdit cell value editor.">OnEditBegin()</a> to provide a CEdit cell value editor.  <a href="#acbb77050df8e1134f6840c0e4832007c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual CWnd *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#aeb7493d9a5fadb6c0f6fa2281c14302a">OnEditBegin</a> (<a class="el" href="class_c_grid_list_ctrl_ex.html">CGridListCtrlEx</a> &amp;owner, int nRow, int nCol, CPoint pt)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reacts to clicking on the cell image, and switch to the next image index.  <a href="#aeb7493d9a5fadb6c0f6fa2281c14302a"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Overrides <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c" title="Overrides OnEditBegin() to provide a CEdit cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox.  <a href="#aeb7493d9a5fadb6c0f6fa2281c14302a"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af756c0562ed2a717dd67b38efab01c01"></a><!-- doxytag: member="CGridColumnTraitEdit::Accept" ref="af756c0562ed2a717dd67b38efab01c01" args="(CGridColumnTraitVisitor &amp;visitor)" -->
 virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_column_trait_edit.html#af756c0562ed2a717dd67b38efab01c01">Accept</a> (<a class="el" href="class_c_grid_column_trait_visitor.html">CGridColumnTraitVisitor</a> &amp;visitor)</td></tr>
@@ -232,7 +232,7 @@ UINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 <div class="memdoc">
 
-<p>Reacts to clicking on the cell image, and switch to the next image index. </p>
+<p>Overrides <a class="el" href="class_c_grid_column_trait_edit.html#acbb77050df8e1134f6840c0e4832007c" title="Overrides OnEditBegin() to provide a CEdit cell value editor.">OnEditBegin()</a> to allow special handling when clicking image or checkbox. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>owner</em>&nbsp;</td><td>The list control starting edit </td></tr>
