@@ -437,23 +437,15 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = {0};
-	dispinfo.hdr.hwndFrom = owner.m_hWnd;
-	dispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
-	dispinfo.hdr.code = LVN_ENDLABELEDIT;
-
-	dispinfo.item.iItem = nRow;
-	dispinfo.item.iSubItem = nCol;
 	dispinfo.item.mask = LVIF_IMAGE;
 	dispinfo.item.iImage = nNewImageIdx;
-
 	if (strNewImageText!=strOldImageText)
 	{
 		dispinfo.item.mask |= LVIF_TEXT;
 		dispinfo.item.pszText = strNewImageText.GetBuffer(0);
 		dispinfo.item.cchTextMax = strNewImageText.GetLength();
 	}
-
-	owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&dispinfo );
+	SendEndLabelEdit(owner, nRow, nCol, dispinfo);
 
 	// Toggle all selected rows to the same image index as the one clicked
 	if (m_ToggleSelection)
@@ -474,28 +466,41 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 
 				// Send Notification to parent of ListView ctrl
 				LV_DISPINFO nextDispinfo = {0};
-				nextDispinfo.hdr.hwndFrom = owner.m_hWnd;
-				nextDispinfo.hdr.idFrom = (UINT_PTR)owner.GetDlgCtrlID();
-				nextDispinfo.hdr.code = LVN_ENDLABELEDIT;
-
-				nextDispinfo.item.iItem = nSelectedRow;
-				nextDispinfo.item.iSubItem = nCol;
 				nextDispinfo.item.mask = LVIF_IMAGE;
 				nextDispinfo.item.iImage = nNewImageIdx;
-
 				if (strNewImageText!=strOldImageText)
 				{
 					nextDispinfo.item.mask |= LVIF_TEXT;
 					nextDispinfo.item.pszText = strNewImageText.GetBuffer(0);
 					nextDispinfo.item.cchTextMax = strNewImageText.GetLength();
 				}
-
-				owner.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)owner.GetDlgCtrlID(), (LPARAM)&nextDispinfo );
+				SendEndLabelEdit(owner, nSelectedRow, nCol, nextDispinfo);
 			}
 		}
 	}
 
 	return NULL;
+}
+
+//------------------------------------------------------------------------
+//! Send LV_DISPINFO structure as LVN_ENDLABELEDIT from CListCtrl to parent window
+//!
+//! @param wndListCtrl The list control starting edit
+//! @param nRow The index of the row
+//! @param nCol The index of the column
+//! @param lvDispInfo Specifies the properties of the new cell value
+//! @return Result of the SendMessage to parent window
+//------------------------------------------------------------------------
+LRESULT CGridColumnTraitImage::SendEndLabelEdit(CWnd& wndListCtrl, int nRow, int nCol, LV_DISPINFO& lvDispInfo)
+{
+	lvDispInfo.hdr.hwndFrom = wndListCtrl.m_hWnd;
+	lvDispInfo.hdr.idFrom = (UINT_PTR)wndListCtrl.GetDlgCtrlID();
+	lvDispInfo.hdr.code = LVN_ENDLABELEDIT;
+
+	lvDispInfo.item.iItem = nRow;
+	lvDispInfo.item.iSubItem = nCol;
+
+	return wndListCtrl.GetParent()->SendMessage( WM_NOTIFY, (WPARAM)wndListCtrl.GetDlgCtrlID(), (LPARAM)&lvDispInfo );
 }
 
 //------------------------------------------------------------------------

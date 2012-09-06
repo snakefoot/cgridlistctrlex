@@ -40,7 +40,8 @@ public:
 	bool GetIconClickBeginEdit() const;
 
 	static int AppendStateImages(CGridListCtrlEx& owner, CImageList& imagelist);
-	
+	static LRESULT SendEndLabelEdit(CWnd& wndListCtrl, int nRow, int nCol, LV_DISPINFO& dispInfo);
+
 protected:
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending) { return CGridColumnTraitText::OnSortRows(pszLeftValue, pszRightValue, bAscending); }
 	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending);

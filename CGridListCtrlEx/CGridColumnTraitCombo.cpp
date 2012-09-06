@@ -365,12 +365,6 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	GetWindowText(str);
 
 	LV_DISPINFO dispinfo = {0};
-	dispinfo.hdr.hwndFrom = GetParent()->m_hWnd;
-	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
-	dispinfo.hdr.code = LVN_ENDLABELEDIT;
-
-	dispinfo.item.iItem = m_Row;
-	dispinfo.item.iSubItem = m_Col;
 	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
@@ -381,7 +375,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	if (::GetFocus()==m_Edit.GetSafeHwnd())
 		GetParent()->SetFocus();	// Force close the internal CEdit control
 	ShowWindow(SW_HIDE);
-	GetParent()->GetParent()->SendMessage( WM_NOTIFY, (WPARAM)GetParent()->GetDlgCtrlID(), (LPARAM)&dispinfo );
+	CGridColumnTraitImage::SendEndLabelEdit(*GetParent(), m_Row, m_Col, dispinfo);
 	PostMessage(WM_CLOSE);
 }
 
