@@ -2228,7 +2228,9 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 	if (pTrait!=NULL)
 		pTrait->OnEditEnd();
 
-	return true;	// Accept edit
+	bool txtEdit = pLVDI->item.mask & LVIF_TEXT && pLVDI->item.pszText != NULL;
+	bool imgEdit = pLVDI->item.mask & LVIF_IMAGE && pLVDI->item.iImage != I_IMAGECALLBACK;
+	return txtEdit || imgEdit;	// Accept edit
 }
 
 //------------------------------------------------------------------------
@@ -2342,36 +2344,32 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 	if (nRow != -1 && nCol != -1)
 	{
-		bool txtEdit = pDispInfo->item.mask & LVIF_TEXT && pDispInfo->item.pszText != NULL;
-		bool imgEdit = pDispInfo->item.mask & LVIF_IMAGE && pDispInfo->item.iImage != I_IMAGECALLBACK;
-
-		if (txtEdit || imgEdit)
+		// Label edit completed by user
+		if (OnEditComplete(nRow, nCol, m_pEditor, pDispInfo))
 		{
-			// Label edit completed by user
-			if (OnEditComplete(nRow, nCol, m_pEditor, pDispInfo))
+			*pResult = TRUE;	// Accept edit
+
+			bool txtEdit = pDispInfo->item.mask & LVIF_TEXT && pDispInfo->item.pszText != NULL;
+			if (txtEdit)
 			{
-				*pResult = TRUE;	// Accept edit
+				// Handle situation where data is stored inside the CListCtrl
+				if (!IsCellCallback(nRow,nCol))
+					SetItemText(nRow, nCol, pDispInfo->item.pszText);
+			}
 
-				if (txtEdit)
+			bool imgEdit = pDispInfo->item.mask & LVIF_IMAGE && pDispInfo->item.iImage != I_IMAGECALLBACK;
+			if (imgEdit)
+			{
+				// Handle situation where data is stored inside the CListCtrl
+				if (!(GetStyle() & LVS_OWNERDATA))
 				{
-					// Handle situation where data is stored inside the CListCtrl
-					if (!IsCellCallback(nRow,nCol))
-						SetItemText(nRow, nCol, pDispInfo->item.pszText);
-				}
-
-				if (imgEdit)
-				{
-					// Handle situation where data is stored inside the CListCtrl
-					if (!(GetStyle() & LVS_OWNERDATA))
-					{
-						LVITEM lvi = {0};
-						lvi.iItem = nRow;
-						lvi.iSubItem = nCol;
-						lvi.mask = LVIF_IMAGE | LVIF_NORECOMPUTE;
-						VERIFY( GetItem( &lvi ) );
-						if (lvi.iImage!=I_IMAGECALLBACK)
-							SetCellImage(nRow, nCol, pDispInfo->item.iImage);
-					}
+					LVITEM lvi = {0};
+					lvi.iItem = nRow;
+					lvi.iSubItem = nCol;
+					lvi.mask = LVIF_IMAGE | LVIF_NORECOMPUTE;
+					VERIFY( GetItem( &lvi ) );
+					if (lvi.iImage!=I_IMAGECALLBACK)
+						SetCellImage(nRow, nCol, pDispInfo->item.iImage);
 				}
 			}
 		}
