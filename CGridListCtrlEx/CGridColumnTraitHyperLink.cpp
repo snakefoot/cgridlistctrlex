@@ -241,6 +241,8 @@ CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, i
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
+	LV_DISPINFO dispinfo = {0};
+	SendEndLabelEdit(owner, nRow, nCol, dispinfo);
 	CString cellText = owner.GetItemText(nRow, nCol);
 	OnShellExecute(owner, nRow, nCol, cellText);
 	return NULL;
@@ -248,7 +250,7 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 
 //------------------------------------------------------------------------
 //! Checks if the mouse click should start the cell editor (OnEditBegin)
-//!		- Validates that the click was on the text-link within the label-part
+//!	Validates that the click was on the text-link within the label-part
 //!
 //! @param owner The list control being clicked
 //! @param nRow The index of the row
