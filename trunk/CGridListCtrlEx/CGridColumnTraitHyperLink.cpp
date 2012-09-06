@@ -241,10 +241,10 @@ CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, i
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	LV_DISPINFO dispinfo = {0};
-	SendEndLabelEdit(owner, nRow, nCol, dispinfo);
 	CString cellText = owner.GetItemText(nRow, nCol);
 	OnShellExecute(owner, nRow, nCol, cellText);
+	LV_DISPINFO dispinfo = {0};
+	SendEndLabelEdit(owner, nRow, nCol, dispinfo);
 	return NULL;
 }
 
