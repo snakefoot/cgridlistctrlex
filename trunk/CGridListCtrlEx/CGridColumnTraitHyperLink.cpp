@@ -78,7 +78,7 @@ CString CGridColumnTraitHyperLink::GetShellOperation() const
 //------------------------------------------------------------------------
 //! Set the ShellExecute application to use to launch the file specifier
 //!
-//! @param Application path (If blank then it just uses the default handler for the file type)
+//! @param strShellAppliction Application path (If blank then it just uses the default handler for the file type)
 //------------------------------------------------------------------------
 void CGridColumnTraitHyperLink::SetShellApplication(const CString& strShellAppliction)
 {
