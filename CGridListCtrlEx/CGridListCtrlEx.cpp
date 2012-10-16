@@ -2218,15 +2218,17 @@ CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
 //!
 //! @param nRow The index of the row
 //! @param nCol The index of the column
-//! @param pEditor Pointer to the cell editor created by the column trait
 //! @param pLVDI Specifies the properties of the new cell value
 //! @return Is the new cell value accepted
 //------------------------------------------------------------------------
-bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI)
+bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, LV_DISPINFO* pLVDI)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
 	if (pTrait!=NULL)
 		pTrait->OnEditEnd();
+
+	if (pLVDI == NULL)
+		return false;	// Parent view rejected LVN_BEGINLABELEDIT notification
 
 	bool txtEdit = pLVDI->item.mask & LVIF_TEXT && pLVDI->item.pszText != NULL;
 	bool imgEdit = pLVDI->item.mask & LVIF_IMAGE && pLVDI->item.iImage != I_IMAGECALLBACK;
@@ -2275,7 +2277,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	if (GetParent()->SendMessage(WM_NOTIFY, (WPARAM)GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
 	{
 		// Parent didn't want to start edit
-		OnEditComplete(nRow, nCol, NULL, NULL);
+		OnEditComplete(nRow, nCol, NULL);
 		m_pEditor->PostMessage(WM_CLOSE);
 		m_pEditor = NULL;
 		return NULL;
@@ -2345,7 +2347,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	if (nRow != -1 && nCol != -1)
 	{
 		// Label edit completed by user
-		if (OnEditComplete(nRow, nCol, m_pEditor, pDispInfo))
+		if (OnEditComplete(nRow, nCol, pDispInfo))
 		{
 			*pResult = TRUE;	// Accept edit
 
