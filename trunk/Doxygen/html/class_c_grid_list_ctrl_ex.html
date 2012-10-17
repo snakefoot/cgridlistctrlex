@@ -417,9 +417,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:aff8ad10fec3f11217421abc4f9f46c99"><td class="memItemLeft" align="right" valign="top">virtual CWnd *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aff8ad10fec3f11217421abc4f9f46c99">OnEditBegin</a> (int nRow, int nCol, CPoint pt)</td></tr>
 <tr class="memdesc:aff8ad10fec3f11217421abc4f9f46c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to control whether cell editing is allowed for a cell.  <a href="#aff8ad10fec3f11217421abc4f9f46c99"></a><br/></td></tr>
 <tr class="separator:aff8ad10fec3f11217421abc4f9f46c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a044c1291c2d2c07a2bb712726bd11660"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a044c1291c2d2c07a2bb712726bd11660">OnEditComplete</a> (int nRow, int nCol, LV_DISPINFO *pLVDI)</td></tr>
-<tr class="memdesc:a044c1291c2d2c07a2bb712726bd11660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#a044c1291c2d2c07a2bb712726bd11660"></a><br/></td></tr>
-<tr class="separator:a044c1291c2d2c07a2bb712726bd11660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72cb48f9b7ea05751e49f3f5bb7e70f7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a72cb48f9b7ea05751e49f3f5bb7e70f7">OnEditComplete</a> (int nRow, int nCol, CWnd *pEditor, LV_DISPINFO *pLVDI)</td></tr>
+<tr class="memdesc:a72cb48f9b7ea05751e49f3f5bb7e70f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to validate the new value after a cell edit.  <a href="#a72cb48f9b7ea05751e49f3f5bb7e70f7"></a><br/></td></tr>
+<tr class="separator:a72cb48f9b7ea05751e49f3f5bb7e70f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3531144d2f29c51989154b7a348b73b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a3531144d2f29c51989154b7a348b73b9">OnContextMenuGrid</a> (CWnd *pWnd, CPoint point)</td></tr>
 <tr class="memdesc:a3531144d2f29c51989154b7a348b73b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to change the context menu when activating context menu in client area with no rows.  <a href="#a3531144d2f29c51989154b7a348b73b9"></a><br/></td></tr>
 <tr class="separator:a3531144d2f29c51989154b7a348b73b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3903,7 +3903,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
 
 </div>
 </div>
-<a class="anchor" id="a044c1291c2d2c07a2bb712726bd11660"></a>
+<a class="anchor" id="a72cb48f9b7ea05751e49f3f5bb7e70f7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -3921,6 +3921,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CWnd *&#160;</td>
+          <td class="paramname"><em>pEditor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3947,6 +3953,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>COleDropTargetWnd&lt
   <table class="params">
     <tr><td class="paramname">nRow</td><td>The index of the row </td></tr>
     <tr><td class="paramname">nCol</td><td>The index of the column </td></tr>
+    <tr><td class="paramname">pEditor</td><td>Pointer to the cell editor created by the column trait </td></tr>
     <tr><td class="paramname">pLVDI</td><td>Specifies the properties of the new cell value </td></tr>
   </table>
   </dd>
