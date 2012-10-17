@@ -247,7 +247,7 @@ protected:
 	virtual int OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblClick);
 	virtual CWnd* OnEditBegin(int nRow, int nCol);
 	virtual CWnd* OnEditBegin(int nRow, int nCol, CPoint pt);
-	virtual bool OnEditComplete(int nRow, int nCol, LV_DISPINFO* pLVDI);
+	virtual bool OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI);
 
 	// Context Menu Handlers
 	virtual void OnContextMenuGrid(CWnd* pWnd, CPoint point);
