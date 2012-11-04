@@ -156,6 +156,8 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	//	- Stores the pointer, so elements can be dynamically added later
 	m_pComboBox = CreateComboBox(owner, nRow, nCol, m_ComboBoxStyle, rectCell);
 	VERIFY(m_pComboBox!=NULL);
+	if (m_pComboBox==NULL)
+		return NULL;
 
 	if (m_ComboList.GetSize()>0)
 	{
