@@ -201,15 +201,39 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 	}
 	int imageCount = -1;
 	ASSERT(pStateList!=NULL);
-	if (pStateList!=NULL)
+	if (pStateList!=NULL && pStateList->GetImageCount() >= 2)
 	{
 		imageCount = imagelist.GetImageCount();
-		HICON uncheckedIcon = pStateList->ExtractIcon(0);
-		imagelist.Add(uncheckedIcon);
-		DestroyIcon(uncheckedIcon);
-		HICON checkedIcon = pStateList->ExtractIcon(1);
-		imagelist.Add(checkedIcon);
-		DestroyIcon(checkedIcon);
+
+		// Get the icon size of current imagelist
+		CSize iconSize(16,16);
+		if (imageCount > 0)
+		{
+			IMAGEINFO iconSizeInfo = {0};
+			imagelist.GetImageInfo(0, &iconSizeInfo);
+			iconSize = CSize(iconSizeInfo.rcImage.right-iconSizeInfo.rcImage.left, iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top);
+		}
+
+		// Redraw the state-icon to match the icon size of the current imagelist (without scaling image)
+		CClientDC clienDC(&owner);
+		CDC memDC;
+		VERIFY(memDC.CreateCompatibleDC(&clienDC));
+		CBitmap dstBmp;
+		VERIFY(dstBmp.CreateCompatibleBitmap(&clienDC, iconSize.cx, iconSize.cy));
+
+		CBitmap* pBmpOld = memDC.SelectObject(&dstBmp);
+		COLORREF oldBkColor = pStateList->SetBkColor(imagelist.GetBkColor());
+		CBrush brush(RGB(255,255,255));
+		memDC.FillRect(CRect(0,0,iconSize.cx, iconSize.cy), &brush);
+		VERIFY( pStateList->Draw(&memDC, 0, CPoint(1,1), ILD_NORMAL) );	// +1 pixel to avoid overlap with grid
+		memDC.SelectObject(pBmpOld);
+		VERIFY( imagelist.Add(&dstBmp, RGB(255,255,255)) != -1 );
+		pBmpOld = memDC.SelectObject(&dstBmp);
+		memDC.FillRect(CRect(0,0,iconSize.cx, iconSize.cy), &brush);
+		VERIFY( pStateList->Draw(&memDC, 1, CPoint(1,1), ILD_NORMAL) );	// +1 pixel to avoid overlap with grid
+		memDC.SelectObject(pBmpOld);
+		VERIFY( imagelist.Add(&dstBmp, RGB(255,255,255)) != -1 );
+		pStateList->SetBkColor(oldBkColor);
 	}
 	if (createdStateImages)
 		owner.SetExtendedStyle(owner.GetExtendedStyle() & ~LVS_EX_CHECKBOXES);
