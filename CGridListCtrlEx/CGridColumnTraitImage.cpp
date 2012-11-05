@@ -211,7 +211,19 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 		{
 			IMAGEINFO iconSizeInfo = {0};
 			imagelist.GetImageInfo(0, &iconSizeInfo);
-			iconSize = CSize(iconSizeInfo.rcImage.right-iconSizeInfo.rcImage.left, iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top);
+			iconSize = 
+				CSize(iconSizeInfo.rcImage.right-iconSizeInfo.rcImage.left, 
+				iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top);
+		}
+
+		// Scale the icon-position if necessary
+		CPoint iconPos(1,0); // +1 pixel to avoid overlap with left-grid-line
+		{
+			IMAGEINFO stateSizeInfo = {0};
+			pStateList->GetImageInfo(0, &stateSizeInfo);
+			int stateIconHeight = stateSizeInfo.rcImage.bottom-stateSizeInfo.rcImage.top;
+			if (iconSize.cy > stateIconHeight)
+				iconPos.y = (iconSize.cy - stateIconHeight) / 2;
 		}
 
 		// Redraw the state-icon to match the icon size of the current imagelist (without scaling image)
@@ -223,16 +235,16 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 
 		CBitmap* pBmpOld = memDC.SelectObject(&dstBmp);
 		COLORREF oldBkColor = pStateList->SetBkColor(imagelist.GetBkColor());
-		CBrush brush(RGB(255,255,255));
+		CBrush brush(imagelist.GetBkColor());
 		memDC.FillRect(CRect(0,0,iconSize.cx, iconSize.cy), &brush);
-		VERIFY( pStateList->Draw(&memDC, 0, CPoint(1,1), ILD_NORMAL) );	// +1 pixel to avoid overlap with grid
+		VERIFY( pStateList->Draw(&memDC, 0, iconPos, ILD_NORMAL) );
 		memDC.SelectObject(pBmpOld);
-		VERIFY( imagelist.Add(&dstBmp, RGB(255,255,255)) != -1 );
+		VERIFY( imagelist.Add(&dstBmp, oldBkColor) != -1 );
 		pBmpOld = memDC.SelectObject(&dstBmp);
 		memDC.FillRect(CRect(0,0,iconSize.cx, iconSize.cy), &brush);
-		VERIFY( pStateList->Draw(&memDC, 1, CPoint(1,1), ILD_NORMAL) );	// +1 pixel to avoid overlap with grid
+		VERIFY( pStateList->Draw(&memDC, 1, iconPos, ILD_NORMAL) );
 		memDC.SelectObject(pBmpOld);
-		VERIFY( imagelist.Add(&dstBmp, RGB(255,255,255)) != -1 );
+		VERIFY( imagelist.Add(&dstBmp, oldBkColor) != -1 );
 		pStateList->SetBkColor(oldBkColor);
 	}
 	if (createdStateImages)
