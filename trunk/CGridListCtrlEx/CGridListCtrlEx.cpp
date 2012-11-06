@@ -739,6 +739,10 @@ void CGridListCtrlEx::OnCreateStyle()
 	// Enable Vista-look if possible
 	EnableVisualStyles(true);
 
+	// Win8 has a drawing bug when using grid-lines together with visual styles, so we disable them
+	if (CheckOSVersion(0x602) && UsingVisualStyle())
+		SetExtendedStyle(GetExtendedStyle() & ~LVS_EX_GRIDLINES);
+
 	// Enable the standard tooltip
 	EnableToolTips(TRUE);
 
