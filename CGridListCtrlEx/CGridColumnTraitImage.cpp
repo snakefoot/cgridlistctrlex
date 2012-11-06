@@ -210,7 +210,7 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 		if (imageCount > 0)
 		{
 			IMAGEINFO iconSizeInfo = {0};
-			imagelist.GetImageInfo(0, &iconSizeInfo);
+			VERIFY( imagelist.GetImageInfo(0, &iconSizeInfo) );
 			iconSize = 
 				CSize(iconSizeInfo.rcImage.right-iconSizeInfo.rcImage.left, 
 				iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top);
@@ -220,7 +220,7 @@ int CGridColumnTraitImage::AppendStateImages(CGridListCtrlEx& owner, CImageList&
 		CPoint iconPos(1,0); // +1 pixel to avoid overlap with left-grid-line
 		{
 			IMAGEINFO stateSizeInfo = {0};
-			pStateList->GetImageInfo(0, &stateSizeInfo);
+			VERIFY( pStateList->GetImageInfo(0, &stateSizeInfo) );
 			int stateIconHeight = stateSizeInfo.rcImage.bottom-stateSizeInfo.rcImage.top;
 			if (iconSize.cy > stateIconHeight)
 				iconPos.y = (iconSize.cy - stateIconHeight) / 2;
