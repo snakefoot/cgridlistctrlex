@@ -7,6 +7,11 @@
 // Version: 2.1
 //
 // Change History:
+//	2.2 - CGridColumnTraitCombo now has the option to display dropdown on edit begin (SetShowDropDown)
+//		  All column trait editors now has the option to start editor on first mouse click (SetSingleClickEdit)
+//		  CGridColumnTraitHyperLink will sent LVN_ENDLABELEDIT notification to parent on mouse click (Simulates button click)
+//		  Checkbox state icon used by subitems has been improved on Windows 7/8 by disabling image scaling
+//		  Fixed several small bugs
 //	2.1 - Fixed bug introduced in 2.0, where grouping of items no longer worked on WinXP.
 //		  Improved performance when sorting item groups, especially on Vista/Win7+.
 //		  Added new column trait CGridColumnTraitHyperLink, that can display cell text as weblinks.
