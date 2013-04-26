@@ -186,10 +186,13 @@ int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightV
 	ParseDateTime(pszLeftValue, leftDateTime);
 	ParseDateTime(pszRightValue, rightDateTime);
 
-	if (bAscending)
-		return (int)(leftDateTime - rightDateTime);
+	if (leftDateTime > rightDateTime)
+		return bAscending ? 1 : -1;
 	else
-		return (int)(rightDateTime - leftDateTime);
+	if (leftDateTime < rightDateTime)
+		return bAscending ? -1 : 1;
+	else
+		return 0;
 }
 
 //------------------------------------------------------------------------
