@@ -52,7 +52,7 @@ public:
 		m_Records.push_back( CListCtrl_DataRecord(_T("Paris"), _T("France"), COleDateTime(2000,7,2,0,0,0)) );
 		m_Records.push_back( CListCtrl_DataRecord(_T("Athen"), _T("Greece"), COleDateTime(2004,7,4,0,0,0)) );
 		m_Records.push_back( CListCtrl_DataRecord(_T("Stockholm"), _T("Sweden"), COleDateTime(0,0,0,0,0,0)) );
-		m_Records.push_back( CListCtrl_DataRecord(_T("Barcelona"), _T("Spain"), COleDateTime(2008,6,29,0,0,0)) );
+		m_Records.push_back( CListCtrl_DataRecord(_T("Madrid"), _T("Spain"), COleDateTime(2008,6,29,0,0,0)) );
 
 		if (m_RowMultiplier > 1)
 		{
