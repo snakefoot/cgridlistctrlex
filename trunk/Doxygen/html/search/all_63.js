@@ -24,6 +24,7 @@ var searchData=
   ['checkentiregroup',['CheckEntireGroup',['../class_c_grid_list_ctrl_groups.html#aba831cd5b40fba97fcc96725d01a2e33',1,'CGridListCtrlGroups']]],
   ['checkosversion',['CheckOSVersion',['../class_c_grid_list_ctrl_ex.html#a2451ed9a7fe48440fba9a5d057e89f57',1,'CGridListCtrlEx']]],
   ['clearfixeditems',['ClearFixedItems',['../class_c_grid_column_trait_combo.html#a149a21a4bf9c4a3f1d52f15f611ba9d0',1,'CGridColumnTraitCombo']]],
+  ['coledropsourcewnd',['COleDropSourceWnd',['../class_c_ole_drop_source_wnd.html',1,'']]],
   ['coledroptargetwnd',['COleDropTargetWnd',['../class_c_ole_drop_target_wnd.html',1,'']]],
   ['coledroptargetwnd_3c_20cgridlistctrlex_20_3e',['COleDropTargetWnd&lt; CGridListCtrlEx &gt;',['../class_c_ole_drop_target_wnd.html',1,'']]],
   ['collapseallgroups',['CollapseAllGroups',['../class_c_grid_list_ctrl_groups.html#a0f77396fc0df8e69b6665e025fc423a2',1,'CGridListCtrlGroups']]],

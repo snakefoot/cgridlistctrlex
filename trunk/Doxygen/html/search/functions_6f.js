@@ -35,6 +35,7 @@ var searchData=
   ['ondisplaytoclipboard',['OnDisplayToClipboard',['../class_c_grid_list_ctrl_ex.html#a604d3de5047b6a9255635778ea5445c2',1,'CGridListCtrlEx::OnDisplayToClipboard(CString &amp;strResult, bool includeHeader=true)'],['../class_c_grid_list_ctrl_ex.html#a1e229f9b9cf4235ddaf94bf0432bedf5',1,'CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString &amp;strResult)'],['../class_c_grid_list_ctrl_ex.html#a85b10f6e13a1ea358a23b8ec463f0593',1,'CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString &amp;strResult)']]],
   ['ondisplaytodragdrop',['OnDisplayToDragDrop',['../class_c_grid_list_ctrl_ex.html#a0f0ebe0a183be430a7f357df947747b1',1,'CGridListCtrlEx']]],
   ['ondragenter',['OnDragEnter',['../class_c_grid_list_ctrl_ex.html#a8b2b21b089d2cd3d62f95ed97f30f052',1,'CGridListCtrlEx']]],
+  ['ondraggivefeedback',['OnDragGiveFeedback',['../class_c_grid_list_ctrl_ex.html#afbc8fc322f44b5ffb9561583f7920cb0',1,'CGridListCtrlEx']]],
   ['ondragleave',['OnDragLeave',['../class_c_grid_list_ctrl_ex.html#a4e4d84b7b76b6f4d3a4150536556ebe0',1,'CGridListCtrlEx']]],
   ['ondragover',['OnDragOver',['../class_c_grid_list_ctrl_ex.html#a32c02282e6285f5855965d56780c7fad',1,'CGridListCtrlEx']]],
   ['ondrop',['OnDrop',['../class_c_grid_list_ctrl_ex.html#a7155f4841e7fd2ace78f04b1d649fa1e',1,'CGridListCtrlEx']]],

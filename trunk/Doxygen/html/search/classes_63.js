@@ -20,6 +20,7 @@ var searchData=
   ['cgridrowtraittext',['CGridRowTraitText',['../class_c_grid_row_trait_text.html',1,'']]],
   ['cgridrowtraitvisitor',['CGridRowTraitVisitor',['../class_c_grid_row_trait_visitor.html',1,'']]],
   ['cgridrowtraitxp',['CGridRowTraitXP',['../class_c_grid_row_trait_x_p.html',1,'']]],
+  ['coledropsourcewnd',['COleDropSourceWnd',['../class_c_ole_drop_source_wnd.html',1,'']]],
   ['coledroptargetwnd',['COleDropTargetWnd',['../class_c_ole_drop_target_wnd.html',1,'']]],
   ['coledroptargetwnd_3c_20cgridlistctrlex_20_3e',['COleDropTargetWnd&lt; CGridListCtrlEx &gt;',['../class_c_ole_drop_target_wnd.html',1,'']]],
   ['columnstate',['ColumnState',['../struct_c_grid_column_trait_1_1_column_state.html',1,'CGridColumnTrait']]],
