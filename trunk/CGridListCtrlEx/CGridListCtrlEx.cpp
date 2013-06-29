@@ -3843,7 +3843,7 @@ DROPEFFECT CGridListCtrlEx::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyS
 //! Called by the framework during drag-drop operation, and allows one to
 //! give visual feedback to the end user during a drag-and-drop operation.
 //!
-//! @param dropEffects Drag-and-drop operations that are allowed on this data source
+//! @param dropEffect The DROPEFFECT value returned by the most recent call to IDropTarget::DragEnter, IDropTarget::DragOver, or IDropTarget::DragLeave.
 //! @return S_OK if having performed ::SetCursor()
 //------------------------------------------------------------------------
 SCODE CGridListCtrlEx::OnDragGiveFeedback(DROPEFFECT dropEffect)
