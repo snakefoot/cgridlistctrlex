@@ -50,11 +50,13 @@
 //------------------------------------------------------------------------
 
 class COleDataSource;
+class COleDropSource;
 class CViewConfigSection;
 class CViewConfigSectionProfiles;
 class CGridColumnTrait;
 class CGridRowTrait;
 template<class T> class COleDropTargetWnd;
+template<class T> class COleDropSourceWnd;
 
 //------------------------------------------------------------------------
 //! \mainpage Introduction
@@ -234,10 +236,15 @@ protected:
 	// Maintaining drag drop
 	COleDropTargetWnd<CGridListCtrlEx>* m_pOleDropTarget;	//!< Maintains OLE drag drop target
 	friend class COleDropTargetWnd<CGridListCtrlEx>;
+	friend class COleDropSourceWnd<CGridListCtrlEx>;
 	virtual BOOL RegisterDropTarget();
-	virtual DROPEFFECT DoDragDrop(COleDataSource& oleDataSource);
+	virtual DROPEFFECT DoDragDrop(COleDataSource& oleDataSource,
+		COleDropSource* pDropSource = NULL,
+		DWORD dropEffects = DROPEFFECT_COPY|DROPEFFECT_MOVE|DROPEFFECT_LINK,
+		LPCRECT lpRectStartDrag = NULL);
 	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
+	virtual SCODE OnDragGiveFeedback(DROPEFFECT dropEffect);
 	virtual void OnDragLeave();
 	virtual BOOL OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
