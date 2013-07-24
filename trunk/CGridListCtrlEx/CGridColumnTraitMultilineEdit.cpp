@@ -121,7 +121,7 @@ CGridMultilineEditorText::CGridMultilineEditorText(int nRow, int nCol)
 //------------------------------------------------------------------------
 void CGridMultilineEditorText::OnEnChange()
 {
-	if (!m_InitialModify && (GetStyle() & ES_MULTILINE))
+	if (m_InitialModify && (GetStyle() & ES_MULTILINE))
 		m_InitialModify = false;// ES_MULTILINE causes EN_CHANGE not to fire at initial SetWindowText
 
 	// If multiline support, then resize the edit according to contents
