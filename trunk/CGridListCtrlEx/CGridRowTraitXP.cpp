@@ -134,7 +134,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			VERIFY( owner.GetCellRect(nRow, nCol, LVIR_ICON, rcIcon) );
 			VERIFY( owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
 			// When the label column is placed first it has a left-margin 
-			if (nCol==0 && nCol==owner.GetFirstVisibleColumn())
+			if (nCol==0 && (nCol==owner.GetFirstVisibleColumn() || owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
 			{
 				int cxborder = ::GetSystemMetrics(SM_CXBORDER);
 				rcCell.left += cxborder*2;
