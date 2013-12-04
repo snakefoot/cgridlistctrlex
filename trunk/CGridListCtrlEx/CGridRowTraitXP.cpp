@@ -140,6 +140,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				rcCell.left += cxborder*2;
 			}
 
+			if (rcIcon.right > pLVCD->nmcd.rc.right)
+				rcIcon.right = pLVCD->nmcd.rc.right;
+
+			if (rcCell.right > pLVCD->nmcd.rc.right)
+				rcCell.right = pLVCD->nmcd.rc.right;
+
 			// Remove white margin between cell-image and cell-text
 			rcCell.right = rcIcon.right + 2;
 			CBrush brush(backColor);
