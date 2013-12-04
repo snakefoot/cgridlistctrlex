@@ -32,13 +32,6 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 //------------------------------------------------------------------------
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	if (owner.UsingVisualStyle())
-	{
-		// Perform standard drawing
-		CGridRowTraitText::OnCustomDraw(owner, pLVCD, pResult);
-		return;
-	}
-	
 	// We are using classic- or XP-style
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 
@@ -83,8 +76,19 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			else
 			if (owner.IsRowSelected(nRow))
 			{
-				if (!(owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT))
-					break;	// No drawing of selection color without full-row-select
+				if (owner.UsingVisualStyle())
+				{
+					if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
+						break;
+					
+					if (nCol == 0)
+						break;
+				}
+				else
+				{
+					if (!(owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT))
+						break;	// No drawing of selection color without full-row-select
+				}
 
 				if (m_InvertCellSelection && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
 				{
@@ -106,7 +110,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 					}
 					else
 					{
-						backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+						if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT || nCol == 0)
+							backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+						else if (pLVCD->clrTextBk > RGB(255,255,255))
+							break;	// If a color is more than white, then it is invalid
+
+						backColor = pLVCD->clrTextBk;
 					}
 				}
 			}
@@ -136,6 +145,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			CBrush brush(backColor);
 			pDC->FillRect(&rcCell, &brush);
 
+			IMAGEINFO iconSizeInfo = {0};
+			VERIFY( pImageList->GetImageInfo(0, &iconSizeInfo) );
+			int iconHeight = iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top;
+			if (rcIcon.Height() > iconHeight)
+				rcIcon.top += (rcIcon.Height() - iconHeight) / 2;
+
 			// Draw icon
 			COLORREF oldBkColor = pImageList->SetBkColor(backColor);
 			pImageList->Draw (	pDC,  
@@ -149,6 +164,16 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				CImageList* pStateImageList = owner.GetImageList(LVSIL_STATE);
 				if (pImageList==NULL)
 					break;
+
+				IMAGEINFO stateSizeInfo = {0};
+				VERIFY( pStateImageList->GetImageInfo(0, &stateSizeInfo) );
+				int stateIconHeight = stateSizeInfo.rcImage.bottom-stateSizeInfo.rcImage.top;
+				int stateIconWidth = stateSizeInfo.rcImage.right-stateSizeInfo.rcImage.left;
+				if (rcCell.Height() > stateIconHeight)
+					rcCell.top += (rcCell.Height() - stateIconHeight) / 2;
+
+				if ((rcIcon.left - rcCell.left) > stateIconWidth)
+					rcCell.left += ((rcIcon.left - rcCell.left) - stateIconWidth) / 2;
 
 				int checkState = owner.GetCheck(nRow);
 				COLORREF oldStateBkColor = pStateImageList->SetBkColor(backColor);

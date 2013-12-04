@@ -141,8 +141,8 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 			// even if having reverted the cell coloring in subitem-post-paint
 			if (pLVCD->clrText <= RGB(255,255,255) || pLVCD->clrTextBk <= RGB(255,255,255))
 			{
-				pLVCD->clrText = 4278190080;
-				pLVCD->clrTextBk = 4278190080;
+				pLVCD->clrText = CLR_DEFAULT;
+				pLVCD->clrTextBk = CLR_DEFAULT;
 
 				if (UpdateTextColor(nRow, pLVCD->clrText))
 					*pResult |= CDRF_NEWFONT;
