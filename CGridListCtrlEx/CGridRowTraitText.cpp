@@ -22,7 +22,7 @@ CGridRowTraitText::CGridRowTraitText()
 	,m_BackColor((COLORREF)-1)
 	,m_AltTextColor((COLORREF)-1)
 	,m_AltBackColor((COLORREF)-1)
-	,m_InvertCellSelection(true)
+	,m_InvertCellSelection(false)
 {}
 
 //------------------------------------------------------------------------
