@@ -32,7 +32,6 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 //------------------------------------------------------------------------
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	// We are using classic- or XP-style
 	int nRow = (int)pLVCD->nmcd.dwItemSpec;
 
 	// Repair the standard drawing
@@ -95,7 +94,12 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 						{
 							// Selection color is different when not having focus
 							if (owner.GetStyle() & LVS_SHOWSELALWAYS)
-								backColor = ::GetSysColor(COLOR_BTNFACE);
+							{
+								if (pLVCD->clrTextBk == ::GetSysColor(COLOR_HIGHLIGHT))
+									backColor = pLVCD->clrTextBk;
+								else
+									backColor = ::GetSysColor(COLOR_BTNFACE);
+							}
 							else
 								break;	// No drawing of selection, when not in focus
 						}
@@ -125,28 +129,28 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 
 			CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 
-			CRect rcIcon, rcCell;
-			VERIFY( owner.GetCellRect(nRow, nCol, LVIR_ICON, rcIcon) );
-			VERIFY( owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcCell) );
+			CRect rcIcon, rcIconArea;
+			VERIFY(owner.GetCellRect(nRow, nCol, LVIR_ICON, rcIcon));
+			VERIFY(owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcIconArea));
 			// When the label column is placed first it has a left-margin 
 			if (nCol==0 && (nCol==owner.GetFirstVisibleColumn() || owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
 			{
 				int cxborder = ::GetSystemMetrics(SM_CXBORDER);
-				rcCell.left += cxborder*2;
+				rcIconArea.left += cxborder * 2;
 			}
 
 			// Remove white margin between cell-image and cell-text
-			rcCell.right = rcIcon.right + 2;
+			rcIconArea.right = rcIcon.right + 2;
 
 			// Stay within the limits of the column visible area
 			if (rcIcon.right > pLVCD->nmcd.rc.right)
 				rcIcon.right = pLVCD->nmcd.rc.right;
 
-			if (rcCell.right > pLVCD->nmcd.rc.right)
-				rcCell.right = pLVCD->nmcd.rc.right;
+			if (rcIconArea.right > pLVCD->nmcd.rc.right)
+				rcIconArea.right = pLVCD->nmcd.rc.right;
 
 			CBrush brush(backColor);
-			pDC->FillRect(&rcCell, &brush);
+			pDC->FillRect(&rcIconArea, &brush);
 
 			IMAGEINFO iconSizeInfo = {0};
 			VERIFY( pImageList->GetImageInfo(0, &iconSizeInfo) );
@@ -172,17 +176,17 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 				VERIFY( pStateImageList->GetImageInfo(0, &stateSizeInfo) );
 				int stateIconHeight = stateSizeInfo.rcImage.bottom-stateSizeInfo.rcImage.top;
 				int stateIconWidth = stateSizeInfo.rcImage.right-stateSizeInfo.rcImage.left;
-				if (rcCell.Height() > stateIconHeight)
-					rcCell.top += (rcCell.Height() - stateIconHeight) / 2;
+				if (rcIconArea.Height() > stateIconHeight)
+					rcIconArea.top += (rcIconArea.Height() - stateIconHeight) / 2;
 
-				if ((rcIcon.left - rcCell.left) > stateIconWidth)
-					rcCell.left += ((rcIcon.left - rcCell.left) - stateIconWidth) / 2;
+				if ((rcIcon.left - rcIconArea.left) > stateIconWidth)
+					rcIconArea.left += ((rcIcon.left - rcIconArea.left) - stateIconWidth) / 2;
 
 				int checkState = owner.GetCheck(nRow);
 				COLORREF oldStateBkColor = pStateImageList->SetBkColor(backColor);
 				pStateImageList->Draw (	pDC,  
 									checkState,  
-									rcCell.TopLeft(),
+									rcIconArea.TopLeft(),
 									ILD_NORMAL );
 				pStateImageList->SetBkColor(oldStateBkColor);
 			}
