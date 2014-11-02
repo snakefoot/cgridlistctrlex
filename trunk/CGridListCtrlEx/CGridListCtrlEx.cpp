@@ -727,8 +727,12 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 		if (CheckOSVersion(0x501))
 			SetExtendedStyle(LVS_EX_DOUBLEBUFFER | GetExtendedStyle());
 #endif
+
+		// Win8 has a drawing bug when using grid-lines together with visual styles, so we disable them
+		if (CheckOSVersion(0x602))
+			SetExtendedStyle(GetExtendedStyle() & ~LVS_EX_GRIDLINES);
 	}
-	else
+	else if (rc == S_OK)
 	{
 		m_UsingVisualStyle = false;
 	}
@@ -760,13 +764,6 @@ void CGridListCtrlEx::OnCreateStyle()
 		SetExtendedStyle(GetExtendedStyle() | LVS_EX_DOUBLEBUFFER);
 #endif
 	
-	// Enable Vista-look if possible
-	EnableVisualStyles(true);
-
-	// Win8 has a drawing bug when using grid-lines together with visual styles, so we disable them
-	if (CheckOSVersion(0x602) && UsingVisualStyle())
-		SetExtendedStyle(GetExtendedStyle() & ~LVS_EX_GRIDLINES);
-
 	// Enable the standard tooltip
 	EnableToolTips(TRUE);
 

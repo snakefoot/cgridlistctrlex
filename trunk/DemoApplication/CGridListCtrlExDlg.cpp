@@ -122,6 +122,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 	m_ListCtrl.SetCellMargin(1.2);
 	CGridRowTraitXP* pRowTrait = new CGridRowTraitXP;
 	m_ListCtrl.SetDefaultRowTrait(pRowTrait);
+	m_ListCtrl.EnableVisualStyles(true);
 
 	// Create Columns
 	m_ListCtrl.InsertHiddenLabelColumn();	// Requires one never uses column 0

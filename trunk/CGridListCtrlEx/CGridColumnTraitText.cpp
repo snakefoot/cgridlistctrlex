@@ -106,6 +106,9 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			if (owner.OnDisplayCellColor(pLVCD))
 				*pResult |= CDRF_NEWFONT | CDRF_NOTIFYPOSTPAINT;
 
+			// Changed the colors without asking for restoring the original color
+			ASSERT((*pResult & CDRF_NOTIFYPOSTPAINT) || (pLVCD->clrText == m_OldTextColor && pLVCD->clrTextBk == m_OldBackColor));
+
 			LOGFONT newFont = {0};
 			bool createFont = owner.OnDisplayCellFont(pLVCD, newFont);
 			createFont |= UpdateTextFont(pLVCD, newFont);

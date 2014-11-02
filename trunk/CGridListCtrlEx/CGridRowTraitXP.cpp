@@ -73,56 +73,51 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 					break;
 #endif
 			}
-			else
-			if (owner.IsRowSelected(nRow))
+			else if (owner.IsRowSelected(nRow))
 			{
-				if (owner.UsingVisualStyle())
+				if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT || nCol == 0)
 				{
-					if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
-						break;
-					
-					if (nCol == 0)
-						break;
-				}
-				else
-				{
-					if (!(owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT))
-						break;	// No drawing of selection color without full-row-select
-				}
+					// Selection must be visible for this cell
+					if (owner.UsingVisualStyle())
+						break;	// Row selection is not drawn by background color
 
-				if (m_InvertCellSelection && owner.GetFocusRow()==nRow && owner.GetFocusCell()==nCol)
-				{
-					// No drawing of selection color for focus cell
-					if (pLVCD->clrTextBk > RGB(255,255,255))
-						break;
-
-					backColor = pLVCD->clrTextBk;
-				}
-				else
-				{
-					if (owner.GetFocus()!=&owner && !owner.IsCellEditorOpen())
+					if (m_InvertCellSelection && owner.GetFocusRow() == nRow && owner.GetFocusCell() == nCol)
 					{
-						// Selection color is different when not having focus
-						if (owner.GetStyle() & LVS_SHOWSELALWAYS)
-							backColor = ::GetSysColor(COLOR_BTNFACE);
-						else
-							break;	// no drawing of selection color when not in focus
-					}
-					else
-					{
-						if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT || nCol == 0)
-							backColor = ::GetSysColor(COLOR_HIGHLIGHT);
-						else if (pLVCD->clrTextBk > RGB(255,255,255))
-							break;	// If a color is more than white, then it is invalid
+						// No drawing of selection color for focus cell
+						if (pLVCD->clrTextBk > RGB(255, 255, 255))
+							break;
 
 						backColor = pLVCD->clrTextBk;
 					}
+					else
+					{
+						if (owner.GetFocus() != &owner && !owner.IsCellEditorOpen())
+						{
+							// Selection color is different when not having focus
+							if (owner.GetStyle() & LVS_SHOWSELALWAYS)
+								backColor = ::GetSysColor(COLOR_BTNFACE);
+							else
+								break;	// No drawing of selection, when not in focus
+						}
+						else
+						{
+							backColor = ::GetSysColor(COLOR_HIGHLIGHT);
+						}
+					}
+				}
+				else
+				{
+					// Redraw with the given background color
+					if (pLVCD->clrTextBk > RGB(255, 255, 255))
+						break;	// If a color is more than white, then it is invalid
+
+					backColor = pLVCD->clrTextBk;
 				}
 			}
 			else
 			{
 				// Redraw with the given background color
-				if (pLVCD->clrTextBk > RGB(255,255,255))
+				if (pLVCD->clrTextBk > RGB(255, 255, 255))
 					break;	// If a color is more than white, then it is invalid
 
 				backColor = pLVCD->clrTextBk;
