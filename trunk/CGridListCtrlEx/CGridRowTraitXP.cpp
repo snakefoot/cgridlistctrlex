@@ -72,7 +72,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 					break;
 #endif
 			}
-			else if (owner.IsRowSelected(nRow))
+			else if ((pLVCD->nmcd.uItemState & CDIS_SELECTED) && owner.IsRowSelected(nRow))
 			{
 				if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT || nCol == 0)
 				{
