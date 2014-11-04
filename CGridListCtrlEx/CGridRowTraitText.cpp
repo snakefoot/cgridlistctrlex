@@ -131,8 +131,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				{
 					if (owner.GetFocusCell()==nCol && owner.GetFocusRow()==nRow)
 					{
-						if (owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT)
-							pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
+						pLVCD->nmcd.uItemState &= ~CDIS_SELECTED;
 					}
 				}
 			}
