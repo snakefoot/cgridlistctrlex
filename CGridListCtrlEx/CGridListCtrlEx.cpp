@@ -717,7 +717,7 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 	if (bValue)
 		rc = EnableWindowTheme(GetSafeHwnd(), L"ListView", L"Explorer", NULL);
 	else
-		rc = EnableWindowTheme(GetSafeHwnd(), L"", L"", NULL);
+		rc = EnableWindowTheme(GetSafeHwnd(), L"ListView", L"", NULL);
 
 	if (bValue && rc==S_OK)
 	{
@@ -763,6 +763,9 @@ void CGridListCtrlEx::OnCreateStyle()
 	if (CheckOSVersion(0x501))
 		SetExtendedStyle(GetExtendedStyle() | LVS_EX_DOUBLEBUFFER);
 #endif
+
+	// Enable Vista-look if possible
+	EnableVisualStyles(true);
 	
 	// Enable the standard tooltip
 	EnableToolTips(TRUE);
