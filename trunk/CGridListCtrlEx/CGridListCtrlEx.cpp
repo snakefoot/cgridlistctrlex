@@ -3578,11 +3578,12 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeade
 	if (includeHeader)
 		OnDisplayToClipboard(-1, strResult);
 
+	CString strLine;
 	while(pos!=NULL)
 	{
 		int nRow = GetNextSelectedItem(pos);
 
-		CString strLine;
+		strLine = _T("");	// Clear without freeing buffer
 		if (!OnDisplayToClipboard(nRow, strLine))
 			continue;
 
@@ -3604,12 +3605,14 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeade
 bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 {
 	int nColCount = GetHeaderCtrl()->GetItemCount();
+
+	CString strCellText;
 	for(int i = 0; i < nColCount; ++i)
 	{
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
 		if (!IsColumnVisible(nCol))
 			continue;
-		CString strCellText;
+		strCellText = _T("");	// Clear without freeing buffer
 		if (!OnDisplayToClipboard(nRow, nCol, strCellText))
 			continue;
 		if (!strResult.IsEmpty())
@@ -3716,10 +3719,10 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 	if (!OnDisplayToDragDrop(result))
 		return DROPEFFECT_NONE;
 
-	SIZE_T nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+	SIZE_T nSize = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
 
 	// Allocate a global memory object for the text.
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
+	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nSize);
 	if (hglbCopy==NULL)
 		return FALSE;
 
@@ -3729,7 +3732,7 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 		return DROPEFFECT_NONE;
 
 	// Copy the text to the memory object.
-	memcpy(lptstrCopy, result, nlength);
+	memcpy(lptstrCopy, result, nSize);
 	if (GlobalUnlock(hglbCopy)!=NO_ERROR)
 		return DROPEFFECT_NONE;
 
