@@ -4,9 +4,12 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 2.2
+// Version: 2.3
 //
 // Change History:
+//  2.3 - Implemented support for IDropSource::GiveFeedback to allow changing mouse cursor during dragdrop
+//        Inverted cell focus coloring is now disabled by default. Call SetInvertCellSelection(true) to enable.
+//		  Fixed several small bugs
 //	2.2 - CGridColumnTraitCombo now has the option to display dropdown on edit begin (SetShowDropDown)
 //		  All column trait editors now has the option to start editor on first mouse click (SetSingleClickEdit)
 //		  CGridColumnTraitHyperLink will sent LVN_ENDLABELEDIT notification to parent on mouse click (Simulates button click)
