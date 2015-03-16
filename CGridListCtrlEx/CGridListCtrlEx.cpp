@@ -587,7 +587,7 @@ void CGridListCtrlEx::OnSaveStateColumnResize()
 	if (m_pColumnConfig!=NULL)
 		SaveState(*m_pColumnConfig);
 }
-
+	
 //------------------------------------------------------------------------
 //! Called when the list control looses focus to another control
 //------------------------------------------------------------------------
@@ -604,15 +604,41 @@ void CGridListCtrlEx::OnSaveStateKillFocus()
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::CheckOSVersion(WORD requestOS)
 {
+#ifdef VerifyVersionInfo
+	static WORD lowver = 0;
+	static WORD highver = 0;
+	if (requestOS <= lowver)
+		return true;
+	if (highver > 0 && requestOS >= highver)
+		return false;
+
+	OSVERSIONINFOEX osver = { 0 };
+	osver.dwOSVersionInfoSize = sizeof(osver);
+	osver.dwMajorVersion = HIBYTE(requestOS);
+	osver.dwMinorVersion = LOBYTE(requestOS);
+	ULONGLONG maskCondition = ::VerSetConditionMask(0, VER_MAJORVERSION | VER_MINORVERSION, VER_GREATER_EQUAL);
+	if (VerifyVersionInfo(&osver, VER_MAJORVERSION | VER_MINORVERSION, maskCondition))
+	{
+		lowver = requestOS;
+		return true;
+	}
+	else
+	{
+		if (highver == 0 || requestOS < highver)
+			highver = requestOS;
+		return false;
+	}
+#else
 	static WORD fullver = 0;
 	if (fullver==0)
 	{
-		OSVERSIONINFO osver = {0};
+		OSVERSIONINFO osver = { 0 };
 		osver.dwOSVersionInfoSize = sizeof(osver);
-		VERIFY( GetVersionEx(&osver) );
+		VERIFY(GetVersionEx(&osver));
 		fullver = MAKEWORD(osver.dwMinorVersion, osver.dwMajorVersion);
+		return requestOS <= fullver;
 	}
-	return requestOS <= fullver;
+#endif
 }
 
 namespace {
