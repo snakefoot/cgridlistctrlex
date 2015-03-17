@@ -15,4 +15,4 @@ Microsoft's CListCtrl has support for displaying data in a grid using the report
  
 See [CodeProject Article](http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx) for a quick overview of the CGridListCtrlEx functionality and a demo-application.
 
-See [Doxygen Documentation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/snakefoot/cgridlistctrlex/master/Doxygen/html/index.html) for a quick overview of the CGridListCtrlEx classes.
+See [Doxygen Documentation](http://snakefoot.github.io/cgridlistctrlex/) for a quick overview of the CGridListCtrlEx classes.
