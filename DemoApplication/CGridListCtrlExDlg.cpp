@@ -92,7 +92,7 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 	if (pSysMenu != NULL)
 	{
 		CString strAboutMenu;
-		strAboutMenu.LoadString(IDS_ABOUTBOX);
+		VERIFY(strAboutMenu.LoadString(IDS_ABOUTBOX));
 		if (!strAboutMenu.IsEmpty())
 		{
 			pSysMenu->AppendMenu(MF_SEPARATOR);

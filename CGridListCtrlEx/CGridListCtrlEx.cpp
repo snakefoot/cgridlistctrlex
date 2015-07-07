@@ -2189,20 +2189,19 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	TOOLTIPTEXTW* pTTTW = reinterpret_cast<TOOLTIPTEXTW*>(pNMHDR);
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText));
+		return lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText)) != 0;
 	else
 #if __STDC_WANT_SECURE_LIB__
-		mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR)-1);
+		return mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR) - 1) != 0;
 #else
-		mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR)-1);
+		return mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR) - 1) != 0;
 #endif
 #else
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText)-1);
+		return _wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText) - 1) != 0;
 	else
-		lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText)/sizeof(WCHAR));
+		return lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR)) != 0;
 #endif
-	return TRUE;
 }
 
 //------------------------------------------------------------------------

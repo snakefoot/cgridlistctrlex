@@ -375,19 +375,19 @@ CString CViewConfigSection::ConvertLogFontSetting(const LOGFONT& font) const
 	strArray.Add(strValue);
 	strValue.Format(_T("%d"), font.lfWeight);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfItalic);
+	strValue.Format(_T("%u"), font.lfItalic);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfUnderline);
+	strValue.Format(_T("%u"), font.lfUnderline);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfStrikeOut);
+	strValue.Format(_T("%u"), font.lfStrikeOut);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfCharSet);
+	strValue.Format(_T("%u"), font.lfCharSet);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfOutPrecision);
+	strValue.Format(_T("%u"), font.lfOutPrecision);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfQuality);
+	strValue.Format(_T("%u"), font.lfQuality);
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), font.lfPitchAndFamily);
+	strValue.Format(_T("%u"), font.lfPitchAndFamily);
 	strArray.Add(strValue);
 
 	return ConvertArraySetting(strArray);
@@ -490,11 +490,11 @@ CString CViewConfigSection::ConvertColorSetting(COLORREF color) const
 {
 	CSimpleArray<CString> strArray;
 	CString strValue;
-	strValue.Format(_T("%d"), GetRValue(color));
+	strValue.Format(_T("%u"), GetRValue(color));
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), GetGValue(color));
+	strValue.Format(_T("%u"), GetGValue(color));
 	strArray.Add(strValue);
-	strValue.Format(_T("%d"), GetBValue(color));
+	strValue.Format(_T("%u"), GetBValue(color));
 	strArray.Add(strValue);
 
 	return ConvertArraySetting(strArray);
