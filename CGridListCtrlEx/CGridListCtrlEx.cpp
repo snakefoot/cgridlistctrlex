@@ -3608,7 +3608,11 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeade
 	{
 		int nRow = GetNextSelectedItem(pos);
 
-		strLine = _T("");	// Clear without freeing buffer
+#if _MFC_VER >= 0x0710
+		strLine.ReleaseBufferSetLength(0);	// Clear without freeing buffer
+#else
+		strLine = _T("");
+#endif
 		if (!OnDisplayToClipboard(nRow, strLine))
 			continue;
 
@@ -3637,7 +3641,13 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
 		if (!IsColumnVisible(nCol))
 			continue;
-		strCellText = _T("");	// Clear without freeing buffer
+
+#if _MFC_VER >= 0x0710
+		strCellText.ReleaseBufferSetLength(0);	// Clear without freeing buffer
+#else
+		strCellText = _T("");
+#endif
+
 		if (!OnDisplayToClipboard(nRow, nCol, strCellText))
 			continue;
 		if (!strResult.IsEmpty())
