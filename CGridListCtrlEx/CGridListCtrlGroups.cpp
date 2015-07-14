@@ -641,7 +641,7 @@ BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dro
 		return CGridListCtrlEx::MoveSelectedRows(nRow);
 
 	if (GetStyle() & LVS_OWNERDATA)
-		return false;
+		return FALSE;
 
 	int nGroupId = nRow!=-1 ? GetRowGroupId(nRow) : GroupHitTest(point);
 	if (nGroupId==-1)
@@ -654,8 +654,31 @@ BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dro
 			EnsureVisible(nRow, FALSE);
 			SetFocusRow(nRow);
 		}
+		return TRUE;
 	}
-	return TRUE;
+	else
+	{
+		POSITION pos = GetFirstSelectedItemPosition();
+		if (pos == NULL)
+			return FALSE;
+
+		bool sameGroup = true;
+		while (pos != NULL)
+		{
+			int nSelectedRow = GetNextSelectedItem(pos);
+			int nSelectedGroupId = GetRowGroupId(nSelectedRow);
+			if (nSelectedGroupId != nGroupId)
+			{
+				sameGroup = false;
+				break;
+			}
+		}
+
+		if (sameGroup)
+			return CGridListCtrlEx::MoveSelectedRows(nRow);
+		else
+			return FALSE;
+	}
 }
 
 //------------------------------------------------------------------------
@@ -676,15 +699,19 @@ bool CGridListCtrlGroups::MoveSelectedRows(int nDropGroupId)
 	if (pos==NULL)
 		return false;
 
+	bool movedRows = false;
 	while(pos!=NULL)
 	{
 		int nRow = GetNextSelectedItem(pos);
 		int nGroupId = GetRowGroupId(nRow);
 		if (nGroupId != nDropGroupId)
+		{
+			movedRows = true;
 			SetRowGroupId(nRow, nDropGroupId);
+		}
 	}
 
-	return true;
+	return movedRows;
 }
 
 //------------------------------------------------------------------------
