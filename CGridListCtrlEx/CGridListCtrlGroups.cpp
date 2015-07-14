@@ -499,6 +499,50 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 }
 
 //------------------------------------------------------------------------
+//! Create a group that contains all rows where column matches the provided text
+//!
+//! @param nCol The index of the column
+//! @param strNeedle The string filter
+//! @return Succeeded in creating the filter group
+//------------------------------------------------------------------------
+BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle)
+{
+	BOOL narrowFilter = IsGroupViewEnabled();
+
+	CSimpleArray<int> groupIds;
+	if (narrowFilter)
+	{
+		VERIFY(GetGroupIds(groupIds));
+	}
+
+	SetRedraw(FALSE);
+	EnableGroupView(TRUE);
+
+	int nGroupIdx = groupIds.GetSize();
+	DWORD dwState = LVGS_NORMAL;
+	VERIFY(InsertGroupHeader(nGroupIdx, nGroupIdx + 1, _T("Filter: ") + strNeedle, dwState) != -1);
+
+	for (int nRow = 0; nRow < GetItemCount(); ++nRow)
+	{
+		if (!narrowFilter || GetRowGroupId(nRow) > 0)
+		{
+			if (GetItemText(nRow, nCol) == strNeedle)
+			{
+				VERIFY(SetRowGroupId(nRow, nGroupIdx + 1));
+			}
+			else
+			{
+				SetRowGroupId(nRow, I_GROUPIDNONE);
+			}
+		}
+	}
+
+	SetRedraw(TRUE);
+	Invalidate(FALSE);
+	return IsGroupViewEnabled();
+}
+
+//------------------------------------------------------------------------
 //! Collapse all groups
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::CollapseAllGroups()
@@ -736,7 +780,11 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		case 0: break;
 		case 1:	OpenColumnEditor(nCol); break;
 		case 2: OpenColumnPicker(); break;
-		case 3: GroupByColumn(nCol); break;
+		case 3:
+		{
+			CWaitCursor waitCursor;
+			GroupByColumn(nCol);
+		} break;
 		case 4:
 		{
 			// Very strange problem when disabling group mode, then scrollbars are not updated
@@ -852,6 +900,28 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 			case 2: CollapseAllGroups(); break;
 			case 3: RemoveAllGroups(); EnableGroupView(FALSE); break;
 		}
+	}
+}
+
+void CGridListCtrlGroups::OnContextMenuCell(CWnd* pWnd, CPoint point, int nFocusRow, int nFocusCol)
+{
+	CString filterText = GetItemText(nFocusRow, nFocusCol);
+	filterText = filterText.Trim();
+	if (filterText.IsEmpty())
+		return;
+
+	CMenu menu;
+	VERIFY(menu.CreatePopupMenu());
+	menu.AppendMenu(MF_STRING, 1, _T("Filter by '") + filterText + _T("'"));
+
+	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
+	switch (nResult)
+	{
+		case 1:
+		{
+			CWaitCursor waitCursor;
+			VERIFY(FilterByCellText(nFocusCol, filterText));
+		} break;
 	}
 }
 

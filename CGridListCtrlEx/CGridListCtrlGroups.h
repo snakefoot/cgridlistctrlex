@@ -36,6 +36,7 @@ public:
 
 	virtual BOOL GroupByColumn(int nCol);
 	virtual BOOL DeleteEntireGroup(int nGroupId);
+	virtual BOOL FilterByCellText(int nCol, const CString& strNeedle);
 	virtual BOOL IsGroupStateEnabled();
 
 	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
@@ -62,6 +63,7 @@ protected:
 	virtual void OnContextMenuGrid(CWnd* pWnd, CPoint point);
 	virtual void OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol);
 	virtual void OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGroupId);
+	virtual void OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int nCol);
 
 	// Drag Drop Interface
 	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
