@@ -36,7 +36,7 @@ public:
 
 	virtual BOOL GroupByColumn(int nCol);
 	virtual BOOL DeleteEntireGroup(int nGroupId);
-	virtual BOOL FilterByCellText(int nCol, const CString& strNeedle);
+	virtual BOOL FilterByCellText(int nCol, const CString& strNeedle, const CString& strGroupName);
 	virtual BOOL IsGroupStateEnabled();
 
 	virtual void CheckEntireGroup(int nGroupId, bool bChecked);
@@ -84,6 +84,7 @@ protected:
 	int m_GroupCol;		//!< Rows are grouped according to this column
 	int m_GroupSort;	//!< Groups are sorted (-1 = Unsorted, 1 = Ascending, 0 = Descending)
 	int m_SortSecondaryGroupView;	//!< When grouped by primary column, then allow sort of secondary column (0 = Always group, 1 = Allow sort, 2 = Fix sort for xp)
+	CString m_GroupFilterText;	//!< Filter rows by putting them in visible filter-group
 
 	DECLARE_MESSAGE_MAP();
 

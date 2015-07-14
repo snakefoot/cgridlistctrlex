@@ -143,25 +143,49 @@ int CGridListCtrlGroups::FixRowGroupId(int nRow)
 		{
 			// WinXP Hack - Reset groups, when no items are assigned to any groups (Avoid conflicts with "invisible" group-ids)
 			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
-			int groupCol = m_GroupCol;
+			int nGroupCol = m_GroupCol;
+			int bGroupSort = m_GroupSort;
+			CString strGroupFilter = m_GroupFilterText;
+
 			RemoveAllGroups();
 			EnableGroupView(TRUE);
-			m_GroupCol = groupCol;
+
+			m_GroupCol = nGroupCol;
+			m_GroupSort = bGroupSort;
+			m_GroupFilterText = strGroupFilter;
 		}
 	}
 
-	for(int i = 0; i < groupIds.GetSize(); ++i)
+	if (m_GroupFilterText.GetLength() > 0)
 	{
-		if (cellText==GetGroupHeader(groupIds[i]))
+		if (cellText != m_GroupFilterText)
 		{
-			VERIFY( SetRowGroupId(nRow, groupIds[i]) );
-			return groupIds[i];
+			SetRowGroupId(nRow, I_GROUPIDNONE);
+			return -1;
+		}
+
+		if (groupIds.GetSize() > 0)
+		{
+			int nGroupId = groupIds[groupIds.GetSize() - 1];
+			VERIFY(SetRowGroupId(nRow, nGroupId));
+			return nGroupId;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < groupIds.GetSize(); ++i)
+		{
+			if (cellText == GetGroupHeader(groupIds[i]))
+			{
+				VERIFY(SetRowGroupId(nRow, groupIds[i]));
+				return groupIds[i];
+			}
 		}
 	}
 
-	int nNewGroupId = groupIds.GetSize()+1;
-	VERIFY( InsertGroupHeader(groupIds.GetSize(), nNewGroupId, cellText) != -1);
-	VERIFY( SetRowGroupId(nRow, nNewGroupId) );
+	int nNewGroupId = groupIds.GetSize() + 1;
+	VERIFY(InsertGroupHeader(groupIds.GetSize(), nNewGroupId, cellText) != -1);
+	VERIFY(SetRowGroupId(nRow, nNewGroupId));
 	return nNewGroupId;
 }
 
@@ -442,6 +466,8 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 
 	m_GroupSort = -1;
 
+	m_GroupFilterText.Empty();
+
 	SetSortArrow(-1, false);
 
 	SetRedraw(FALSE);
@@ -486,10 +512,11 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 			}
 		}
 
+		m_GroupCol = nCol;
+
 		SetRedraw(TRUE);
 		Invalidate(FALSE);
 
-		m_GroupCol = nCol;
 		return TRUE;
 	}
 
@@ -503,9 +530,10 @@ BOOL CGridListCtrlGroups::GroupByColumn(int nCol)
 //!
 //! @param nCol The index of the column
 //! @param strNeedle The string filter
-//! @return Succeeded in creating the filter group
+//! @param strGroupName The group filter name
+//! @return Succeeded in creating the filter group with visible rows
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle)
+BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle, const CString& strGroupName)
 {
 	BOOL narrowFilter = IsGroupViewEnabled();
 
@@ -520,8 +548,9 @@ BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle)
 
 	int nGroupIdx = groupIds.GetSize();
 	DWORD dwState = LVGS_NORMAL;
-	VERIFY(InsertGroupHeader(nGroupIdx, nGroupIdx + 1, _T("Filter: ") + strNeedle, dwState) != -1);
+	VERIFY(InsertGroupHeader(nGroupIdx, nGroupIdx + 1, strGroupName, dwState) != -1);
 
+	BOOL bFoundRows = FALSE;
 	for (int nRow = 0; nRow < GetItemCount(); ++nRow)
 	{
 		if (!narrowFilter || GetRowGroupId(nRow) > 0)
@@ -529,6 +558,7 @@ BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle)
 			if (GetItemText(nRow, nCol) == strNeedle)
 			{
 				VERIFY(SetRowGroupId(nRow, nGroupIdx + 1));
+				bFoundRows = TRUE;
 			}
 			else
 			{
@@ -537,9 +567,14 @@ BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle)
 		}
 	}
 
+	if (m_GroupCol != nCol)
+		m_GroupSort = -1;
+	m_GroupCol = nCol;
+	m_GroupFilterText = strNeedle;
+
 	SetRedraw(TRUE);
 	Invalidate(FALSE);
-	return IsGroupViewEnabled();
+	return IsGroupViewEnabled() && bFoundRows;
 }
 
 //------------------------------------------------------------------------
@@ -920,7 +955,7 @@ void CGridListCtrlGroups::OnContextMenuCell(CWnd* pWnd, CPoint point, int nFocus
 		case 1:
 		{
 			CWaitCursor waitCursor;
-			VERIFY(FilterByCellText(nFocusCol, filterText));
+			FilterByCellText(nFocusCol, filterText, _T("Filter: ") + filterText);
 		} break;
 	}
 }
@@ -1172,6 +1207,7 @@ LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 {
 	m_GroupCol = -1;
 	m_GroupSort = -1;
+	m_GroupFilterText.Empty();
 
 	// Let CListCtrl handle the event
 	return DefWindowProc(LVM_REMOVEALLGROUPS, wParam, lParam);
@@ -1444,7 +1480,8 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 
 			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
 			int nGroupCol = m_GroupCol;
-			BOOL bGroupSort = m_GroupSort;
+			int bGroupSort = m_GroupSort;
+			CString strGroupFilter = m_GroupFilterText;
 
 			RemoveAllGroups();
 			EnableGroupView(FALSE);
@@ -1453,6 +1490,7 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			// Restore these again
 			m_GroupCol = nGroupCol;
 			m_GroupSort = bGroupSort;
+			m_GroupFilterText = strGroupFilter;
 
 			// Regenerate groups again in the original order
 			for(int nGroupIdx = 0; nGroupIdx < groupNames.GetSize(); ++nGroupIdx)
@@ -1487,6 +1525,7 @@ void CGridListCtrlGroups::OnDestroy()
 {
 	m_GroupCol = -1;
 	m_GroupSort = -1;
+	m_GroupFilterText.Empty();
 	CGridListCtrlEx::OnDestroy();
 }
 
