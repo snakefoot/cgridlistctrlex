@@ -194,6 +194,7 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_CHAR()		// OnChar (Keyboard search)
 	ON_WM_PAINT()		// OnPaint
 	ON_WM_CREATE()		// OnCreate
+	ON_WM_SETFOCUS()	// OnSetFocus
 	ON_WM_KILLFOCUS()	// OnKillFocus
 	ON_WM_DESTROY()		// OnDestroy
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
@@ -3343,8 +3344,24 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 }
 
 //------------------------------------------------------------------------
+//! WM_SETFOCUS message handler called when list control is receiving focus
+//! from other control. Fix redraw issue.
+//!
+//! @param pOldWnd Pointer to the window that looses focus (may be NULL or may be temporary)
+//------------------------------------------------------------------------
+void CGridListCtrlEx::OnSetFocus(CWnd* pOldWnd)
+{
+	CListCtrl::OnSetFocus(pOldWnd);
+	if ((GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
+	{
+		Invalidate(FALSE);
+		UpdateWindow();
+	}
+}
+
+//------------------------------------------------------------------------
 //! WM_KILLFOCUS message handler called when list control is loosing focus
-//! to other control. Used to persist the new column state.
+//! to other control. Used to persist the new column state. Fix redraw issue.
 //!
 //! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
 //------------------------------------------------------------------------
@@ -3352,6 +3369,11 @@ void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
 	OnSaveStateKillFocus();
 	CListCtrl::OnKillFocus(pNewWnd);
+	if ((GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
+	{
+		Invalidate(FALSE);
+		UpdateWindow();
+	}
 }
 
 //------------------------------------------------------------------------

@@ -95,10 +95,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 							// Selection color is different when not having focus
 							if (owner.GetStyle() & LVS_SHOWSELALWAYS)
 							{
-								if (pLVCD->clrTextBk == ::GetSysColor(COLOR_HIGHLIGHT))
-									backColor = pLVCD->clrTextBk;
-								else
-									backColor = ::GetSysColor(COLOR_BTNFACE);
+								backColor = ::GetSysColor(COLOR_BTNFACE);
 							}
 							else
 								break;	// No drawing of selection, when not in focus
