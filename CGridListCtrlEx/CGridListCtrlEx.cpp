@@ -3351,6 +3351,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
 	OnSaveStateKillFocus();
+	CListCtrl::OnKillFocus(pNewWnd);
 }
 
 //------------------------------------------------------------------------
