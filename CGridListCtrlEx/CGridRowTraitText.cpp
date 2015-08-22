@@ -237,6 +237,9 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 			if (owner.GetFocusRow()!=nRow)
 				break;
 
+			if (owner.GetFocus() != &owner)
+				break;
+
 			// Perform the drawing of the focus rectangle
 			if (owner.GetFocusCell() >= 0)
 			{
