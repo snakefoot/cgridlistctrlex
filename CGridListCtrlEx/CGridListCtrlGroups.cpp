@@ -158,7 +158,7 @@ int CGridListCtrlGroups::FixRowGroupId(int nRow)
 
 	if (m_GroupFilterText.GetLength() > 0)
 	{
-		if (cellText != m_GroupFilterText)
+		if (!OnFilterSingleCellText(nRow, m_GroupCol, m_GroupFilterText))
 		{
 			SetRowGroupId(nRow, I_GROUPIDNONE);
 			return -1;
@@ -555,7 +555,7 @@ BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle, c
 	{
 		if (!narrowFilter || GetRowGroupId(nRow) > 0)
 		{
-			if (GetItemText(nRow, nCol) == strNeedle)
+			if (OnFilterSingleCellText(nRow, nCol, strNeedle))
 			{
 				VERIFY(SetRowGroupId(nRow, nGroupIdx + 1));
 				bFoundRows = TRUE;
@@ -575,6 +575,20 @@ BOOL CGridListCtrlGroups::FilterByCellText(int nCol, const CString& strNeedle, c
 	SetRedraw(TRUE);
 	Invalidate(FALSE);
 	return IsGroupViewEnabled() && bFoundRows;
+}
+
+//------------------------------------------------------------------------
+//! Check if row-item should be included in the filter-group, that matches the needle
+//!
+//! @param nRow The index of the row
+//! @param nFilterCol The index of the column
+//! @param strNeedle The string filter
+//! @return Row matches the filter ? (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlGroups::OnFilterSingleCellText(int nRow, int nFilterCol, const CString& strNeedle)
+{
+	// TODO Consider to use CGridColumnTrait::OnSortRows()
+	return GetItemText(nRow, nFilterCol) == strNeedle;
 }
 
 //------------------------------------------------------------------------

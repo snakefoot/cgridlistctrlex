@@ -69,6 +69,8 @@ protected:
 	virtual BOOL OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point);
 	virtual bool MoveSelectedRows(int nGroupId);
 
+	virtual bool OnFilterSingleCellText(int nRow, int nFilterCol, const CString& strNeedle);
+
 	//{{AFX_MSG(CGridListCtrlGroups)
 	virtual afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual afx_msg BOOL OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult);
