@@ -3368,11 +3368,15 @@ void CGridListCtrlEx::OnSetFocus(CWnd* pOldWnd)
 void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 {
 	OnSaveStateKillFocus();
-	CListCtrl::OnKillFocus(pNewWnd);
-	if ((GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
+
+	if (m_pEditor == NULL)
 	{
-		Invalidate(FALSE);
-		UpdateWindow();
+		CListCtrl::OnKillFocus(pNewWnd);
+		if ((GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
+		{
+			Invalidate(FALSE);
+			UpdateWindow();
+		}
 	}
 }
 
