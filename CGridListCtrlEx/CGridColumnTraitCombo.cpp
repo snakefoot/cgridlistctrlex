@@ -376,8 +376,6 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	}
 	if (::GetFocus()==m_Edit.GetSafeHwnd())
 		GetParent()->SetFocus();	// Force close the internal CEdit control
-	else if (::GetFocus() != GetSafeHwnd() && ::GetFocus() != GetParent()->GetSafeHwnd())
-		GetParent()->PostMessage(WM_KILLFOCUS, 0, 0);
 	ShowWindow(SW_HIDE);
 	CGridColumnTraitImage::SendEndLabelEdit(*GetParent(), m_Row, m_Col, dispinfo);
 	PostMessage(WM_CLOSE);

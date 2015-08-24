@@ -195,8 +195,6 @@ void CGridEditorText::EndEdit(bool bSuccess)
 		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
 	}
-	if (::GetFocus() != GetSafeHwnd() && ::GetFocus() != GetParent()->GetSafeHwnd())
-		GetParent()->PostMessage(WM_KILLFOCUS, 0, 0);
 	ShowWindow(SW_HIDE);
 	CGridColumnTraitImage::SendEndLabelEdit(*GetParent(), m_Row, m_Col, dispinfo);
 	PostMessage(WM_CLOSE);

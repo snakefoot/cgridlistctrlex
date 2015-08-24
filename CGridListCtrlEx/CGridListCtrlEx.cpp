@@ -761,6 +761,11 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 	}
 	else if (rc == S_OK)
 	{
+		if (m_UsingVisualStyle)
+		{
+			if (CheckOSVersion(0x602))
+				SetExtendedStyle(GetExtendedStyle() | LVS_EX_GRIDLINES);
+		}
 		m_UsingVisualStyle = false;
 	}
 
@@ -2436,6 +2441,9 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	if( GetFocus() == m_pEditor )
 		SetFocus();
 	m_pEditor = NULL;
+	if (::GetFocus() != NULL && ::GetFocus()!= GetSafeHwnd())
+		DefWindowProc(WM_KILLFOCUS, (WPARAM)::GetFocus(), (LPARAM)0);
+
 	return FALSE;		// Parent dialog should get a chance
 }
 
