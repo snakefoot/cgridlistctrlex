@@ -2184,10 +2184,12 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	if (m_TooltipMaxWidth > 0)
 	{
 #if _MFC_VER <= 0x0600
-		AfxGetThreadState()->m_pToolTip->SetMaxTipWidth(m_TooltipMaxWidth);
+		CToolTipCtrl *pToolTip = AfxGetThreadState()->m_pToolTip;
 #else
-		AfxGetModuleThreadState()->m_pToolTip->SetMaxTipWidth(m_TooltipMaxWidth);
+		CToolTipCtrl *pToolTip = AfxGetModuleThreadState()->m_pToolTip;
 #endif
+		if (pToolTip != NULL)
+			pToolTip->SetMaxTipWidth(m_TooltipMaxWidth);
 	}
 
 	// Non-unicode applications can receive requests for tooltip-text in unicode
