@@ -192,10 +192,16 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 
 			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
 			{
+				if (owner.GetFocus() == &owner)
+					break;
+
+				if ((owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
+					break;
+
 				// If drawing focus row, then remove focus state and request to draw it later
 				//	- Row paint request can come twice, with and without focus flag
 				//	- Only respond to the one with focus flag, else DrawFocusRect XOR will cause solid or blank focus-rectangle
-				if (owner.GetFocusRow()==nRow)
+				if (owner.GetFocusRow() == nRow)
 				{
 					if (owner.GetFocusCell() >= 0)
 					{
@@ -203,8 +209,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 						pLVCD->nmcd.uItemState &= ~CDIS_FOCUS;
 						*pResult |= CDRF_NOTIFYPOSTPAINT;
 					}
-					else
-					if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
+					else if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 					{
 						// Avoid bug where bottom of focus rectangle is missing when using grid-lines
 						//	- Draw the focus-rectangle for the entire row (explicit)
@@ -238,6 +243,9 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				break;
 
 			if (owner.GetFocus() != &owner)
+				break;
+
+			if ((owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
 				break;
 
 			// Perform the drawing of the focus rectangle
