@@ -2443,8 +2443,8 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	if( GetFocus() == m_pEditor )
 		SetFocus();
 	m_pEditor = NULL;
-	if (::GetFocus() != NULL && ::GetFocus()!= GetSafeHwnd())
-		DefWindowProc(WM_KILLFOCUS, (WPARAM)::GetFocus(), (LPARAM)0);
+	if (::GetFocus() != NULL && ::GetFocus() != GetSafeHwnd())
+		OnKillFocus(GetFocus());
 
 	return FALSE;		// Parent dialog should get a chance
 }
