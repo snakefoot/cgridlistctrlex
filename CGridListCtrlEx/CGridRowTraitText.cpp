@@ -192,7 +192,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 
 			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
 			{
-				if (owner.GetFocus() == &owner)
+				if (owner.GetFocus() != &owner)
 					break;
 
 				// If drawing focus row, then remove focus state and request to draw it later
