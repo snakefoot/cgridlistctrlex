@@ -195,9 +195,6 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				if (owner.GetFocus() == &owner)
 					break;
 
-				if ((owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
-					break;
-
 				// If drawing focus row, then remove focus state and request to draw it later
 				//	- Row paint request can come twice, with and without focus flag
 				//	- Only respond to the one with focus flag, else DrawFocusRect XOR will cause solid or blank focus-rectangle
@@ -243,9 +240,6 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 				break;
 
 			if (owner.GetFocus() != &owner)
-				break;
-
-			if ((owner.GetExtendedStyle() & LVS_EX_FULLROWSELECT) == 0)
 				break;
 
 			// Perform the drawing of the focus rectangle
