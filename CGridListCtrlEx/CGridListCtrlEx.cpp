@@ -967,7 +967,9 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 	CListCtrl::SetFont(&m_GridFont);
 	m_Margin = margin;
 
-	GetHeaderCtrl()->SetFont(&m_CellFont);
+	CHeaderCtrl* pHeaderCtrl = GetHeaderCtrl();
+	if (pHeaderCtrl != NULL)
+		pHeaderCtrl->SetFont(&m_GridFont);
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
 	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
 		pToolTipCtrl->SetFont(&m_CellFont);
@@ -2178,7 +2180,7 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	// Make const-reference to the returned anonymous CString-object,
 	// will keep it alive until reaching scope end
 	CString tooltip;
-	if (!OnDisplayCellTooltip(nRow, nCol,tooltip) || tooltip.IsEmpty())
+	if (!OnDisplayCellTooltip(nRow, nCol, tooltip) || tooltip.IsEmpty())
 		return FALSE;
 
 	if (m_TooltipMaxWidth > 0)
@@ -2197,19 +2199,25 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	TOOLTIPTEXTW* pTTTW = reinterpret_cast<TOOLTIPTEXTW*>(pNMHDR);
 #ifndef _UNICODE
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		return lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText)) != 0;
+	{
+		VERIFY(lstrcpyn(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText) / sizeof(pTTTA->szText[0])) != 0);
+	}
 	else
+	{
 #if __STDC_WANT_SECURE_LIB__
-		return mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR) - 1) != 0;
+		VERIFY(mbstowcs_s(NULL, pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(pTTTW->szText[0]) - 1) == 0);
 #else
-		return mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR) - 1) != 0;
+		VERIFY(mbstowcs(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(pTTTW->szText[0])) > 0);
+		pTTTW->szText[sizeof(pTTTW->szText) / sizeof(pTTTW->szText[0]) - 1] = 0;
 #endif
+	}
 #else
 	if (pNMHDR->code == TTN_NEEDTEXTA)
-		return _wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText) - 1) != 0;
+		VERIFY(_wcstombsz(pTTTA->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTA->szText) / sizeof(pTTTA->szText[0]) - 1) > 0);
 	else
-		return lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(WCHAR)) != 0;
+		VERIFY(lstrcpyn(pTTTW->szText, static_cast<LPCTSTR>(tooltip), sizeof(pTTTW->szText) / sizeof(pTTTW->szText[0])) != 0);
 #endif
+	return TRUE;
 }
 
 //------------------------------------------------------------------------
