@@ -17,7 +17,7 @@ class CGridRowTraitXP;
 class CGridRowTraitVisitor
 {
 public:
-	void Visit(CGridRowTrait&)				{}
-	void Visit(CGridRowTraitText&)			{}
-	void Visit(CGridRowTraitXP&)			{}
+	void Visit(CGridRowTrait&) {}
+	void Visit(CGridRowTraitText&) {}
+	void Visit(CGridRowTraitXP&) {}
 };

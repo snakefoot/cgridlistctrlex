@@ -49,28 +49,28 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			// Fix CListCtrl selection drawing bug with white margin between icon and text
 			int nCol = pLVCD->iSubItem;
 
-			if (CRect(pLVCD->nmcd.rc)==CRect(0,0,0,0))
+			if (CRect(pLVCD->nmcd.rc) == CRect(0, 0, 0, 0))
 				break;
 
 			int nImage = owner.GetCellImage(nRow, nCol);
 			if (nImage == I_IMAGECALLBACK)
 				break;
-				
+
 			CImageList* pImageList = owner.GetImageList(LVSIL_SMALL);
-			if (pImageList==NULL)
+			if (pImageList == NULL)
 				break;
 
 			COLORREF backColor = COLORREF(-1);
-			if (owner.GetExtendedStyle() & LVS_EX_TRACKSELECT && owner.GetHotItem()==nRow)
+			if (owner.GetExtendedStyle() & LVS_EX_TRACKSELECT && owner.GetHotItem() == nRow)
 			{
-#if(WINVER >= 0x0500)
+	#if(WINVER >= 0x0500)
 				backColor = ::GetSysColor(COLOR_HOTLIGHT);
-#else
+	#else
 				if (owner.IsRowSelected(nRow))
 					backColor = ::GetSysColor(COLOR_HIGHLIGHT);
 				else
 					break;
-#endif
+	#endif
 			}
 			else if ((pLVCD->nmcd.uItemState & CDIS_SELECTED) && owner.IsRowSelected(nRow))
 			{
@@ -130,7 +130,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			VERIFY(owner.GetCellRect(nRow, nCol, LVIR_ICON, rcIcon));
 			VERIFY(owner.GetCellRect(nRow, nCol, LVIR_BOUNDS, rcIconArea));
 			// When the label column is placed first it has a left-margin 
-			if (nCol==0 && (nCol==owner.GetFirstVisibleColumn() || owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
+			if (nCol == 0 && (nCol == owner.GetFirstVisibleColumn() || owner.GetExtendedStyle() & LVS_EX_CHECKBOXES))
 			{
 				int cxborder = ::GetSystemMetrics(SM_CXBORDER);
 				rcIconArea.left += cxborder * 2;
@@ -149,30 +149,30 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 			CBrush brush(backColor);
 			pDC->FillRect(&rcIconArea, &brush);
 
-			IMAGEINFO iconSizeInfo = {0};
-			VERIFY( pImageList->GetImageInfo(0, &iconSizeInfo) );
-			int iconHeight = iconSizeInfo.rcImage.bottom-iconSizeInfo.rcImage.top;
+			IMAGEINFO iconSizeInfo = { 0 };
+			VERIFY(pImageList->GetImageInfo(0, &iconSizeInfo));
+			int iconHeight = iconSizeInfo.rcImage.bottom - iconSizeInfo.rcImage.top;
 			if (rcIcon.Height() > iconHeight)
 				rcIcon.top += (rcIcon.Height() - iconHeight) / 2;
 
 			// Draw icon
 			COLORREF oldBkColor = pImageList->SetBkColor(backColor);
-			pImageList->Draw (	pDC,  
-								nImage,  
-								rcIcon.TopLeft(),
-								ILD_NORMAL );
+			pImageList->Draw(pDC,
+				nImage,
+				rcIcon.TopLeft(),
+				ILD_NORMAL);
 			pImageList->SetBkColor(oldBkColor);
 
-			if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+			if (nCol == 0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
 			{
 				CImageList* pStateImageList = owner.GetImageList(LVSIL_STATE);
-				if (pImageList==NULL)
+				if (pImageList == NULL)
 					break;
 
-				IMAGEINFO stateSizeInfo = {0};
-				VERIFY( pStateImageList->GetImageInfo(0, &stateSizeInfo) );
-				int stateIconHeight = stateSizeInfo.rcImage.bottom-stateSizeInfo.rcImage.top;
-				int stateIconWidth = stateSizeInfo.rcImage.right-stateSizeInfo.rcImage.left;
+				IMAGEINFO stateSizeInfo = { 0 };
+				VERIFY(pStateImageList->GetImageInfo(0, &stateSizeInfo));
+				int stateIconHeight = stateSizeInfo.rcImage.bottom - stateSizeInfo.rcImage.top;
+				int stateIconWidth = stateSizeInfo.rcImage.right - stateSizeInfo.rcImage.left;
 				if (rcIconArea.Height() > stateIconHeight)
 					rcIconArea.top += (rcIconArea.Height() - stateIconHeight) / 2;
 
@@ -181,10 +181,10 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 
 				int checkState = owner.GetCheck(nRow);
 				COLORREF oldStateBkColor = pStateImageList->SetBkColor(backColor);
-				pStateImageList->Draw (	pDC,  
-									checkState,  
-									rcIconArea.TopLeft(),
-									ILD_NORMAL );
+				pStateImageList->Draw(pDC,
+					checkState,
+					rcIconArea.TopLeft(),
+					ILD_NORMAL);
 				pStateImageList->SetBkColor(oldStateBkColor);
 			}
 

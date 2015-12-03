@@ -14,7 +14,7 @@ class CViewConfigSection
 protected:
 	CString m_ViewName;		//!< Configuration name used when persisting the state (Translates into a section name)
 
-	//! Pure virtual interface for reading setting from persisting layer
+							//! Pure virtual interface for reading setting from persisting layer
 	virtual CString ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const = 0;
 	//! Pure virtual interface for writing setting to persisting layer
 	virtual void WriteSetting(const CString& strSection, const CString& strSetting, const CString& strValue) = 0;
@@ -44,8 +44,8 @@ public:
 	virtual int GetIntSetting(const CString& strName, int nDefval = 0) const;
 	virtual double GetFloatSetting(const CString& strName, double nDefval = 0.0) const;
 	virtual LOGFONT GetLogFontSetting(const CString& strName) const;
-	virtual CRect GetRectSetting(const CString& strName, const CRect& rectDefval = CRect(0,0,0,0)) const;
-	virtual COLORREF GetColorSetting(const CString& strName, const COLORREF colorDefval = RGB(0,0,0)) const;
+	virtual CRect GetRectSetting(const CString& strName, const CRect& rectDefval = CRect(0, 0, 0, 0)) const;
+	virtual COLORREF GetColorSetting(const CString& strName, const COLORREF colorDefval = RGB(0, 0, 0)) const;
 	virtual void GetArraySetting(const CString& strName, CSimpleArray<CString>& values, const CString& strDelimiter = _T(", ")) const;
 	virtual void GetArraySetting(const CString& strName, CSimpleArray<int>& values, const CString& strDelimiter = _T(", ")) const;
 
@@ -76,9 +76,9 @@ protected:
 	class CViewConfigSectionLocal : public CViewConfigSection
 	{
 	protected:
-		CSimpleMap<CString,CString> m_LocalSettings;	//!< Default configuration
+		CSimpleMap<CString, CString> m_LocalSettings;	//!< Default configuration
 
-		// Persistence of settings
+														// Persistence of settings
 		virtual CString ReadSetting(const CString& strSection, const CString& strName, const CString& strDefval) const;
 		virtual void WriteSetting(const CString& strSection, const CString& strName, const CString& strValue);
 		virtual void RemoveSection(const CString& strSection);
@@ -139,6 +139,6 @@ protected:
 	virtual void RemoveSection(const CString& strSection);
 
 public:
-	CViewConfigSectionWinApp(const CString& strViewName);
+	explicit CViewConfigSectionWinApp(const CString& strViewName);
 };
 

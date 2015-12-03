@@ -110,17 +110,17 @@ public:
 	struct ColumnState
 	{
 		ColumnState()
-			:m_Visible(true)
-			,m_OrgWidth(0)
-			,m_OrgPosition(-1)
-			,m_AlwaysHidden(false)
-			,m_AlwaysVisible(false)
-			,m_Sortable(true)
-			,m_Editable(true)
-			,m_Resizable(true)
-			,m_MetaFlags(0)
-			,m_MinWidth(-1)
-			,m_MaxWidth(-1)
+			: m_Visible(true)
+			, m_OrgWidth(0)
+			, m_OrgPosition(-1)
+			, m_AlwaysHidden(false)
+			, m_AlwaysVisible(false)
+			, m_Sortable(true)
+			, m_Editable(true)
+			, m_Resizable(true)
+			, m_MetaFlags(0)
+			, m_MinWidth(-1)
+			, m_MaxWidth(-1)
 		{}
 		bool m_Visible;		//!< Column is visible or not
 		int  m_OrgWidth;	//!< Width it had before being hidden

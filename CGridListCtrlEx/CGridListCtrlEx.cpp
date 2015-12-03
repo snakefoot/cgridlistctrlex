@@ -29,81 +29,81 @@
 template<class T>
 class COleDropTargetWnd : public COleDropTarget
 {
-		T* m_pWnd;
-		bool m_DragSource;
-		bool m_DragDestination;
+	T* m_pWnd;
+	bool m_DragSource;
+	bool m_DragDestination;
 
-		COleDropTargetWnd(const COleDropTargetWnd&);
-		COleDropTargetWnd& operator=(const COleDropTargetWnd&);
+	COleDropTargetWnd(const COleDropTargetWnd&);
+	COleDropTargetWnd& operator=(const COleDropTargetWnd&);
 
-	public:
-		COleDropTargetWnd()
-			:m_pWnd(NULL)
-			,m_DragSource(false)
-			,m_DragDestination(false)
-		{}
+public:
+	COleDropTargetWnd()
+		: m_pWnd(NULL)
+		, m_DragSource(false)
+		, m_DragDestination(false)
+	{}
 
-		virtual ~COleDropTargetWnd()
+	virtual ~COleDropTargetWnd()
+	{
+		if (m_pWnd != NULL)
+			COleDropTarget::Revoke();
+	}
+
+	BOOL Register(T* pWnd)
+	{
+		if (m_pWnd != NULL)
 		{
-			if (m_pWnd != NULL)
-				COleDropTarget::Revoke();
+			ASSERT(m_pWnd == pWnd);
+			return TRUE;	// Already registered
 		}
 
-		BOOL Register(T* pWnd)
-		{
-			if (m_pWnd!=NULL)
-			{
-				ASSERT(m_pWnd==pWnd);
-				return TRUE;	// Already registered
-			}
+		if (COleDropTarget::Register(pWnd) == FALSE)
+			return FALSE;
 
-			if (COleDropTarget::Register(pWnd)==FALSE)
-				return FALSE;
+		m_pWnd = pWnd;
+		return TRUE;
+	}
 
-			m_pWnd = pWnd;
-			return TRUE;
-		}
+	bool IsDragSource() const { return m_DragSource; }
+	bool IsDragDestination() const { return m_DragDestination; }
+	void SetDragSource(bool value) { m_DragSource = value; m_DragDestination = false; }
 
-		bool IsDragSource() const { return m_DragSource; }
-		bool IsDragDestination() const { return m_DragDestination; }
-		void SetDragSource(bool value) { m_DragSource = value; m_DragDestination = false; }
+	virtual DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+	{
+		ASSERT(m_pWnd == pWnd && m_pWnd != NULL);
+		m_DragDestination = true;
+		if (m_pWnd != NULL)
+			return m_pWnd->OnDragEnter(pDataObject, dwKeyState, point);
+		else
+			return DROPEFFECT_NONE;
+	}
 
-		virtual DROPEFFECT OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
-		{
-			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
-			m_DragDestination = true;
-			if (m_pWnd!=NULL)
-				return m_pWnd->OnDragEnter(pDataObject, dwKeyState, point);
-			else
-				return DROPEFFECT_NONE;
-		}
+	virtual DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
+	{
+		ASSERT(m_pWnd == pWnd && m_pWnd != NULL);
+		if (m_pWnd != NULL)
+			return m_pWnd->OnDragOver(pDataObject, dwKeyState, point);
+		else
+			return DROPEFFECT_NONE;
+	}
 
-		virtual DROPEFFECT OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWORD dwKeyState, CPoint point)
-		{
-			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
-			if (m_pWnd!=NULL)
-				return m_pWnd->OnDragOver(pDataObject, dwKeyState, point);
-			else
-				return DROPEFFECT_NONE;
-		}
+	virtual void OnDragLeave(CWnd* pWnd)
+	{
+		ASSERT(m_pWnd == pWnd && m_pWnd != NULL);
+		m_DragDestination = false;
+		if (m_pWnd != NULL)
+			m_pWnd->OnDragLeave();
+	}
 
-		virtual void OnDragLeave(CWnd* pWnd)
-		{
-			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
-			m_DragDestination = false;
-			if (m_pWnd!=NULL)
-				m_pWnd->OnDragLeave();
-		}
-
-		virtual BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
-		{
-			ASSERT(m_pWnd==pWnd && m_pWnd!=NULL);
-			m_DragDestination = false;
-			if (m_pWnd!=NULL)
-				return m_pWnd->OnDrop(pDataObject, dropEffect, point);
-			else
-				return FALSE;
-		}
+	virtual BOOL OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
+	{
+		ASSERT(m_pWnd == pWnd && m_pWnd != NULL);
+		m_DragDestination = false;
+		if (m_pWnd != NULL)
+			return m_pWnd->OnDrop(pDataObject, dropEffect, point);
+		else
+			return FALSE;
+	}
 };
 
 template<class T>
@@ -112,16 +112,16 @@ class COleDataSourceWnd : public COleDataSource
 	COleDropTargetWnd<T>* m_pTarget;
 
 public:
-	COleDataSourceWnd(COleDropTargetWnd<T>* pTarget)
+	explicit COleDataSourceWnd(COleDropTargetWnd<T>* pTarget)
 		:m_pTarget(pTarget)
 	{
-		if (m_pTarget!=NULL)
+		if (m_pTarget != NULL)
 			m_pTarget->SetDragSource(true);
 	}
 
 	~COleDataSourceWnd()
 	{
-		if (m_pTarget!=NULL)
+		if (m_pTarget != NULL)
 			m_pTarget->SetDragSource(false);
 	}
 
@@ -136,14 +136,14 @@ class COleDropSourceWnd : public COleDropSource
 	T* m_pTarget;
 
 public:
-	COleDropSourceWnd(T* pTarget)
+	explicit COleDropSourceWnd(T* pTarget)
 		:m_pTarget(pTarget)
 	{
 	}
 
 	virtual SCODE GiveFeedback(DROPEFFECT dropEffect)
 	{
-		if (m_pTarget!=NULL)
+		if (m_pTarget != NULL)
 			return m_pTarget->OnDragGiveFeedback(dropEffect);
 		else
 			return COleDropSource::GiveFeedback(dropEffect);
@@ -159,7 +159,7 @@ private:
 
 BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	//{{AFX_MSG_MAP(CGridListCtrlEx)
-	ON_NOTIFY_REFLECT_EX(LVN_BEGINLABELEDIT, OnBeginLabelEdit) 
+	ON_NOTIFY_REFLECT_EX(LVN_BEGINLABELEDIT, OnBeginLabelEdit)
 	ON_NOTIFY_REFLECT_EX(LVN_ENDLABELEDIT, OnEndLabelEdit)
 	ON_NOTIFY_REFLECT_EX(LVN_GETDISPINFO, OnGetDispInfo)	// Text Callback
 	ON_MESSAGE(LVM_DELETECOLUMN, OnDeleteColumn)
@@ -199,29 +199,29 @@ BEGIN_MESSAGE_MAP(CGridListCtrlEx, CListCtrl)
 	ON_WM_DESTROY()		// OnDestroy
 	ON_MESSAGE(WM_COPY, OnCopy)	// Clipboard
 	ON_MESSAGE(WM_SETFONT, OnSetFont)	// SetFont notification
-	//}}AFX_MSG_MAP
+										//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 //------------------------------------------------------------------------
 //! Constructor 
 //------------------------------------------------------------------------
 CGridListCtrlEx::CGridListCtrlEx()
-	:m_FocusCell(-1)
-	,m_SortCol(-1)
-	,m_Ascending(false)
-	,m_UsingVisualStyle(false)
-	,m_pEditor(NULL)
-	,m_LastSearchCell(-1)
-	,m_LastSearchRow(-1)
-	,m_RepeatSearchCount(0)
-	,m_EmptyMarkupText(_T("There are no items to show in this view."))
-	,m_pOleDropTarget(NULL)
-	,m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
-	,m_pDefaultRowTrait(new CGridRowTraitText)
-	,m_pColumnConfig(NULL)
-	,m_bConfigOwner(false)
-	,m_InvalidateMarkupText(true)
-	,m_TooltipMaxWidth(SHRT_MAX)
+	: m_FocusCell(-1)
+	, m_SortCol(-1)
+	, m_Ascending(false)
+	, m_UsingVisualStyle(false)
+	, m_pEditor(NULL)
+	, m_LastSearchCell(-1)
+	, m_LastSearchRow(-1)
+	, m_RepeatSearchCount(0)
+	, m_EmptyMarkupText(_T("There are no items to show in this view."))
+	, m_pOleDropTarget(NULL)
+	, m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
+	, m_pDefaultRowTrait(new CGridRowTraitText)
+	, m_pColumnConfig(NULL)
+	, m_bConfigOwner(false)
+	, m_InvalidateMarkupText(true)
+	, m_TooltipMaxWidth(SHRT_MAX)
 {}
 
 //------------------------------------------------------------------------
@@ -229,7 +229,7 @@ CGridListCtrlEx::CGridListCtrlEx()
 //------------------------------------------------------------------------
 CGridListCtrlEx::~CGridListCtrlEx()
 {
-	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
+	for (int nCol = GetColumnTraitSize() - 1; nCol >= 0; --nCol)
 		DeleteColumnTrait(nCol);
 
 	delete m_pDefaultRowTrait;
@@ -259,14 +259,14 @@ void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfi
 	if (!m_pColumnConfig->HasDefaultConfig())
 	{
 		// Validate that column data is setup correctly
-		CSimpleMap<int,int> uniqueChecker;
-		for(int nCol = 0; nCol < GetColumnCount(); ++nCol)
+		CSimpleMap<int, int> uniqueChecker;
+		for (int nCol = 0; nCol < GetColumnCount(); ++nCol)
 		{
 			if (IsColumnAlwaysHidden(nCol))
 				continue;
 			int nColData = GetColumnData(nCol);
-			ASSERT(uniqueChecker.FindKey(nColData)==-1);
-			uniqueChecker.Add(nColData,nCol);
+			ASSERT(uniqueChecker.FindKey(nColData) == -1);
+			uniqueChecker.Add(nColData, nCol);
 		}
 
 		SaveState(m_pColumnConfig->GetDefaultConfig());
@@ -299,17 +299,17 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 
 	// All invisible columns must be place in the begining of the order-array
 	int nColOrder = nColCount;
-	for(int i = nVisibleCols-1; i >= 0; --i)
+	for (int i = nVisibleCols - 1; i >= 0; --i)
 	{
 		CString colSetting;
 		colSetting.Format(_T("ColumnData_%d"), i);
 		int nColData = config.GetIntSetting(colSetting);
-		for(int nCol = 0; nCol < nColCount; ++nCol)
+		for (int nCol = 0; nCol < nColCount; ++nCol)
 		{
 			// Check if already in array
 			bool alreadyIncluded = false;
-			for(int j = nColOrder; j < nColCount; ++j)
-				if (pOrderArray[j]==nCol)
+			for (int j = nColOrder; j < nColCount; ++j)
+				if (pOrderArray[j] == nCol)
 				{
 					alreadyIncluded = true;
 					break;
@@ -317,7 +317,7 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 			if (alreadyIncluded)
 				continue;
 
-			if (nColData==GetColumnData(nCol))
+			if (nColData == GetColumnData(nCol))
 			{
 				// Column still exists
 				if (IsColumnAlwaysHidden(nCol))
@@ -333,15 +333,15 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 	}
 
 	// Are there any always visible columns, that we must ensure are visible ?
-	for(int nCol = nColCount-1; nCol >= 0; --nCol)
+	for (int nCol = nColCount - 1; nCol >= 0; --nCol)
 	{
 		if (!IsColumnAlwaysVisible(nCol))
 			continue;
 
 		bool visible = false;
-		for(int i = nColOrder; i < nColCount; ++i)
+		for (int i = nColOrder; i < nColCount; ++i)
 		{
-			if (pOrderArray[i]==nCol)
+			if (pOrderArray[i] == nCol)
 			{
 				visible = true;
 				break;
@@ -359,16 +359,16 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 	if (nColOrder < nColCount)
 	{
 		// All remaining columns are marked as invisible
-		while(nColOrder > 0)
+		while (nColOrder > 0)
 		{
 			// Find nCol som ikke er i array
 			int nCol = -1;
-			for(nCol = nColCount-1; nCol >= 0; --nCol)
+			for (nCol = nColCount - 1; nCol >= 0; --nCol)
 			{
 				bool visible = false;
-				for(int j = nColOrder; j < nColCount; ++j)
+				for (int j = nColOrder; j < nColCount; ++j)
 				{
-					if (pOrderArray[j]==nCol)
+					if (pOrderArray[j] == nCol)
 					{
 						visible = true;
 						break;
@@ -377,7 +377,7 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 				if (!visible)
 					break;
 			}
-			ASSERT(nCol!=-1);
+			ASSERT(nCol != -1);
 			CGridColumnTrait::ColumnState& columnState = GetColumnTrait(nCol)->GetColumnState();
 			columnState.m_OrgPosition = -1;
 			columnState.m_OrgWidth = GetColumnWidth(nCol);
@@ -388,11 +388,11 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 		}
 
 		// Only update the column configuration if there are visible columns
-		ASSERT(nColOrder==0);	// All entries in the order-array must be set
+		ASSERT(nColOrder == 0);	// All entries in the order-array must be set
 		SetColumnOrderArray(nColCount, pOrderArray);
 	}
 
-	delete [] pOrderArray;
+	delete[] pOrderArray;
 
 	m_pColumnConfig = pColumnConfig;
 
@@ -436,7 +436,7 @@ void CGridListCtrlEx::SaveState(CViewConfigSection& config)
 	GetColumnOrderArray(pOrderArray, nColCount);
 
 	int nVisibleCols = 0;
-	for(int i = 0 ; i < nColCount; ++i)
+	for (int i = 0; i < nColCount; ++i)
 	{
 		int nCol = pOrderArray[i];
 		int nColData = GetColumnData(nCol);
@@ -454,7 +454,7 @@ void CGridListCtrlEx::SaveState(CViewConfigSection& config)
 	}
 	config.SetIntSetting(_T("ColumnCount"), nVisibleCols);
 
-	delete [] pOrderArray;
+	delete[] pOrderArray;
 }
 
 
@@ -519,7 +519,7 @@ void CGridListCtrlEx::OpenColumnPicker()
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::HasColumnDefaultState(CString& strTitle)
 {
-	if (m_pColumnConfig==NULL)
+	if (m_pColumnConfig == NULL)
 		return false;
 
 	strTitle = _T("Reset columns");
@@ -531,7 +531,7 @@ bool CGridListCtrlEx::HasColumnDefaultState(CString& strTitle)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::ResetColumnDefaultState()
 {
-	if (m_pColumnConfig==NULL)
+	if (m_pColumnConfig == NULL)
 		return;
 
 	m_pColumnConfig->ResetConfigDefault();
@@ -547,7 +547,7 @@ void CGridListCtrlEx::ResetColumnDefaultState()
 //------------------------------------------------------------------------
 CString CGridListCtrlEx::HasColumnProfiles(CSimpleArray<CString>& profiles, CString& strTitle)
 {
-	if (m_pColumnConfig==NULL)
+	if (m_pColumnConfig == NULL)
 		return _T("");
 
 	strTitle = _T("Column Profiles");
@@ -562,7 +562,7 @@ CString CGridListCtrlEx::HasColumnProfiles(CSimpleArray<CString>& profiles, CStr
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SwichColumnProfile(const CString& strProfile)
 {
-	if (m_pColumnConfig==NULL)
+	if (m_pColumnConfig == NULL)
 		return;
 
 	// Save the current configuration before switching to the new one
@@ -576,7 +576,7 @@ void CGridListCtrlEx::SwichColumnProfile(const CString& strProfile)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnSaveStateColumnPick()
 {
-	if (m_pColumnConfig!=NULL)
+	if (m_pColumnConfig != NULL)
 		SaveState(*m_pColumnConfig);
 }
 
@@ -585,16 +585,16 @@ void CGridListCtrlEx::OnSaveStateColumnPick()
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnSaveStateColumnResize()
 {
-	if (m_pColumnConfig!=NULL)
+	if (m_pColumnConfig != NULL)
 		SaveState(*m_pColumnConfig);
 }
-	
+
 //------------------------------------------------------------------------
 //! Called when the list control looses focus to another control
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnSaveStateKillFocus()
 {
-	if (m_pColumnConfig!=NULL)
+	if (m_pColumnConfig != NULL)
 		SaveState(*m_pColumnConfig);
 }
 
@@ -631,7 +631,7 @@ bool CGridListCtrlEx::CheckOSVersion(WORD requestOS)
 	}
 #else
 	static WORD fullver = 0;
-	if (fullver==0)
+	if (fullver == 0)
 	{
 		OSVERSIONINFO osver = { 0 };
 		osver.dwOSVersionInfoSize = sizeof(osver);
@@ -646,7 +646,7 @@ namespace {
 	bool IsCommonControlsEnabled()
 	{
 		bool commoncontrols = false;
-	
+
 		// Test if application has access to common controls
 		HMODULE hinstDll = ::LoadLibrary(_T("comctl32.dll"));
 		if (hinstDll)
@@ -655,9 +655,9 @@ namespace {
 			(FARPROC&)pDllGetVersion = ::GetProcAddress(hinstDll, "DllGetVersion");
 			if (pDllGetVersion != NULL)
 			{
-				DLLVERSIONINFO dvi = {0};
+				DLLVERSIONINFO dvi = { 0 };
 				dvi.cbSize = sizeof(dvi);
-				HRESULT hRes = pDllGetVersion ((DLLVERSIONINFO *) &dvi);
+				HRESULT hRes = pDllGetVersion((DLLVERSIONINFO *)&dvi);
 				if (SUCCEEDED(hRes))
 					commoncontrols = dvi.dwMajorVersion >= 6;
 			}
@@ -669,15 +669,15 @@ namespace {
 	bool IsThemeEnabled()
 	{
 		bool XPStyle = false;
-		bool (CALLBACK *pIsAppThemed)() = NULL;
-		bool (CALLBACK *pIsThemeActive)() = NULL;
 
 		// Test if operating system has themes enabled
 		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
 		if (hinstDll)
 		{
+			bool (CALLBACK *pIsAppThemed)() = NULL;
+			bool (CALLBACK *pIsThemeActive)() = NULL;
 			(FARPROC&)pIsAppThemed = ::GetProcAddress(hinstDll, "IsAppThemed");
-			(FARPROC&)pIsThemeActive = ::GetProcAddress(hinstDll,"IsThemeActive");
+			(FARPROC&)pIsThemeActive = ::GetProcAddress(hinstDll, "IsThemeActive");
 			if (pIsAppThemed != NULL && pIsThemeActive != NULL)
 			{
 				if (pIsAppThemed() && pIsThemeActive())
@@ -694,23 +694,23 @@ namespace {
 	LRESULT EnableWindowTheme(HWND hwnd, LPCWSTR classList, LPCWSTR subApp, LPCWSTR idlist)
 	{
 		LRESULT lResult = S_FALSE;
-	
-		HRESULT (CALLBACK *pSetWindowTheme)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList) = NULL;
-		HANDLE (CALLBACK *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList) = NULL;
-		HRESULT (CALLBACK *pCloseThemeData)(HANDLE hTheme) = NULL;
 
 		HMODULE hinstDll = ::LoadLibrary(_T("UxTheme.dll"));
 		if (hinstDll)
 		{
+			HRESULT(CALLBACK *pSetWindowTheme)(HWND hwnd, LPCWSTR pszSubAppName, LPCWSTR pszSubIdList) = NULL;
+			HANDLE(CALLBACK *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList) = NULL;
+			HRESULT(CALLBACK *pCloseThemeData)(HANDLE hTheme) = NULL;
+
 			(FARPROC&)pOpenThemeData = ::GetProcAddress(hinstDll, "OpenThemeData");
 			(FARPROC&)pCloseThemeData = ::GetProcAddress(hinstDll, "CloseThemeData");
 			(FARPROC&)pSetWindowTheme = ::GetProcAddress(hinstDll, "SetWindowTheme");
 			if (pSetWindowTheme && pOpenThemeData && pCloseThemeData)
 			{
-				HANDLE theme = pOpenThemeData(hwnd,classList);
-				if (theme!=NULL)
+				HANDLE theme = pOpenThemeData(hwnd, classList);
+				if (theme != NULL)
 				{
-					VERIFY(pCloseThemeData(theme)==S_OK);
+					VERIFY(pCloseThemeData(theme) == S_OK);
 					lResult = pSetWindowTheme(hwnd, subApp, idlist);
 				}
 			}
@@ -746,7 +746,7 @@ LRESULT CGridListCtrlEx::EnableVisualStyles(bool bValue)
 	else
 		rc = EnableWindowTheme(GetSafeHwnd(), L"ListView", L"", NULL);
 
-	if (bValue && rc==S_OK)
+	if (bValue && rc == S_OK)
 	{
 		// OBS! Focus retangle is not painted properly without double-buffering
 		m_UsingVisualStyle = true;
@@ -786,7 +786,7 @@ void CGridListCtrlEx::OnCreateStyle()
 		DebugBreak();	// CListCtrl must be created without style LVS_OWNERDRAWFIXED
 
 	ModifyStyle(0, LVS_SHOWSELALWAYS);
-	
+
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_HEADERDRAGDROP);
 	SetExtendedStyle(GetExtendedStyle() | LVS_EX_GRIDLINES);
@@ -798,14 +798,14 @@ void CGridListCtrlEx::OnCreateStyle()
 
 	// Enable Vista-look if possible
 	EnableVisualStyles(true);
-	
+
 	// Enable the standard tooltip
 	EnableToolTips(TRUE);
 
 	// Disable the builtin tooltip (if available)
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
-	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
-        pToolTipCtrl->Activate(FALSE);
+	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
+		pToolTipCtrl->Activate(FALSE);
 
 	RegisterDropTarget();
 }
@@ -819,7 +819,7 @@ int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	// Will not be called when placed inside a CDialog
 	int rc = CListCtrl::OnCreate(lpCreateStruct);
-	if (rc==0)
+	if (rc == 0)
 		OnCreateStyle();
 
 	return rc;
@@ -850,9 +850,9 @@ void CGridListCtrlEx::PreSubclassWindow()
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading, int nFormat, int nWidth, int nSubItem, CGridColumnTrait* pTrait)
 {
-	VERIFY(m_ColumnTraits.GetSize()==GetColumnCount());
+	VERIFY(m_ColumnTraits.GetSize() == GetColumnCount());
 
-	if (pTrait!=NULL)
+	if (pTrait != NULL)
 	{
 		if (pTrait->GetColumnState().m_AlwaysHidden)
 		{
@@ -876,7 +876,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 	int index = InsertColumn(nCol, static_cast<LPCTSTR>(strColumnHeading), nFormat, nWidth, nSubItem);
 	if (index != -1)
 	{
-		VERIFY( index == nCol );
+		VERIFY(index == nCol);
 		GetColumnTrait(nCol)->OnInsertColumn(*this, nCol);
 	}
 	else
@@ -896,8 +896,8 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 int CGridListCtrlEx::InsertHiddenLabelColumn()
 {
 	// Must be the label column
-	VERIFY(GetHeaderCtrl()->GetItemCount()==0);
-	VERIFY(m_ColumnTraits.GetSize()==0);
+	VERIFY(GetHeaderCtrl()->GetItemCount() == 0);
+	VERIFY(m_ColumnTraits.GetSize() == 0);
 
 	CGridColumnTrait* pColumTrait = new CGridColumnTrait;
 	pColumTrait->GetColumnState().m_AlwaysHidden = true;
@@ -917,7 +917,7 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 	if (hWnd == NULL)
 		return NULL;
 	else
-		return (const CHeaderCtrl*) CHeaderCtrl::FromHandle(hWnd);
+		return (const CHeaderCtrl*)CHeaderCtrl::FromHandle(hWnd);
 }
 
 //------------------------------------------------------------------------
@@ -937,7 +937,7 @@ int CGridListCtrlEx::GetColumnCount() const
 //------------------------------------------------------------------------
 CFont* CGridListCtrlEx::GetCellFont()
 {
-	if (m_CellFont.GetSafeHandle()==NULL)
+	if (m_CellFont.GetSafeHandle() == NULL)
 		return GetFont();
 	return &m_CellFont;
 }
@@ -951,17 +951,17 @@ CFont* CGridListCtrlEx::GetCellFont()
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetCellMargin(double margin)
 {
-	LOGFONT lf = {0};
-	VERIFY(GetFont()->GetLogFont(&lf)!=0);
+	LOGFONT lf = { 0 };
+	VERIFY(GetFont()->GetLogFont(&lf) != 0);
 	if (static_cast<HFONT>(m_CellFont))
-		VERIFY( m_CellFont.DeleteObject() );
-	VERIFY( m_CellFont.CreateFontIndirect(&lf) );
+		VERIFY(m_CellFont.DeleteObject());
+	VERIFY(m_CellFont.CreateFontIndirect(&lf));
 
-	lf.lfHeight = (int)( lf.lfHeight * margin );
-	lf.lfWidth = (int)( lf.lfWidth * margin );
+	lf.lfHeight = (int)(lf.lfHeight * margin);
+	lf.lfWidth = (int)(lf.lfWidth * margin);
 	if (static_cast<HFONT>(m_GridFont))
-		VERIFY( m_GridFont.DeleteObject() );
-	VERIFY( m_GridFont.CreateFontIndirect(&lf) );
+		VERIFY(m_GridFont.DeleteObject());
+	VERIFY(m_GridFont.CreateFontIndirect(&lf));
 
 	m_Margin = -1;	// Avoid loop in WM_SETFONT message handler
 	CListCtrl::SetFont(&m_GridFont);
@@ -971,7 +971,7 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 	if (pHeaderCtrl != NULL)
 		pHeaderCtrl->SetFont(&m_GridFont);
 	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
-	if (pToolTipCtrl!=NULL && pToolTipCtrl->m_hWnd!=NULL)
+	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
 		pToolTipCtrl->SetFont(&m_CellFont);
 }
 
@@ -982,13 +982,13 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 //! @param lParam The low-order word of lParam specifies whether to redraw
 //! @return Not used
 //------------------------------------------------------------------------
- LRESULT CGridListCtrlEx::OnSetFont(WPARAM wParam, LPARAM lParam)
- {
-	 LRESULT result = DefWindowProc(WM_SETFONT, wParam, lParam); 
-	 if (m_Margin >= 0)
+LRESULT CGridListCtrlEx::OnSetFont(WPARAM wParam, LPARAM lParam)
+{
+	LRESULT result = DefWindowProc(WM_SETFONT, wParam, lParam);
+	if (m_Margin >= 0)
 		SetCellMargin(m_Margin);
-	 return result;
- }
+	return result;
+}
 
 //------------------------------------------------------------------------
 //! The column version of GetItemData(), one can specify an unique
@@ -999,9 +999,9 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnData(int nCol) const
 {
-	LVCOLUMN lvc = {0};
+	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_SUBITEM;
-	VERIFY( GetColumn(nCol, &lvc) );
+	VERIFY(GetColumn(nCol, &lvc));
 	return lvc.iSubItem;
 }
 
@@ -1013,9 +1013,9 @@ int CGridListCtrlEx::GetColumnData(int nCol) const
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetColumnOrder(int nCol) const
 {
-	LVCOLUMN lvc = {0};
+	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_ORDER;
-	VERIFY( GetColumn(nCol, &lvc) );
+	VERIFY(GetColumn(nCol, &lvc));
 	return lvc.iOrder;
 }
 
@@ -1029,15 +1029,15 @@ int CGridListCtrlEx::GetColumnOrder(int nCol) const
 CString CGridListCtrlEx::GetColumnHeading(int nCol) const
 {
 	// Retrieve column-title
-	LVCOLUMN lvc = {0};
+	LVCOLUMN lvc = { 0 };
 	lvc.mask = LVCF_TEXT;
-	TCHAR sColText[256] = {0};
+	TCHAR sColText[256] = { 0 };
 	lvc.pszText = sColText;
-	lvc.cchTextMax = sizeof(sColText)/sizeof(TCHAR);
-	VERIFY( GetColumn(nCol, &lvc) );
-	lvc.pszText[sizeof(sColText)/sizeof(TCHAR)-1] = 0;	// Ensure null terminated
+	lvc.cchTextMax = sizeof(sColText) / sizeof(TCHAR);
+	VERIFY(GetColumn(nCol, &lvc));
+	lvc.pszText[sizeof(sColText) / sizeof(TCHAR) - 1] = 0;	// Ensure null terminated
 	CString header(lvc.pszText);						// Allocate only until null termination
-	VERIFY( header.GetLength()<lvc.cchTextMax-1 );		// Verify that the column header is complete
+	VERIFY(header.GetLength()<lvc.cchTextMax - 1);		// Verify that the column header is complete
 	return header;
 }
 
@@ -1098,32 +1098,32 @@ BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 {
-	if (GetSubItemRect(nRow, nCol, nCode, rect)==FALSE)
+	if (GetSubItemRect(nRow, nCol, nCode, rect) == FALSE)
 		return FALSE;
 
 	if (nCode == LVIR_BOUNDS)
 	{
 		// Find the left and right of the cell-rectangle using the CHeaderCtrl
 		CRect colRect;
-		if (GetHeaderCtrl()->GetItemRect(nCol, colRect)==FALSE)
+		if (GetHeaderCtrl()->GetItemRect(nCol, colRect) == FALSE)
 			return FALSE;
 
-		if (nCol==0)
+		if (nCol == 0)
 		{
 			// Fix bug where LVIR_BOUNDS gives the entire row for nCol==0
 			CRect labelRect;
-			if (GetSubItemRect(nRow, nCol, LVIR_LABEL, labelRect)==FALSE)
+			if (GetSubItemRect(nRow, nCol, LVIR_LABEL, labelRect) == FALSE)
 				return FALSE;
 
-			rect.right = labelRect.right; 
-			rect.left  = labelRect.right - colRect.Width();
+			rect.right = labelRect.right;
+			rect.left = labelRect.right - colRect.Width();
 		}
 		else
 		{
 			// Fix bug when width is smaller than subitem image width
 			rect.right = rect.left + colRect.Width();
 		}
-    }
+	}
 
 	if (nCode == LVIR_ICON)
 	{
@@ -1144,7 +1144,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 			if (!(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
 				return TRUE;	// no image in subitem
 
-			if (GetImageList(LVSIL_SMALL)==NULL)
+			if (GetImageList(LVSIL_SMALL) == NULL)
 				return TRUE;	// no image in subitem
 
 			int nImage = GetCellImage(nRow, nCol);
@@ -1152,7 +1152,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 				return TRUE;	// No image in subitem
 
 			CRect iconRect;
-			if (GetSubItemRect(nRow, nCol, LVIR_ICON, iconRect)==FALSE)
+			if (GetSubItemRect(nRow, nCol, LVIR_ICON, iconRect) == FALSE)
 				return FALSE;
 
 			rect.left += iconRect.Width();
@@ -1162,10 +1162,10 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 			if (GetExtendedStyle() & LVS_EX_CHECKBOXES)
 				return TRUE;	// First column gets correct margin when imagelist is assigned
 
-			if (GetImageList(LVSIL_SMALL)!=NULL)
+			if (GetImageList(LVSIL_SMALL) != NULL)
 				return TRUE;	// First column gets correct margin when checkboxes are enabled
 
-			// Label column gets extra margin when no subitem images or checkbox (Remove this)
+								// Label column gets extra margin when no subitem images or checkbox (Remove this)
 			return GetCellRect(nRow, nCol, LVIR_BOUNDS, rect);
 		}
 	}
@@ -1187,7 +1187,7 @@ UINT CGridListCtrlEx::CellHitTest(const CPoint& pt, int& nRow, int& nCol) const
 	nRow = -1;
 	nCol = -1;
 
-	LVHITTESTINFO lvhti = {0};
+	LVHITTESTINFO lvhti = { 0 };
 	lvhti.pt = pt;
 	nRow = ListView_SubItemHitTest(m_hWnd, &lvhti);	// SubItemHitTest is non-const
 	nCol = lvhti.iSubItem;
@@ -1209,11 +1209,11 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 	if (GetStyle() & LVS_OWNERDATA)
 		return true;
 
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.iItem = nRow;
 	lvi.iSubItem = nCol;
 	lvi.mask = LVIF_TEXT | LVIF_NORECOMPUTE;
-	VERIFY( GetItem( &lvi ) );
+	VERIFY(GetItem(&lvi));
 	return lvi.pszText == LPSTR_TEXTCALLBACK;
 }
 
@@ -1226,11 +1226,11 @@ bool CGridListCtrlEx::IsCellCallback(int nRow, int nCol) const
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 {
-	LVITEM lvi = {0};
+	LVITEM lvi = { 0 };
 	lvi.iItem = nRow;
 	lvi.iSubItem = nCol;
 	lvi.mask = LVIF_IMAGE;
-	VERIFY( GetItem( &lvi ) );
+	VERIFY(GetItem(&lvi));
 	return lvi.iImage;
 }
 
@@ -1244,7 +1244,7 @@ int CGridListCtrlEx::GetCellImage(int nRow, int nCol) const
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SetCellImage(int nRow, int nCol, int nImageId)
 {
-	LVITEM lvitem = {0};
+	LVITEM lvitem = { 0 };
 	lvitem.mask = LVIF_IMAGE;
 	lvitem.iItem = nRow;
 	lvitem.iSubItem = nCol;
@@ -1268,7 +1268,7 @@ void CGridListCtrlEx::SetFocusCell(int nCol, bool bRedraw)
 		if (nFocusRow >= 0)
 		{
 			CRect itemRect;
-			VERIFY( GetItemRect(nFocusRow, itemRect, LVIR_BOUNDS) );
+			VERIFY(GetItemRect(nFocusRow, itemRect, LVIR_BOUNDS));
 			InvalidateRect(itemRect);
 			UpdateWindow();
 		}
@@ -1282,7 +1282,7 @@ void CGridListCtrlEx::SetFocusCell(int nCol, bool bRedraw)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 {
-	if (GetItemCount()<=0)
+	if (GetItemCount() <= 0)
 	{
 		SetFocusCell(-1);	// Entire row selected
 		return;
@@ -1294,14 +1294,14 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 		if (bMoveRight)
 		{
 			// Change to the first column in the current order
-			SetFocusCell( GetFirstVisibleColumn() );
+			SetFocusCell(GetFirstVisibleColumn());
 		}
 	}
 	else
 	{
 		// Convert focus-cell to order index
 		int nOrderIndex = -1;
-		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			int nCol = GetHeaderCtrl()->OrderToIndex(i);
 			if (nCol == GetFocusCell())
@@ -1324,8 +1324,8 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 			if (IsColumnVisible(nCol))
 				SetFocusCell(nCol);
 			else
-			if (!bMoveRight)
-				SetFocusCell(-1);	// Entire row selection
+				if (!bMoveRight)
+					SetFocusCell(-1);	// Entire row selection
 		}
 		else if (!bMoveRight)
 			SetFocusCell(-1);	// Entire row selection
@@ -1334,7 +1334,7 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 	// Ensure the column is visible
 	if (GetFocusCell() >= 0)
 	{
-		VERIFY( EnsureColumnVisible(GetFocusCell(), false) );
+		VERIFY(EnsureColumnVisible(GetFocusCell(), false));
 	}
 
 	SetFocusCell(GetFocusCell(), true);
@@ -1356,7 +1356,7 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 		return FALSE;
 
 	CRect rcHeader;
-	if (GetHeaderCtrl()->GetItemRect(nCol, rcHeader)==FALSE)
+	if (GetHeaderCtrl()->GetItemRect(nCol, rcHeader) == FALSE)
 		return FALSE;
 
 	CRect rcClient;
@@ -1364,9 +1364,9 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 
 	int nOffset = GetScrollPos(SB_HORZ);
 
-	if(bPartialOK)
+	if (bPartialOK)
 	{
-		if((rcHeader.left - nOffset < rcClient.right) && (rcHeader.right - nOffset > 0))
+		if ((rcHeader.left - nOffset < rcClient.right) && (rcHeader.right - nOffset > 0))
 		{
 			return TRUE;
 		}
@@ -1374,19 +1374,19 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 
 	int nScrollX = 0;
 
-	if((rcHeader.Width() > rcClient.Width()) || (rcHeader.left - nOffset < 0))
+	if ((rcHeader.Width() > rcClient.Width()) || (rcHeader.left - nOffset < 0))
 	{
 		nScrollX = rcHeader.left - nOffset;
 	}
-	else if(rcHeader.right - nOffset > rcClient.right)
+	else if (rcHeader.right - nOffset > rcClient.right)
 	{
 		nScrollX = rcHeader.right - nOffset - rcClient.right;
 	}
 
-	if(nScrollX != 0)
+	if (nScrollX != 0)
 	{
 		CSize size(nScrollX, 0);
-		if (Scroll(size)==FALSE)
+		if (Scroll(size) == FALSE)
 			return FALSE;
 	}
 
@@ -1401,7 +1401,7 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 int CGridListCtrlEx::GetFirstVisibleColumn()
 {
 	int nColCount = GetHeaderCtrl()->GetItemCount();
-	for(int i = 0; i < nColCount; ++i)
+	for (int i = 0; i < nColCount; ++i)
 	{
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
 		if (IsColumnVisible(nCol))
@@ -1440,43 +1440,43 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 		DebugBreak();
 
 	int* pOrderArray = new int[(UINT)nColCount];
-	VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
+	VERIFY(GetColumnOrderArray(pOrderArray, nColCount));
 	if (bShow)
 	{
-		if (columnState.m_OrgPosition==-1)
+		if (columnState.m_OrgPosition == -1)
 		{
 			// Restore the default position of the column (No column drag drop)
 			columnState.m_OrgPosition = nCol;
 
 			int nCurIndex = -1;
-			for(int i = 0; i < nColCount ; ++i)
+			for (int i = 0; i < nColCount; ++i)
 			{
-				if (pOrderArray[i]==nCol)
+				if (pOrderArray[i] == nCol)
 				{
 					nCurIndex = i;
 				}
 				else
-				if (nCurIndex!=-1)
-				{
-					if (!IsColumnVisible(pOrderArray[i]) && pOrderArray[i] > nCol)
-						columnState.m_OrgPosition++;
-
-					pOrderArray[nCurIndex] = pOrderArray[i];
-					pOrderArray[i] = nCol;
-					nCurIndex = i;
-
-					// We want to move it to the original visible position
-					if (i >= columnState.m_OrgPosition)
+					if (nCurIndex != -1)
 					{
-						if ( (i+1==nColCount) || IsColumnVisible(pOrderArray[i+1]) )
-							break;
+						if (!IsColumnVisible(pOrderArray[i]) && pOrderArray[i] > nCol)
+							columnState.m_OrgPosition++;
+
+						pOrderArray[nCurIndex] = pOrderArray[i];
+						pOrderArray[i] = nCol;
+						nCurIndex = i;
+
+						// We want to move it to the original visible position
+						if (i >= columnState.m_OrgPosition)
+						{
+							if ((i + 1 == nColCount) || IsColumnVisible(pOrderArray[i + 1]))
+								break;
+						}
 					}
-				}
-				else
-				{
-					if (pOrderArray[i] > nCol)
-						columnState.m_OrgPosition++;
-				}
+					else
+					{
+						if (pOrderArray[i] > nCol)
+							columnState.m_OrgPosition++;
+					}
 			}
 		}
 		else
@@ -1484,40 +1484,40 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 			// Restore the last position of the column (Support column drag-drop)
 			int nColOffSet = 0;
 			int nCurIndex = -1;
-			for(int i = 0; i < nColCount ; ++i)
+			for (int i = 0; i < nColCount; ++i)
 			{
-				if (pOrderArray[i]==nCol)
+				if (pOrderArray[i] == nCol)
 				{
 					nCurIndex = i;
 					columnState.m_OrgPosition += nColOffSet;
 				}
 				else
-				if (nCurIndex!=-1)
-				{
-					pOrderArray[nCurIndex] = pOrderArray[i];
-					pOrderArray[i] = nCol;
-					nCurIndex = i;
+					if (nCurIndex != -1)
+					{
+						pOrderArray[nCurIndex] = pOrderArray[i];
+						pOrderArray[i] = nCol;
+						nCurIndex = i;
 
-					// We want to move it to the original visible position
-					if (i >= columnState.m_OrgPosition)
-					{
-						if ( (i+1==nColCount) || IsColumnVisible(pOrderArray[i+1]) )
-							break;
+						// We want to move it to the original visible position
+						if (i >= columnState.m_OrgPosition)
+						{
+							if ((i + 1 == nColCount) || IsColumnVisible(pOrderArray[i + 1]))
+								break;
+						}
 					}
-				}
-				else
-				{
-					if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition!=-1)
+					else
 					{
-						// Other columns have been hidden after, this column was hidden
-						//	- The other column was originally placed before this column (Showing this column changes the original position of the other column)
-						if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition <= columnState.m_OrgPosition)
-							GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition--;
-						//	- The other column was originally placed after this column (This column needs to adjust original position)
-						if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition >= columnState.m_OrgPosition)
-							nColOffSet++;
+						if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition != -1)
+						{
+							// Other columns have been hidden after, this column was hidden
+							//	- The other column was originally placed before this column (Showing this column changes the original position of the other column)
+							if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition <= columnState.m_OrgPosition)
+								GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition--;
+							//	- The other column was originally placed after this column (This column needs to adjust original position)
+							if (GetColumnTrait(pOrderArray[i])->GetColumnState().m_OrgPosition >= columnState.m_OrgPosition)
+								nColOffSet++;
+						}
 					}
-				}
 			}
 		}
 	}
@@ -1525,16 +1525,15 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	{
 		// Move the column to the front of the display order list
 		int nCurIndex(-1);
-		for(int i = nColCount-1; i >=0 ; --i)
+		for (int i = nColCount - 1; i >= 0; --i)
 		{
-			if (pOrderArray[i]==nCol)
+			if (pOrderArray[i] == nCol)
 			{
 				// Backup the current position of the column
 				columnState.m_OrgPosition = i;
 				nCurIndex = i;
 			}
-			else
-			if (nCurIndex!=-1)
+			else if (nCurIndex != -1)
 			{
 				pOrderArray[nCurIndex] = pOrderArray[i];
 				pOrderArray[i] = nCol;
@@ -1544,33 +1543,33 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	}
 
 	// Validate that all column-ids are unique and are between 0 og nCount
-	for(int i = 0; i < nColCount ; ++i)
+	for (int i = 0; i < nColCount; ++i)
 	{
 		ASSERT(pOrderArray[i] >= 0);
 		ASSERT(pOrderArray[i] < nColCount);
-		for(int j = 0; j < nColCount ; ++j)
+		for (int j = 0; j < nColCount; ++j)
 		{
 			if (j == i)
 				continue;
 
-			ASSERT(pOrderArray[i]!=pOrderArray[j]);
+			ASSERT(pOrderArray[i] != pOrderArray[j]);
 		}
 	}
 
-	VERIFY( SetColumnOrderArray(nColCount, pOrderArray) );
-	delete [] pOrderArray;
+	VERIFY(SetColumnOrderArray(nColCount, pOrderArray));
+	delete[] pOrderArray;
 
 	if (bShow)
 	{
 		// Restore the column width
 		columnState.m_Visible = true;
-		VERIFY( SetColumnWidth(nCol, columnState.m_OrgWidth) );
+		VERIFY(SetColumnWidth(nCol, columnState.m_OrgWidth));
 	}
 	else
 	{
 		// Backup the column width
 		int orgWidth = GetColumnWidth(nCol);
-		VERIFY( SetColumnWidth(nCol, 0) );
+		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_Visible = false;
 		columnState.m_OrgWidth = orgWidth;
 	}
@@ -1593,7 +1592,7 @@ BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool bIncludeHeader)
 {
 	if (nCol == -1)
 	{
-		for(int i = 0; i < GetHeaderCtrl()->GetItemCount() ; ++i)
+		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
 			SetColumnWidthAuto(i, bIncludeHeader);
 		}
@@ -1626,34 +1625,34 @@ namespace {
 		CBitmap *pOldBitmap = memDC.SelectObject(&newbmp);
 
 		//make the bitmap white to begin with
-		memDC.FillSolidRect(rcIcon.top,rcIcon.left,rcIcon.bottom,rcIcon.right,::GetSysColor(COLOR_3DFACE));
+		memDC.FillSolidRect(rcIcon.top, rcIcon.left, rcIcon.bottom, rcIcon.right, ::GetSysColor(COLOR_3DFACE));
 
 		// Set up pens to use for drawing the triangle
 		CPen penLight(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
 		CPen penShadow(PS_SOLID, 1, GetSysColor(COLOR_3DSHADOW));
-		CPen *pOldPen = memDC.SelectObject( &penLight );
+		CPen *pOldPen = memDC.SelectObject(&penLight);
 
 		int iOffset = (rcIcon.bottom - rcIcon.top) / 4;
 
-		if( bAscending )
+		if (bAscending)
 		{
 			// draw the arrow pointing upwards.
-			memDC.MoveTo( rcIcon.right - 2 * iOffset, iOffset);
-			memDC.LineTo( rcIcon.right - iOffset, rcIcon.bottom - iOffset - 1 );
-			memDC.LineTo( rcIcon.right - 3 * iOffset - 2, rcIcon.bottom - iOffset - 1 );
-			(void)memDC.SelectObject( &penShadow );
-			memDC.MoveTo( rcIcon.right - 3 * iOffset - 1, rcIcon.bottom - iOffset - 1 );
-			memDC.LineTo( rcIcon.right - 2 * iOffset, iOffset - 1);		
+			memDC.MoveTo(rcIcon.right - 2 * iOffset, iOffset);
+			memDC.LineTo(rcIcon.right - iOffset, rcIcon.bottom - iOffset - 1);
+			memDC.LineTo(rcIcon.right - 3 * iOffset - 2, rcIcon.bottom - iOffset - 1);
+			(void)memDC.SelectObject(&penShadow);
+			memDC.MoveTo(rcIcon.right - 3 * iOffset - 1, rcIcon.bottom - iOffset - 1);
+			memDC.LineTo(rcIcon.right - 2 * iOffset, iOffset - 1);
 		}
 		else
 		{
 			// draw the arrow pointing downwards.
-			memDC.MoveTo( rcIcon.right - iOffset - 1, iOffset );
-			memDC.LineTo( rcIcon.right - 2 * iOffset - 1, rcIcon.bottom - iOffset );
-			(void)memDC.SelectObject( &penShadow );
-			memDC.MoveTo( rcIcon.right - 2 * iOffset - 2, rcIcon.bottom - iOffset );
-			memDC.LineTo( rcIcon.right - 3 * iOffset - 1, iOffset );
-			memDC.LineTo( rcIcon.right - iOffset - 1, iOffset );		
+			memDC.MoveTo(rcIcon.right - iOffset - 1, iOffset);
+			memDC.LineTo(rcIcon.right - 2 * iOffset - 1, rcIcon.bottom - iOffset);
+			(void)memDC.SelectObject(&penShadow);
+			memDC.MoveTo(rcIcon.right - 2 * iOffset - 2, rcIcon.bottom - iOffset);
+			memDC.LineTo(rcIcon.right - 3 * iOffset - 1, iOffset);
+			memDC.LineTo(rcIcon.right - iOffset - 1, iOffset);
 		}
 
 		// Restore the pen
@@ -1677,45 +1676,45 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 	if (IsCommonControlsEnabled())
 	{
 #if (_WIN32_WINNT >= 0x501)
-		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
-			HDITEM hditem = {0};
+			HDITEM hditem = { 0 };
 			hditem.mask = HDI_FORMAT;
-			VERIFY( GetHeaderCtrl()->GetItem( i, &hditem ) );
-			hditem.fmt &= ~(HDF_SORTDOWN|HDF_SORTUP);
+			VERIFY(GetHeaderCtrl()->GetItem(i, &hditem));
+			hditem.fmt &= ~(HDF_SORTDOWN | HDF_SORTUP);
 			if (i == nCol)
 			{
 				hditem.fmt |= bAscending ? HDF_SORTUP : HDF_SORTDOWN;
 			}
-			VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
+			VERIFY(CListCtrl::GetHeaderCtrl()->SetItem(i, &hditem));
 		}
 #endif
 	}
 	else
 	{
-		for(int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
 		{
-			HDITEM hditem = {0};
+			HDITEM hditem = { 0 };
 			hditem.mask = HDI_BITMAP | HDI_FORMAT;
-			VERIFY( GetHeaderCtrl()->GetItem( i, &hditem ) );
+			VERIFY(GetHeaderCtrl()->GetItem(i, &hditem));
 			if (hditem.fmt & HDF_BITMAP && hditem.fmt & HDF_BITMAP_ON_RIGHT)
 			{
 				if (hditem.hbm)
 				{
-					VERIFY( DeleteObject(hditem.hbm) );
+					VERIFY(DeleteObject(hditem.hbm));
 					hditem.hbm = NULL;
 				}
-				hditem.fmt &= ~(HDF_BITMAP|HDF_BITMAP_ON_RIGHT);
-				VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
+				hditem.fmt &= ~(HDF_BITMAP | HDF_BITMAP_ON_RIGHT);
+				VERIFY(CListCtrl::GetHeaderCtrl()->SetItem(i, &hditem));
 			}
 			if (i == nCol)
 			{
-				hditem.fmt |= HDF_BITMAP|HDF_BITMAP_ON_RIGHT;
+				hditem.fmt |= HDF_BITMAP | HDF_BITMAP_ON_RIGHT;
 				//UINT bitmapID = m_Ascending ? IDB_DOWNARROW : IDB_UPARROW; 
 				//hditem.hbm = (HBITMAP)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(bitmapID), IMAGE_BITMAP, 0,0, LR_LOADMAP3DCOLORS);
 				hditem.hbm = CreateSortBitmap(bAscending);
-				VERIFY( hditem.hbm!=NULL );
-				VERIFY( CListCtrl::GetHeaderCtrl()->SetItem( i, &hditem ) );
+				VERIFY(hditem.hbm != NULL);
+				VERIFY(CListCtrl::GetHeaderCtrl()->SetItem(i, &hditem));
 			}
 		}
 	}
@@ -1732,7 +1731,7 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// Catch event before the parent listctrl gets it to avoid extra scrolling
 	//	- OBS! This can also prevent the key-events to reach LVN_KEYDOWN handlers
-	switch(nChar)
+	switch (nChar)
 	{
 		case VK_RIGHT:	MoveFocusCell(true);	return;	// Do not allow scroll
 		case VK_LEFT:	MoveFocusCell(false);	return;	// Do not allow scroll
@@ -1785,7 +1784,7 @@ void CGridListCtrlEx::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			else
 			{
 				// Flip-cell image icon
-				if (GetFocusRow()!=-1 && GetFocusCell()!=-1)
+				if (GetFocusRow() != -1 && GetFocusCell() != -1)
 				{
 					CRect rect;
 					if (GetCellRect(GetFocusRow(), GetFocusCell(), LVIR_ICON, rect))
@@ -1837,15 +1836,15 @@ int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& st
 	// Perform the search loop twice
 	//	- First search from current position down to bottom
 	//	- Then search from top to current position
-	for(int j = 0; j < 2; ++j)
+	for (int j = 0; j < 2; ++j)
 	{
-		for(int i = nStartRow; i < nRowCount; ++i)
+		for (int i = nStartRow; i < nRowCount; ++i)
 		{
 			CString cellText = GetItemText(i, nCol);
-			if (cellText.GetLength()>=strSearch.GetLength())
+			if (cellText.GetLength() >= strSearch.GetLength())
 			{
 				cellText = cellText.Left(strSearch.GetLength());
-				if (cellText.CompareNoCase(strSearch)==0)
+				if (cellText.CompareNoCase(strSearch) == 0)
 					return i;
 			}
 		}
@@ -1872,7 +1871,7 @@ BOOL CGridListCtrlEx::OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult)
 
 	if (pFindItem->lvfi.flags & LVFI_STRING)
 	{
-		*pResult = OnKeyboardSearch(0, pFindItem->iStart-1, pFindItem->lvfi.psz);
+		*pResult = OnKeyboardSearch(0, pFindItem->iStart - 1, pFindItem->lvfi.psz);
 		return TRUE;
 	}
 
@@ -1888,7 +1887,7 @@ BOOL CGridListCtrlEx::OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (GetFocusCell()<=0)
+	if (GetFocusCell() <= 0)
 	{
 		// Use the default keyboard search in the label-column
 		CListCtrl::OnChar(nChar, nRepCnt, nFlags);
@@ -1903,16 +1902,16 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	// No input within 2 seconds, resets the search
-	if (m_LastSearchTime.GetCurrentTime() >= (m_LastSearchTime+CTimeSpan(0,0,0,2))
-	 && m_LastSearchString.GetLength()>0)
+	if (m_LastSearchTime.GetCurrentTime() >= (m_LastSearchTime + CTimeSpan(0, 0, 0, 2))
+		&& m_LastSearchString.GetLength()>0)
 		m_LastSearchString = _T("");
 
 	// Changing cells, resets the search
-	if (m_LastSearchCell!=GetFocusCell())
+	if (m_LastSearchCell != GetFocusCell())
 		m_LastSearchString = _T("");
 
 	// Changing rows, resets the search
-	if (m_LastSearchRow!=GetFocusRow())
+	if (m_LastSearchRow != GetFocusRow())
 		m_LastSearchString = _T("");
 
 	if (m_LastSearchString.IsEmpty())
@@ -1921,8 +1920,8 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	m_LastSearchCell = GetFocusCell();
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
 
-	if ( m_LastSearchString.GetLength()==1
-	  && m_LastSearchString.GetAt(0)==(TCHAR)nChar)
+	if (m_LastSearchString.GetLength() == 1
+		&& m_LastSearchString.GetAt(0) == (TCHAR)nChar)
 	{
 		// When the same first character is entered again,
 		// then just repeat the search, but remember number of repeats
@@ -1930,8 +1929,8 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 	else
 	{
-		for(int i=0; i < m_RepeatSearchCount; ++i)
-			m_LastSearchString.Insert(m_LastSearchString.GetLength()+1,m_LastSearchString.GetAt(0));
+		for (int i = 0; i < m_RepeatSearchCount; ++i)
+			m_LastSearchString.Insert(m_LastSearchString.GetLength() + 1, m_LastSearchString.GetAt(0));
 		m_RepeatSearchCount = 0;
 		m_LastSearchString += (TCHAR)nChar;
 	}
@@ -1943,11 +1942,11 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nCol < 0)
 		nCol = GetFirstVisibleColumn();
 
-	if (m_LastSearchString.GetLength()==1)
-		m_LastSearchRow = OnKeyboardSearch(nCol, nRow+1, m_LastSearchString);
+	if (m_LastSearchString.GetLength() == 1)
+		m_LastSearchRow = OnKeyboardSearch(nCol, nRow + 1, m_LastSearchString);
 	else
 		m_LastSearchRow = OnKeyboardSearch(nCol, nRow, m_LastSearchString);
-	if (m_LastSearchRow!=-1)
+	if (m_LastSearchRow != -1)
 	{
 		// De-select all other rows
 		SelectRow(-1, false);
@@ -1969,17 +1968,17 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnDisplayCellItem(LVITEM& lvi)
 {
-	if(lvi.mask & LVIF_TEXT)
+	if (lvi.mask & LVIF_TEXT)
 	{
 		// Request text
 		CString result;
 		if (OnDisplayCellText(lvi.iItem, lvi.iSubItem, result))
 		{
-	#if __STDC_WANT_SECURE_LIB__
-			_tcscpy_s(lvi.pszText, lvi.cchTextMax, static_cast<LPCTSTR>(result) );
-	#else
+#if __STDC_WANT_SECURE_LIB__
+			_tcscpy_s(lvi.pszText, lvi.cchTextMax, static_cast<LPCTSTR>(result));
+#else
 			_tcsncpy(lvi.pszText, static_cast<LPCTSTR>(result), pNMW->item.cchTextMax);
-	#endif
+#endif
 		}
 	}
 
@@ -1988,7 +1987,7 @@ void CGridListCtrlEx::OnDisplayCellItem(LVITEM& lvi)
 		// Request-Image
 		int result = -1;
 		if (OnDisplayCellImage(lvi.iItem, lvi.iSubItem, result))
-            lvi.iImage = result;
+			lvi.iImage = result;
 		else
 			lvi.iImage = I_IMAGECALLBACK;
 	}
@@ -2056,7 +2055,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMW->item.mask & LVIF_IMAGE)
 	{
 		// Support checkboxes when using LVS_OWNERDATA (virtual list)
-		if (nCol==0)
+		if (nCol == 0)
 		{
 			if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
 			{
@@ -2096,7 +2095,7 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& point) const
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResult)
 {
-	if (nRow!=-1 && nCol!=-1)
+	if (nRow != -1 && nCol != -1)
 	{
 		strResult = GetItemText(nRow, nCol);	// Cell-ToolTip
 		return true;
@@ -2146,11 +2145,11 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 
 	//Get the client (area occupied by this control
 	RECT rcClient;
-	GetClientRect( &rcClient );
+	GetClientRect(&rcClient);
 
 	//Fill in the TOOLINFO structure
 	pTI->hwnd = m_hWnd;
-	pTI->uId = (UINT) (nRow * 1000 + nCol);
+	pTI->uId = (UINT)(nRow * 1000 + nCol);
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
 	pTI->rect = rcClient;
 
@@ -2238,7 +2237,7 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 		return 0;	// Row selection should not trigger cell edit
 
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	if (pTrait==NULL)
+	if (pTrait == NULL)
 		return 0;
 
 	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
@@ -2257,7 +2256,7 @@ int CGridListCtrlEx::OnClickEditStart(int nRow, int nCol, CPoint pt, bool bDblCl
 //------------------------------------------------------------------------
 CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol)
 {
-	return OnEditBegin(nRow, nCol, CPoint(-1,-1));
+	return OnEditBegin(nRow, nCol, CPoint(-1, -1));
 }
 
 //------------------------------------------------------------------------
@@ -2272,7 +2271,7 @@ CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol)
 CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	if (pTrait==NULL)
+	if (pTrait == NULL)
 		return NULL;
 
 	if (pTrait->IsCellReadOnly(*this, nRow, nCol, pt))
@@ -2294,7 +2293,7 @@ CWnd* CGridListCtrlEx::OnEditBegin(int nRow, int nCol, CPoint pt)
 bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPINFO* pLVDI)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	if (pTrait!=NULL)
+	if (pTrait != NULL)
 		pTrait->OnEditEnd();
 
 	if (pLVDI == NULL)
@@ -2314,7 +2313,7 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 //------------------------------------------------------------------------
 CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 {
-	return EditCell(nRow, nCol, CPoint(-1,-1));
+	return EditCell(nRow, nCol, CPoint(-1, -1));
 }
 
 //------------------------------------------------------------------------
@@ -2327,15 +2326,15 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol)
 //------------------------------------------------------------------------
 CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 {
-	if (nCol==-1 || nRow==-1)
+	if (nCol == -1 || nRow == -1)
 		return NULL;
 
 	m_pEditor = OnEditBegin(nRow, nCol, pt);
-	if (m_pEditor==NULL)
+	if (m_pEditor == NULL)
 		return NULL;
 
 	// Send Notification to parent of ListView ctrl
-	LV_DISPINFO dispinfo = {0};
+	LV_DISPINFO dispinfo = { 0 };
 	dispinfo.hdr.hwndFrom = m_hWnd;
 	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
 	dispinfo.hdr.code = LVN_BEGINLABELEDIT;
@@ -2344,7 +2343,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	dispinfo.item.iItem = nRow;
 	dispinfo.item.iSubItem = nCol;
 	dispinfo.item.lParam = (LPARAM)GetItemData(nRow);
-	if (GetParent()->SendMessage(WM_NOTIFY, (WPARAM)GetDlgCtrlID(), (LPARAM)&dispinfo)==TRUE)
+	if (GetParent()->SendMessage(WM_NOTIFY, (WPARAM)GetDlgCtrlID(), (LPARAM)&dispinfo) == TRUE)
 	{
 		// Parent didn't want to start edit
 		OnEditComplete(nRow, nCol, NULL, NULL);
@@ -2366,7 +2365,7 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::IsCellEditorOpen() const
 {
-	return m_pEditor!=NULL;
+	return m_pEditor != NULL;
 }
 
 //------------------------------------------------------------------------
@@ -2425,7 +2424,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 			if (txtEdit)
 			{
 				// Handle situation where data is stored inside the CListCtrl
-				if (!IsCellCallback(nRow,nCol))
+				if (!IsCellCallback(nRow, nCol))
 					SetItemText(nRow, nCol, pDispInfo->item.pszText);
 			}
 
@@ -2435,12 +2434,12 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 				// Handle situation where data is stored inside the CListCtrl
 				if (!(GetStyle() & LVS_OWNERDATA))
 				{
-					LVITEM lvi = {0};
+					LVITEM lvi = { 0 };
 					lvi.iItem = nRow;
 					lvi.iSubItem = nCol;
 					lvi.mask = LVIF_IMAGE | LVIF_NORECOMPUTE;
-					VERIFY( GetItem( &lvi ) );
-					if (lvi.iImage!=I_IMAGECALLBACK)
+					VERIFY(GetItem(&lvi));
+					if (lvi.iImage != I_IMAGECALLBACK)
 						SetCellImage(nRow, nCol, pDispInfo->item.iImage);
 				}
 			}
@@ -2448,7 +2447,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 
 	// Editor Control automatically kills themselves after posting this message
-	if( GetFocus() == m_pEditor )
+	if (GetFocus() == m_pEditor)
 		SetFocus();
 	m_pEditor = NULL;
 	if (::GetFocus() != NULL && ::GetFocus() != GetSafeHwnd())
@@ -2473,18 +2472,18 @@ void CGridListCtrlEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CellHitTest(point, nRow, nCol);
 
 	int startEdit = 0;
-	if (nRow!=-1)
+	if (nRow != -1)
 	{
-		if( GetFocus() != this )
+		if (GetFocus() != this)
 			SetFocus();	// Force focus to finish editing
 
 		startEdit = OnClickEditStart(nRow, nCol, point, true);
 	}
 
-	if (startEdit!=2)
+	if (startEdit != 2)
 		CListCtrl::OnLButtonDblClk(nFlags, point);
 
-	if (startEdit!=0)
+	if (startEdit != 0)
 		EditCell(nRow, nCol, point);
 }
 
@@ -2503,17 +2502,17 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 	CellHitTest(point, nRow, nCol);
 
 	// If not left-clicking on an actual row, then don't update focus cell
-	if (nRow==-1)
+	if (nRow == -1)
 	{
 		CListCtrl::OnLButtonDown(nFlags, point);
 		return;
 	}
 
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
 	int startEdit = OnClickEditStart(nRow, nCol, point, false);
-	if (startEdit!=2)
+	if (startEdit != 2)
 	{
 		// Update the focused cell before calling CListCtrl::OnLButtonDown()
 		// as it might cause a row-repaint
@@ -2532,7 +2531,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		// CListCtrl::OnLButtonDown() doesn't change row if clicking on subitem without fullrow selection
 		if (!(GetExtendedStyle() & LVS_EX_FULLROWSELECT))
 		{
-			if (nRow!=GetFocusRow())
+			if (nRow != GetFocusRow())
 			{
 				SetFocusRow(nRow);
 				if (!(GetKeyState(VK_CONTROL) < 0) && !(GetKeyState(VK_SHIFT) < 0))
@@ -2548,7 +2547,7 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 		SetFocusCell(nCol, true);
 	}
 
-	if (startEdit!=0)
+	if (startEdit != 0)
 	{
 		// This will steal the double-click event when double-clicking a cell that already have focus,
 		// but we cannot guess after the first click, whether the user will click a second time.
@@ -2567,15 +2566,15 @@ void CGridListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
-	// Find out what subitem was clicked
+					// Find out what subitem was clicked
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
 
 	// If not right-clicking on an actual row, then don't update focus cell
-	if (nRow!=-1)
+	if (nRow != -1)
 	{
 		// Update the focused cell before calling CListCtrl::OnRButtonDown()
 		// as it might cause a row-repaint
@@ -2683,7 +2682,7 @@ void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 
 	SetItemState(-1, 0, LVIS_DROPHILITED | LVIS_FOCUSED);
 	SetHotItem(-1);
-	if (nRow!=-1)
+	if (nRow != -1)
 	{
 		if (!(GetExtendedStyle() & (LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE)))
 			SetExtendedStyle(GetExtendedStyle() | LVS_EX_TRACKSELECT | LVS_EX_TWOCLICKACTIVATE);
@@ -2707,7 +2706,7 @@ void CGridListCtrlEx::OnDisplayDragOverRow(int nRow)
 void CGridListCtrlEx::OnCustomDrawRow(int nRow, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	CGridRowTrait* pTrait = GetRowTrait(nRow);
-	if (pTrait==NULL)
+	if (pTrait == NULL)
 		return;
 
 	pTrait->OnCustomDraw(*this, pLVCD, pResult);
@@ -2724,7 +2723,7 @@ void CGridListCtrlEx::OnCustomDrawRow(int nRow, NMLVCUSTOMDRAW* pLVCD, LRESULT* 
 void CGridListCtrlEx::OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
 	CGridColumnTrait* pTrait = GetCellColumnTrait(nRow, nCol);
-	if (pTrait==NULL)
+	if (pTrait == NULL)
 		return;
 
 	if (!pTrait->GetColumnState().m_Visible)
@@ -2770,7 +2769,7 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 			*pResult |= CDRF_NOTIFYITEMDRAW;
 			break;
 
-		// Before painting a row
+			// Before painting a row
 		case CDDS_ITEMPREPAINT:
 		{
 			*pResult |= CDRF_NOTIFYPOSTPAINT;	// Ensure row-traits gets called
@@ -2805,7 +2804,7 @@ CGridRowTrait* CGridListCtrlEx::GetRowTrait(int nRow)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::SetDefaultRowTrait(CGridRowTrait* pRowTrait)
 {
-	ASSERT(pRowTrait!=NULL);
+	ASSERT(pRowTrait != NULL);
 	delete m_pDefaultRowTrait;
 	m_pDefaultRowTrait = pRowTrait;
 }
@@ -2875,7 +2874,7 @@ CGridColumnTrait* CGridListCtrlEx::GetCellColumnTrait(int nRow, int nCol)
 //------------------------------------------------------------------------
 CGridColumnTrait* CGridListCtrlEx::GetColumnTrait(int nCol)
 {
-	VERIFY( nCol >=0 && nCol < m_ColumnTraits.GetSize() );
+	VERIFY(nCol >= 0 && nCol < m_ColumnTraits.GetSize());
 	return m_ColumnTraits[nCol];
 }
 
@@ -2897,7 +2896,7 @@ int CGridListCtrlEx::GetColumnTraitSize() const
 //------------------------------------------------------------------------
 void CGridListCtrlEx::InsertColumnTrait(int nCol, CGridColumnTrait* pTrait)
 {
-	VERIFY( nCol >=0 && nCol <= m_ColumnTraits.GetSize() );
+	VERIFY(nCol >= 0 && nCol <= m_ColumnTraits.GetSize());
 	if (nCol == m_ColumnTraits.GetSize())
 	{
 		// Append column to the end of the array
@@ -2907,7 +2906,7 @@ void CGridListCtrlEx::InsertColumnTrait(int nCol, CGridColumnTrait* pTrait)
 	{
 		// Insert column in the middle of the array
 		CSimpleArray<CGridColumnTrait*> newArray;
-		for(int i=0 ; i < m_ColumnTraits.GetSize(); ++i)
+		for (int i = 0; i < m_ColumnTraits.GetSize(); ++i)
 		{
 			if (i == nCol)
 				newArray.Add(pTrait);
@@ -2981,10 +2980,10 @@ LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
-	if (point.x==-1 && point.y==-1)
+	if (point.x == -1 && point.y == -1)
 	{
 		// OBS! point is initialized to (-1,-1) if using SHIFT+F10 or VK_APPS
 		OnContextMenuKeyboard(pWnd, point);
@@ -2998,21 +2997,21 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 		CPoint pt = point;
 		ScreenToClient(&pt);
 
-		if (pWnd==GetHeaderCtrl())
+		if (pWnd == GetHeaderCtrl())
 		{
-			HDHITTESTINFO hdhti = {0};
+			HDHITTESTINFO hdhti = { 0 };
 			hdhti.pt = pt;
 			hdhti.pt.x += GetScrollPos(SB_HORZ);
-			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, (LPARAM) &hdhti);
+			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, (LPARAM)&hdhti);
 			OnContextMenuHeader(pWnd, point, hdhti.iItem);
 		}
 		else
 		{
 			// Right-clicking the stateicon checkbox will make it flip, don't also display context menu
 			int nRow, nCol;
-			if (CellHitTest(pt, nRow, nCol)!=LVHT_ONITEMSTATEICON)
+			if (CellHitTest(pt, nRow, nCol) != LVHT_ONITEMSTATEICON)
 			{
-				if (nRow!=-1)
+				if (nRow != -1)
 					OnContextMenuCell(pWnd, point, nRow, nCol);
 				else
 					OnContextMenuGrid(pWnd, point);
@@ -3033,7 +3032,7 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 	int nCol = GetFocusCell();
 	int nRow = GetFocusRow();
 
-	if (nRow==-1)
+	if (nRow == -1)
 	{
 		// Place context-menu in the top-left corner of the grid
 		CRect gridRect;
@@ -3045,10 +3044,10 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 	{
 		// Place context-menu over the selected row / cell
 		CRect cellRect;
-		if (nCol==-1)
-			VERIFY( GetItemRect(nRow, cellRect, LVIR_BOUNDS) );
+		if (nCol == -1)
+			VERIFY(GetItemRect(nRow, cellRect, LVIR_BOUNDS));
 		else
-			VERIFY( GetCellRect(nRow, nCol, LVIR_BOUNDS, cellRect) );
+			VERIFY(GetCellRect(nRow, nCol, LVIR_BOUNDS, cellRect));
 		ClientToScreen(cellRect);
 
 		// Adjust point so context-menu doesn't cover row / cell
@@ -3081,7 +3080,7 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 {
-	for(int i = 0 ; i < GetColumnCount(); ++i)
+	for (int i = 0; i < GetColumnCount(); ++i)
 	{
 		if (IsColumnAlwaysHidden(i))
 			continue;	// Cannot be shown
@@ -3099,7 +3098,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
-		VERIFY( menu.AppendMenu(uFlags, (UINT_PTR)offset+i, static_cast<LPCTSTR>(columnTitle)) );
+		VERIFY(menu.AppendMenu(uFlags, (UINT_PTR)offset + i, static_cast<LPCTSTR>(columnTitle)));
 	}
 
 	return GetColumnTraitSize();
@@ -3123,18 +3122,18 @@ int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, UINT offset, CSi
 
 		CMenu submenu;
 		submenu.CreatePopupMenu();
-		for(int i=0;i<profiles.GetSize();++i)
+		for (int i = 0;i<profiles.GetSize();++i)
 		{
 			UINT uFlags = MF_STRING;
 			// Put check-box on context-menu
-			if (active_profile==profiles[i])
+			if (active_profile == profiles[i])
 				uFlags |= MF_CHECKED;
 			else
 				uFlags |= MF_UNCHECKED;
-			VERIFY( submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])) );
+			VERIFY(submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])));
 		}
 
-		VERIFY( menu.AppendMenu(MF_POPUP, (UINT_PTR)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)) );
+		VERIFY(menu.AppendMenu(MF_POPUP, (UINT_PTR)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)));
 	}
 	return profiles.GetSize();
 }
@@ -3151,7 +3150,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 {
 	// Show context-menu with the option to show hide columns
 	CMenu menu;
-	VERIFY( menu.CreatePopupMenu() );
+	VERIFY(menu.CreatePopupMenu());
 
 	CString title_editor;
 	if (HasColumnEditor(nCol, title_editor))
@@ -3181,14 +3180,14 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	CString title_resetdefault;
 	if (HasColumnDefaultState(title_resetdefault))
 	{
-		if (profiles.GetSize()==0)
+		if (profiles.GetSize() == 0)
 			menu.AppendMenu(MF_SEPARATOR, 0, _T(""));
 		menu.AppendMenu(MF_STRING, 3, title_resetdefault);
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
 	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
-	switch(nResult)
+	switch (nResult)
 	{
 		case 0: break;
 		case 1:	OpenColumnEditor(nCol); break;
@@ -3196,14 +3195,14 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		case 3: ResetColumnDefaultState(); break;
 		default:
 		{
-			int nShowCol = nResult-4;
+			int nShowCol = nResult - 4;
 			if (nShowCol < GetColumnCount())
 			{
 				ShowColumn(nShowCol, !IsColumnVisible(nShowCol));
 			}
 			else
 			{
-				int nProfile = nResult-GetColumnCount()-5;
+				int nProfile = nResult - GetColumnCount() - 5;
 				SwichColumnProfile(profiles[nProfile]);
 			}
 		} break;
@@ -3235,7 +3234,7 @@ void CGridListCtrlEx::OnContextMenuCell(CWnd* pWnd, CPoint point, int nRow, int 
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
@@ -3253,10 +3252,10 @@ BOOL CGridListCtrlEx::OnHeaderDividerDblClick(UINT, NMHDR* pNMHDR, LRESULT* pRes
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
-	// Check that column is allowed to be resized
+					// Check that column is allowed to be resized
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 	int nCol = pNMH->iItem;
 
@@ -3306,12 +3305,12 @@ BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult
 {
 	// Check if the column have a minimum width
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
-	
+
 	if (pNMH->pitem->mask & HDI_WIDTH)
 	{
 		int nCol = pNMH->iItem;
 		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
-		if (pTrait==NULL)
+		if (pTrait == NULL)
 			return FALSE;
 
 		if (pTrait->GetColumnState().m_MinWidth >= 0)
@@ -3352,7 +3351,7 @@ LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 	if (!IsColumnResizable(nCol))
 		return FALSE;
 
-	if (!IsColumnVisible(nCol) && lParam!=0)
+	if (!IsColumnVisible(nCol) && lParam != 0)
 		return FALSE;
 
 	OnSaveStateColumnResize();
@@ -3408,7 +3407,7 @@ void CGridListCtrlEx::OnKillFocus(CWnd* pNewWnd)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderBeginDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 	return FALSE;
 }
@@ -3438,9 +3437,9 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		m_Ascending = false;
 
 		int* pOrderArray = new int[(UINT)nColCount];
-		VERIFY( GetColumnOrderArray(pOrderArray, nColCount) );
+		VERIFY(GetColumnOrderArray(pOrderArray, nColCount));
 
-		for(int i = 0; i < nColCount ; ++i)
+		for (int i = 0; i < nColCount; ++i)
 		{
 			if (IsColumnVisible(pOrderArray[i]))
 			{
@@ -3448,7 +3447,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 				break;
 			}
 		}
-		delete [] pOrderArray;
+		delete[] pOrderArray;
 	}
 	return FALSE;
 }
@@ -3457,10 +3456,10 @@ namespace {
 	struct PARAMSORT
 	{
 		PARAMSORT(HWND hWnd, int nCol, bool bAscending, CGridColumnTrait* pTrait)
-			:m_hWnd(hWnd)
-			,m_pTrait(pTrait)
-			,m_ColumnIndex(nCol)
-			,m_Ascending(bAscending)
+			: m_hWnd(hWnd)
+			, m_pTrait(pTrait)
+			, m_ColumnIndex(nCol)
+			, m_Ascending(bAscending)
 		{}
 
 		HWND m_hWnd;
@@ -3472,24 +3471,24 @@ namespace {
 	// Comparison extracts values from the List-Control
 	int CALLBACK SortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	{
-		PARAMSORT& ps = *(PARAMSORT*)lParamSort;
+		PARAMSORT& ps = *reinterpret_cast<PARAMSORT*>(lParamSort);
 
 		TCHAR leftText[256] = _T(""), rightText[256] = _T("");
 
-		LVITEM leftItem = {0};
+		LVITEM leftItem = { 0 };
 		leftItem.iItem = (int)lParam1;
 		leftItem.iSubItem = ps.m_ColumnIndex;
 		leftItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		leftItem.pszText = leftText;
-		leftItem.cchTextMax = sizeof(leftText)/sizeof(TCHAR);
+		leftItem.cchTextMax = sizeof(leftText) / sizeof(TCHAR);
 		ListView_GetItem(ps.m_hWnd, &leftItem);
 
-		LVITEM rightItem = {0};
+		LVITEM rightItem = { 0 };
 		rightItem.iItem = (int)lParam2;
 		rightItem.iSubItem = ps.m_ColumnIndex;
 		rightItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		rightItem.pszText = rightText;
-		rightItem.cchTextMax = sizeof(rightText)/sizeof(TCHAR);
+		rightItem.cchTextMax = sizeof(rightText) / sizeof(TCHAR);
 		ListView_GetItem(ps.m_hWnd, &rightItem);
 
 		return ps.m_pTrait->OnSortRows(leftItem, rightItem, ps.m_Ascending);
@@ -3498,10 +3497,10 @@ namespace {
 
 // Define does not exist on VC6
 #ifndef ListView_SortItemsEx
-	#ifndef LVM_SORTITEMSEX
-		#define LVM_SORTITEMSEX          (LVM_FIRST + 81)
-	#endif
-	#define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
+#ifndef LVM_SORTITEMSEX
+#define LVM_SORTITEMSEX          (LVM_FIRST + 81)
+#endif
+#define ListView_SortItemsEx(hwndLV, _pfnCompare, _lPrm) \
 	(BOOL)SNDMSG((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
 #endif
 
@@ -3518,7 +3517,7 @@ bool CGridListCtrlEx::SortColumn(int nCol, bool bAscending)
 	if (GetStyle() & LVS_OWNERDATA)
 		return false;
 
-	if (GetItemCount()<=0)
+	if (GetItemCount() <= 0)
 		return true;
 
 	CWaitCursor waitCursor;
@@ -3542,7 +3541,7 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLISTVIEW* pLV = reinterpret_cast<NMLISTVIEW*>(pNMHDR);
 
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
 	int nCol = pLV->iSubItem;
@@ -3551,7 +3550,7 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 	if (!columnState.m_Sortable)
 		return FALSE;	// Let parent-dialog get change
 
-	if (m_SortCol==nCol)
+	if (m_SortCol == nCol)
 	{
 		m_Ascending = !m_Ascending;
 	}
@@ -3576,21 +3575,21 @@ void CGridListCtrlEx::OnCopyToClipboard()
 	if (!OnDisplayToClipboard(result))
 		return;
 
-	SIZE_T nlength = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+	SIZE_T nlength = (result.GetLength() + 1)*sizeof(TCHAR);	// +1 for null-term
 
-	// Allocate a global memory object for the text.
+																// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
-	if (hglbCopy==NULL)
+	if (hglbCopy == NULL)
 		return;
 
 	// Lock the handle to the memory object
 	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-	if (lptstrCopy==NULL)
+	if (lptstrCopy == NULL)
 		return;
 
 	// Copy the text to the memory object.
 	memcpy(lptstrCopy, result, nlength);
-	if (GlobalUnlock(hglbCopy)!=NO_ERROR)
+	if (GlobalUnlock(hglbCopy) != NO_ERROR)
 		return;
 
 	// Open clipboard
@@ -3610,14 +3609,14 @@ void CGridListCtrlEx::OnCopyToClipboard()
 
 	// Set new clipboard content
 #ifndef _UNICODE
-	if (SetClipboardData(CF_TEXT, hglbCopy)==NULL)
+	if (SetClipboardData(CF_TEXT, hglbCopy) == NULL)
 	{
 		CloseClipboard();
 		GlobalFree(hglbCopy);
 		return;
 	}
 #else
-	if (SetClipboardData(CF_UNICODETEXT, hglbCopy)==NULL)
+	if (SetClipboardData(CF_UNICODETEXT, hglbCopy) == NULL)
 	{
 		CloseClipboard();
 		GlobalFree(hglbCopy);
@@ -3638,18 +3637,18 @@ void CGridListCtrlEx::OnCopyToClipboard()
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeader)
 {
-	if (GetSelectedCount()==1 && GetFocusCell()!=-1)
+	if (GetSelectedCount() == 1 && GetFocusCell() != -1)
 		return OnDisplayToClipboard(GetSelectionMark(), GetFocusCell(), strResult);
 
 	POSITION pos = GetFirstSelectedItemPosition();
-	if (pos==NULL)
+	if (pos == NULL)
 		return false;
 
 	if (includeHeader)
 		OnDisplayToClipboard(-1, strResult);
 
 	CString strLine;
-	while(pos!=NULL)
+	while (pos != NULL)
 	{
 		int nRow = GetNextSelectedItem(pos);
 
@@ -3681,7 +3680,7 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 	int nColCount = GetHeaderCtrl()->GetItemCount();
 
 	CString strCellText;
-	for(int i = 0; i < nColCount; ++i)
+	for (int i = 0; i < nColCount; ++i)
 	{
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
 		if (!IsColumnVisible(nCol))
@@ -3713,7 +3712,7 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& strResult)
 {
-	if (nRow==-1)
+	if (nRow == -1)
 		strResult = GetColumnHeading(nCol);
 	else
 		strResult = GetItemText(nRow, nCol);
@@ -3730,7 +3729,7 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, int nCol, CString& strResul
 LRESULT CGridListCtrlEx::OnCopy(WPARAM wParam, LPARAM lParam)
 {
 	OnCopyToClipboard();
-	return DefWindowProc(WM_COPY, wParam, lParam); 
+	return DefWindowProc(WM_COPY, wParam, lParam);
 }
 
 //------------------------------------------------------------------------
@@ -3760,7 +3759,7 @@ BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 	COleDropSourceWnd<CGridListCtrlEx> oleDropSource(this);
 	DROPEFFECT dropEffect = DoDragDrop(oleDataSource, &oleDropSource);
 	OnDisplayDragOverRow(-1);
-	if (dropEffect==DROPEFFECT_NONE)
+	if (dropEffect == DROPEFFECT_NONE)
 	{
 		SetFocusRow(nRow);
 		return FALSE;
@@ -3799,27 +3798,27 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 	if (!OnDisplayToDragDrop(result))
 		return DROPEFFECT_NONE;
 
-	SIZE_T nSize = (result.GetLength()+1)*sizeof(TCHAR);	// +1 for null-term
+	SIZE_T nSize = (result.GetLength() + 1)*sizeof(TCHAR);	// +1 for null-term
 
-	// Allocate a global memory object for the text.
+															// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nSize);
-	if (hglbCopy==NULL)
+	if (hglbCopy == NULL)
 		return FALSE;
 
 	// Lock the handle to the memory object
 	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-	if (lptstrCopy==NULL)
+	if (lptstrCopy == NULL)
 		return DROPEFFECT_NONE;
 
 	// Copy the text to the memory object.
 	memcpy(lptstrCopy, result, nSize);
-	if (GlobalUnlock(hglbCopy)!=NO_ERROR)
+	if (GlobalUnlock(hglbCopy) != NO_ERROR)
 		return DROPEFFECT_NONE;
 
 #ifndef _UNICODE
-	oleDataSource.CacheGlobalData(CF_TEXT,hglbCopy);
+	oleDataSource.CacheGlobalData(CF_TEXT, hglbCopy);
 #else
-	oleDataSource.CacheGlobalData(CF_UNICODETEXT,hglbCopy);
+	oleDataSource.CacheGlobalData(CF_UNICODETEXT, hglbCopy);
 #endif
 
 	DROPEFFECT dropEffect = oleDataSource.DoDragDrop(dropEffects, lpRectStartDrag, pDropSource);
@@ -3834,9 +3833,9 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::RegisterDropTarget()
 {
-	if (m_pOleDropTarget!=NULL)
+	if (m_pOleDropTarget != NULL)
 		return TRUE;
-	
+
 	m_pOleDropTarget = new COleDropTargetWnd<CGridListCtrlEx>;
 	if (!m_pOleDropTarget->Register(this))
 	{
@@ -3886,36 +3885,36 @@ DROPEFFECT CGridListCtrlEx::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyS
 		GetHeaderCtrl()->GetClientRect(&headerRect);
 
 		CRect cellRect;
-		VERIFY( GetCellRect(0, 0, LVIR_BOUNDS, cellRect) );
+		VERIFY(GetCellRect(0, 0, LVIR_BOUNDS, cellRect));
 
 		int minPos, maxPos;
 		GetScrollRange(SB_VERT, &minPos, &maxPos);
 		int scrollPos = GetScrollPos(SB_VERT);
 
-		if (pt.y < gridRect.top+cellRect.Height()+headerRect.Height())
+		if (pt.y < gridRect.top + cellRect.Height() + headerRect.Height())
 		{
 			if (scrollPos > minPos)
 			{
 				Sleep(100);
-				Scroll(CSize(0,cellRect.Height()*-1));
+				Scroll(CSize(0, cellRect.Height()*-1));
 				UpdateWindow();
 				return DROPEFFECT_SCROLL;
 			}
 		}
 		else
-		if (pt.y > gridRect.bottom-cellRect.Height())
-		{
-			Sleep(100);
-			Scroll(CSize(0,cellRect.Height()));
-			// For some strange reason, then GetScrollPos() never returns
-			// a value near maxPos. Instead we check if scrollpos changed
-			// to detect if we are at the bottom.
-			if (GetScrollPos(SB_VERT)!=scrollPos)
+			if (pt.y > gridRect.bottom - cellRect.Height())
 			{
-				UpdateWindow();
-				return DROPEFFECT_SCROLL;
+				Sleep(100);
+				Scroll(CSize(0, cellRect.Height()));
+				// For some strange reason, then GetScrollPos() never returns
+				// a value near maxPos. Instead we check if scrollpos changed
+				// to detect if we are at the bottom.
+				if (GetScrollPos(SB_VERT) != scrollPos)
+				{
+					UpdateWindow();
+					return DROPEFFECT_SCROLL;
+				}
 			}
-		}
 	}
 
 	OnDisplayDragOverRow(nRow);
@@ -3998,8 +3997,8 @@ namespace {
 	{
 		PARAMMOVESORT(HWND hWnd, int nRow, bool groupSelection)
 			:m_hWnd(hWnd)
-			,m_nRow(nRow)
-			,m_GroupSelection(groupSelection)
+			, m_nRow(nRow)
+			, m_GroupSelection(groupSelection)
 		{}
 
 		HWND m_hWnd;
@@ -4011,53 +4010,53 @@ namespace {
 	//	- Groups the selected rows around the drop-row
 	int CALLBACK MoveSortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	{
-		PARAMMOVESORT& ps = *(PARAMMOVESORT*)lParamSort;
+		PARAMMOVESORT& ps = *reinterpret_cast<PARAMMOVESORT*>(lParamSort);
 
 		// If part of selection, then it must be moved
-		bool selected1 = (ListView_GetItemState(ps.m_hWnd,lParam1,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
-		bool selected2 = (ListView_GetItemState(ps.m_hWnd,lParam2,LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		bool selected1 = (ListView_GetItemState(ps.m_hWnd, lParam1, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		bool selected2 = (ListView_GetItemState(ps.m_hWnd, lParam2, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 
 		// If both selected then no change in positioning
 		if (selected1 && selected2)
 			return (int)(lParam1 - lParam2);
 		else
-		if (selected1)
-		{
-			if (lParam2==ps.m_nRow)
+			if (selected1)
 			{
-				if (ps.m_GroupSelection)
-					return 1;	// Place entire selection after drop-row
+				if (lParam2 == ps.m_nRow)
+				{
+					if (ps.m_GroupSelection)
+						return 1;	// Place entire selection after drop-row
+					else
+						if (lParam1 < ps.m_nRow)
+							return 1;	// Place selected items before drop-row
+						else
+							return -1;	// Place selected items after drop-row
+				}
 				else
-				if (lParam1 < ps.m_nRow)
-					return 1;	// Place selected items before drop-row
-				else
-					return -1;	// Place selected items after drop-row
+					if (lParam2 > ps.m_nRow)
+						return -1;
+					else
+						return 1;
 			}
 			else
-			if (lParam2 > ps.m_nRow)
-				return -1;
-			else
-				return 1;
-		}
-		else
-		if (selected2)
-		{
-			if (lParam1 == ps.m_nRow)
-			{
-				if (ps.m_GroupSelection)
-					return -1;	// Place entire selection after drop-row
-				else
-				if (ps.m_nRow < lParam2)
-					return 1;	// Place selected items before drop-row
-				else
-					return -1;	// Place selected items after drop-row
-			}
-			else
-			if (lParam1 > ps.m_nRow)
-				return 1;
-			else
-				return -1;
-		}
+				if (selected2)
+				{
+					if (lParam1 == ps.m_nRow)
+					{
+						if (ps.m_GroupSelection)
+							return -1;	// Place entire selection after drop-row
+						else
+							if (ps.m_nRow < lParam2)
+								return 1;	// Place selected items before drop-row
+							else
+								return -1;	// Place selected items after drop-row
+					}
+					else
+						if (lParam1 > ps.m_nRow)
+							return 1;
+						else
+							return -1;
+				}
 		// If none selected then no change in positioning
 		return (int)(lParam1 - lParam2);
 	}
@@ -4076,26 +4075,26 @@ bool CGridListCtrlEx::MoveSelectedRows(int nDropRow)
 		return false;
 
 	POSITION pos = GetFirstSelectedItemPosition();
-	if (pos==NULL)
+	if (pos == NULL)
 		return false;
-	
+
 	int nFirstSelectedRow = GetNextSelectedItem(pos);
 
-	if (GetSelectedCount()==1)
+	if (GetSelectedCount() == 1)
 	{
 		// Do nothing if dragging a single row without moving position
-		if (nFirstSelectedRow==nDropRow)
+		if (nFirstSelectedRow == nDropRow)
 			return false;
 	}
 
 	// Check if dropping in the bottom of the list
-	if (nDropRow==-1)
+	if (nDropRow == -1)
 		nDropRow = GetItemCount();
 
 	bool groupSelection = false;
 	if (GetSelectedCount() > 1)
 	{
-		if (nFirstSelectedRow < nDropRow && GetNextItem(nDropRow, LVNI_SELECTED)!=-1)
+		if (nFirstSelectedRow < nDropRow && GetNextItem(nDropRow, LVNI_SELECTED) != -1)
 		{
 			groupSelection = true;
 		}
@@ -4124,14 +4123,14 @@ BOOL CGridListCtrlEx::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		if (GetStyle() & LVS_OWNERDATA && GetExtendedStyle() & LVS_EX_CHECKBOXES)
 		{
-			switch(pNMLV->uNewState & LVIS_STATEIMAGEMASK)
+			switch (pNMLV->uNewState & LVIS_STATEIMAGEMASK)
 			{
-				case INDEXTOSTATEIMAGEMASK(BST_CHECKED + 1):	// new state: checked
-					OnOwnerDataToggleCheckBox(pNMLV->iItem, true);
-					break;
-				case INDEXTOSTATEIMAGEMASK(BST_UNCHECKED + 1):	// new state: unchecked
-					OnOwnerDataToggleCheckBox(pNMLV->iItem, false);
-					break;
+			case INDEXTOSTATEIMAGEMASK(BST_CHECKED + 1):	// new state: checked
+				OnOwnerDataToggleCheckBox(pNMLV->iItem, true);
+				break;
+			case INDEXTOSTATEIMAGEMASK(BST_UNCHECKED + 1):	// new state: unchecked
+				OnOwnerDataToggleCheckBox(pNMLV->iItem, false);
+				break;
 			}
 			*pResult = 0;
 		}
@@ -4190,15 +4189,15 @@ BOOL CGridListCtrlEx::OnItemDblClick(NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
-	
+
 	CListCtrl::OnHScroll(nSBCode, nPos, pScrollBar);
 
 	if (!UsingVisualStyle())
 	{
 		// Only when using the mouse to scroll
-		if ((::GetKeyState(VK_LBUTTON) & 0x8000)!=0)
+		if ((::GetKeyState(VK_LBUTTON) & 0x8000) != 0)
 		{
 			// Fix CListCtrl grid drawing bug where vertical grid-border disappears
 			//	- To reproduce the bug one needs atleast 2 columns:
@@ -4224,7 +4223,7 @@ void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if( GetFocus() != this )
+	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
 	CListCtrl::OnVScroll(nSBCode, nPos, pScrollBar);
@@ -4232,7 +4231,7 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	if (!UsingVisualStyle())
 	{
 		// Only when using the mouse to scroll
-		if ((::GetKeyState(VK_LBUTTON) & 0x8000)!=0)
+		if ((::GetKeyState(VK_LBUTTON) & 0x8000) != 0)
 		{
 			// Fix bug where it doesn't erase the background properly
 			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
@@ -4268,13 +4267,13 @@ void CGridListCtrlEx::OnDestroy()
 	delete m_pOleDropTarget;
 	m_pOleDropTarget = NULL;
 
-	for(int nCol = GetColumnTraitSize()-1; nCol >= 0 ; --nCol)
+	for (int nCol = GetColumnTraitSize() - 1; nCol >= 0; --nCol)
 		DeleteColumnTrait(nCol);
 
 	if (static_cast<HFONT>(m_CellFont))
-		VERIFY( m_CellFont.DeleteObject() );
+		VERIFY(m_CellFont.DeleteObject());
 	if (static_cast<HFONT>(m_GridFont))
-		VERIFY( m_GridFont.DeleteObject() );
+		VERIFY(m_GridFont.DeleteObject());
 
 	CListCtrl::OnDestroy();
 }
@@ -4292,7 +4291,7 @@ void CGridListCtrlEx::OnPaint()
 		Invalidate(TRUE);
 	}
 
-	if (GetItemCount()==0 && !m_EmptyMarkupText.IsEmpty())
+	if (GetItemCount() == 0 && !m_EmptyMarkupText.IsEmpty())
 	{
 		m_InvalidateMarkupText = true;
 
@@ -4307,18 +4306,18 @@ void CGridListCtrlEx::OnPaint()
 		CRect rc;
 		GetClientRect(&rc);	//get client area of the ListCtrl
 
-        //Now we actually display the text
-        dc.SetTextColor(clrText);	//set the text color
-        dc.SetBkColor(clrBack);	//set the background color
+							//Now we actually display the text
+		dc.SetTextColor(clrText);	//set the text color
+		dc.SetBkColor(clrBack);	//set the background color
 		CBrush backBrush(clrBack);
 		dc.FillRect(rc, &backBrush);	//fill the client area rect
 		CFont* pOldFont = dc.SelectObject(GetCellFont());	//select a font
-		dc.DrawText(m_EmptyMarkupText, -1, rc, 
-                      DT_CENTER | DT_WORDBREAK | DT_NOPREFIX |
-					  DT_NOCLIP | DT_VCENTER | DT_SINGLELINE); //and draw the text
+		dc.DrawText(m_EmptyMarkupText, -1, rc,
+			DT_CENTER | DT_WORDBREAK | DT_NOPREFIX |
+			DT_NOCLIP | DT_VCENTER | DT_SINGLELINE); //and draw the text
 		dc.SelectObject(pOldFont);
 
-        // Restore dc
+		// Restore dc
 		dc.RestoreDC(nSavedDC);
 	}
 	else

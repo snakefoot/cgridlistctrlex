@@ -15,7 +15,7 @@ class CGridColumnTraitText : public CGridColumnTrait
 {
 public:
 	CGridColumnTraitText();
-	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);	
+	virtual void OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult);
 	virtual int OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue, bool bAscending);
 	virtual int OnSortRows(const LVITEM& leftItem, const LVITEM& rightItem, bool bAscending) { return CGridColumnTrait::OnSortRows(leftItem, rightItem, bAscending); }
 

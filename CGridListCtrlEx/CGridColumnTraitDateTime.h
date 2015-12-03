@@ -47,7 +47,7 @@ class CGridEditorDateTimeCtrl : public CDateTimeCtrl
 {
 public:
 	CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait = NULL);
-	
+
 protected:
 	afx_msg void OnKillFocus(CWnd *pNewWnd);
 	afx_msg void OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult);

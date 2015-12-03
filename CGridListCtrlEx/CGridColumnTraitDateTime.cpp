@@ -16,9 +16,9 @@
 //! CGridColumnTraitDateTime - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitDateTime::CGridColumnTraitDateTime()
-	:m_ParseDateTimeFlags(0)
-	,m_ParseDateTimeLCID(LOCALE_USER_DEFAULT)
-	,m_DateTimeCtrlStyle(DTS_APPCANPARSE)
+	: m_ParseDateTimeFlags(0)
+	, m_ParseDateTimeLCID(LOCALE_USER_DEFAULT)
+	, m_DateTimeCtrlStyle(DTS_APPCANPARSE)
 {}
 
 //------------------------------------------------------------------------
@@ -90,7 +90,7 @@ DWORD CGridColumnTraitDateTime::GetStyle() const
 //------------------------------------------------------------------------
 BOOL CGridColumnTraitDateTime::ParseDateTime(LPCTSTR lpszDate, COleDateTime& dateTime)
 {
-	if(dateTime.ParseDateTime(lpszDate, m_ParseDateTimeFlags, m_ParseDateTimeLCID)==FALSE)
+	if (dateTime.ParseDateTime(lpszDate, m_ParseDateTimeFlags, m_ParseDateTimeLCID) == FALSE)
 	{
 		dateTime.SetDateTime(1970, 1, 1, 0, 0, 0);
 		return FALSE;
@@ -113,7 +113,7 @@ CDateTimeCtrl* CGridColumnTraitDateTime::CreateDateTimeCtrl(CGridListCtrlEx& own
 {
 	// Create control to edit the cell
 	CDateTimeCtrl* pDateTimeCtrl = new CGridEditorDateTimeCtrl(nRow, nCol, this);
-	VERIFY( pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0) );
+	VERIFY(pDateTimeCtrl->Create(WS_CHILD | dwStyle, rect, &owner, 0));
 	if (!owner.UsingVisualStyle())
 		pDateTimeCtrl->ModifyStyleEx(WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, SWP_FRAMECHANGED);	// Remove sunken edge
 	return pDateTimeCtrl;
@@ -139,16 +139,16 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 
 	// Get the text-style of the cell to edit
 	DWORD dwStyle = m_DateTimeCtrlStyle;
-	HDITEM hd = {0};
+	HDITEM hd = { 0 };
 	hd.mask = HDI_FORMAT;
-	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
+	VERIFY(owner.GetHeaderCtrl()->GetItem(nCol, &hd));
 	if (hd.fmt & HDF_RIGHT)
 		dwStyle |= DTS_RIGHTALIGN;
 
 	// Create control to edit the cell
 	CDateTimeCtrl* pDateTimeCtrl = CreateDateTimeCtrl(owner, nRow, nCol, dwStyle, rectCell);
-	VERIFY(pDateTimeCtrl!=NULL);
-	if (pDateTimeCtrl==NULL)
+	VERIFY(pDateTimeCtrl != NULL);
+	if (pDateTimeCtrl == NULL)
 		return NULL;
 
 	// Configure font
@@ -163,7 +163,7 @@ CWnd* CGridColumnTraitDateTime::OnEditBegin(CGridListCtrlEx& owner, int nRow, in
 	// Check with the original string
 	CString timeText;
 	pDateTimeCtrl->GetWindowText(timeText);
-	if (cellText!=timeText)
+	if (cellText != timeText)
 	{
 		dateTime.SetDateTime(1970, 1, 1, 0, 0, 0);
 		pDateTimeCtrl->SetTime(dateTime);
@@ -189,10 +189,10 @@ int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightV
 	if (leftDateTime > rightDateTime)
 		return bAscending ? 1 : -1;
 	else
-	if (leftDateTime < rightDateTime)
-		return bAscending ? -1 : 1;
-	else
-		return 0;
+		if (leftDateTime < rightDateTime)
+			return bAscending ? -1 : 1;
+		else
+			return 0;
 }
 
 //------------------------------------------------------------------------
@@ -217,11 +217,11 @@ END_MESSAGE_MAP()
 //! @param pColumnTrait The parent column trait, used for datetime validation
 //------------------------------------------------------------------------
 CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait)
-	:m_Row(nRow)
-	,m_Col(nCol)
-	,m_Completed(false)
-	,m_Modified(false)
-	,m_pColumnTrait(pColumnTrait)
+	: m_Row(nRow)
+	, m_Col(nCol)
+	, m_Completed(false)
+	, m_Modified(false)
+	, m_pColumnTrait(pColumnTrait)
 {}
 
 //------------------------------------------------------------------------
@@ -242,7 +242,7 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 	GetWindowText(str);
 
 	// Send Notification to parent of ListView ctrl
-	LV_DISPINFO dispinfo = {0};
+	LV_DISPINFO dispinfo = { 0 };
 	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
@@ -263,10 +263,10 @@ void CGridEditorDateTimeCtrl::EndEdit(bool bSuccess)
 void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 {
 	CDateTimeCtrl::OnKillFocus(pNewWnd);
-	if (GetMonthCalCtrl()==NULL)
+	if (GetMonthCalCtrl() == NULL)
 	{
 		// Special case when a dynamic CEdit is created (DTS_APPCANPARSE)
-		if (pNewWnd == NULL || pNewWnd->GetParent()!=this)
+		if (pNewWnd == NULL || pNewWnd->GetParent() != this)
 			EndEdit(true);
 	}
 }
@@ -281,7 +281,7 @@ void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 //------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	if (GetFocus()!=this)
+	if (GetFocus() != this)
 		EndEdit(true);	// Force close if focus has been stolen
 }
 
@@ -364,7 +364,7 @@ void CGridEditorDateTimeCtrl::OnUserString(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 	}
 
-    *pResult = 0;
+	*pResult = 0;
 }
 
 //------------------------------------------------------------------------
@@ -376,11 +376,11 @@ void CGridEditorDateTimeCtrl::OnUserString(NMHDR *pNMHDR, LRESULT *pResult)
 //------------------------------------------------------------------------
 BOOL CGridEditorDateTimeCtrl::PreTranslateMessage(MSG* pMsg)
 {
-	switch(pMsg->message)
+	switch (pMsg->message)
 	{
 		case WM_KEYDOWN:
 		{
-			switch(pMsg->wParam)
+			switch (pMsg->wParam)
 			{
 				case VK_RETURN: EndEdit(true); return TRUE;
 				case VK_TAB: EndEdit(true); return FALSE;

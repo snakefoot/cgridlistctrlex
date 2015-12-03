@@ -205,7 +205,7 @@ protected:
 	// Maintaining row traits
 	CGridRowTrait* m_pDefaultRowTrait;	//!< Default row trait used for special row drawing
 
-	// Maintaining cell/subitem focus
+										// Maintaining cell/subitem focus
 	int m_FocusCell;			//!< Column currently having focus (-1 means entire row)
 	virtual void MoveFocusCell(bool bMoveRight);
 
@@ -216,7 +216,7 @@ protected:
 	int		m_LastSearchRow;	//!< Last row matched in keyboard search
 	int		m_RepeatSearchCount;//!< How many times the same search have been repeated (same key pressed)
 
-	// Maintaining row sorting
+								// Maintaining row sorting
 	int m_SortCol;				//!< Rows are sorted according to this column
 	bool m_Ascending;			//!< Rows are sorted ascending / descending
 	virtual bool SortColumn(int nCol, bool bAscending);
@@ -228,7 +228,7 @@ protected:
 
 	int m_TooltipMaxWidth;		//!< Whether tooltips should be split in multiple lines
 
-	// Maintaining margin
+								// Maintaining margin
 	CFont m_GridFont;			//!< Original font of the the list control
 	CFont m_CellFont;			//!< Current font to draw rows
 	double m_Margin;			//!< Current margin between original font and cell font
@@ -236,14 +236,14 @@ protected:
 	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
 	bool m_InvalidateMarkupText;//!< Ensure that the empty markup text is cleared properly
 
-	// Maintaining drag drop
+								// Maintaining drag drop
 	COleDropTargetWnd<CGridListCtrlEx>* m_pOleDropTarget;	//!< Maintains OLE drag drop target
 	friend class COleDropTargetWnd<CGridListCtrlEx>;
 	friend class COleDropSourceWnd<CGridListCtrlEx>;
 	virtual BOOL RegisterDropTarget();
 	virtual DROPEFFECT DoDragDrop(COleDataSource& oleDataSource,
 		COleDropSource* pDropSource = NULL,
-		DWORD dropEffects = DROPEFFECT_COPY|DROPEFFECT_MOVE|DROPEFFECT_LINK,
+		DWORD dropEffects = DROPEFFECT_COPY | DROPEFFECT_MOVE | DROPEFFECT_LINK,
 		LPCRECT lpRectStartDrag = NULL);
 	virtual DROPEFFECT OnDragEnter(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
 	virtual DROPEFFECT OnDragOver(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point);
@@ -305,7 +305,7 @@ protected:
 	virtual afx_msg BOOL OnHeaderEndDrag(UINT, NMHDR* pNmhdr, LRESULT* pResult);
 	virtual afx_msg BOOL OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnToolNeedText(UINT, NMHDR* pNMHDR, LRESULT* pResult);
-	virtual afx_msg BOOL OnBeginLabelEdit(NMHDR* pNMHDR,LRESULT* pResult);
+	virtual afx_msg BOOL OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg BOOL OnOwnerDataFindItem(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);

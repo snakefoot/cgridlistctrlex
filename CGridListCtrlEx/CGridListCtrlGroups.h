@@ -17,10 +17,10 @@
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
-// WIN32 defines for group-support is only available from 2003 PSDK
+	// WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 
-// VS2008 Marks group-mode functionality as deprecated if not Unicode build (define CGRIDLISTCTRLEX_GROUPMODE in stdafx.h to avoid this check)
+	// VS2008 Marks group-mode functionality as deprecated if not Unicode build (define CGRIDLISTCTRLEX_GROUPMODE in stdafx.h to avoid this check)
 #if _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
 	CGridListCtrlGroups();
 
@@ -91,12 +91,12 @@ protected:
 	DECLARE_MESSAGE_MAP();
 
 public:
-// MFC headers with group-support is only availabe from VS.NET 
+	// MFC headers with group-support is only availabe from VS.NET 
 #if _MSC_VER < 1300
 	LRESULT InsertGroup(int index, PLVGROUP pgrp);
 	int SetGroupInfo(int iGroupId, PLVGROUP pgrp);
-	int GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;	
-	LRESULT RemoveGroup(int iGroupId);	
+	int GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;
+	LRESULT RemoveGroup(int iGroupId);
 	LRESULT MoveGroup(int iGroupId, int toIndex);
 	LRESULT MoveItemToGroup(int idItemFrom, int idGroupTo);
 	void SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics);

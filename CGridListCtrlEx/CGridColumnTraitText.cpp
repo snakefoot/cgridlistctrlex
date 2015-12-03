@@ -16,12 +16,12 @@
 //! CGridColumnTraitText - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitText::CGridColumnTraitText()
-	:m_pOldFont(NULL)
-	,m_TextColor(COLORREF(-1))
-	,m_BackColor(COLORREF(-1))
-	,m_SortFormatNumber(false)
-	,m_OldTextColor(COLORREF(-1))
-	,m_OldBackColor(COLORREF(-1))
+	: m_pOldFont(NULL)
+	, m_TextColor(COLORREF(-1))
+	, m_BackColor(COLORREF(-1))
+	, m_SortFormatNumber(false)
+	, m_OldTextColor(COLORREF(-1))
+	, m_OldBackColor(COLORREF(-1))
 {}
 
 //------------------------------------------------------------------------
@@ -41,7 +41,7 @@ void CGridColumnTraitText::Accept(CGridColumnTraitVisitor& visitor)
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& textColor)
 {
-	if (m_TextColor!=COLORREF(-1))
+	if (m_TextColor != COLORREF(-1))
 	{
 		textColor = m_TextColor;
 		return true;
@@ -58,7 +58,7 @@ bool CGridColumnTraitText::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& text
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateBackColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& backColor)
 {
-	if (m_BackColor!=COLORREF(-1))
+	if (m_BackColor != COLORREF(-1))
 	{
 		backColor = m_BackColor;
 		return true;
@@ -109,14 +109,14 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			// Changed the colors without asking for restoring the original color
 			ASSERT((*pResult & CDRF_NOTIFYPOSTPAINT) || (pLVCD->clrText == m_OldTextColor && pLVCD->clrTextBk == m_OldBackColor));
 
-			LOGFONT newFont = {0};
+			LOGFONT newFont = { 0 };
 			bool createFont = owner.OnDisplayCellFont(pLVCD, newFont);
 			createFont |= UpdateTextFont(pLVCD, newFont);
 			if (createFont)
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;
-				VERIFY( pNewFont->CreateFontIndirect(&newFont) );
+				VERIFY(pNewFont->CreateFontIndirect(&newFont));
 				m_pOldFont = pDC->SelectObject(pNewFont);
 				*pResult |= CDRF_NOTIFYPOSTPAINT;	// We need to restore the original font
 				*pResult |= CDRF_NEWFONT;
@@ -126,7 +126,7 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 		// After painting a cell
 		case CDDS_ITEMPOSTPAINT | CDDS_SUBITEM:
 		{
-			if (m_pOldFont!=NULL)
+			if (m_pOldFont != NULL)
 			{
 				// Restore the original font
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
@@ -164,9 +164,9 @@ int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue
 	else
 	{
 		if (bAscending)
-			return _tcsicmp( pszLeftValue, pszRightValue );
+			return _tcsicmp(pszLeftValue, pszRightValue);
 		else
-			return _tcsicmp( pszRightValue, pszLeftValue );
+			return _tcsicmp(pszRightValue, pszLeftValue);
 	}
 }
 
@@ -191,11 +191,11 @@ int CGridColumnTraitText::GetCellFontHeight(CGridListCtrlEx& owner)
 {
 	const CString testText = _T("yjpÍÁ");
 
-	CRect rcRequired = CRect(0,0,0,0);
+	CRect rcRequired = CRect(0, 0, 0, 0);
 
 	CClientDC dc(&owner);
 	dc.SelectObject(owner.GetCellFont());
-	dc.DrawText(testText, &rcRequired, DT_CALCRECT|DT_SINGLELINE);
+	dc.DrawText(testText, &rcRequired, DT_CALCRECT | DT_SINGLELINE);
 
 	return rcRequired.Height();
 }
@@ -212,33 +212,35 @@ CRect CGridColumnTraitText::GetCellEditRect(CGridListCtrlEx& owner, int nRow, in
 {
 	// Get position of the cell to edit
 	CRect rectCell;
-	VERIFY( owner.GetCellRect(nRow, nCol, LVIR_LABEL, rectCell) );
+	VERIFY(owner.GetCellRect(nRow, nCol, LVIR_LABEL, rectCell));
 
 	// Adjust cell rectangle according to grid-lines
 	if (owner.GetExtendedStyle() & LVS_EX_GRIDLINES)
 		rectCell.bottom -= ::GetSystemMetrics(SM_CXBORDER);
 
-	if (nCol==0 && owner.GetImageList(LVSIL_SMALL)!=NULL)
-	{
-		// Add margin to cell image
-		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
-	}
-	else
-	if (nCol > 0 && (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES) && owner.GetImageList(LVSIL_SMALL)!=NULL && owner.GetCellImage(nRow, nCol)!=I_IMAGECALLBACK)
+	if (nCol == 0 && owner.GetImageList(LVSIL_SMALL) != NULL)
 	{
 		// Add margin to cell image
 		rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
 	}
 	else
 	{
-		// Overlap the focus rectangle, unless we are first in column order
-		if (nCol!=owner.GetFirstVisibleColumn())
-			rectCell.left -= ::GetSystemMetrics(SM_CXBORDER);
+		if (nCol > 0 && (owner.GetExtendedStyle() & LVS_EX_SUBITEMIMAGES) && owner.GetImageList(LVSIL_SMALL) != NULL && owner.GetCellImage(nRow, nCol) != I_IMAGECALLBACK)
+		{
+			// Add margin to cell image
+			rectCell.left += ::GetSystemMetrics(SM_CXBORDER);
+		}
+		else
+		{
+			// Overlap the focus rectangle, unless we are first in column order
+			if (nCol != owner.GetFirstVisibleColumn())
+				rectCell.left -= ::GetSystemMetrics(SM_CXBORDER);
+		}
 	}
 
 	// Check if there is enough room for normal margin
 	int requiredHeight = GetCellFontHeight(owner);
-	requiredHeight += 2*::GetSystemMetrics(SM_CXEDGE);
+	requiredHeight += 2 * ::GetSystemMetrics(SM_CXEDGE);
 	if (requiredHeight > rectCell.Height())
 		rectCell.bottom = rectCell.top + requiredHeight;
 

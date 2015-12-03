@@ -20,10 +20,10 @@ class CGridColumnTraitText;
 class CGridColumnTraitVisitor
 {
 public:
-	void Visit(CGridColumnTrait&)			{}
-	void Visit(CGridColumnTraitImage&)	{}
-	void Visit(CGridColumnTraitCombo&)		{}
-	void Visit(CGridColumnTraitDateTime&)	{}
-	void Visit(CGridColumnTraitEdit&)		{}
-	void Visit(CGridColumnTraitText&)		{}
+	void Visit(CGridColumnTrait&) {}
+	void Visit(CGridColumnTraitImage&) {}
+	void Visit(CGridColumnTraitCombo&) {}
+	void Visit(CGridColumnTraitDateTime&) {}
+	void Visit(CGridColumnTraitEdit&) {}
+	void Visit(CGridColumnTraitText&) {}
 };

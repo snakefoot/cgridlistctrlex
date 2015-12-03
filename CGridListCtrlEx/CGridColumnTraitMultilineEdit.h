@@ -26,8 +26,8 @@ class CGridMultilineEditorText : public CGridEditorText
 public:
 	CGridMultilineEditorText(int nRow, int nCol);
 
-	void SetLineHeight(int nLineHeight)	{ m_LineHeight = nLineHeight; }
-	void SetMaxLines(UINT nMaxLines)	{ m_MaxLines = nMaxLines; }
+	void SetLineHeight(int nLineHeight) { m_LineHeight = nLineHeight; }
+	void SetMaxLines(UINT nMaxLines) { m_MaxLines = nMaxLines; }
 
 protected:
 	int		m_LineHeight;			//!< The height of a single line (depends on current font)

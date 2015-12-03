@@ -67,7 +67,7 @@ protected:
 	};
 	//! @endcond INTERNAL
 
-	CSimpleMap<int,ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
+	CSimpleMap<int, ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
 
 	bool m_SortImageIndex;	//!< Should image be used as primary sort index ?
 	bool m_ToggleSelection;	//!< Should the image of all selected rows be flipped, when clicked ?

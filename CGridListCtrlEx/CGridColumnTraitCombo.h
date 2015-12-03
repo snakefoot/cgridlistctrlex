@@ -28,7 +28,7 @@ public:
 	void SetShowDropDown(BOOL bShowIt);
 	BOOL GetShowDropDown() const;
 
-	void LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel);
+	void LoadList(const CSimpleMap<DWORD_PTR, CString>& comboList, int nCurSel);
 	void AddItem(DWORD_PTR nItemData, const CString& strItemText);
 	void ClearFixedItems();
 
@@ -40,7 +40,7 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect);
 
-	CSimpleMap<DWORD_PTR,CString> m_ComboList;	//!< Fixed list of items in the combo-box
+	CSimpleMap<DWORD_PTR, CString> m_ComboList;	//!< Fixed list of items in the combo-box
 	CComboBox* m_pComboBox;					//!< CComboBox currently open
 	DWORD m_ComboBoxStyle;					//!< Style to use when creating CComboBox
 	UINT m_MaxItems;						//!< Max height (in items) of the CComboBox when doing dropdown

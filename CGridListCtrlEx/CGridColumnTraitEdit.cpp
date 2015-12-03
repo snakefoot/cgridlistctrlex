@@ -16,8 +16,8 @@
 //! CGridColumnTraitEdit - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitEdit::CGridColumnTraitEdit()
-	:m_EditStyle(ES_AUTOHSCROLL | ES_NOHIDESEL | WS_BORDER)
-	,m_EditLimitText(UINT_MAX)
+	: m_EditStyle(ES_AUTOHSCROLL | ES_NOHIDESEL | WS_BORDER)
+	, m_EditLimitText(UINT_MAX)
 {
 }
 
@@ -83,7 +83,7 @@ UINT CGridColumnTraitEdit::GetLimitText() const
 CEdit* CGridColumnTraitEdit::CreateEdit(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
 	CGridEditorText* pEdit = new CGridEditorText(nRow, nCol);
-	VERIFY( pEdit->Create( WS_CHILD | dwStyle, rect, &owner, 0) );
+	VERIFY(pEdit->Create(WS_CHILD | dwStyle, rect, &owner, 0));
 	return pEdit;
 }
 
@@ -102,9 +102,9 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 
 	// Get the text-style of the cell to edit
 	DWORD dwStyle = m_EditStyle;
-	HDITEM hditem = {0};
+	HDITEM hditem = { 0 };
 	hditem.mask = HDI_FORMAT;
-	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hditem) );
+	VERIFY(owner.GetHeaderCtrl()->GetItem(nCol, &hditem));
 	if (hditem.fmt & HDF_CENTER)
 		dwStyle |= ES_CENTER;
 	else if (hditem.fmt & HDF_RIGHT)
@@ -114,34 +114,30 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 
 	// Create edit control to edit the cell
 	CEdit* pEdit = CreateEdit(owner, nRow, nCol, dwStyle, rectCell);
-	VERIFY(pEdit!=NULL);
-	if (pEdit==NULL)
+	VERIFY(pEdit != NULL);
+	if (pEdit == NULL)
 		return NULL;
 
 	// Configure font
 	pEdit->SetFont(owner.GetCellFont());
 
 	// First column (Label) doesn't have a margin when imagelist is assigned
-	if (nCol==0 && owner.GetImageList(LVSIL_SMALL)!=NULL)
+	if (nCol == 0 && owner.GetImageList(LVSIL_SMALL) != NULL)
 		pEdit->SetMargins(0, 0);
-	else
 	// First column (Label) doesn't have a margin when checkboxes are enabled
-	if (nCol==0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
+	else if (nCol == 0 && owner.GetExtendedStyle() & LVS_EX_CHECKBOXES)
 		pEdit->SetMargins(1, 0);
-	else
 	// Label column doesn't have margin when not first in column order
-	if (nCol==0 && owner.GetFirstVisibleColumn()!=nCol)
+	else if (nCol == 0 && owner.GetFirstVisibleColumn() != nCol)
 		pEdit->SetMargins(1, 0);
-	else
-	if (dwStyle & ES_CENTER)
+	else if (dwStyle & ES_CENTER)
 		pEdit->SetMargins(0, 0);
-	else
-	if (dwStyle & ES_RIGHT)
+	else if (dwStyle & ES_RIGHT)
 		pEdit->SetMargins(0, 7);
 	else
 		pEdit->SetMargins(4, 0);
 
-	if (m_EditLimitText!=UINT_MAX)
+	if (m_EditLimitText != UINT_MAX)
 		pEdit->SetLimitText(m_EditLimitText);
 
 	CString cellText = owner.GetItemText(nRow, nCol);
@@ -164,11 +160,11 @@ END_MESSAGE_MAP()
 //! CGridEditorText - Constructor
 //------------------------------------------------------------------------
 CGridEditorText::CGridEditorText(int nRow, int nCol)
-	:m_Row(nRow)
-	,m_Col(nCol)
-	,m_Completed(false)
-	,m_Modified(false)
-	,m_InitialModify(true)
+	: m_Row(nRow)
+	, m_Col(nCol)
+	, m_Completed(false)
+	, m_Modified(false)
+	, m_InitialModify(true)
 {}
 
 //------------------------------------------------------------------------
@@ -188,7 +184,7 @@ void CGridEditorText::EndEdit(bool bSuccess)
 	CString str;
 	GetWindowText(str);
 
-	LV_DISPINFO dispinfo = {0};
+	LV_DISPINFO dispinfo = { 0 };
 	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT;
@@ -244,11 +240,11 @@ void CGridEditorText::OnEnChange()
 //------------------------------------------------------------------------
 BOOL CGridEditorText::PreTranslateMessage(MSG* pMsg)
 {
-	switch(pMsg->message)
+	switch (pMsg->message)
 	{
 		case WM_KEYDOWN:
 		{
-			switch(pMsg->wParam)
+			switch (pMsg->wParam)
 			{
 				case VK_RETURN:
 				{

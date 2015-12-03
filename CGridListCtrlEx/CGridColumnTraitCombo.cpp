@@ -16,11 +16,11 @@
 //! CGridColumnTraitCombo - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitCombo::CGridColumnTraitCombo()
-	:m_MaxItems(7)
-	,m_MaxWidth(200)
-	,m_ComboBoxStyle(WS_VSCROLL | WS_HSCROLL | CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT)
-	,m_pComboBox(NULL)
-	,m_ShowDropDown(FALSE)
+	: m_MaxItems(7)
+	, m_MaxWidth(200)
+	, m_ComboBoxStyle(WS_VSCROLL | WS_HSCROLL | CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT)
+	, m_pComboBox(NULL)
+	, m_ShowDropDown(FALSE)
 {}
 
 //------------------------------------------------------------------------
@@ -124,15 +124,15 @@ DWORD CGridColumnTraitCombo::GetStyle() const
 CComboBox* CGridColumnTraitCombo::CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect)
 {
 	CGridEditorComboBox* pComboBox = new CGridEditorComboBox(nRow, nCol, m_MaxWidth, m_MaxItems, m_ShowDropDown);
-	VERIFY( pComboBox->Create( WS_CHILD | dwStyle, rect, &owner, 0) );
+	VERIFY(pComboBox->Create(WS_CHILD | dwStyle, rect, &owner, 0));
 
-	HDITEM hd = {0};
+	HDITEM hd = { 0 };
 	hd.mask = HDI_FORMAT;
-	VERIFY( owner.GetHeaderCtrl()->GetItem(nCol, &hd) );
+	VERIFY(owner.GetHeaderCtrl()->GetItem(nCol, &hd));
 	if (hd.fmt & HDF_RIGHT)
-		pComboBox->ModifyStyleEx(0,WS_EX_RIGHT);
+		pComboBox->ModifyStyleEx(0, WS_EX_RIGHT);
 	else
-		pComboBox->ModifyStyleEx(0,WS_EX_LEFT);
+		pComboBox->ModifyStyleEx(0, WS_EX_LEFT);
 
 	// Configure font
 	pComboBox->SetFont(owner.GetCellFont());
@@ -155,8 +155,8 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 	// Create edit control to edit the cell
 	//	- Stores the pointer, so elements can be dynamically added later
 	m_pComboBox = CreateComboBox(owner, nRow, nCol, m_ComboBoxStyle, rectCell);
-	VERIFY(m_pComboBox!=NULL);
-	if (m_pComboBox==NULL)
+	VERIFY(m_pComboBox != NULL);
+	if (m_pComboBox == NULL)
 		return NULL;
 
 	if (m_ComboList.GetSize()>0)
@@ -167,7 +167,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		// Guess the currently selected item in the list
 		CString item = owner.GetItemText(nRow, nCol);
 		int nCurSel = m_pComboBox->FindString(-1, item);
-		if (nCurSel!=-1)
+		if (nCurSel != -1)
 			m_pComboBox->SetCurSel(nCurSel);
 		else
 			m_pComboBox->SetWindowText(item);
@@ -187,20 +187,21 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		// Expand to fit cell
 		int padding = rectCell.Height() - rectCombo.Height();
 		if (padding > 0)
-			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)+(UINT)padding);
+			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1) + (UINT)padding);
 	}
 	else
-	if (rectCombo.Height() > rectCell.Height() + ::GetSystemMetrics(SM_CXBORDER))
 	{
-		// Compress to fit cell
-		int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
-		int padding = margin - 2*::GetSystemMetrics(SM_CXEDGE);
-		if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
-			padding -= ::GetSystemMetrics(SM_CXEDGE);
-		if (padding > 0)
-			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1)-(UINT)padding);
+		if (rectCombo.Height() > rectCell.Height() + ::GetSystemMetrics(SM_CXBORDER))
+		{
+			// Compress to fit cell
+			int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
+			int padding = margin - 2 * ::GetSystemMetrics(SM_CXEDGE);
+			if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
+				padding -= ::GetSystemMetrics(SM_CXEDGE);
+			if (padding > 0)
+				m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1) - (UINT)padding);
+		}
 	}
-
 	return m_pComboBox;
 }
 
@@ -238,16 +239,16 @@ void CGridColumnTraitCombo::ClearFixedItems()
 //! @param comboList List of CComboBox items
 //! @param nCurSel Index in the list to choose as currently selected (-1 = No selection)
 //------------------------------------------------------------------------
-void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR,CString>& comboList, int nCurSel)
+void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR, CString>& comboList, int nCurSel)
 {
-	VERIFY(m_pComboBox!=NULL);
-	if (m_pComboBox==NULL)
+	VERIFY(m_pComboBox != NULL);
+	if (m_pComboBox == NULL)
 		return;
 
 	m_pComboBox->SetRedraw(FALSE);
 	m_pComboBox->InitStorage(comboList.GetSize(), 32);
 
-	for(int i = 0; i < comboList.GetSize(); ++i)
+	for (int i = 0; i < comboList.GetSize(); ++i)
 	{
 		int nIndex = m_pComboBox->AddString(comboList.GetValueAt(i));
 		m_pComboBox->SetItemData(nIndex, comboList.GetKeyAt(i));
@@ -255,7 +256,7 @@ void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR,CString>& comboL
 	m_pComboBox->SetRedraw(TRUE);
 	m_pComboBox->Invalidate();
 	m_pComboBox->UpdateWindow();
-	if (nCurSel!=-1)
+	if (nCurSel != -1)
 		m_pComboBox->SetCurSel(nCurSel);
 }
 
@@ -282,7 +283,7 @@ END_MESSAGE_MAP()
 //!
 //! @param pNewWnd Pointer to the window that receives the input focus (may be NULL or may be temporary).
 //------------------------------------------------------------------------
-void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd) 
+void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 {
 	CEdit::OnKillFocus(pNewWnd);
 
@@ -315,13 +316,13 @@ END_MESSAGE_MAP()
 //! CGridEditorComboBox - Constructor
 //------------------------------------------------------------------------
 CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown)
-	:m_Row(nRow)
-	,m_Col(nCol)
-	,m_Completed(false)
-	,m_Modified(false)
-	,m_MaxWidthPixels(nMaxWidthPixels)
-	,m_MaxHeightItems(nMaxHeightItems)
-	,m_ShowDropDown(bShowDropDown)
+	: m_Row(nRow)
+	, m_Col(nCol)
+	, m_Completed(false)
+	, m_Modified(false)
+	, m_MaxWidthPixels(nMaxWidthPixels)
+	, m_MaxHeightItems(nMaxHeightItems)
+	, m_ShowDropDown(bShowDropDown)
 {}
 
 //------------------------------------------------------------------------
@@ -366,7 +367,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 	CString str;
 	GetWindowText(str);
 
-	LV_DISPINFO dispinfo = {0};
+	LV_DISPINFO dispinfo = { 0 };
 	if (bSuccess && m_Modified)
 	{
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
@@ -374,7 +375,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 		dispinfo.item.cchTextMax = str.GetLength();
 		dispinfo.item.lParam = (LPARAM)GetItemData(GetCurSel());
 	}
-	if (::GetFocus()==m_Edit.GetSafeHwnd())
+	if (::GetFocus() == m_Edit.GetSafeHwnd())
 		GetParent()->SetFocus();	// Force close the internal CEdit control
 	ShowWindow(SW_HIDE);
 	CGridColumnTraitImage::SendEndLabelEdit(*GetParent(), m_Row, m_Col, dispinfo);
@@ -411,7 +412,7 @@ void CGridEditorComboBox::OnKillFocus(CWnd* pNewWnd)
 	if (this == pNewWnd)
 		return;
 
-	if (&m_Edit==pNewWnd)
+	if (&m_Edit == pNewWnd)
 		return;
 
 	EndEdit(true);
@@ -463,10 +464,10 @@ void CGridEditorComboBox::OnDropDown()
 	rectExpanded.bottom += visibleItemCount * GetItemHeight(0);
 	rectExpanded.bottom += GetSystemMetrics(SM_CYEDGE) * 2; // top & bottom edges
 	SetWindowPos(NULL,		// not relative to any other windows
-				0, 0,		// TopLeft corner doesn't change
-				rectExpanded.Width(), rectExpanded.Height(),   // existing width, new height
-				SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
-				);
+		0, 0,		// TopLeft corner doesn't change
+		rectExpanded.Width(), rectExpanded.Height(),   // existing width, new height
+		SWP_NOMOVE | SWP_NOZORDER	// don't move box or change z-ordering.
+		);
 
 	// Resize combo-box width to fit contents
 	UINT nMaxItemWidth = 0;
@@ -493,7 +494,7 @@ void CGridEditorComboBox::OnDropDown()
 	CRect rect;
 	GetDroppedControlRect(&rect);
 	if (rect.Height() <= nNumEntries*GetItemHeight(0))
-		nMaxItemWidth +=::GetSystemMetrics(SM_CXVSCROLL);
+		nMaxItemWidth += ::GetSystemMetrics(SM_CXVSCROLL);
 
 	// Add margin space to the calculations
 	nMaxItemWidth += pDC->GetTextExtent(_T("0")).cx;
@@ -532,7 +533,7 @@ void CGridEditorComboBox::OnChangeSelection()
 //------------------------------------------------------------------------
 void CGridEditorComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar==VK_RETURN)
+	if (nChar == VK_RETURN)
 	{
 		// By default the WM_CHAR handler will not receive VK_RETURN,
 		// but it is sent by the internal CEdit when it looses focus
@@ -552,12 +553,12 @@ void CGridEditorComboBox::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //------------------------------------------------------------------------
 BOOL CGridEditorComboBox::PreTranslateMessage(MSG* pMsg)
 {
-	switch(pMsg->message)
+	switch (pMsg->message)
 	{
 		case WM_KEYDOWN:
 		{
 			// We also catch the message for the internal CEdit
-			switch(pMsg->wParam)
+			switch (pMsg->wParam)
 			{
 				case VK_RETURN: EndEdit(true); return TRUE;
 				case VK_TAB: EndEdit(true); return FALSE;

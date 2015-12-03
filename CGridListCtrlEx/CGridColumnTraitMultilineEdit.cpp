@@ -61,10 +61,10 @@ namespace
 		do
 		{
 			nCount++;
-			nFind = csHaystack.Find( sNeedle, nFind + 1 );
+			nFind = csHaystack.Find(sNeedle, nFind + 1);
 		} while (nFind != -1);
-		
-		return nCount-1;
+
+		return nCount - 1;
 	}
 }
 
@@ -91,15 +91,15 @@ CEdit* CGridColumnTraitMultilineEdit::CreateEdit(CGridListCtrlEx& owner, int nRo
 		int nLineCount = CharacterCount(cellText, _T("\n"));
 		if (nLineCount > 0)
 		{
-			if ((UINT)nLineCount > m_EditMaxLines-1)
-				nLineCount = m_EditMaxLines-1;
+			if ((UINT)nLineCount > m_EditMaxLines - 1)
+				nLineCount = m_EditMaxLines - 1;
 			limitRect.bottom += nLineHeight*nLineCount;
 		}
 		pEdit->SetMaxLines(m_EditMaxLines);
 		pEdit->SetLineHeight(nLineHeight);
 	}
 
-	VERIFY( pEdit->Create( WS_CHILD | dwStyle, limitRect, &owner, 0) );
+	VERIFY(pEdit->Create(WS_CHILD | dwStyle, limitRect, &owner, 0));
 	return pEdit;
 }
 
@@ -116,9 +116,9 @@ END_MESSAGE_MAP()
 //! CGridMultilineEditorText - Constructor
 //------------------------------------------------------------------------
 CGridMultilineEditorText::CGridMultilineEditorText(int nRow, int nCol)
-	:CGridEditorText(nRow, nCol)
-	,m_LineHeight(0)
-	,m_MaxLines(0)
+	: CGridEditorText(nRow, nCol)
+	, m_LineHeight(0)
+	, m_MaxLines(0)
 {
 }
 
@@ -130,7 +130,7 @@ void CGridMultilineEditorText::OnEnChange()
 	if (m_InitialModify && (GetStyle() & ES_MULTILINE))
 		m_InitialModify = false;// ES_MULTILINE causes EN_CHANGE not to fire at initial SetWindowText
 
-	// If multiline support, then resize the edit according to contents
+								// If multiline support, then resize the edit according to contents
 	if ((m_MaxLines > 1) && (GetStyle() & ES_MULTILINE) && (m_LineHeight > 0))
 	{
 		// Get number of text lines
@@ -139,8 +139,8 @@ void CGridMultilineEditorText::OnEnChange()
 		int nLineCount = CharacterCount(cellText, _T("\n"));
 		if (nLineCount > 0)
 		{
-			if ((UINT)nLineCount > m_MaxLines-1)
-				nLineCount = m_MaxLines-1;
+			if ((UINT)nLineCount > m_MaxLines - 1)
+				nLineCount = m_MaxLines - 1;
 		}
 
 		// Check if the current rect matches the number of lines

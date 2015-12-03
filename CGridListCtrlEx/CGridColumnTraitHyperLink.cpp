@@ -215,12 +215,12 @@ CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, i
 
 	owner.GetCellRect(nRow, nCol, LVIR_LABEL, rect);
 
-	HDITEM hditem = {0};
+	HDITEM hditem = { 0 };
 	hditem.mask = HDI_FORMAT;
 	owner.GetHeaderCtrl()->GetItem(nCol, &hditem);
 
 	// First item (Label) doesn't have a margin (Subitems does)
-	if (nCol!=0 && !(hditem.fmt & HDF_CENTER))
+	if (nCol != 0 && !(hditem.fmt & HDF_CENTER))
 	{
 		if (hditem.fmt & HDF_RIGHT)
 			rect.OffsetRect(-7, 0);
@@ -229,7 +229,7 @@ CRect CGridColumnTraitHyperLink::GetTextRect(CGridListCtrlEx& owner, int nRow, i
 	}
 
 	if (hditem.fmt & HDF_CENTER)
-		rect.DeflateRect((rect.Width()-size.cx)/2, 0);
+		rect.DeflateRect((rect.Width() - size.cx) / 2, 0);
 	else if (hditem.fmt & HDF_RIGHT)
 		rect.left = rect.right - size.cx;
 	else
@@ -249,7 +249,7 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 {
 	CString cellText = owner.GetItemText(nRow, nCol);
 	OnShellExecute(owner, nRow, nCol, cellText);
-	LV_DISPINFO dispinfo = {0};
+	LV_DISPINFO dispinfo = { 0 };
 	SendEndLabelEdit(owner, nRow, nCol, dispinfo);
 	return NULL;
 }
@@ -276,7 +276,7 @@ int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow
 		{
 			// Check if mouse click was inside the text-link of the cell
 			CString cellText = owner.GetItemText(nRow, nCol);
-			if (GetTextRect(owner,nRow,nCol,cellText).PtInRect(pt))
+			if (GetTextRect(owner, nRow, nCol, cellText).PtInRect(pt))
 				return startEdit;
 			else
 				return 0;
