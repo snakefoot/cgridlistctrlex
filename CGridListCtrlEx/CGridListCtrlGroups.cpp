@@ -13,6 +13,18 @@
 
 #include "CGridColumnTrait.h"
 
+IMPLEMENT_DYNAMIC(CGridListCtrlGroups, CGridListCtrlEx)
+
+//------------------------------------------------------------------------
+//! Constructor 
+//------------------------------------------------------------------------
+CGridListCtrlGroups::CGridListCtrlGroups()
+	: m_GroupCol(-1)
+	, m_GroupSort(-1)
+	, m_SortSecondaryGroupView(2)
+{}
+
+
 // WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 
@@ -33,15 +45,6 @@ BEGIN_MESSAGE_MAP(CGridListCtrlGroups, CGridListCtrlEx)
 	ON_MESSAGE(LVM_REMOVEALLGROUPS, OnRemoveAllGroups)
 	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
-
-//------------------------------------------------------------------------
-//! Constructor 
-//------------------------------------------------------------------------
-CGridListCtrlGroups::CGridListCtrlGroups()
-	: m_GroupCol(-1)
-	, m_GroupSort(-1)
-	, m_SortSecondaryGroupView(2)
-{}
 
 //------------------------------------------------------------------------
 //! Inserts a group into the list view control.

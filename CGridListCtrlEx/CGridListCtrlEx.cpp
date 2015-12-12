@@ -23,6 +23,8 @@
 #include "CGridRowTraitText.h"
 #include "ViewConfigSection.h"
 
+IMPLEMENT_DYNAMIC(CGridListCtrlEx, CListCtrl)
+
 //------------------------------------------------------------------------
 //! @cond INTERNAL
 //------------------------------------------------------------------------

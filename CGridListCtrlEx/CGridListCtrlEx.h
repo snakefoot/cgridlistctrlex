@@ -97,9 +97,11 @@ template<class T> class COleDropSourceWnd;
 //------------------------------------------------------------------------
 class CGridListCtrlEx : public CListCtrl
 {
+	DECLARE_DYNAMIC(CGridListCtrlEx)
+
 public:
 	CGridListCtrlEx();
-	~CGridListCtrlEx();
+	virtual ~CGridListCtrlEx();
 
 	// CListCtrl
 	LRESULT EnableVisualStyles(bool bValue);

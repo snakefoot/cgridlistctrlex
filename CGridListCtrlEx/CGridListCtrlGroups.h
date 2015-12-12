@@ -17,13 +17,13 @@
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
 public:
+	CGridListCtrlGroups();
+
 	// WIN32 defines for group-support is only available from 2003 PSDK
 #if _WIN32_WINNT >= 0x0501
 
 	// VS2008 Marks group-mode functionality as deprecated if not Unicode build (define CGRIDLISTCTRLEX_GROUPMODE in stdafx.h to avoid this check)
 #if _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
-	CGridListCtrlGroups();
-
 	virtual LRESULT InsertGroupHeader(int nIndex, int nGroupId, const CString& strHeader, DWORD dwState = 0, DWORD dwAlign = 0);
 
 	virtual CString GetGroupHeader(int nGroupId);
@@ -83,11 +83,6 @@ protected:
 	virtual afx_msg BOOL OnHeaderEndDrag(UINT, NMHDR* pNmhdr, LRESULT* pResult);
 	//}}AFX_MSG
 
-	int m_GroupCol;		//!< Rows are grouped according to this column
-	int m_GroupSort;	//!< Groups are sorted (-1 = Unsorted, 1 = Ascending, 0 = Descending)
-	int m_SortSecondaryGroupView;	//!< When grouped by primary column, then allow sort of secondary column (0 = Always group, 1 = Allow sort, 2 = Fix sort for xp)
-	CString m_GroupFilterText;	//!< Filter rows by putting them in visible filter-group
-
 	DECLARE_MESSAGE_MAP();
 
 public:
@@ -111,7 +106,15 @@ public:
 #endif	// _MSC_VER < 1500 || defined UNICODE || defined CGRIDLISTCTRLEX_GROUPMODE
 #endif	// _WIN32_WINNT >= 0x0501
 
+protected:
+	int m_GroupCol;		//!< Rows are grouped according to this column
+	int m_GroupSort;	//!< Groups are sorted (-1 = Unsorted, 1 = Ascending, 0 = Descending)
+	int m_SortSecondaryGroupView;	//!< When grouped by primary column, then allow sort of secondary column (0 = Always group, 1 = Allow sort, 2 = Fix sort for xp)
+	CString m_GroupFilterText;	//!< Filter rows by putting them in visible filter-group
+
 private:
 	CGridListCtrlGroups(const CGridListCtrlGroups&);
 	CGridListCtrlGroups& operator=(const CGridListCtrlGroups&);
+
+	DECLARE_DYNAMIC(CGridListCtrlGroups)
 };
