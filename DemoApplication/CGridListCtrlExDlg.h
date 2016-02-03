@@ -13,7 +13,7 @@ class CGridListCtrlExDlg : public CDialog
 {
 // Construction
 public:
-	CGridListCtrlExDlg(CWnd* pParent = NULL);	// standard constructor
+	explicit CGridListCtrlExDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
 	enum { IDD = IDD_CGRIDLISTCTRLEX_DIALOG };
