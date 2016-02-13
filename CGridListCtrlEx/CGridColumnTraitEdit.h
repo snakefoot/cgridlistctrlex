@@ -40,6 +40,8 @@ protected:
 //------------------------------------------------------------------------
 class CGridEditorText : public CEdit
 {
+	DECLARE_DYNAMIC(CGridEditorText)
+
 public:
 	CGridEditorText(int nRow, int nCol);
 	virtual void EndEdit(bool bSuccess);

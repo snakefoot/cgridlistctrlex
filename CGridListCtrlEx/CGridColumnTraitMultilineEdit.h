@@ -23,6 +23,8 @@ protected:
 //------------------------------------------------------------------------
 class CGridMultilineEditorText : public CGridEditorText
 {
+	DECLARE_DYNAMIC(CGridMultilineEditorText)
+
 public:
 	CGridMultilineEditorText(int nRow, int nCol);
 

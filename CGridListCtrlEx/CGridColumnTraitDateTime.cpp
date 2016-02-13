@@ -198,6 +198,8 @@ int CGridColumnTraitDateTime::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightV
 //------------------------------------------------------------------------
 // CGridEditorDateTimeCtrl (For internal use)
 //------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC(CGridEditorDateTimeCtrl, CDateTimeCtrl)
+
 BEGIN_MESSAGE_MAP(CGridEditorDateTimeCtrl, CDateTimeCtrl)
 	//{{AFX_MSG_MAP(CGridEditorDateTimeCtrl)
 	ON_WM_KILLFOCUS()

@@ -13,6 +13,8 @@
 #pragma warning( disable:4626 )	// warning C4626: assignment operator could not be generated because a base class assignment operator is inaccessible
 #pragma warning( disable:4263 )	// warning C4263: member function does not override any base class virtual member function
 #pragma warning( disable:4264 )	// warning C4264: no override available for virtual member function from base; function is hidden
+#pragma warning( disable:5026 )	// warning C5026: move constructor was implicitly defined as deleted
+#pragma warning( disable:5027 )	// warning C5027:move assignment operator was implicitly defined as deleted
 #include <shlwapi.h>	// IsThemeEnabled
 #include <afxole.h>		// COleDataSource
 #pragma warning(pop)

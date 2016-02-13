@@ -16,6 +16,8 @@
 //------------------------------------------------------------------------
 class CGridListCtrlGroups : public CGridListCtrlEx
 {
+	DECLARE_DYNAMIC(CGridListCtrlGroups)
+
 public:
 	CGridListCtrlGroups();
 
@@ -115,6 +117,4 @@ protected:
 private:
 	CGridListCtrlGroups(const CGridListCtrlGroups&);
 	CGridListCtrlGroups& operator=(const CGridListCtrlGroups&);
-
-	DECLARE_DYNAMIC(CGridListCtrlGroups)
 };

@@ -149,6 +149,8 @@ CWnd* CGridColumnTraitEdit::OnEditBegin(CGridListCtrlEx& owner, int nRow, int nC
 //------------------------------------------------------------------------
 // CGridEditorText (For internal use)
 //------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC(CGridEditorText, CEdit)
+
 BEGIN_MESSAGE_MAP(CGridEditorText, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorText)
 	ON_WM_KILLFOCUS()

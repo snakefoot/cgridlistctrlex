@@ -67,6 +67,11 @@
 #pragma warning( disable:4555 )	// warning C4555: expression has no effect; expected expression with side-effect
 #pragma warning( disable:4640 )	// warning C4640: construction of local static object is not thread-safe
 #pragma warning( disable:4571 )	// warning C4571: Informational: catch(...) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
+#pragma warning( disable:4987 )	// warning C4987: nonstandard extension used: 'throw (...)'
+#pragma warning( disable:4266 )	// warning C4266: 'BOOL CException::GetErrorMessage(LPTSTR,UINT,PUINT)': no override available for virtual member function from base 'CException'; function is hidden
+#pragma warning( disable:5026 )	// warning C5027: move constructor was implicitly defined as deleted
+#pragma warning( disable:5027 )	// warning C5027: move assignment operator was implicitly defined as deleted
+
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions

@@ -271,6 +271,8 @@ CGridEditorComboBoxEdit::CGridEditorComboBoxEdit()
 // Taken from "MFC Grid control" (CComboEdit). Credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx
 //------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC(CGridEditorComboBoxEdit, CEdit)
+
 BEGIN_MESSAGE_MAP(CGridEditorComboBoxEdit, CEdit)
 	//{{AFX_MSG_MAP(CGridEditorComboBoxEdit)
 	ON_WM_KILLFOCUS()
@@ -298,6 +300,8 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 // Taken from "MFC Grid control" (CInPlaceList). Credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx
 //------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC(CGridEditorComboBox, CComboBox)
+
 BEGIN_MESSAGE_MAP(CGridEditorComboBox, CComboBox)
 	//{{AFX_MSG_MAP(CGridEditorComboBox)
 	ON_WM_KILLFOCUS()

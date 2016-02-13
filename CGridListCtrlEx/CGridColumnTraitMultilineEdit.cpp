@@ -106,6 +106,8 @@ CEdit* CGridColumnTraitMultilineEdit::CreateEdit(CGridListCtrlEx& owner, int nRo
 //------------------------------------------------------------------------
 // CGridMultilineEditorText (For internal use)
 //------------------------------------------------------------------------
+IMPLEMENT_DYNAMIC(CGridMultilineEditorText, CGridEditorText)
+
 BEGIN_MESSAGE_MAP(CGridMultilineEditorText, CGridEditorText)
 	//{{AFX_MSG_MAP(CGridEditorText)
 	ON_CONTROL_REFLECT(EN_CHANGE, OnEnChange)

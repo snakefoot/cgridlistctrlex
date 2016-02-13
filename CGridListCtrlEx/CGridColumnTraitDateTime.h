@@ -45,6 +45,8 @@ protected:
 //------------------------------------------------------------------------
 class CGridEditorDateTimeCtrl : public CDateTimeCtrl
 {
+	DECLARE_DYNAMIC(CGridEditorDateTimeCtrl)
+
 public:
 	CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait = NULL);
 

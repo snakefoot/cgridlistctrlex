@@ -61,6 +61,8 @@ private:
 //------------------------------------------------------------------------
 class CGridEditorComboBoxEdit : public CEdit
 {
+	DECLARE_DYNAMIC(CGridEditorComboBoxEdit)
+
 public:
 	CGridEditorComboBoxEdit();
 
@@ -82,6 +84,8 @@ private:
 //------------------------------------------------------------------------
 class CGridEditorComboBox : public CComboBox
 {
+	DECLARE_DYNAMIC(CGridEditorComboBox)
+
 public:
 	CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown);
 
