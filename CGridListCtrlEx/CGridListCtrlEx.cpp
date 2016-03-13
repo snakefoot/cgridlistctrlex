@@ -1844,11 +1844,10 @@ int CGridListCtrlEx::OnKeyboardSearch(int nCol, int nStartRow, const CString& st
 	{
 		for (int i = nStartRow; i < nRowCount; ++i)
 		{
-			CString cellText = GetItemText(i, nCol);
+			const CString& cellText = GetItemText(i, nCol);
 			if (cellText.GetLength() >= strSearch.GetLength())
 			{
-				cellText = cellText.Left(strSearch.GetLength());
-				if (cellText.CompareNoCase(strSearch) == 0)
+				if (_tcsnicmp(cellText, strSearch, strSearch.GetLength()) == 0)
 					return i;
 			}
 		}
