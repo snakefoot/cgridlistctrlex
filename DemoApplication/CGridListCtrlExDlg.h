@@ -2,7 +2,6 @@
 //
 
 #pragma once
-#include "afxcmn.h"
 
 #include "..\CGridListCtrlEx\CGridListCtrlGroups.h"
 #include "CListCtrl_DataModel.h"

@@ -6,6 +6,15 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 class CGridRowTraitVisitor;
 class CGridListCtrlEx;
 
@@ -16,7 +25,7 @@ class CGridListCtrlEx;
 //! CGridRowTrait specifies an interface for handling custom drawing at
 //! row-level
 //------------------------------------------------------------------------
-class CGridRowTrait
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridRowTrait
 {
 public:
 	virtual ~CGridRowTrait() {}
@@ -30,3 +39,9 @@ public:
 };
 
 #pragma warning(pop)
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

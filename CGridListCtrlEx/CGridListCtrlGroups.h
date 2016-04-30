@@ -8,13 +8,22 @@
 
 #include "CGridListCtrlEx.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridListCtrlGroups extends the CGridListCtrlEx with grouping.
 //! This can be used to put rows into category groups.
 //!
 //! Placed in its own file as all features requires _WIN32_WINNT >= 0x0501
 //------------------------------------------------------------------------
-class CGridListCtrlGroups : public CGridListCtrlEx
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridListCtrlGroups : public CGridListCtrlEx
 {
 	DECLARE_DYNAMIC(CGridListCtrlGroups)
 
@@ -118,3 +127,9 @@ private:
 	CGridListCtrlGroups(const CGridListCtrlGroups&);
 	CGridListCtrlGroups& operator=(const CGridListCtrlGroups&);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

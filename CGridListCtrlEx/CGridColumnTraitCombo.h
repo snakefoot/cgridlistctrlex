@@ -8,10 +8,22 @@
 
 #include "CGridColumnTraitImage.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<DWORD_PTR, CString>;
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CEdit;
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CComboBox;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitCombo implements a CComboBox as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitCombo : public CGridColumnTraitImage
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitCombo : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitCombo();
@@ -59,7 +71,7 @@ private:
 // Taken from "MFC Grid control" credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx
 //------------------------------------------------------------------------
-class CGridEditorComboBoxEdit : public CEdit
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridEditorComboBoxEdit : public CEdit
 {
 	DECLARE_DYNAMIC(CGridEditorComboBoxEdit)
 
@@ -82,7 +94,7 @@ private:
 // Taken from "MFC Grid control" credits Chris Maunder
 // http://www.codeproject.com/KB/miscctrl/gridctrl.aspx
 //------------------------------------------------------------------------
-class CGridEditorComboBox : public CComboBox
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridEditorComboBox : public CComboBox
 {
 	DECLARE_DYNAMIC(CGridEditorComboBox)
 
@@ -120,3 +132,9 @@ private:
 	CGridEditorComboBox(const CGridEditorComboBox&);
 	CGridEditorComboBox& operator=(const CGridEditorComboBox&);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

@@ -52,6 +52,20 @@
 //	1.0 - Initial Release (2008-09-04)
 //------------------------------------------------------------------------
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CListCtrl;
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CFont;
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CTime;
+class CGridColumnTrait;
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleArray<CGridColumnTrait*>;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 class COleDataSource;
 class COleDropSource;
 class CViewConfigSection;
@@ -95,7 +109,7 @@ template<class T> class COleDropSourceWnd;
 //! - OLE Drag and drop
 //! - Column state persistence (width, order, etc.)
 //------------------------------------------------------------------------
-class CGridListCtrlEx : public CListCtrl
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridListCtrlEx : public CListCtrl
 {
 	DECLARE_DYNAMIC(CGridListCtrlEx)
 
@@ -331,3 +345,9 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

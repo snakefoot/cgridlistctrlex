@@ -8,10 +8,20 @@
 
 #include "CGridColumnTraitImage.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CDateTimeCtrl;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitDateTime implements a CDateTimeCtrl as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitDateTime : public CGridColumnTraitImage
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitDateTime : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitDateTime();
@@ -43,7 +53,7 @@ protected:
 //------------------------------------------------------------------------
 //! CDateTimeCtrl for inplace edit. For internal use by CGridColumnTraitDateTime
 //------------------------------------------------------------------------
-class CGridEditorDateTimeCtrl : public CDateTimeCtrl
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridEditorDateTimeCtrl : public CDateTimeCtrl
 {
 	DECLARE_DYNAMIC(CGridEditorDateTimeCtrl)
 
@@ -74,3 +84,9 @@ private:
 	CGridEditorDateTimeCtrl(const CGridEditorDateTimeCtrl&);
 	CGridEditorDateTimeCtrl& operator=(const CGridEditorDateTimeCtrl&);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

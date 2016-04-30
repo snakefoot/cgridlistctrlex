@@ -131,7 +131,8 @@ bool CGridColumnTraitImage::GetIconClickBeginEdit() const
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 {
-	m_ImageIndexes.Add(nImageIdx, ImageCell());
+	m_ImageCellText.Add(nImageIdx, CString());
+	m_ImageCellEdit.Add(nImageIdx, true);
 }
 
 //------------------------------------------------------------------------
@@ -143,7 +144,8 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx)
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImageText, bool bEditable)
 {
-	m_ImageIndexes.Add(nImageIdx, ImageCell(strImageText, bEditable));
+	m_ImageCellText.Add(nImageIdx, strImageText);
+	m_ImageCellEdit.Add(nImageIdx, bEditable);
 }
 
 //------------------------------------------------------------------------
@@ -155,11 +157,16 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImage
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText, bool bEditable)
 {
-	int nIndex = m_ImageIndexes.FindKey(nImageIdx);
+	int nIndex = m_ImageCellText.FindKey(nImageIdx);
 	if (nIndex == -1)
+	{
 		AddImageIndex(nImageIdx, strImageText, bEditable);
+	}
 	else
-		m_ImageIndexes.GetValueAt(nIndex) = ImageCell(strImageText, bEditable);
+	{
+		m_ImageCellText.GetValueAt(nIndex) = strImageText;
+		m_ImageCellEdit.GetValueAt(nIndex) = bEditable;
+	}
 }
 
 //------------------------------------------------------------------------
@@ -289,12 +296,12 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 		return true;
 
 	// Check if current cell image blocks for starting cell editor
-	if (m_ImageIndexes.GetSize() != 0)
+	if (m_ImageCellEdit.GetSize() != 0)
 	{
 		int nCurImageIdx = -1;
-		for (int i = 0; i < m_ImageIndexes.GetSize(); ++i)
+		for (int i = 0; i < m_ImageCellEdit.GetSize(); ++i)
 		{
-			if (!m_ImageIndexes.GetValueAt(i).m_Editable)
+			if (!m_ImageCellEdit.GetValueAt(i))
 			{
 				if (nCurImageIdx == -1)
 				{
@@ -310,7 +317,7 @@ bool CGridColumnTraitImage::IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int
 					if (nCurImageIdx == -1)
 						break;
 				}
-				if (nCurImageIdx == m_ImageIndexes.GetKeyAt(i))
+				if (nCurImageIdx == m_ImageCellEdit.GetKeyAt(i))
 					return true;
 			}
 		}
@@ -359,7 +366,7 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 			}
 		}
 
-		if (m_ImageIndexes.GetSize()>1)
+		if (m_ImageCellEdit.GetSize()>1)
 		{
 			CRect iconRect;
 			if (owner.GetCellRect(nRow, nCol, LVIR_ICON, iconRect) && iconRect.PtInRect(pt))
@@ -380,14 +387,14 @@ int CGridColumnTraitImage::OnClickEditStart(CGridListCtrlEx& owner, int nRow, in
 //------------------------------------------------------------------------
 int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	if (m_ImageIndexes.GetSize() <= 1)
+	if (m_ImageCellText.GetSize() <= 1)
 		return -1;
 
 	int nImageIdx = owner.GetCellImage(nRow, nCol);
 	int nOldImagePos = -1;
-	for (int i = 0; i < m_ImageIndexes.GetSize(); ++i)
+	for (int i = 0; i < m_ImageCellText.GetSize(); ++i)
 	{
-		if (m_ImageIndexes.GetKeyAt(i) == nImageIdx)
+		if (m_ImageCellText.GetKeyAt(i) == nImageIdx)
 		{
 			nOldImagePos = i;
 			break;
@@ -397,10 +404,10 @@ int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int 
 		return -1;
 
 	int nNewImageIdx = -1;
-	if (nOldImagePos + 1 == m_ImageIndexes.GetSize())
-		nNewImageIdx = m_ImageIndexes.GetKeyAt(0);
+	if (nOldImagePos + 1 == m_ImageCellText.GetSize())
+		nNewImageIdx = m_ImageCellText.GetKeyAt(0);
 	else
-		nNewImageIdx = m_ImageIndexes.GetKeyAt(nOldImagePos + 1);
+		nNewImageIdx = m_ImageCellText.GetKeyAt(nOldImagePos + 1);
 
 	return nNewImageIdx;
 }
@@ -450,7 +457,7 @@ CWnd* CGridColumnTraitImage::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, int nCol)
 {
-	if (m_ImageIndexes.GetSize() <= 1)
+	if (m_ImageCellText.GetSize() <= 1)
 	{
 		// No images to flip between
 		if (m_IconClickBeginEdit)
@@ -465,12 +472,12 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 		return NULL;
 
 	CString strOldImageText, strNewImageText;
-	for (int i = 0; i < m_ImageIndexes.GetSize(); ++i)
+	for (int i = 0; i < m_ImageCellText.GetSize(); ++i)
 	{
-		if (m_ImageIndexes.GetKeyAt(i) == nOldImageIdx)
-			strOldImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
-		if (m_ImageIndexes.GetKeyAt(i) == nNewImageIdx)
-			strNewImageText = m_ImageIndexes.GetValueAt(i).m_CellText;
+		if (m_ImageCellText.GetKeyAt(i) == nOldImageIdx)
+			strOldImageText = m_ImageCellText.GetValueAt(i);
+		if (m_ImageCellText.GetKeyAt(i) == nNewImageIdx)
+			strNewImageText = m_ImageCellText.GetValueAt(i);
 	}
 
 	// Send Notification to parent of ListView ctrl

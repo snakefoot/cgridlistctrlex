@@ -8,11 +8,20 @@
 
 #include "CGridRowTrait.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridRowTraitText provides customization text and background at
 //! row-level
 //------------------------------------------------------------------------
-class CGridRowTraitText : public CGridRowTrait
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridRowTraitText : public CGridRowTrait
 {
 public:
 	CGridRowTraitText();
@@ -39,3 +48,9 @@ protected:
 	virtual bool UpdateBackColor(int nRow, COLORREF& backColor);
 	virtual void Accept(CGridRowTraitVisitor& visitor);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

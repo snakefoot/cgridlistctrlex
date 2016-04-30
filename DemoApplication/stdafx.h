@@ -8,8 +8,34 @@
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
 #ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers (AFXV_W32.h)
+#endif
+
+#ifndef NO_STRICT
+#ifndef STRICT
+#define STRICT 1
+#endif
+#endif
+
+#if _MSC_VER < 1300
+// If using VC6 without platform SDK
+#ifndef WINVER
+#define WINVER 0x0500
+#endif
+#ifndef _WIN32_WINNT		
+#define _WIN32_WINNT 0x0500
+#endif
+#ifndef _WIN32_WINDOWS
+#define _WIN32_WINDOWS 0x0500
+#endif
+#ifndef _WIN32_IE
+#define _WIN32_IE 0x0400
+#endif
 #endif
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
@@ -30,19 +56,15 @@
 #define _WIN32_IE 0x0501	// Change this to the appropriate value to target IE 5.0 or later.
 #endif
 
-#if _MSC_VER < 1300
-#undef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500	// Uncomment this if using VC6 without platform SDK
-#endif
-
-
 #ifndef UNICODE
 #define CGRIDLISTCTRLEX_GROUPMODE
 #endif
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
+#ifdef _AFXEXT
+#define CGRIDLISTCTRLEX_AFX_EXT	// Export/Import as MFC Extension DLL (Remember to use this define when including headers from DLL)
+#endif
 
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
 #pragma warning( disable:4514 )	// warning C4514: unreferenced inline function has been remove
 #pragma warning( disable:4710 )	// warning C4710: function not inlined
@@ -75,11 +97,14 @@
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
-#include <afxdisp.h>        // MFC Automation classes
 
+#ifndef _AFX_NO_OLE_SUPPORT
+#include <afxdisp.h>        // MFC Automation classes
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
+#endif // _AFX_NO_OLE_SUPPORT
+
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
+#include <afxcmn.h>        // MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include <atlbase.h>

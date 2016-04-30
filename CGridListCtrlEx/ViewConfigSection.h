@@ -6,10 +6,20 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<CString, CString>;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! Abstract interface for persisting view configuration
 //------------------------------------------------------------------------
-class CViewConfigSection
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CViewConfigSection
 {
 protected:
 	CString m_ViewName;		//!< Configuration name used when persisting the state (Translates into a section name)
@@ -69,11 +79,11 @@ public:
 //!
 //! It will use the values in the default-config if nothing else can be found
 //------------------------------------------------------------------------
-class CViewConfigSectionDefault : public CViewConfigSection
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CViewConfigSectionDefault : public CViewConfigSection
 {
 protected:
 	//! Inner class that stores the default configuration in memory
-	class CViewConfigSectionLocal : public CViewConfigSection
+	class CGRIDLISTCTRLEX_AFX_EXT_CLASS CViewConfigSectionLocal : public CViewConfigSection
 	{
 	protected:
 		CSimpleMap<CString, CString> m_LocalSettings;	//!< Default configuration
@@ -107,7 +117,7 @@ public:
 //! Abstract interface for persisting view configuration, that can switch
 //! between different view configuration profiles.
 //------------------------------------------------------------------------
-class CViewConfigSectionProfiles : public CViewConfigSectionDefault
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CViewConfigSectionProfiles : public CViewConfigSectionDefault
 {
 protected:
 	mutable CString m_CurrentSection;	//!< Section name combined from the viewname and the current profile name
@@ -131,7 +141,7 @@ public:
 //------------------------------------------------------------------------
 //! Can persist the column configuration using CWinApp::WriteProfile()
 //------------------------------------------------------------------------
-class CViewConfigSectionWinApp : public CViewConfigSectionProfiles
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CViewConfigSectionWinApp : public CViewConfigSectionProfiles
 {
 protected:
 	virtual CString ReadSetting(const CString& strSection, const CString& strSetting, const CString& strDefval) const;
@@ -142,3 +152,8 @@ public:
 	explicit CViewConfigSectionWinApp(const CString& strViewName);
 };
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

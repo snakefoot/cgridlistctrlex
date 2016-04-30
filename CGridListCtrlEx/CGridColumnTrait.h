@@ -6,6 +6,15 @@
 // License: Free to use for all (New BSD License)
 //------------------------------------------------------------------------
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 class CGridColumnTraitVisitor;
 class CGridListCtrlEx;
 
@@ -15,7 +24,7 @@ class CGridListCtrlEx;
 //------------------------------------------------------------------------
 //! CGridColumnTrait specifies the methods needed for custom cell handling
 //------------------------------------------------------------------------
-class CGridColumnTrait
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTrait
 {
 public:
 	//! Destructor
@@ -107,7 +116,7 @@ public:
 	virtual bool IsCellReadOnly(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt) const { return !m_ColumnState.m_Editable; }
 
 	// Maintaining column visible state, etc.
-	struct ColumnState
+	struct CGRIDLISTCTRLEX_AFX_EXT_CLASS ColumnState
 	{
 		ColumnState()
 			: m_Visible(true)
@@ -153,3 +162,9 @@ protected:
 };
 
 #pragma warning(pop)
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

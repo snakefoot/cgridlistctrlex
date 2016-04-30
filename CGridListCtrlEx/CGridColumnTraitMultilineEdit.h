@@ -1,9 +1,18 @@
 #include "CGridColumnTraitEdit.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitMultilineEdit implements a CEdit as multiline cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitMultilineEdit : public CGridColumnTraitEdit
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitMultilineEdit : public CGridColumnTraitEdit
 {
 public:
 	CGridColumnTraitMultilineEdit();
@@ -21,7 +30,7 @@ protected:
 //------------------------------------------------------------------------
 //! CEdit for inplace edit. For internal use by CGridColumnTraitMultilineEdit
 //------------------------------------------------------------------------
-class CGridMultilineEditorText : public CGridEditorText
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridMultilineEditorText : public CGridEditorText
 {
 	DECLARE_DYNAMIC(CGridMultilineEditorText)
 
@@ -44,3 +53,9 @@ private:
 	CGridMultilineEditorText(const CGridMultilineEditorText&);
 	CGridMultilineEditorText& operator=(const CGridMultilineEditorText&);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

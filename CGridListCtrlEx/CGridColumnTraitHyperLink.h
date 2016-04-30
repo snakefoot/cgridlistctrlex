@@ -8,10 +8,19 @@
 
 #include "CGridColumnTraitImage.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitHyperLink that can launch a link using the web-browser
 //------------------------------------------------------------------------
-class CGridColumnTraitHyperLink : public CGridColumnTraitImage
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitHyperLink : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitHyperLink();
@@ -55,3 +64,9 @@ protected:
 	CString m_ShellFileSuffix;		//!< ShellExecute file specifier suffix
 	INT		m_ShellShowCommand;		//!< ShellExecute show application flags (Ex. SW_SHOWNORMAL)
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

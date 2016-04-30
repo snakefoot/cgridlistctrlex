@@ -8,12 +8,22 @@
 
 #include "CGridColumnTraitImage.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CEdit;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 class CGridEditorText;
 
 //------------------------------------------------------------------------
 //! CGridColumnTraitEdit implements a CEdit as cell-editor
 //------------------------------------------------------------------------
-class CGridColumnTraitEdit : public CGridColumnTraitImage
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitEdit : public CGridColumnTraitImage
 {
 public:
 	CGridColumnTraitEdit();
@@ -38,7 +48,7 @@ protected:
 //------------------------------------------------------------------------
 //! CEdit for inplace edit. For internal use by CGridColumnTraitEdit
 //------------------------------------------------------------------------
-class CGridEditorText : public CEdit
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridEditorText : public CEdit
 {
 	DECLARE_DYNAMIC(CGridEditorText)
 
@@ -66,3 +76,9 @@ private:
 	CGridEditorText(const CGridEditorText&);
 	CGridEditorText& operator=(const CGridEditorText&);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

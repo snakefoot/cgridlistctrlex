@@ -8,10 +8,19 @@
 
 #include "CGridColumnTrait.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitText provides customization of cell text and background
 //------------------------------------------------------------------------
-class CGridColumnTraitText : public CGridColumnTrait
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitText : public CGridColumnTrait
 {
 public:
 	CGridColumnTraitText();
@@ -37,3 +46,9 @@ protected:
 	virtual int GetCellFontHeight(CGridListCtrlEx& owner);
 	virtual CRect GetCellEditRect(CGridListCtrlEx& owner, int nRow, int nCol);
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS

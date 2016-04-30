@@ -8,6 +8,17 @@
 
 #include "CGridColumnTraitText.h"
 
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+// Using MFC Extension DLL
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
+#undef AFX_DATA
+#define AFX_DATA AFX_EXT_DATA
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<int, CString>;
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<int, bool>;
+#else
+#define CGRIDLISTCTRLEX_AFX_EXT_CLASS
+#endif
+
 //------------------------------------------------------------------------
 //! CGridColumnTraitImage implements an image switcher (can mimic a checkbox)
 //!
@@ -16,7 +27,7 @@
 //! editor. To get/set the checkbox value of a cell use the methods
 //! GetCellImage()/SetCellImage() on CGridListCtrlEx
 //------------------------------------------------------------------------
-class CGridColumnTraitImage : public CGridColumnTraitText
+class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitImage : public CGridColumnTraitText
 {
 public:
 	CGridColumnTraitImage();
@@ -54,23 +65,17 @@ protected:
 	virtual CWnd* OnEditBeginImage(CGridListCtrlEx& owner, int nRow, int nCol);
 	virtual CWnd* OnEditBeginCheckbox(CGridListCtrlEx& owner, int nRow, int nCol);
 
-	//! @cond INTERNAL
-	struct ImageCell
-	{
-		CString m_CellText;
-		bool m_Editable;
-
-		ImageCell()
-			: m_Editable(true) {}
-		ImageCell(const CString& cellText, bool editable)
-			: m_CellText(cellText), m_Editable(editable) {}
-	};
-	//! @endcond INTERNAL
-
-	CSimpleMap<int, ImageCell> m_ImageIndexes;	//!< Fixed list of image items to switch between
+	CSimpleMap<int, CString> m_ImageCellText;	//!< Fixed list of image items to switch between
+	CSimpleMap<int, bool>	 m_ImageCellEdit;	//!< Fixed list of image items to switch between
 
 	bool m_SortImageIndex;	//!< Should image be used as primary sort index ?
 	bool m_ToggleSelection;	//!< Should the image of all selected rows be flipped, when clicked ?
 	bool m_SingleClickEdit;	//!< Should it start editor on first click, instead of first waiting for cell to have focus first
 	bool m_IconClickBeginEdit; //!< Should it start editor when clicking the icon area ?
 };
+
+#ifdef CGRIDLISTCTRLEX_AFX_EXT
+#undef AFX_DATA
+#define AFX_DATA
+#endif
+#undef CGRIDLISTCTRLEX_AFX_EXT_CLASS
