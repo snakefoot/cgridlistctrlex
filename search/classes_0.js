@@ -16,7 +16,6 @@ var searchData=
   ['cgridlistctrlex',['CGridListCtrlEx',['../class_c_grid_list_ctrl_ex.html',1,'']]],
   ['cgridlistctrlgroups',['CGridListCtrlGroups',['../class_c_grid_list_ctrl_groups.html',1,'']]],
   ['cgridmultilineeditortext',['CGridMultilineEditorText',['../class_c_grid_multiline_editor_text.html',1,'']]],
-  ['cgridpropertyctrl',['CGridPropertyCtrl',['../class_c_grid_property_ctrl.html',1,'']]],
   ['cgridrowtrait',['CGridRowTrait',['../class_c_grid_row_trait.html',1,'']]],
   ['cgridrowtraittext',['CGridRowTraitText',['../class_c_grid_row_trait_text.html',1,'']]],
   ['cgridrowtraitvisitor',['CGridRowTraitVisitor',['../class_c_grid_row_trait_visitor.html',1,'']]],
