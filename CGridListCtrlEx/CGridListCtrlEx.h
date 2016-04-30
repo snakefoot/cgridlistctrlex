@@ -4,9 +4,14 @@
 // Author:  Rolf Kristensen	
 // Source:  http://www.codeproject.com/KB/list/CGridListCtrlEx.aspx
 // License: Free to use for all (New BSD License)
-// Version: 2.3
+// Version: 2.4
 //
 // Change History:
+//  2.4 - CGridListCtrlGroups can perform filtering of items based on cell value
+//        CGridListCtrlGroups can reorder items within the same group
+//        Fixed missing call to CListCtrl::OnKillFocus()
+//        New define CGRIDLISTCTRLEX_AFX_EXT that makes it easier to create MFC Extension DLL
+//        Fixed several small bugs
 //  2.3 - Implemented support for IDropSource::GiveFeedback to allow changing mouse cursor during dragdrop
 //        Inverted cell focus coloring is now disabled by default. Call SetInvertCellSelection(true) to enable.
 //		  Fixed several small bugs
@@ -87,7 +92,7 @@ template<class T> class COleDropSourceWnd;
 //!		- CGridColumnTraitEdit Implements cell editing using CEdit
 //!		- CGridColumnTraitCombo Implements cell editing using CComboBox
 //!		- CGridColumnTraitDateTime Implements cell editing using CDateTimeCtrl
-//!		- CGridColumnTraitHyperLink Implements cell behavior as hyperlinks
+//!		- CGridColumnTraitHyperLink Implements cell behavior as hyperlinks (can mimic button click)
 //!		- CGridColumnTraitImage Implements cell editing using cell-image (can mimic checkbox)
 //!		- CGridColumnTraitMultilineEdit Implements cell editing using multiline CEdit 
 //! - CGridRowTrait provides an interface to perform custom drawing at row level
