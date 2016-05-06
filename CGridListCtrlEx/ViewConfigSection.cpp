@@ -343,13 +343,13 @@ LOGFONT CViewConfigSection::GetLogFontSetting(const CString& strName) const
 	font.lfEscapement = _ttoi(strArray[3]);
 	font.lfOrientation = _ttoi(strArray[4]);
 	font.lfWeight = _ttoi(strArray[5]);
-	font.lfItalic = (BYTE)_ttoi(strArray[6]);
-	font.lfUnderline = (BYTE)_ttoi(strArray[7]);
-	font.lfStrikeOut = (BYTE)_ttoi(strArray[8]);
-	font.lfCharSet = (BYTE)_ttoi(strArray[9]);
-	font.lfOutPrecision = (BYTE)_ttoi(strArray[10]);
-	font.lfQuality = (BYTE)_ttoi(strArray[11]);
-	font.lfPitchAndFamily = (BYTE)_ttoi(strArray[12]);
+	font.lfItalic = static_cast<BYTE>(_ttoi(strArray[6]));
+	font.lfUnderline = static_cast<BYTE>(_ttoi(strArray[7]));
+	font.lfStrikeOut = static_cast<BYTE>(_ttoi(strArray[8]));
+	font.lfCharSet = static_cast<BYTE>(_ttoi(strArray[9]));
+	font.lfOutPrecision = static_cast<BYTE>(_ttoi(strArray[10]));
+	font.lfQuality = static_cast<BYTE>(_ttoi(strArray[11]));
+	font.lfPitchAndFamily = static_cast<BYTE>(_ttoi(strArray[12]));
 	return font;
 }
 

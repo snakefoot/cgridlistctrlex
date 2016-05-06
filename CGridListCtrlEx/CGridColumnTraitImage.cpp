@@ -539,13 +539,13 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 LRESULT CGridColumnTraitImage::SendEndLabelEdit(CWnd& wndListCtrl, int nRow, int nCol, LV_DISPINFO& lvDispInfo)
 {
 	lvDispInfo.hdr.hwndFrom = wndListCtrl.m_hWnd;
-	lvDispInfo.hdr.idFrom = (UINT_PTR)wndListCtrl.GetDlgCtrlID();
+	lvDispInfo.hdr.idFrom = static_cast<UINT_PTR>(wndListCtrl.GetDlgCtrlID());
 	lvDispInfo.hdr.code = LVN_ENDLABELEDIT;
 
 	lvDispInfo.item.iItem = nRow;
 	lvDispInfo.item.iSubItem = nCol;
 
-	return wndListCtrl.GetParent()->SendMessage(WM_NOTIFY, (WPARAM)wndListCtrl.GetDlgCtrlID(), (LPARAM)&lvDispInfo);
+	return wndListCtrl.GetParent()->SendMessage(WM_NOTIFY, static_cast<WPARAM>(wndListCtrl.GetDlgCtrlID()), reinterpret_cast<LPARAM>(&lvDispInfo));
 }
 
 //------------------------------------------------------------------------

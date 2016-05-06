@@ -296,7 +296,7 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 	if (nColCount < 0)
 		DebugBreak();
 
-	int* pOrderArray = new int[(UINT)nColCount];
+	int* pOrderArray = new int[static_cast<UINT>(nColCount)];
 	GetColumnOrderArray(pOrderArray, nColCount);
 
 	SetRedraw(FALSE);
@@ -436,7 +436,7 @@ void CGridListCtrlEx::SaveState(CViewConfigSection& config)
 	if (nColCount < 0)
 		DebugBreak();
 
-	int* pOrderArray = new int[(UINT)nColCount];
+	int* pOrderArray = new int[static_cast<UINT>(nColCount)];
 	GetColumnOrderArray(pOrderArray, nColCount);
 
 	int nVisibleCols = 0;
@@ -656,8 +656,8 @@ namespace {
 		if (hinstDll)
 		{
 			DLLGETVERSIONPROC pDllGetVersion = NULL;
-			(FARPROC&)pDllGetVersion = ::GetProcAddress(hinstDll, "DllGetVersion");
-			if (pDllGetVersion != NULL)
+			reinterpret_cast<FARPROC&>(pDllGetVersion) = ::GetProcAddress(hinstDll, "DllGetVersion");
+			if (pDllGetVersion)
 			{
 				DLLVERSIONINFO dvi = { 0 };
 				dvi.cbSize = sizeof(dvi);
@@ -680,8 +680,8 @@ namespace {
 		{
 			bool (CALLBACK *pIsAppThemed)() = NULL;
 			bool (CALLBACK *pIsThemeActive)() = NULL;
-			(FARPROC&)pIsAppThemed = ::GetProcAddress(hinstDll, "IsAppThemed");
-			(FARPROC&)pIsThemeActive = ::GetProcAddress(hinstDll, "IsThemeActive");
+			reinterpret_cast<FARPROC&>(pIsAppThemed) = ::GetProcAddress(hinstDll, "IsAppThemed");
+			reinterpret_cast<FARPROC&>(pIsThemeActive) = ::GetProcAddress(hinstDll, "IsThemeActive");
 			if (pIsAppThemed != NULL && pIsThemeActive != NULL)
 			{
 				if (pIsAppThemed() && pIsThemeActive())
@@ -706,9 +706,9 @@ namespace {
 			HANDLE(CALLBACK *pOpenThemeData)(HWND hwnd, LPCWSTR pszClassList) = NULL;
 			HRESULT(CALLBACK *pCloseThemeData)(HANDLE hTheme) = NULL;
 
-			(FARPROC&)pOpenThemeData = ::GetProcAddress(hinstDll, "OpenThemeData");
-			(FARPROC&)pCloseThemeData = ::GetProcAddress(hinstDll, "CloseThemeData");
-			(FARPROC&)pSetWindowTheme = ::GetProcAddress(hinstDll, "SetWindowTheme");
+			reinterpret_cast<FARPROC&>(pOpenThemeData) = ::GetProcAddress(hinstDll, "OpenThemeData");
+			reinterpret_cast<FARPROC&>(pCloseThemeData) = ::GetProcAddress(hinstDll, "CloseThemeData");
+			reinterpret_cast<FARPROC&>(pSetWindowTheme) = ::GetProcAddress(hinstDll, "SetWindowTheme");
 			if (pSetWindowTheme && pOpenThemeData && pCloseThemeData)
 			{
 				HANDLE theme = pOpenThemeData(hwnd, classList);
@@ -807,7 +807,7 @@ void CGridListCtrlEx::OnCreateStyle()
 	EnableToolTips(TRUE);
 
 	// Disable the builtin tooltip (if available)
-	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
+	CToolTipCtrl* pToolTipCtrl = static_cast<CToolTipCtrl*>(CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L)));
 	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
 		pToolTipCtrl->Activate(FALSE);
 
@@ -917,7 +917,7 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 {
 	ASSERT(::IsWindow(m_hWnd));
 
-	HWND hWnd = (HWND) ::SendMessage(m_hWnd, LVM_GETHEADER, 0, 0);
+	HWND hWnd = reinterpret_cast<HWND>(::SendMessage(m_hWnd, LVM_GETHEADER, 0, 0));
 	if (hWnd == NULL)
 		return NULL;
 	else
@@ -961,8 +961,8 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 		VERIFY(m_CellFont.DeleteObject());
 	VERIFY(m_CellFont.CreateFontIndirect(&lf));
 
-	lf.lfHeight = (int)(lf.lfHeight * margin);
-	lf.lfWidth = (int)(lf.lfWidth * margin);
+	lf.lfHeight = static_cast<int>(lf.lfHeight * margin);
+	lf.lfWidth = static_cast<int>(lf.lfWidth * margin);
 	if (static_cast<HFONT>(m_GridFont))
 		VERIFY(m_GridFont.DeleteObject());
 	VERIFY(m_GridFont.CreateFontIndirect(&lf));
@@ -974,7 +974,7 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 	CHeaderCtrl* pHeaderCtrl = GetHeaderCtrl();
 	if (pHeaderCtrl != NULL)
 		pHeaderCtrl->SetFont(&m_GridFont);
-	CToolTipCtrl* pToolTipCtrl = (CToolTipCtrl*)CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
+	CToolTipCtrl* pToolTipCtrl = static_cast<CToolTipCtrl*>(CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L)));
 	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
 		pToolTipCtrl->SetFont(&m_CellFont);
 }
@@ -1085,7 +1085,7 @@ bool CGridListCtrlEx::IsRowSelected(int nRow) const
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::SelectRow(int nRow, bool bSelect)
 {
-	return SetItemState(nRow, (UINT)(bSelect ? LVIS_SELECTED : 0), LVIS_SELECTED);
+	return SetItemState(nRow, static_cast<UINT>(bSelect ? LVIS_SELECTED : 0), LVIS_SELECTED);
 }
 
 //------------------------------------------------------------------------
@@ -1443,7 +1443,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	if (nColCount < 0)
 		DebugBreak();
 
-	int* pOrderArray = new int[(UINT)nColCount];
+	int* pOrderArray = new int[static_cast<UINT>(nColCount)];
 	VERIFY(GetColumnOrderArray(pOrderArray, nColCount));
 	if (bShow)
 	{
@@ -1924,7 +1924,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	m_LastSearchTime = m_LastSearchTime.GetCurrentTime();
 
 	if (m_LastSearchString.GetLength() == 1
-		&& m_LastSearchString.GetAt(0) == (TCHAR)nChar)
+		&& m_LastSearchString.GetAt(0) == static_cast<TCHAR>(nChar))
 	{
 		// When the same first character is entered again,
 		// then just repeat the search, but remember number of repeats
@@ -1935,7 +1935,7 @@ void CGridListCtrlEx::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		for (int i = 0; i < m_RepeatSearchCount; ++i)
 			m_LastSearchString.Insert(m_LastSearchString.GetLength() + 1, m_LastSearchString.GetAt(0));
 		m_RepeatSearchCount = 0;
-		m_LastSearchString += (TCHAR)nChar;
+		m_LastSearchString += static_cast<TCHAR>(nChar);
 	}
 
 	int nRow = GetFocusRow();
@@ -2065,7 +2065,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 				pNMW->item.mask |= LVIF_STATE;
 				pNMW->item.stateMask = LVIS_STATEIMAGEMASK;
 				bool bChecked = OnOwnerDataDisplayCheckbox(nRow);
-				pNMW->item.state = (UINT)(bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1));
+				pNMW->item.state = static_cast<UINT>(bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1));
 			}
 		}
 	}
@@ -2152,7 +2152,7 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 
 	//Fill in the TOOLINFO structure
 	pTI->hwnd = m_hWnd;
-	pTI->uId = (UINT)(nRow * 1000 + nCol);
+	pTI->uId = static_cast<UINT>(nRow * 1000 + nCol);
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
 	pTI->rect = rcClient;
 
@@ -2339,14 +2339,14 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = { 0 };
 	dispinfo.hdr.hwndFrom = m_hWnd;
-	dispinfo.hdr.idFrom = (UINT_PTR)GetDlgCtrlID();
+	dispinfo.hdr.idFrom = static_cast<UINT_PTR>(GetDlgCtrlID());
 	dispinfo.hdr.code = LVN_BEGINLABELEDIT;
 
 	dispinfo.item.mask = LVIF_PARAM;
 	dispinfo.item.iItem = nRow;
 	dispinfo.item.iSubItem = nCol;
-	dispinfo.item.lParam = (LPARAM)GetItemData(nRow);
-	if (GetParent()->SendMessage(WM_NOTIFY, (WPARAM)GetDlgCtrlID(), (LPARAM)&dispinfo) == TRUE)
+	dispinfo.item.lParam = static_cast<LPARAM>(GetItemData(nRow));
+	if (GetParent()->SendMessage(WM_NOTIFY, static_cast<WPARAM>(GetDlgCtrlID()), reinterpret_cast<LPARAM>(&dispinfo)) == TRUE)
 	{
 		// Parent didn't want to start edit
 		OnEditComplete(nRow, nCol, NULL, NULL);
@@ -2595,7 +2595,7 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellColor(NMLVCUSTOMDRAW* pLVCD)
 {
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 	int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
 	(nItemData);	// Avoid unreferenced variable warning
@@ -2625,7 +2625,7 @@ bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& font)
 {
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 	int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
 	(nItemData);	// Avoid unreferenced variable warning
@@ -2748,7 +2748,7 @@ void CGridListCtrlEx::OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD
 void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	*pResult = CDRF_DODEFAULT;
 
@@ -2946,7 +2946,7 @@ LRESULT CGridListCtrlEx::OnDeleteColumn(WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	// Book keeping of columns
-	DeleteColumnTrait((int)wParam);
+	DeleteColumnTrait(static_cast<int>(wParam));
 	return lRet;
 }
 
@@ -2969,7 +2969,7 @@ LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 	if (GetColumnTraitSize() < GetHeaderCtrl()->GetItemCount())
 	{
 		// Inserted column without providing column traits
-		InsertColumnTrait((int)lRet, new CGridColumnTraitText);
+		InsertColumnTrait(static_cast<int>(lRet), new CGridColumnTraitText);
 	}
 	return lRet;
 }
@@ -3005,7 +3005,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 			HDHITTESTINFO hdhti = { 0 };
 			hdhti.pt = pt;
 			hdhti.pt.x += GetScrollPos(SB_HORZ);
-			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, (LPARAM)&hdhti);
+			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, reinterpret_cast<LPARAM>(&hdhti));
 			OnContextMenuHeader(pWnd, point, hdhti.iItem);
 		}
 		else
@@ -3101,7 +3101,7 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
-		VERIFY(menu.AppendMenu(uFlags, (UINT_PTR)offset + i, static_cast<LPCTSTR>(columnTitle)));
+		VERIFY(menu.AppendMenu(uFlags, static_cast<UINT_PTR>(offset + i), static_cast<LPCTSTR>(columnTitle)));
 	}
 
 	return GetColumnTraitSize();
@@ -3136,7 +3136,7 @@ int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, UINT offset, CSi
 			VERIFY(submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])));
 		}
 
-		VERIFY(menu.AppendMenu(MF_POPUP, (UINT_PTR)submenu.Detach(), static_cast<LPCTSTR>(title_profiles)));
+		VERIFY(menu.AppendMenu(MF_POPUP, reinterpret_cast<UINT_PTR>(submenu.Detach()), static_cast<LPCTSTR>(title_profiles)));
 	}
 	return profiles.GetSize();
 }
@@ -3178,7 +3178,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	if (nColCount < 0)
 		DebugBreak();
 	CSimpleArray<CString> profiles;
-	InternalColumnProfileSwitcher(menu, (UINT)nColCount + 5, profiles);
+	InternalColumnProfileSwitcher(menu, static_cast<UINT>(nColCount + 5), profiles);
 
 	CString title_resetdefault;
 	if (HasColumnDefaultState(title_resetdefault))
@@ -3189,7 +3189,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
-	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, this, 0);
+	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 	switch (nResult)
 	{
 		case 0: break;
@@ -3349,7 +3349,7 @@ BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult
 LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 {
 	// Check that column is allowed to be resized
-	int nCol = (int)wParam;
+	int nCol = static_cast<int>(wParam);
 
 	if (!IsColumnResizable(nCol))
 		return FALSE;
@@ -3439,7 +3439,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 		m_SortCol = -1;
 		m_Ascending = false;
 
-		int* pOrderArray = new int[(UINT)nColCount];
+		int* pOrderArray = new int[static_cast<UINT>(nColCount)];
 		VERIFY(GetColumnOrderArray(pOrderArray, nColCount));
 
 		for (int i = 0; i < nColCount; ++i)
@@ -3479,7 +3479,7 @@ namespace {
 		TCHAR leftText[256] = _T(""), rightText[256] = _T("");
 
 		LVITEM leftItem = { 0 };
-		leftItem.iItem = (int)lParam1;
+		leftItem.iItem = static_cast<int>(lParam1);
 		leftItem.iSubItem = ps.m_ColumnIndex;
 		leftItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		leftItem.pszText = leftText;
@@ -3487,7 +3487,7 @@ namespace {
 		ListView_GetItem(ps.m_hWnd, &leftItem);
 
 		LVITEM rightItem = { 0 };
-		rightItem.iItem = (int)lParam2;
+		rightItem.iItem = static_cast<int>(lParam2);
 		rightItem.iSubItem = ps.m_ColumnIndex;
 		rightItem.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
 		rightItem.pszText = rightText;
@@ -3586,7 +3586,7 @@ void CGridListCtrlEx::OnCopyToClipboard()
 		return;
 
 	// Lock the handle to the memory object
-	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+	LPTSTR lptstrCopy = reinterpret_cast<LPTSTR>(GlobalLock(hglbCopy));
 	if (lptstrCopy == NULL)
 		return;
 
@@ -3809,7 +3809,7 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 		return FALSE;
 
 	// Lock the handle to the memory object
-	LPTSTR lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+	LPTSTR lptstrCopy = reinterpret_cast<LPTSTR>(GlobalLock(hglbCopy));
 	if (lptstrCopy == NULL)
 		return DROPEFFECT_NONE;
 
@@ -4299,7 +4299,7 @@ void CGridListCtrlEx::OnPaint()
 		m_InvalidateMarkupText = true;
 
 		// Show text string when list is empty
-		CPaintDC dc(this);
+		CPaintDC dc(static_cast<CWnd*>(this));
 
 		int nSavedDC = dc.SaveDC();
 

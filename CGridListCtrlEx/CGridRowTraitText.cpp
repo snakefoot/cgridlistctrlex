@@ -117,7 +117,7 @@ bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
 //------------------------------------------------------------------------
 void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	switch (pLVCD->nmcd.dwDrawStage)
 	{

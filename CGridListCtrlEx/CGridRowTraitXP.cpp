@@ -32,7 +32,7 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 //------------------------------------------------------------------------
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	int nRow = (int)pLVCD->nmcd.dwItemSpec;
+	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	// Repair the standard drawing
 	switch (pLVCD->nmcd.dwDrawStage)

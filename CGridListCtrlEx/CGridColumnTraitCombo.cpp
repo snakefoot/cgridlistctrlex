@@ -187,7 +187,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		// Expand to fit cell
 		int padding = rectCell.Height() - rectCombo.Height();
 		if (padding > 0)
-			m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1) + (UINT)padding);
+			m_pComboBox->SetItemHeight(-1, static_cast<UINT>(m_pComboBox->GetItemHeight(-1) + padding));
 	}
 	else
 	{
@@ -199,7 +199,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 			if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
 				padding -= ::GetSystemMetrics(SM_CXEDGE);
 			if (padding > 0)
-				m_pComboBox->SetItemHeight(-1, m_pComboBox->GetItemHeight(-1) - (UINT)padding);
+				m_pComboBox->SetItemHeight(-1, static_cast<UINT>(m_pComboBox->GetItemHeight(-1) - padding));
 		}
 	}
 	return m_pComboBox;
@@ -377,7 +377,7 @@ void CGridEditorComboBox::EndEdit(bool bSuccess)
 		dispinfo.item.mask = LVIF_TEXT | LVIF_PARAM;
 		dispinfo.item.pszText = str.GetBuffer(0);
 		dispinfo.item.cchTextMax = str.GetLength();
-		dispinfo.item.lParam = (LPARAM)GetItemData(GetCurSel());
+		dispinfo.item.lParam = static_cast<LPARAM>(GetItemData(GetCurSel()));
 	}
 	if (::GetFocus() == m_Edit.GetSafeHwnd())
 		GetParent()->SetFocus();	// Force close the internal CEdit control
@@ -485,7 +485,7 @@ void CGridEditorComboBox::OnDropDown()
 	for (int i = 0; i < nNumEntries; i++)
 	{
 		GetLBText(i, str);
-		UINT nLength = (UINT)pDC->GetTextExtent(str).cx;
+		UINT nLength = static_cast<UINT>(pDC->GetTextExtent(str).cx);
 		nMaxItemWidth = nMaxItemWidth > nLength ? nMaxItemWidth : nLength;	// max(nMaxItemWidth, nLength);
 		if (nMaxItemWidth > m_MaxWidthPixels)
 		{
@@ -508,7 +508,7 @@ void CGridEditorComboBox::OnDropDown()
 
 	SetDroppedWidth(nMaxItemWidth);
 	if (itemHeight >= 0)
-		SetItemHeight(-1, (UINT)itemHeight);
+		SetItemHeight(-1, static_cast<UINT>(itemHeight));
 }
 
 //------------------------------------------------------------------------
