@@ -264,7 +264,8 @@ void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfi
 	{
 		// Validate that column data is setup correctly
 		CSimpleMap<int, int> uniqueChecker;
-		for (int nCol = 0; nCol < GetColumnCount(); ++nCol)
+		int nColCount = GetColumnCount();
+		for (int nCol = 0; nCol < nColCount; ++nCol)
 		{
 			if (IsColumnAlwaysHidden(nCol))
 				continue;
@@ -866,9 +867,9 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 
 		// nCol specifies the position, if nCol is greater than count,
 		// then insert as last
-		if (nCol >= GetHeaderCtrl()->GetItemCount())
+		if (nCol >= GetColumnCount())
 		{
-			nCol = GetHeaderCtrl()->GetItemCount();
+			nCol = GetColumnCount();
 			InsertColumnTrait(nCol, pTrait);
 		}
 		else
@@ -900,7 +901,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 int CGridListCtrlEx::InsertHiddenLabelColumn()
 {
 	// Must be the label column
-	VERIFY(GetHeaderCtrl()->GetItemCount() == 0);
+	VERIFY(GetColumnCount() == 0);
 	VERIFY(m_ColumnTraits.GetSize() == 0);
 
 	CGridColumnTrait* pColumTrait = new CGridColumnTrait;
@@ -1305,7 +1306,8 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 	{
 		// Convert focus-cell to order index
 		int nOrderIndex = -1;
-		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		int nColCount = GetColumnCount();
+		for (int i = 0; i < nColCount; ++i)
 		{
 			int nCol = GetHeaderCtrl()->OrderToIndex(i);
 			if (nCol == GetFocusCell())
@@ -1322,7 +1324,7 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 			nOrderIndex--;
 
 		// Convert order-index to focus cell
-		if (nOrderIndex >= 0 && nOrderIndex < GetHeaderCtrl()->GetItemCount())
+		if (nOrderIndex >= 0 && nOrderIndex < nColCount)
 		{
 			int nCol = GetHeaderCtrl()->OrderToIndex(nOrderIndex);
 			if (IsColumnVisible(nCol))
@@ -1356,7 +1358,7 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 {
-	if (nCol < 0 || nCol >= GetHeaderCtrl()->GetItemCount())
+	if (nCol < 0 || nCol >= GetColumnCount())
 		return FALSE;
 
 	CRect rcHeader;
@@ -1404,7 +1406,7 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetFirstVisibleColumn()
 {
-	int nColCount = GetHeaderCtrl()->GetItemCount();
+	int nColCount = GetColumnCount();
 	for (int i = 0; i < nColCount; ++i)
 	{
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
@@ -1596,7 +1598,8 @@ BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool bIncludeHeader)
 {
 	if (nCol == -1)
 	{
-		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		int nColCount = GetColumnCount();
+		for (int i = 0; i < nColCount; ++i)
 		{
 			SetColumnWidthAuto(i, bIncludeHeader);
 		}
@@ -1680,7 +1683,8 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 	if (IsCommonControlsEnabled())
 	{
 #if (_WIN32_WINNT >= 0x501)
-		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		int nColCount = GetColumnCount();
+		for (int i = 0; i < nColCount; ++i)
 		{
 			HDITEM hditem = { 0 };
 			hditem.mask = HDI_FORMAT;
@@ -1696,7 +1700,8 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 	}
 	else
 	{
-		for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); ++i)
+		int nColCount = GetColumnCount();
+		for (int i = 0; i < nColCount; ++i)
 		{
 			HDITEM hditem = { 0 };
 			hditem.mask = HDI_BITMAP | HDI_FORMAT;
@@ -2052,7 +2057,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 	if (nRow< 0 || nRow >= GetItemCount())
 		return FALSE;	// requesting invalid item
 
-	if (nCol < 0 || nCol >= GetHeaderCtrl()->GetItemCount())
+	if (nCol < 0 || nCol >= GetColumnCount())
 		return FALSE;	// requesting invalid item
 
 	if (pNMW->item.mask & LVIF_IMAGE)
@@ -2085,6 +2090,25 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 bool CGridListCtrlEx::OnDisplayCellTooltip(const CPoint& point) const
 {
 	return true;
+}
+
+//------------------------------------------------------------------------
+//! Override this method to display a custom tooltip text when holding the
+//! mouse over a column header. Called constantly while the mouse is moving
+//! over the header-control.
+//!
+//! @param nCol The index of the column
+//! @param strResult The text value to display in the tooltip
+//! @return Is tooltip available for current column (true / false)
+//------------------------------------------------------------------------
+bool CGridListCtrlEx::OnDisplayColumnTooltip(int nCol, CString& strResult) const
+{
+	if (nCol >= 0)
+	{
+		strResult = GetColumnHeading(nCol);
+		return true;
+	}
+	return false;
 }
 
 //------------------------------------------------------------------------
@@ -2147,14 +2171,33 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 	CellHitTest(pt, nRow, nCol);
 
 	//Get the client (area occupied by this control
-	RECT rcClient;
+	CRect rcClient;
 	GetClientRect(&rcClient);
 
+	CRect headerRect;
+	GetHeaderCtrl()->GetClientRect(&headerRect);
+	
 	//Fill in the TOOLINFO structure
 	pTI->hwnd = m_hWnd;
-	pTI->uId = static_cast<UINT>(nRow * 1000 + nCol);
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
 	pTI->rect = rcClient;
+	if (headerRect.PtInRect(pt))
+	{
+		CString tooltip;
+		if (!OnDisplayColumnTooltip(nCol, tooltip) || tooltip.IsEmpty())
+			return -1;
+
+		pTI->rect = headerRect;
+		pTI->hwnd = GetHeaderCtrl()->m_hWnd;
+		pTI->lpszText = new TCHAR[tooltip.GetLength() + 1];
+#if __STDC_WANT_SECURE_LIB__
+		_tcscpy_s(pTI->lpszText, tooltip.GetLength() + 1, static_cast<LPCTSTR>(tooltip));
+#else
+		_tcsncpy(pTI->lpszText, static_cast<LPCTSTR>(tooltip), tooltip.GetLength() + 1);
+#endif
+		nRow = -2;
+	}
+	pTI->uId = static_cast<UINT>(nRow * 1000 + nCol);
 
 	return (int)pTI->uId; // Must return a unique value for each cell (Marks a new tooltip control)
 }
@@ -2966,7 +3009,7 @@ LRESULT CGridListCtrlEx::OnInsertColumn(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	// Book keeping of columns
-	if (GetColumnTraitSize() < GetHeaderCtrl()->GetItemCount())
+	if (GetColumnTraitSize() < GetColumnCount())
 	{
 		// Inserted column without providing column traits
 		InsertColumnTrait(static_cast<int>(lRet), new CGridColumnTraitText);
@@ -3083,7 +3126,8 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 {
-	for (int i = 0; i < GetColumnCount(); ++i)
+	int nColCount = GetColumnCount();
+	for (int i = 0; i < nColCount; ++i)
 	{
 		if (IsColumnAlwaysHidden(i))
 			continue;	// Cannot be shown
@@ -3680,7 +3724,7 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeade
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 {
-	int nColCount = GetHeaderCtrl()->GetItemCount();
+	int nColCount = GetColumnCount();
 
 	CString strCellText;
 	for (int i = 0; i < nColCount; ++i)
