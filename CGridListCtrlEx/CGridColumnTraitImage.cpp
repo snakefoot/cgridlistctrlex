@@ -5,7 +5,6 @@
 //------------------------------------------------------------------------
 
 #include "stdafx.h"
-#pragma warning(disable:4100)	// unreferenced formal parameter
 
 #include "CGridColumnTraitImage.h"
 
@@ -558,6 +557,8 @@ LRESULT CGridColumnTraitImage::SendEndLabelEdit(CWnd& wndListCtrl, int nRow, int
 //------------------------------------------------------------------------
 CWnd* CGridColumnTraitImage::OnEditBeginCheckbox(CGridListCtrlEx& owner, int nRow, int nCol)
 {
+	(nCol);	// Avoid unreferenced variable warning
+
 	// The click event for check-boxes doesn't change selection or focus
 	if (owner.IsRowSelected(nRow))
 	{

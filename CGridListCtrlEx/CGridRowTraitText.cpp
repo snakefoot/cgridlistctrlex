@@ -16,9 +16,7 @@
 //! CGridRowTraitText - Constructor
 //------------------------------------------------------------------------
 CGridRowTraitText::CGridRowTraitText()
-	: m_pOldFont(NULL)
-	, m_FontAllocated(false)
-	, m_TextColor((COLORREF)-1)
+	: m_TextColor((COLORREF)-1)
 	, m_BackColor((COLORREF)-1)
 	, m_AltTextColor((COLORREF)-1)
 	, m_AltBackColor((COLORREF)-1)
@@ -166,30 +164,6 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 			if (owner.OnDisplayRowColor(nRow, pLVCD->clrText, pLVCD->clrTextBk))
 				*pResult |= CDRF_NEWFONT;
 
-			LOGFONT newFont = { 0 };
-			if (owner.OnDisplayRowFont(nRow, newFont))
-			{
-				// New font provided
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-				CFont* pNewFont = new CFont;
-				VERIFY(pNewFont->CreateFontIndirect(&newFont));
-				m_pOldFont = pDC->SelectObject(pNewFont);
-				m_FontAllocated = true;
-				*pResult |= CDRF_NOTIFYPOSTPAINT;	// We need to restore the original font
-				*pResult |= CDRF_NEWFONT;
-			}
-			else
-			{
-				if (owner.GetFont() != owner.GetCellFont())
-				{
-					// Using special cell font because of SetMargin()
-					CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-					m_pOldFont = pDC->SelectObject(owner.GetCellFont());
-					*pResult |= CDRF_NOTIFYPOSTPAINT;	// We need to restore the original font
-					*pResult |= CDRF_NEWFONT;
-				}
-			}
-
 			if (pLVCD->nmcd.uItemState & CDIS_FOCUS)
 			{
 				if (owner.GetFocus() != &owner)
@@ -220,19 +194,6 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 		// After painting a row
 		case CDDS_ITEMPOSTPAINT:
 		{
-			if (m_pOldFont != NULL)
-			{
-				// Restore the original font
-				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
-				CFont* pNewFont = pDC->SelectObject(m_pOldFont);
-				if (m_FontAllocated)
-				{
-					m_FontAllocated = false;
-					delete pNewFont;
-				}
-				m_pOldFont = NULL;
-			}
-
 			if (CRect(pLVCD->nmcd.rc) == CRect(0, 0, 0, 0))
 				break;
 

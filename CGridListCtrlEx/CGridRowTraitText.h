@@ -34,8 +34,6 @@ public:
 	bool GetInvertCellSelection() const { return m_InvertCellSelection; }
 
 protected:
-	CFont*	m_pOldFont;		//!< Backup of the original font while drawing with specified font
-	bool	m_FontAllocated;//!< Specified font was allocated by the row trait
 	COLORREF m_TextColor;	//!< Text color to use for this row
 	COLORREF m_BackColor;	//!< Background color to use for this row
 

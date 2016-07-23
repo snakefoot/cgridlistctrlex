@@ -9,8 +9,6 @@
 
 #include <shlwapi.h>	// IsCommonControlsEnabled
 
-#pragma warning(disable:4100)	// unreferenced formal parameter
-
 #include "CGridColumnTrait.h"
 
 IMPLEMENT_DYNAMIC(CGridListCtrlGroups, CGridListCtrlEx)
@@ -651,6 +649,9 @@ BOOL CGridListCtrlGroups::ExpandAllGroups()
 //------------------------------------------------------------------------
 BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
+	(pDataObject);	// Avoid unreferenced variable warning
+	(dropEffect);	// Avoid unreferenced variable warning
+
 	// Internal drag (Move rows to other group)
 	int nRow, nCol;
 	CellHitTest(point, nRow, nCol);
@@ -902,6 +903,8 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGroupId)
 {
+	(pWnd);	// Avoid unreferenced variable warning
+
 	CMenu menu;
 	VERIFY(menu.CreatePopupMenu());
 
@@ -963,6 +966,8 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 //------------------------------------------------------------------------
 void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 {
+	(pWnd);	// Avoid unreferenced variable warning
+
 	if (IsGroupStateEnabled())
 	{
 		CMenu menu;
@@ -984,6 +989,8 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 
 void CGridListCtrlGroups::OnContextMenuCell(CWnd* pWnd, CPoint point, int nFocusRow, int nFocusCol)
 {
+	(pWnd);	// Avoid unreferenced variable warning
+
 	CString filterText = GetItemText(nFocusRow, nFocusCol);
 	filterText = filterText.Trim();
 	if (filterText.IsEmpty())
@@ -1036,6 +1043,9 @@ BOOL CGridListCtrlGroups::SetGroupFooter(int nGroupId, const CString& strFooter,
 
 	return TRUE;
 #else
+	(nGroupId);		// Avoid unreferenced variable warning
+	(strFooter);	// Avoid unreferenced variable warning
+	(dwAlign);		// Avoid unreferenced variable warning
 	return FALSE;
 #endif
 }
@@ -1070,6 +1080,8 @@ BOOL CGridListCtrlGroups::SetGroupTask(int nGroupId, const CString& strTask)
 
 	return TRUE;
 #else
+	(strTask);	// Avoid unreferenced variable warning
+	(nGroupId);	// Avoid unreferenced variable warning
 	return FALSE;
 #endif
 }
@@ -1104,6 +1116,8 @@ BOOL CGridListCtrlGroups::SetGroupSubtitle(int nGroupId, const CString& strSubti
 
 	return TRUE;
 #else
+	(nGroupId);		// Avoid unreferenced variable warning
+	(strSubtitle);	// Avoid unreferenced variable warning
 	return FALSE;
 #endif
 }
@@ -1168,6 +1182,10 @@ BOOL CGridListCtrlGroups::SetGroupTitleImage(int nGroupId, int nImage, const CSt
 
 	return TRUE;
 #else
+	(nGroupId);			// Avoid unreferenced variable warning
+	(nImage);			// Avoid unreferenced variable warning
+	(strTopDesc);		// Avoid unreferenced variable warning
+	(strBottomDesc);	// Avoid unreferenced variable warning
 	return FALSE;
 #endif
 }
@@ -1199,6 +1217,9 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 #endif
 #endif
 	*pResult = TRUE;
+#else
+	(pNMHDR);			// Avoid unreferenced variable warning
+	(pResult);			// Avoid unreferenced variable warning
 #endif
 
 	return TRUE;
@@ -1217,6 +1238,9 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
 	int nGroupId = pLinkInfo->iSubItem;
 	(nGroupId);	// Avoid unreferenced variable warning
+#else
+	(pNMHDR);			// Avoid unreferenced variable warning
+	(pResult);			// Avoid unreferenced variable warning
 #endif
 	return FALSE;
 }
@@ -1287,6 +1311,9 @@ BOOL CGridListCtrlGroups::OnHeaderEndDrag(UINT id, NMHDR* pNMHDR, LRESULT* pResu
 //------------------------------------------------------------------------
 bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& nGroupId)
 {
+	(nRow);			// Avoid unreferenced variable warning
+	(nCol);			// Avoid unreferenced variable warning
+	(nGroupId);		// Avoid unreferenced variable warning
 	return false;
 }
 

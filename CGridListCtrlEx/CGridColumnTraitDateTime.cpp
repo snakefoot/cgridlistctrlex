@@ -5,7 +5,6 @@
 //------------------------------------------------------------------------
 
 #include "stdafx.h"
-#pragma warning(disable:4100)	// unreferenced formal parameter
 
 #include "CGridColumnTraitDateTime.h"
 
@@ -283,6 +282,8 @@ void CGridEditorDateTimeCtrl::OnKillFocus(CWnd *pNewWnd)
 //------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::OnCloseUp(NMHDR *pNMHDR, LRESULT *pResult)
 {
+	(pNMHDR);	// Avoid unreferenced variable warning
+	(pResult);	// Avoid unreferenced variable warning
 	if (GetFocus() != this)
 		EndEdit(true);	// Force close if focus has been stolen
 }
@@ -320,6 +321,7 @@ void CGridEditorDateTimeCtrl::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 //------------------------------------------------------------------------
 void CGridEditorDateTimeCtrl::OnDateTimeChange(NMHDR *pNMHDR, LRESULT *pResult)
 {
+	(pNMHDR);	// Avoid unreferenced variable warning
 	m_Modified = true;
 	*pResult = 0;
 }

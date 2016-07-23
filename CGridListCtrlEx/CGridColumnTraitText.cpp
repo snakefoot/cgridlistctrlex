@@ -5,7 +5,6 @@
 //------------------------------------------------------------------------
 
 #include "stdafx.h"
-#pragma warning(disable:4100)	// unreferenced formal parameter
 
 #include "CGridColumnTraitText.h"
 
@@ -41,6 +40,8 @@ void CGridColumnTraitText::Accept(CGridColumnTraitVisitor& visitor)
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& textColor)
 {
+	(pLVCD);	// Avoid unreferenced variable warning
+
 	if (m_TextColor != COLORREF(-1))
 	{
 		textColor = m_TextColor;
@@ -58,6 +59,7 @@ bool CGridColumnTraitText::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& text
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateBackColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& backColor)
 {
+	(pLVCD);	// Avoid unreferenced variable warning
 	if (m_BackColor != COLORREF(-1))
 	{
 		backColor = m_BackColor;
@@ -75,6 +77,8 @@ bool CGridColumnTraitText::UpdateBackColor(NMLVCUSTOMDRAW* pLVCD, COLORREF& back
 //------------------------------------------------------------------------
 bool CGridColumnTraitText::UpdateTextFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& textFont)
 {
+	(pLVCD);	// Avoid unreferenced variable warning
+	(textFont);	// Avoid unreferenced variable warning
 	return false;
 }
 
@@ -110,9 +114,7 @@ void CGridColumnTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* 
 			ASSERT((*pResult & CDRF_NOTIFYPOSTPAINT) || (pLVCD->clrText == m_OldTextColor && pLVCD->clrTextBk == m_OldBackColor));
 
 			LOGFONT newFont = { 0 };
-			bool createFont = owner.OnDisplayCellFont(pLVCD, newFont);
-			createFont |= UpdateTextFont(pLVCD, newFont);
-			if (createFont)
+			if (owner.OnDisplayCellFont(pLVCD, newFont) || UpdateTextFont(pLVCD, newFont) || owner.OnDisplayRowFont(static_cast<int>(pLVCD->nmcd.dwItemSpec), newFont))
 			{
 				CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 				CFont* pNewFont = new CFont;
