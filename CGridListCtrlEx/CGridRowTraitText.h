@@ -30,8 +30,8 @@ public:
 	void SetRowColor(COLORREF textColor, COLORREF backColor);
 	void SetAltRowColor(COLORREF textColor, COLORREF backColor);
 
-	void SetInvertCellSelection(bool bValue) { m_InvertCellSelection = bValue; }
-	bool GetInvertCellSelection() const { return m_InvertCellSelection; }
+	void SetInvertCellSelection(bool bValue);
+	bool GetInvertCellSelection() const;
 
 protected:
 	COLORREF m_TextColor;	//!< Text color to use for this row

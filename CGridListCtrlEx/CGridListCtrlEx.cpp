@@ -2222,8 +2222,6 @@ BOOL CGridListCtrlEx::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	int nRow, nCol;
 	CellHitTest(pt, nRow, nCol);
 
-	// Make const-reference to the returned anonymous CString-object,
-	// will keep it alive until reaching scope end
 	CString tooltip;
 	if (!OnDisplayCellTooltip(nRow, nCol, tooltip) || tooltip.IsEmpty())
 		return FALSE;

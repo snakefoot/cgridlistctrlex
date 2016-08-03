@@ -48,6 +48,27 @@ void CGridRowTraitText::SetAltRowColor(COLORREF textColor, COLORREF backColor)
 }
 
 //------------------------------------------------------------------------
+//! Should focus-cell in a selected row have the selection-color removed
+//!
+//! @param bValue Enabled / Disabled
+//------------------------------------------------------------------------
+void CGridRowTraitText::SetInvertCellSelection(bool bValue)
+{
+	m_InvertCellSelection = bValue;
+}
+
+//------------------------------------------------------------------------
+//! Get whether focus-cell in a selected row should have the selection-color
+//! removed
+//!
+//! @return Enabled / Disabled
+//------------------------------------------------------------------------
+bool CGridRowTraitText::GetInvertCellSelection() const
+{
+	return m_InvertCellSelection;
+}
+
+//------------------------------------------------------------------------
 //! Accept Visitor Pattern
 //------------------------------------------------------------------------
 void CGridRowTraitText::Accept(CGridRowTraitVisitor& visitor)

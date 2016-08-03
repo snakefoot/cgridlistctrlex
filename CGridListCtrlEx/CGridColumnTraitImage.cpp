@@ -508,7 +508,7 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 				if (nNextOldImageIdx == nNewImageIdx)
 					continue;	// Already flipped
 
-								// Send Notification to parent of ListView ctrl
+				// Send Notification to parent of ListView ctrl
 				LV_DISPINFO nextDispinfo = { 0 };
 				nextDispinfo.item.mask = LVIF_IMAGE;
 				nextDispinfo.item.iImage = nNewImageIdx;

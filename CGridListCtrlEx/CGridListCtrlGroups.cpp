@@ -1285,6 +1285,7 @@ LRESULT CGridListCtrlGroups::OnRemoveAllGroups(WPARAM wParam, LPARAM lParam)
 //! HDN_ENDDRAG message handler called after a column have been dragged,
 //! but before the column order has been updated. Used to dirty cached col id
 //!
+//! @param id Not used
 //! @param pNMHDR Pointer to an NMHEADER structure with information about the column just resized
 //! @param pResult If the owner is performing external (manual) drag-and-drop management, it must be set to FALSE
 //! @return Is final message handler (Return FALSE to continue routing the message)
