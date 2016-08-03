@@ -26,6 +26,7 @@ var searchData=
   ['getheaderctrl',['GetHeaderCtrl',['../class_c_grid_list_ctrl_ex.html#af5676760c3f8e78d5fb510d34f566d7b',1,'CGridListCtrlEx']]],
   ['geticonclickbeginedit',['GetIconClickBeginEdit',['../class_c_grid_column_trait_image.html#ac0d8faee861f3680bea0822fdb38843b',1,'CGridColumnTraitImage']]],
   ['getintsetting',['GetIntSetting',['../class_c_view_config_section.html#a2b72fa91eba0051eaf631ef2bad7a77f',1,'CViewConfigSection']]],
+  ['getinvertcellselection',['GetInvertCellSelection',['../class_c_grid_row_trait_text.html#a6e65990fd030e90f6914130f6daf5b7f',1,'CGridRowTraitText']]],
   ['getlimittext',['GetLimitText',['../class_c_grid_column_trait_edit.html#acd9adb29a9ef02acc602a0f093102463',1,'CGridColumnTraitEdit']]],
   ['getlinkcolor',['GetLinkColor',['../class_c_grid_column_trait_hyper_link.html#a4104234ef613004cc9c668e4ef9e9e0a',1,'CGridColumnTraitHyperLink']]],
   ['getlinkcolorhot',['GetLinkColorHot',['../class_c_grid_column_trait_hyper_link.html#a639f69c76ce1008ea4d0940364cb2c29',1,'CGridColumnTraitHyperLink']]],

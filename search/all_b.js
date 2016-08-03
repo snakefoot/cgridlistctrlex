@@ -29,6 +29,7 @@ var searchData=
   ['ondisplaycellitem',['OnDisplayCellItem',['../class_c_grid_list_ctrl_ex.html#a18a57316e490a8a32be18f6e5a6e42a3',1,'CGridListCtrlEx']]],
   ['ondisplaycelltext',['OnDisplayCellText',['../class_c_grid_list_ctrl_ex.html#a8c3c73cda2eb9543c9249d7c92c10104',1,'CGridListCtrlEx']]],
   ['ondisplaycelltooltip',['OnDisplayCellTooltip',['../class_c_grid_list_ctrl_ex.html#a5ae0f01158ff0cb9880dbdc160e6605d',1,'CGridListCtrlEx::OnDisplayCellTooltip(const CPoint &amp;point) const '],['../class_c_grid_list_ctrl_ex.html#a665fa20b96c262ea092fec7b8c12993f',1,'CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString &amp;strResult)']]],
+  ['ondisplaycolumntooltip',['OnDisplayColumnTooltip',['../class_c_grid_list_ctrl_ex.html#aa1ce725e00b1861307c64638af7b331a',1,'CGridListCtrlEx']]],
   ['ondisplaydragoverrow',['OnDisplayDragOverRow',['../class_c_grid_list_ctrl_ex.html#a61188bc28c09714dc1f032bf31497c36',1,'CGridListCtrlEx']]],
   ['ondisplayrowcolor',['OnDisplayRowColor',['../class_c_grid_list_ctrl_ex.html#acce1c73d347cd9726e5df4e0abf6474b',1,'CGridListCtrlEx']]],
   ['ondisplayrowfont',['OnDisplayRowFont',['../class_c_grid_list_ctrl_ex.html#aabebd6790025d9915a79966d1fa2463a',1,'CGridListCtrlEx']]],

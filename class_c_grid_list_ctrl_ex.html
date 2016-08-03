@@ -304,6 +304,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a5ae0f01158ff0cb9880dbdc160e6605d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5ae0f01158ff0cb9880dbdc160e6605d">OnDisplayCellTooltip</a> (const CPoint &amp;point) const </td></tr>
 <tr class="memdesc:a5ae0f01158ff0cb9880dbdc160e6605d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method if wanting to specify whether a tooltip is available.  <a href="#a5ae0f01158ff0cb9880dbdc160e6605d">More...</a><br /></td></tr>
 <tr class="separator:a5ae0f01158ff0cb9880dbdc160e6605d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1ce725e00b1861307c64638af7b331a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa1ce725e00b1861307c64638af7b331a">OnDisplayColumnTooltip</a> (int nCol, CString &amp;strResult) const </td></tr>
+<tr class="memdesc:aa1ce725e00b1861307c64638af7b331a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a column header.  <a href="#aa1ce725e00b1861307c64638af7b331a">More...</a><br /></td></tr>
+<tr class="separator:aa1ce725e00b1861307c64638af7b331a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a665fa20b96c262ea092fec7b8c12993f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a665fa20b96c262ea092fec7b8c12993f">OnDisplayCellTooltip</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 <tr class="memdesc:a665fa20b96c262ea092fec7b8c12993f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a cell.  <a href="#a665fa20b96c262ea092fec7b8c12993f">More...</a><br /></td></tr>
 <tr class="separator:a665fa20b96c262ea092fec7b8c12993f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3290,6 +3293,51 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>COleDropSourceWnd&lt
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Is tooltip available for current cell (true / false) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa1ce725e00b1861307c64638af7b331a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CGridListCtrlEx::OnDisplayColumnTooltip </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CString &amp;&#160;</td>
+          <td class="paramname"><em>strResult</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Override this method to display a custom tooltip text when holding the mouse over a column header. </p>
+<p>Called constantly while the mouse is moving over the header-control.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nCol</td><td>The index of the column </td></tr>
+    <tr><td class="paramname">strResult</td><td>The text value to display in the tooltip </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Is tooltip available for current column (true / false) </dd></dl>
 
 </div>
 </div>

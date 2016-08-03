@@ -378,6 +378,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a5ae0f01158ff0cb9880dbdc160e6605d inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a5ae0f01158ff0cb9880dbdc160e6605d">OnDisplayCellTooltip</a> (const CPoint &amp;point) const </td></tr>
 <tr class="memdesc:a5ae0f01158ff0cb9880dbdc160e6605d inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method if wanting to specify whether a tooltip is available.  <a href="#a5ae0f01158ff0cb9880dbdc160e6605d">More...</a><br /></td></tr>
 <tr class="separator:a5ae0f01158ff0cb9880dbdc160e6605d inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1ce725e00b1861307c64638af7b331a inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#aa1ce725e00b1861307c64638af7b331a">OnDisplayColumnTooltip</a> (int nCol, CString &amp;strResult) const </td></tr>
+<tr class="memdesc:aa1ce725e00b1861307c64638af7b331a inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a column header.  <a href="#aa1ce725e00b1861307c64638af7b331a">More...</a><br /></td></tr>
+<tr class="separator:aa1ce725e00b1861307c64638af7b331a inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a665fa20b96c262ea092fec7b8c12993f inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_grid_list_ctrl_ex.html#a665fa20b96c262ea092fec7b8c12993f">OnDisplayCellTooltip</a> (int nRow, int nCol, CString &amp;strResult)</td></tr>
 <tr class="memdesc:a665fa20b96c262ea092fec7b8c12993f inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override this method to display a custom tooltip text when holding the mouse over a cell.  <a href="#a665fa20b96c262ea092fec7b8c12993f">More...</a><br /></td></tr>
 <tr class="separator:a665fa20b96c262ea092fec7b8c12993f inherit pub_methods_class_c_grid_list_ctrl_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1842,6 +1845,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Used to dirty cached col id</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">id</td><td>Not used </td></tr>
     <tr><td class="paramname">pNMHDR</td><td>Pointer to an NMHEADER structure with information about the column just resized </td></tr>
     <tr><td class="paramname">pResult</td><td>If the owner is performing external (manual) drag-and-drop management, it must be set to FALSE </td></tr>
   </table>
