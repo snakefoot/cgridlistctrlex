@@ -18,7 +18,7 @@
 #endif
 
 //------------------------------------------------------------------------
-//! CGridColumnTraitHyperLink that can launch a link using the web-browser
+//! CGridColumnTraitHyperLink that can launch a link using the web-browser (can mimic button click)
 //------------------------------------------------------------------------
 class CGRIDLISTCTRLEX_AFX_EXT_CLASS CGridColumnTraitHyperLink : public CGridColumnTraitImage
 {
