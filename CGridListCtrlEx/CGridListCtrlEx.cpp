@@ -2155,7 +2155,7 @@ bool CGridListCtrlEx::OnDisplayCellTooltip(int nRow, int nCol, CString& strResul
 //! @param pTI A pointer to a TOOLINFO structure
 //! @return Window control ID of the tooltip control (-1 if no tooltip control was found)
 //------------------------------------------------------------------------
-#if defined(_WIN64)
+#if defined(_WIN64) || _MSC_VER > 1200
 INT_PTR CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 #else
 int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
@@ -2380,7 +2380,11 @@ CWnd* CGridListCtrlEx::EditCell(int nRow, int nCol, CPoint pt)
 	// Send Notification to parent of ListView ctrl
 	LV_DISPINFO dispinfo = { 0 };
 	dispinfo.hdr.hwndFrom = m_hWnd;
+#if defined(_WIN64) || _MSC_VER > 1200
 	dispinfo.hdr.idFrom = static_cast<UINT_PTR>(GetDlgCtrlID());
+#else
+	dispinfo.hdr.idFrom = static_cast<UINT>(GetDlgCtrlID());
+#endif
 	dispinfo.hdr.code = LVN_BEGINLABELEDIT;
 
 	dispinfo.item.mask = LVIF_PARAM;
@@ -3143,7 +3147,11 @@ int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 
 		// Retrieve column-title
 		const CString& columnTitle = GetColumnHeading(i);
+#if defined(_WIN64) || _MSC_VER > 1200
 		VERIFY(menu.AppendMenu(uFlags, static_cast<UINT_PTR>(offset + i), static_cast<LPCTSTR>(columnTitle)));
+#else
+		VERIFY(menu.AppendMenu(uFlags, static_cast<UINT>(offset + i), static_cast<LPCTSTR>(columnTitle)));
+#endif
 	}
 
 	return GetColumnTraitSize();
@@ -3178,7 +3186,11 @@ int CGridListCtrlEx::InternalColumnProfileSwitcher(CMenu& menu, UINT offset, CSi
 			VERIFY(submenu.AppendMenu(uFlags, offset + i, static_cast<LPCTSTR>(profiles[i])));
 		}
 
+#if defined(_WIN64) || _MSC_VER > 1200
 		VERIFY(menu.AppendMenu(MF_POPUP, reinterpret_cast<UINT_PTR>(submenu.Detach()), static_cast<LPCTSTR>(title_profiles)));
+#else
+		VERIFY(menu.AppendMenu(MF_POPUP, reinterpret_cast<UINT>(submenu.Detach()), static_cast<LPCTSTR>(title_profiles)));
+#endif
 	}
 	return profiles.GetSize();
 }

@@ -219,7 +219,11 @@ void CGridColumnTraitCombo::OnEditEnd()
 //! @param nItemData Unique identifier of the item
 //! @param strItemText Text identifier of the item
 //------------------------------------------------------------------------
+#if defined(_WIN64) || _MSC_VER > 1200
 void CGridColumnTraitCombo::AddItem(DWORD_PTR nItemData, const CString& strItemText)
+#else
+void CGridColumnTraitCombo::AddItem(DWORD nItemData, const CString& strItemText)
+#endif
 {
 	m_ComboList.Add(nItemData, strItemText);
 }
@@ -238,7 +242,11 @@ void CGridColumnTraitCombo::ClearFixedItems()
 //! @param comboList List of CComboBox items
 //! @param nCurSel Index in the list to choose as currently selected (-1 = No selection)
 //------------------------------------------------------------------------
+#if defined(_WIN64) || _MSC_VER > 1200
 void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD_PTR, CString>& comboList, int nCurSel)
+#else
+void CGridColumnTraitCombo::LoadList(const CSimpleMap<DWORD, CString>& comboList, int nCurSel)
+#endif
 {
 	VERIFY(m_pComboBox != NULL);
 	if (m_pComboBox == NULL)

@@ -57,7 +57,11 @@ BOOL CGridListCtrlExApp::InitInstance()
 
 	CGridListCtrlExDlg dlg;
 	m_pMainWnd = &dlg;
+#if defined(_WIN64) || _MSC_VER > 1200
 	INT_PTR nResponse = dlg.DoModal();
+#else
+	INT nResponse = dlg.DoModal();
+#endif
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is

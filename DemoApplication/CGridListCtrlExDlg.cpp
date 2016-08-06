@@ -136,7 +136,11 @@ BOOL CGridListCtrlExDlg::OnInitDialog()
 			CGridColumnTraitCombo* pComboTrait = new CGridColumnTraitCombo;
 			const vector<CString>& countries = m_DataModel.GetCountries();
 			for(size_t i=0; i < countries.size() ; ++i)
+#if defined(_WIN64) || _MSC_VER > 1200
 				pComboTrait->AddItem((DWORD_PTR)i, countries[i]);
+#else
+				pComboTrait->AddItem((DWORD)i, countries[i]);
+#endif
 			pTrait = pComboTrait;
 		}
 		if (col==1)	// City

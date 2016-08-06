@@ -538,7 +538,11 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 LRESULT CGridColumnTraitImage::SendEndLabelEdit(CWnd& wndListCtrl, int nRow, int nCol, LV_DISPINFO& lvDispInfo)
 {
 	lvDispInfo.hdr.hwndFrom = wndListCtrl.m_hWnd;
+#if defined(_WIN64) || _MSC_VER > 1200
 	lvDispInfo.hdr.idFrom = static_cast<UINT_PTR>(wndListCtrl.GetDlgCtrlID());
+#else
+	lvDispInfo.hdr.idFrom = static_cast<UINT>(wndListCtrl.GetDlgCtrlID());
+#endif
 	lvDispInfo.hdr.code = LVN_ENDLABELEDIT;
 
 	lvDispInfo.item.iItem = nRow;

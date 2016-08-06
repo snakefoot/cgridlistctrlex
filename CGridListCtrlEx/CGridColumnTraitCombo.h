@@ -13,7 +13,11 @@
 #define CGRIDLISTCTRLEX_AFX_EXT_CLASS AFX_EXT_CLASS
 #undef AFX_DATA
 #define AFX_DATA AFX_EXT_DATA
+#if defined(_WIN64) || _MSC_VER > 1200
 template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<DWORD_PTR, CString>;
+#else
+template class CGRIDLISTCTRLEX_AFX_EXT_CLASS CSimpleMap<DWORD, CString>;
+#endif
 class CGRIDLISTCTRLEX_AFX_EXT_CLASS CEdit;
 class CGRIDLISTCTRLEX_AFX_EXT_CLASS CComboBox;
 #else
@@ -40,8 +44,18 @@ public:
 	void SetShowDropDown(BOOL bShowIt);
 	BOOL GetShowDropDown() const;
 
+#if defined(_WIN64) || _MSC_VER > 1200
 	void LoadList(const CSimpleMap<DWORD_PTR, CString>& comboList, int nCurSel);
+#else
+	void LoadList(const CSimpleMap<DWORD, CString>& comboList, int nCurSel);
+#endif
+
+#if defined(_WIN64) || _MSC_VER > 1200
 	void AddItem(DWORD_PTR nItemData, const CString& strItemText);
+#else
+	void AddItem(DWORD nItemData, const CString& strItemText);
+#endif
+
 	void ClearFixedItems();
 
 	virtual CWnd* OnEditBegin(CGridListCtrlEx& owner, int nRow, int nCol);
@@ -52,7 +66,11 @@ protected:
 	virtual void Accept(CGridColumnTraitVisitor& visitor);
 	virtual CComboBox* CreateComboBox(CGridListCtrlEx& owner, int nRow, int nCol, DWORD dwStyle, const CRect& rect);
 
+#if defined(_WIN64) || _MSC_VER > 1200
 	CSimpleMap<DWORD_PTR, CString> m_ComboList;	//!< Fixed list of items in the combo-box
+#else
+	CSimpleMap<DWORD, CString> m_ComboList;	//!< Fixed list of items in the combo-box
+#endif
 	CComboBox* m_pComboBox;					//!< CComboBox currently open
 	DWORD m_ComboBoxStyle;					//!< Style to use when creating CComboBox
 	UINT m_MaxItems;						//!< Max height (in items) of the CComboBox when doing dropdown
