@@ -808,8 +808,8 @@ void CGridListCtrlEx::OnCreateStyle()
 	EnableToolTips(TRUE);
 
 	// Disable the builtin tooltip (if available)
-	CToolTipCtrl* pToolTipCtrl = static_cast<CToolTipCtrl*>(CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L)));
-	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
+	CToolTipCtrl* pToolTipCtrl = GetToolTipCtrl();
+	if (pToolTipCtrl != NULL)
 		pToolTipCtrl->Activate(FALSE);
 
 	RegisterDropTarget();
@@ -839,6 +839,24 @@ void CGridListCtrlEx::PreSubclassWindow()
 	// Changes made to style will not having any effect when placed in a CView
 	CListCtrl::PreSubclassWindow();
 	OnCreateStyle();
+}
+
+//------------------------------------------------------------------------
+//! Retrieves the tooltip control of a list control.
+//!
+//! @return A pointer to the tooltip control, used by the list control.
+//------------------------------------------------------------------------
+CToolTipCtrl* CGridListCtrlEx::GetToolTipCtrl()
+{
+	HWND hWndToolTip = reinterpret_cast<HWND>(SNDMSG(m_hWnd, LVM_GETTOOLTIPS, 0, 0L));
+	if (hWndToolTip != NULL)
+	{
+		CToolTipCtrl* pToolTipCtrl = static_cast<CToolTipCtrl*>(CWnd::FromHandle(hWndToolTip));
+		if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
+			return pToolTipCtrl;
+	}
+
+	return NULL;
 }
 
 
@@ -918,11 +936,11 @@ const CHeaderCtrl* CGridListCtrlEx::GetHeaderCtrl() const
 {
 	ASSERT(::IsWindow(m_hWnd));
 
-	HWND hWnd = reinterpret_cast<HWND>(::SendMessage(m_hWnd, LVM_GETHEADER, 0, 0));
+	HWND hWnd = reinterpret_cast<HWND>(SNDMSG(m_hWnd, LVM_GETHEADER, 0, 0));
 	if (hWnd == NULL)
 		return NULL;
 	else
-		return (const CHeaderCtrl*)CHeaderCtrl::FromHandle(hWnd);
+		return static_cast<const CHeaderCtrl*>(CHeaderCtrl::FromHandle(hWnd));
 }
 
 //------------------------------------------------------------------------
@@ -975,8 +993,9 @@ void CGridListCtrlEx::SetCellMargin(double margin)
 	CHeaderCtrl* pHeaderCtrl = GetHeaderCtrl();
 	if (pHeaderCtrl != NULL)
 		pHeaderCtrl->SetFont(&m_GridFont);
-	CToolTipCtrl* pToolTipCtrl = static_cast<CToolTipCtrl*>(CWnd::FromHandle((HWND)::SendMessage(m_hWnd, LVM_GETTOOLTIPS, 0, 0L)));
-	if (pToolTipCtrl != NULL && pToolTipCtrl->m_hWnd != NULL)
+	
+	CToolTipCtrl* pToolTipCtrl = GetToolTipCtrl();
+	if (pToolTipCtrl != NULL)
 		pToolTipCtrl->SetFont(&m_CellFont);
 }
 
@@ -2199,7 +2218,7 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 	}
 	pTI->uId = static_cast<UINT>(nRow * 1000 + nCol);
 
-	return (int)pTI->uId; // Must return a unique value for each cell (Marks a new tooltip control)
+	return static_cast<int>(pTI->uId); // Must return a unique value for each cell (Marks a new tooltip control)
 }
 
 //------------------------------------------------------------------------
@@ -3050,7 +3069,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 			HDHITTESTINFO hdhti = { 0 };
 			hdhti.pt = pt;
 			hdhti.pt.x += GetScrollPos(SB_HORZ);
-			::SendMessage(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, reinterpret_cast<LPARAM>(&hdhti));
+			SNDMSG(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, reinterpret_cast<LPARAM>(&hdhti));
 			OnContextMenuHeader(pWnd, point, hdhti.iItem);
 		}
 		else
@@ -4075,7 +4094,7 @@ namespace {
 
 		// If both selected then no change in positioning
 		if (selected1 && selected2)
-			return (int)(lParam1 - lParam2);
+			return static_cast<int>(lParam1 - lParam2);
 		else
 			if (selected1)
 			{
@@ -4115,7 +4134,7 @@ namespace {
 							return -1;
 				}
 		// If none selected then no change in positioning
-		return (int)(lParam1 - lParam2);
+		return static_cast<int>(lParam1 - lParam2);
 	}
 }
 

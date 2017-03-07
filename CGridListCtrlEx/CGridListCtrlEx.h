@@ -131,6 +131,7 @@ public:
 	void SetTooltipMaxWidth(int width) { m_TooltipMaxWidth = width; }
 	int GetTooltipMaxWidth() const { return m_TooltipMaxWidth; }
 	static bool CheckOSVersion(WORD requestOS);
+	CToolTipCtrl* GetToolTipCtrl();
 
 	// Row
 	int GetFocusRow() const;

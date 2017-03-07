@@ -91,7 +91,7 @@ CEdit* CGridColumnTraitMultilineEdit::CreateEdit(CGridListCtrlEx& owner, int nRo
 		int nLineCount = CharacterCount(cellText, _T("\n"));
 		if (nLineCount > 0)
 		{
-			if ((UINT)nLineCount > m_EditMaxLines - 1)
+			if (static_cast<UINT>(nLineCount) > m_EditMaxLines - 1)
 				nLineCount = m_EditMaxLines - 1;
 			limitRect.bottom += nLineHeight*nLineCount;
 		}
@@ -141,7 +141,7 @@ void CGridMultilineEditorText::OnEnChange()
 		int nLineCount = CharacterCount(cellText, _T("\n"));
 		if (nLineCount > 0)
 		{
-			if ((UINT)nLineCount > m_MaxLines - 1)
+			if (static_cast<UINT>(nLineCount) > m_MaxLines - 1)
 				nLineCount = m_MaxLines - 1;
 		}
 

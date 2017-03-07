@@ -469,7 +469,7 @@ void CGridEditorComboBox::OnDropDown()
 		DebugBreak();
 
 	// Resize combobox according to actual element count
-	UINT visibleItemCount = m_MaxHeightItems < (UINT)nNumEntries ? m_MaxHeightItems : nNumEntries; // min(m_MaxHeightItems, nNumEntries);
+	UINT visibleItemCount = m_MaxHeightItems < static_cast<UINT>(nNumEntries) ? m_MaxHeightItems : nNumEntries; // min(m_MaxHeightItems, nNumEntries);
 	CRect rectExpanded;
 	GetClientRect(rectExpanded);
 	rectExpanded.bottom += visibleItemCount * GetItemHeight(0);

@@ -85,7 +85,7 @@ LRESULT CGridListCtrlGroups::InsertGroupHeader(int nIndex, int nGroupId, const C
 		}
 	}
 #endif
-	return InsertGroup(nIndex, (PLVGROUP)&lg);
+	return InsertGroup(nIndex, &lg);
 }
 
 //------------------------------------------------------------------------
@@ -258,7 +258,7 @@ BOOL CGridListCtrlGroups::HasGroupState(int nGroupId, DWORD dwState)
 	lg.cbSize = sizeof(lg);
 	lg.mask = LVGF_STATE;
 	lg.stateMask = dwState;
-	if (GetGroupInfo(nGroupId, (PLVGROUP)&lg) == -1)
+	if (GetGroupInfo(nGroupId, &lg) == -1)
 		return FALSE;
 
 	return lg.state == dwState;
@@ -289,7 +289,7 @@ BOOL CGridListCtrlGroups::SetGroupState(int nGroupId, DWORD dwState)
 		lg.state |= LVGS_COLLAPSIBLE;
 #endif
 
-	if (SetGroupInfo(nGroupId, (PLVGROUP)&lg) == -1)
+	if (SetGroupInfo(nGroupId, &lg) == -1)
 		return FALSE;
 
 	return TRUE;
@@ -330,7 +330,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 			lg.mask = LVGF_GROUPID;
 
 			CRect rect(0, LVGGR_HEADER, 0, 0);
-			VERIFY(SNDMSG((m_hWnd), LVM_GETGROUPRECT, static_cast<WPARAM>(groupIds[i]), reinterpret_cast<LPARAM>(&rect)));
+			VERIFY(SNDMSG(m_hWnd, LVM_GETGROUPRECT, static_cast<WPARAM>(groupIds[i]), reinterpret_cast<LPARAM>(&rect)));
 
 			if (rect.PtInRect(point))
 				return groupIds[i];
@@ -426,7 +426,7 @@ BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
 #ifndef LVM_GETGROUPCOUNT
 #define LVM_GETGROUPCOUNT         (LVM_FIRST + 152)
 #endif
-		LRESULT groupCount = SNDMSG((m_hWnd), LVM_GETGROUPCOUNT, (WPARAM)0, (LPARAM)0);
+		LRESULT groupCount = SNDMSG(m_hWnd, LVM_GETGROUPCOUNT, static_cast<WPARAM>(0), static_cast<LPARAM>(0));
 		if (groupCount <= 0)
 			return FALSE;
 		for (int i = 0; i < groupCount; ++i)
@@ -435,7 +435,7 @@ BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
 			lg.cbSize = sizeof(lg);
 			lg.mask = LVGF_GROUPID;
 
-			VERIFY(SNDMSG((m_hWnd), LVM_GETGROUPINFOBYINDEX, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(&lg)));
+			VERIFY(SNDMSG(m_hWnd, LVM_GETGROUPINFOBYINDEX, static_cast<WPARAM>(i), reinterpret_cast<LPARAM>(&lg)));
 			groupIds.Add(lg.iGroupId);
 		}
 		return TRUE;
@@ -777,7 +777,7 @@ namespace {
 			{
 				DLLVERSIONINFO dvi = { 0 };
 				dvi.cbSize = sizeof(dvi);
-				HRESULT hRes = pDllGetVersion((DLLVERSIONINFO *)&dvi);
+				HRESULT hRes = pDllGetVersion(&dvi);
 				if (SUCCEEDED(hRes))
 					commoncontrols = dvi.dwMajorVersion >= 6;
 			}
@@ -1672,7 +1672,7 @@ AFX_INLINE LRESULT CGridListCtrlGroups::EnableGroupView(BOOL fEnable)
 AFX_INLINE BOOL CGridListCtrlGroups::SortGroups(PFNLVGROUPCOMPARE _pfnGroupCompare, LPVOID _plv)
 {
 	ASSERT(::IsWindow(m_hWnd));
-	return (BOOL)::SendMessage(m_hWnd, LVM_SORTGROUPS, (WPARAM)(LPARAM)_plv, (LPARAM)_pfnGroupCompare);
+	return (BOOL)SNDMSG(m_hWnd, LVM_SORTGROUPS, (WPARAM)(LPARAM)_plv, (LPARAM)_pfnGroupCompare);
 }
 AFX_INLINE LRESULT CGridListCtrlGroups::InsertGroupSorted(PLVINSERTGROUPSORTED pStructInsert)
 {
