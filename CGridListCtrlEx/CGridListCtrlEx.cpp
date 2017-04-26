@@ -662,7 +662,7 @@ namespace {
 			{
 				DLLVERSIONINFO dvi = { 0 };
 				dvi.cbSize = sizeof(dvi);
-				HRESULT hRes = pDllGetVersion((DLLVERSIONINFO *)&dvi);
+				HRESULT hRes = pDllGetVersion(&dvi);
 				if (SUCCEEDED(hRes))
 					commoncontrols = dvi.dwMajorVersion >= 6;
 			}
