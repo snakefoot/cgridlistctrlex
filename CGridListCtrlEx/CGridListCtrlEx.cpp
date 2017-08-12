@@ -264,7 +264,7 @@ void CGridListCtrlEx::SetupColumnConfig(CViewConfigSectionProfiles* pColumnConfi
 	{
 		// Validate that column data is setup correctly
 		CSimpleMap<int, int> uniqueChecker;
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		for (int nCol = 0; nCol < nColCount; ++nCol)
 		{
 			if (IsColumnAlwaysHidden(nCol))
@@ -308,7 +308,7 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 	{
 		CString colSetting;
 		colSetting.Format(_T("ColumnData_%d"), i);
-		int nColData = config.GetIntSetting(colSetting);
+		const int nColData = config.GetIntSetting(colSetting);
 		for (int nCol = 0; nCol < nColCount; ++nCol)
 		{
 			// Check if already in array
@@ -823,7 +823,7 @@ void CGridListCtrlEx::OnCreateStyle()
 int CGridListCtrlEx::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	// Will not be called when placed inside a CDialog
-	int rc = CListCtrl::OnCreate(lpCreateStruct);
+	const int rc = CListCtrl::OnCreate(lpCreateStruct);
 	if (rc == 0)
 		OnCreateStyle();
 
@@ -896,7 +896,7 @@ int CGridListCtrlEx::InsertColumnTrait(int nCol, const CString& strColumnHeading
 		}
 	}
 
-	int index = InsertColumn(nCol, static_cast<LPCTSTR>(strColumnHeading), nFormat, nWidth, nSubItem);
+	const int index = InsertColumn(nCol, static_cast<LPCTSTR>(strColumnHeading), nFormat, nWidth, nSubItem);
 	if (index != -1)
 	{
 		VERIFY(index == nCol);
@@ -1154,7 +1154,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 		if (nCol > 0 && !(GetExtendedStyle() & LVS_EX_SUBITEMIMAGES))
 			return FALSE;	// no image in subitem
 
-		int nImage = GetCellImage(nRow, nCol);
+		const int nImage = GetCellImage(nRow, nCol);
 		if (nImage == I_IMAGECALLBACK)
 			return FALSE;	// no image
 
@@ -1171,7 +1171,7 @@ BOOL CGridListCtrlEx::GetCellRect(int nRow, int nCol, int nCode, CRect& rect)
 			if (GetImageList(LVSIL_SMALL) == NULL)
 				return TRUE;	// no image in subitem
 
-			int nImage = GetCellImage(nRow, nCol);
+			const int nImage = GetCellImage(nRow, nCol);
 			if (nImage == I_IMAGECALLBACK)
 				return TRUE;	// No image in subitem
 
@@ -1288,7 +1288,7 @@ void CGridListCtrlEx::SetFocusCell(int nCol, bool bRedraw)
 	m_FocusCell = nCol;
 	if (bRedraw)
 	{
-		int nFocusRow = GetFocusRow();
+		const int nFocusRow = GetFocusRow();
 		if (nFocusRow >= 0)
 		{
 			CRect itemRect;
@@ -1325,10 +1325,10 @@ void CGridListCtrlEx::MoveFocusCell(bool bMoveRight)
 	{
 		// Convert focus-cell to order index
 		int nOrderIndex = -1;
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		for (int i = 0; i < nColCount; ++i)
 		{
-			int nCol = GetHeaderCtrl()->OrderToIndex(i);
+			const int nCol = GetHeaderCtrl()->OrderToIndex(i);
 			if (nCol == GetFocusCell())
 			{
 				nOrderIndex = i;
@@ -1387,7 +1387,7 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 	CRect rcClient;
 	GetClientRect(&rcClient);
 
-	int nOffset = GetScrollPos(SB_HORZ);
+	const int nOffset = GetScrollPos(SB_HORZ);
 
 	if (bPartialOK)
 	{
@@ -1425,7 +1425,7 @@ BOOL CGridListCtrlEx::EnsureColumnVisible(int nCol, bool bPartialOK)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::GetFirstVisibleColumn()
 {
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	for (int i = 0; i < nColCount; ++i)
 	{
 		int nCol = GetHeaderCtrl()->OrderToIndex(i);
@@ -1593,7 +1593,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	else
 	{
 		// Backup the column width
-		int orgWidth = GetColumnWidth(nCol);
+		const int orgWidth = GetColumnWidth(nCol);
 		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_Visible = false;
 		columnState.m_OrgWidth = orgWidth;
@@ -1617,7 +1617,7 @@ BOOL CGridListCtrlEx::SetColumnWidthAuto(int nCol, bool bIncludeHeader)
 {
 	if (nCol == -1)
 	{
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		for (int i = 0; i < nColCount; ++i)
 		{
 			SetColumnWidthAuto(i, bIncludeHeader);
@@ -1702,7 +1702,7 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 	if (IsCommonControlsEnabled())
 	{
 #if (_WIN32_WINNT >= 0x501)
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		for (int i = 0; i < nColCount; ++i)
 		{
 			HDITEM hditem = { 0 };
@@ -1719,7 +1719,7 @@ void CGridListCtrlEx::SetSortArrow(int nCol, bool bAscending)
 	}
 	else
 	{
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		for (int i = 0; i < nColCount; ++i)
 		{
 			HDITEM hditem = { 0 };
@@ -2070,8 +2070,8 @@ bool CGridListCtrlEx::OnDisplayCellImage(int nRow, int nCol, int& nImageId)
 BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVDISPINFO* pNMW = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-	int nRow = pNMW->item.iItem;
-	int nCol = pNMW->item.iSubItem;
+	const int nRow = pNMW->item.iItem;
+	const int nCol = pNMW->item.iSubItem;
 
 	if (nRow< 0 || nRow >= GetItemCount())
 		return FALSE;	// requesting invalid item
@@ -2088,7 +2088,7 @@ BOOL CGridListCtrlEx::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 			{
 				pNMW->item.mask |= LVIF_STATE;
 				pNMW->item.stateMask = LVIS_STATEIMAGEMASK;
-				bool bChecked = OnOwnerDataDisplayCheckbox(nRow);
+				const bool bChecked = OnOwnerDataDisplayCheckbox(nRow);
 				pNMW->item.state = static_cast<UINT>(bChecked ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1));
 			}
 		}
@@ -2199,14 +2199,14 @@ int CGridListCtrlEx::OnToolHitTest(CPoint point, TOOLINFO * pTI) const
 	//Fill in the TOOLINFO structure
 	pTI->hwnd = m_hWnd;
 	pTI->lpszText = LPSTR_TEXTCALLBACK;	// Send TTN_NEEDTEXT when tooltip should be shown
-	pTI->rect = rcClient;
+	pTI->rect = static_cast<RECT>(rcClient);
 	if (headerRect.PtInRect(pt))
 	{
 		CString tooltip;
 		if (!OnDisplayColumnTooltip(nCol, tooltip) || tooltip.IsEmpty())
 			return -1;
 
-		pTI->rect = headerRect;
+		pTI->rect = static_cast<RECT>(headerRect);
 		pTI->hwnd = GetHeaderCtrl()->m_hWnd;
 		pTI->lpszText = new TCHAR[tooltip.GetLength() + 1];
 #if __STDC_WANT_SECURE_LIB__
@@ -2362,8 +2362,8 @@ bool CGridListCtrlEx::OnEditComplete(int nRow, int nCol, CWnd* pEditor, LV_DISPI
 	if (pLVDI == NULL)
 		return false;	// Parent view rejected LVN_BEGINLABELEDIT notification
 
-	bool txtEdit = pLVDI->item.mask & LVIF_TEXT && pLVDI->item.pszText != NULL;
-	bool imgEdit = pLVDI->item.mask & LVIF_IMAGE && pLVDI->item.iImage != I_IMAGECALLBACK;
+	const bool txtEdit = pLVDI->item.mask & LVIF_TEXT && pLVDI->item.pszText != NULL;
+	const bool imgEdit = pLVDI->item.mask & LVIF_IMAGE && pLVDI->item.iImage != I_IMAGECALLBACK;
 	return txtEdit || imgEdit;	// Accept edit
 }
 
@@ -2454,8 +2454,8 @@ BOOL CGridListCtrlEx::OnBeginLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		return TRUE;	// Block message from reaching parent-dialog
 	}
 
-	int nCol = pDispInfo->item.iSubItem;
-	int nRow = pDispInfo->item.iItem;
+	const int nCol = pDispInfo->item.iSubItem;
+	const int nRow = pDispInfo->item.iItem;
 	(nRow);	// Avoid unreferenced variable warning
 	(nCol);	// Avoid unreferenced variable warning
 
@@ -2487,7 +2487,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			*pResult = TRUE;	// Accept edit
 
-			bool txtEdit = pDispInfo->item.mask & LVIF_TEXT && pDispInfo->item.pszText != NULL;
+			const bool txtEdit = pDispInfo->item.mask & LVIF_TEXT && pDispInfo->item.pszText != NULL;
 			if (txtEdit)
 			{
 				// Handle situation where data is stored inside the CListCtrl
@@ -2495,7 +2495,7 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 					SetItemText(nRow, nCol, pDispInfo->item.pszText);
 			}
 
-			bool imgEdit = pDispInfo->item.mask & LVIF_IMAGE && pDispInfo->item.iImage != I_IMAGECALLBACK;
+			const bool imgEdit = pDispInfo->item.mask & LVIF_IMAGE && pDispInfo->item.iImage != I_IMAGECALLBACK;
 			if (imgEdit)
 			{
 				// Handle situation where data is stored inside the CListCtrl
@@ -3067,7 +3067,7 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (pWnd == GetHeaderCtrl())
 		{
 			HDHITTESTINFO hdhti = { 0 };
-			hdhti.pt = pt;
+			hdhti.pt = static_cast<POINT>(pt);
 			hdhti.pt.x += GetScrollPos(SB_HORZ);
 			SNDMSG(GetHeaderCtrl()->GetSafeHwnd(), HDM_HITTEST, 0, reinterpret_cast<LPARAM>(&hdhti));
 			OnContextMenuHeader(pWnd, point, hdhti.iItem);
@@ -3119,8 +3119,8 @@ void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 
 		// Adjust point so context-menu doesn't cover row / cell
 		point = cellRect.TopLeft();
-		int cellHeightCenter = cellRect.Height() / 2;
-		int cellWidthCenter = cellRect.Width() / 2;
+		const int cellHeightCenter = cellRect.Height() / 2;
+		const int cellWidthCenter = cellRect.Width() / 2;
 		point.x += cellHeightCenter < cellWidthCenter ? cellHeightCenter : cellWidthCenter; // min(cellHeightCenter, cellHeightCenter);
 		point.y += cellHeightCenter;
 		OnContextMenuCell(pWnd, point, nRow, nCol);
@@ -3147,7 +3147,7 @@ void CGridListCtrlEx::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 int CGridListCtrlEx::InternalColumnPicker(CMenu& menu, UINT offset)
 {
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	for (int i = 0; i < nColCount; ++i)
 	{
 		if (IsColumnAlwaysHidden(i))
@@ -3262,7 +3262,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
-	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
+	const int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 	switch (nResult)
 	{
 		case 0: break;
@@ -3622,7 +3622,7 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 	int nCol = pLV->iSubItem;
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
-	CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
+	const CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 	if (!columnState.m_Sortable)
 		return FALSE;	// Let parent-dialog get change
 
@@ -3753,7 +3753,7 @@ bool CGridListCtrlEx::OnDisplayToClipboard(CString& strResult, bool includeHeade
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 {
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 
 	CString strCellText;
 	for (int i = 0; i < nColCount; ++i)
@@ -3965,7 +3965,7 @@ DROPEFFECT CGridListCtrlEx::OnDragOver(COleDataObject* pDataObject, DWORD dwKeyS
 
 		int minPos, maxPos;
 		GetScrollRange(SB_VERT, &minPos, &maxPos);
-		int scrollPos = GetScrollPos(SB_VERT);
+		const int scrollPos = GetScrollPos(SB_VERT);
 
 		if (pt.y < gridRect.top + cellRect.Height() + headerRect.Height())
 		{
@@ -4089,8 +4089,8 @@ namespace {
 		PARAMMOVESORT& ps = *reinterpret_cast<PARAMMOVESORT*>(lParamSort);
 
 		// If part of selection, then it must be moved
-		bool selected1 = (ListView_GetItemState(ps.m_hWnd, lParam1, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
-		bool selected2 = (ListView_GetItemState(ps.m_hWnd, lParam2, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		const bool selected1 = (ListView_GetItemState(ps.m_hWnd, lParam1, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
+		const bool selected2 = (ListView_GetItemState(ps.m_hWnd, lParam2, LVIS_SELECTED) & LVIS_SELECTED) == LVIS_SELECTED;
 
 		// If both selected then no change in positioning
 		if (selected1 && selected2)
@@ -4154,7 +4154,7 @@ bool CGridListCtrlEx::MoveSelectedRows(int nDropRow)
 	if (pos == NULL)
 		return false;
 
-	int nFirstSelectedRow = GetNextSelectedItem(pos);
+	const int nFirstSelectedRow = GetNextSelectedItem(pos);
 
 	if (GetSelectedCount() == 1)
 	{

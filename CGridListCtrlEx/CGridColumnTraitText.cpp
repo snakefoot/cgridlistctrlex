@@ -156,8 +156,8 @@ int CGridColumnTraitText::OnSortRows(LPCTSTR pszLeftValue, LPCTSTR pszRightValue
 {
 	if (m_SortFormatNumber)
 	{
-		int nLeftValue = _ttoi(pszLeftValue);
-		int nRightValue = _ttoi(pszRightValue);
+		const int nLeftValue = _ttoi(pszLeftValue);
+		const int nRightValue = _ttoi(pszRightValue);
 		if (bAscending)
 			return nLeftValue - nRightValue;
 		else

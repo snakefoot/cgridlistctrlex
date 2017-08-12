@@ -187,7 +187,7 @@ bool CGridColumnTraitHyperLink::UpdateTextColor(NMLVCUSTOMDRAW* pLVCD, COLORREF&
 //------------------------------------------------------------------------
 bool CGridColumnTraitHyperLink::UpdateTextFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& textFont)
 {
-	CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+	const CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
 	CFont* pCurrentFont = pDC->GetCurrentFont();
 	pCurrentFont->GetLogFont(&textFont);
 	textFont.lfUnderline = 1;
@@ -267,7 +267,7 @@ CWnd* CGridColumnTraitHyperLink::OnEditBegin(CGridListCtrlEx& owner, int nRow, i
 //------------------------------------------------------------------------
 int CGridColumnTraitHyperLink::OnClickEditStart(CGridListCtrlEx& owner, int nRow, int nCol, CPoint pt, bool bDblClick)
 {
-	int startEdit = CGridColumnTraitImage::OnClickEditStart(owner, nRow, nCol, pt, bDblClick);
+	const int startEdit = CGridColumnTraitImage::OnClickEditStart(owner, nRow, nCol, pt, bDblClick);
 	if (startEdit)
 	{
 		// Check if mouse click was inside the label-part of the cell

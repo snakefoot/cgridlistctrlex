@@ -201,7 +201,7 @@ void CViewConfigSection::SplitArraySetting(const CString& strArray, CSimpleArray
 	// Perform tokenize using strDelimiter
 	int cur_pos = 0;
 	int prev_pos = 0;
-	int length = strArray.GetLength();
+	const int length = strArray.GetLength();
 	while (cur_pos < length)
 	{
 		cur_pos = strArray.Find(strDelimiter, prev_pos);
@@ -641,7 +641,7 @@ CString CViewConfigSectionDefault::GetSetting(const CString& strName, const CStr
 //------------------------------------------------------------------------
 CViewConfigSection& CViewConfigSectionDefault::GetDefaultConfig()
 {
-	return m_DefaultConfig;
+	return static_cast<CViewConfigSection&>(m_DefaultConfig);
 }
 
 //------------------------------------------------------------------------
@@ -684,7 +684,7 @@ CViewConfigSectionProfiles::CViewConfigSectionProfiles(const CString& strViewNam
 //------------------------------------------------------------------------
 void CViewConfigSectionProfiles::SplitSectionName(const CString& strSection, CString& strViewName, CString& strProfile)
 {
-	int pos_profile = strSection.Find(_T("__"));
+	const int pos_profile = strSection.Find(_T("__"));
 	if (pos_profile > 0)
 	{
 		strViewName = strSection.Mid(0, pos_profile);

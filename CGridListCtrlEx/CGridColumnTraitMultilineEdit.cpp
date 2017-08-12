@@ -99,7 +99,7 @@ CEdit* CGridColumnTraitMultilineEdit::CreateEdit(CGridListCtrlEx& owner, int nRo
 		pEdit->SetLineHeight(nLineHeight);
 	}
 
-	VERIFY(pEdit->Create(WS_CHILD | dwStyle, limitRect, &owner, 0));
+	VERIFY(pEdit->Create(WS_CHILD | dwStyle, static_cast<RECT>(limitRect), static_cast<CWnd*>(&owner), 0));
 	return pEdit;
 }
 

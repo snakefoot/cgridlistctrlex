@@ -136,7 +136,7 @@ bool CGridRowTraitText::UpdateBackColor(int nRow, COLORREF& backColor)
 //------------------------------------------------------------------------
 void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+	const int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	switch (pLVCD->nmcd.dwDrawStage)
 	{
@@ -145,7 +145,7 @@ void CGridRowTraitText::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLV
 			// Remove the selection color for the focus cell, to make it easier to see focus
 			if (m_InvertCellSelection)
 			{
-				int nCol = pLVCD->iSubItem;
+				const int nCol = pLVCD->iSubItem;
 				if (pLVCD->nmcd.uItemState & CDIS_SELECTED)
 				{
 					if (owner.GetFocusCell() == nCol && owner.GetFocusRow() == nRow)

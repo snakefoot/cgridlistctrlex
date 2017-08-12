@@ -156,7 +156,7 @@ void CGridColumnTraitImage::AddImageIndex(int nImageIdx, const CString& strImage
 //------------------------------------------------------------------------
 void CGridColumnTraitImage::SetImageText(int nImageIdx, const CString& strImageText, bool bEditable)
 {
-	int nIndex = m_ImageCellText.FindKey(nImageIdx);
+	const int nIndex = m_ImageCellText.FindKey(nImageIdx);
 	if (nIndex == -1)
 	{
 		AddImageIndex(nImageIdx, strImageText, bEditable);
@@ -273,7 +273,7 @@ int CGridColumnTraitImage::OnSortRows(const LVITEM& leftItem, const LVITEM& righ
 {
 	if (m_SortImageIndex)
 	{
-		int imageSort = bAscending ? leftItem.iImage - rightItem.iImage : rightItem.iImage - leftItem.iImage;
+		const int imageSort = bAscending ? leftItem.iImage - rightItem.iImage : rightItem.iImage - leftItem.iImage;
 		if (imageSort != 0)
 			return imageSort;
 	}
@@ -389,7 +389,7 @@ int CGridColumnTraitImage::FlipImageIndex(CGridListCtrlEx& owner, int nRow, int 
 	if (m_ImageCellText.GetSize() <= 1)
 		return -1;
 
-	int nImageIdx = owner.GetCellImage(nRow, nCol);
+	const int nImageIdx = owner.GetCellImage(nRow, nCol);
 	int nOldImagePos = -1;
 	for (int i = 0; i < m_ImageCellText.GetSize(); ++i)
 	{
@@ -465,8 +465,8 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 			return NULL;
 	}
 
-	int nOldImageIdx = owner.GetCellImage(nRow, nCol);
-	int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
+	const int nOldImageIdx = owner.GetCellImage(nRow, nCol);
+	const int nNewImageIdx = FlipImageIndex(owner, nRow, nCol);
 	if (nNewImageIdx == -1)
 		return NULL;
 
@@ -500,11 +500,11 @@ CWnd* CGridColumnTraitImage::OnEditBeginImage(CGridListCtrlEx& owner, int nRow, 
 			POSITION pos = owner.GetFirstSelectedItemPosition();
 			while (pos != NULL)
 			{
-				int nSelectedRow = owner.GetNextSelectedItem(pos);
+				const int nSelectedRow = owner.GetNextSelectedItem(pos);
 				if (nSelectedRow == nRow)
 					continue;	// Don't flip the clicked row
 
-				int nNextOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
+				const int nNextOldImageIdx = owner.GetCellImage(nSelectedRow, nCol);
 				if (nNextOldImageIdx == nNewImageIdx)
 					continue;	// Already flipped
 

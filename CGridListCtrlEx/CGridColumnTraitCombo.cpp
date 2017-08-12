@@ -193,7 +193,7 @@ CWnd* CGridColumnTraitCombo::OnEditBegin(CGridListCtrlEx& owner, int nRow, int n
 		if (rectCombo.Height() > rectCell.Height() + ::GetSystemMetrics(SM_CXBORDER))
 		{
 			// Compress to fit cell
-			int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
+			const int margin = rectCombo.Height() - m_pComboBox->GetItemHeight(-1);
 			int padding = margin - 2 * ::GetSystemMetrics(SM_CXEDGE);
 			if ((m_pComboBox->GetStyle() & CBS_DROPDOWNLIST) == CBS_DROPDOWNLIST)
 				padding -= ::GetSystemMetrics(SM_CXEDGE);
@@ -296,7 +296,7 @@ void CGridEditorComboBoxEdit::OnKillFocus(CWnd* pNewWnd)
 {
 	CEdit::OnKillFocus(pNewWnd);
 
-	CWnd* pOwner = GetOwner();
+	const CWnd* pOwner = GetOwner();
 	if (pOwner && pOwner != pNewWnd)
 		pOwner->SendMessage(WM_CHAR, VK_RETURN, 0);
 }

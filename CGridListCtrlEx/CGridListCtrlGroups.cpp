@@ -144,8 +144,8 @@ int CGridListCtrlGroups::FixRowGroupId(int nRow)
 		{
 			// WinXP Hack - Reset groups, when no items are assigned to any groups (Avoid conflicts with "invisible" group-ids)
 			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
-			int nGroupCol = m_GroupCol;
-			int bGroupSort = m_GroupSort;
+			const int nGroupCol = m_GroupCol;
+			const int bGroupSort = m_GroupSort;
 			CString strGroupFilter = m_GroupFilterText;
 
 			RemoveAllGroups();
@@ -357,7 +357,7 @@ int CGridListCtrlGroups::GroupHitTest(const CPoint& point)
 	if (nFirstRow == -1)
 		return -1;
 
-	int nGroupId = GetRowGroupId(nFirstRow);
+	const int nGroupId = GetRowGroupId(nFirstRow);
 
 	// Extra validation that the above row belongs to a different group
 	int nAboveRow = GetNextItem(nFirstRow, LVNI_ABOVE);
@@ -683,8 +683,8 @@ BOOL CGridListCtrlGroups::OnDropSelf(COleDataObject* pDataObject, DROPEFFECT dro
 		bool sameGroup = true;
 		while (pos != NULL)
 		{
-			int nSelectedRow = GetNextSelectedItem(pos);
-			int nSelectedGroupId = GetRowGroupId(nSelectedRow);
+			const int nSelectedRow = GetNextSelectedItem(pos);
+			const int nSelectedGroupId = GetRowGroupId(nSelectedRow);
 			if (nSelectedGroupId != nGroupId)
 			{
 				sameGroup = false;
@@ -720,8 +720,8 @@ bool CGridListCtrlGroups::MoveSelectedRows(int nDropGroupId)
 	bool movedRows = false;
 	while (pos != NULL)
 	{
-		int nRow = GetNextSelectedItem(pos);
-		int nGroupId = GetRowGroupId(nRow);
+		const int nRow = GetNextSelectedItem(pos);
+		const int nGroupId = GetRowGroupId(nRow);
 		if (nGroupId != nDropGroupId)
 		{
 			movedRows = true;
@@ -854,7 +854,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 	}
 
 	// Will return zero if no selection was made (TPM_RETURNCMD)
-	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
+	const int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 	switch (nResult)
 	{
 		case 0: break;
@@ -944,7 +944,7 @@ void CGridListCtrlGroups::OnContextMenuGroup(CWnd* pWnd, CPoint point, int nGrou
 		menu.AppendMenu(MF_STRING, 7, _T("Disable grouping"));
 	}
 
-	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
+	const int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 	switch (nResult)
 	{
 		case 1: SetGroupState(nGroupId, LVGS_NORMAL); break;
@@ -977,7 +977,7 @@ void CGridListCtrlGroups::OnContextMenuGrid(CWnd* pWnd, CPoint point)
 		menu.AppendMenu(MF_STRING, 2, _T("Collapse all groups"));
 		menu.AppendMenu(MF_STRING, 3, _T("Disable grouping"));
 
-		int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
+		const int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 		switch (nResult)
 		{
 			case 1: ExpandAllGroups(); break;
@@ -1000,7 +1000,7 @@ void CGridListCtrlGroups::OnContextMenuCell(CWnd* pWnd, CPoint point, int nFocus
 	VERIFY(menu.CreatePopupMenu());
 	menu.AppendMenu(MF_STRING, 1, _T("Filter by '") + filterText + _T("'"));
 
-	int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
+	const int nResult = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD, point.x, point.y, static_cast<CWnd*>(this), 0);
 	switch (nResult)
 	{
 		case 1:
@@ -1260,7 +1260,7 @@ void CGridListCtrlGroups::OnLButtonDblClk(UINT nFlags, CPoint point)
 	if (!IsGroupStateEnabled())
 		return;
 
-	int nGroupId = GroupHitTest(point);
+	const int nGroupId = GroupHitTest(point);
 	(nGroupId);	// Avoid unreferenced variable warning
 }
 
@@ -1380,7 +1380,7 @@ namespace {
 
 		const CString& LookupGroupName(int nGroupId)
 		{
-			int groupIdx = m_GroupNames.FindKey(nGroupId);
+			const int groupIdx = m_GroupNames.FindKey(nGroupId);
 			if (groupIdx == -1)
 			{
 				static const CString emptyStr;
@@ -1553,8 +1553,8 @@ bool CGridListCtrlGroups::SortColumn(int nCol, bool bAscending)
 			qsort(groupNames.m_aT, static_cast<UINT>(groupNames.GetSize()), sizeof(struct group_info), group_info_cmp);
 
 			// Backup these before RemoveAllGroups() generates LVM_REMOVEALLGROUPS
-			int nGroupCol = m_GroupCol;
-			int bGroupSort = m_GroupSort;
+			const int nGroupCol = m_GroupCol;
+			const int bGroupSort = m_GroupSort;
 			CString strGroupFilter = m_GroupFilterText;
 
 			RemoveAllGroups();
