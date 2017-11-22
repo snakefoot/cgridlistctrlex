@@ -3755,6 +3755,8 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 {
 	const int nColCount = GetColumnCount();
 
+	bool firstColumn = true;
+
 	CString strCellText;
 	for (int i = 0; i < nColCount; ++i)
 	{
@@ -3770,8 +3772,12 @@ bool CGridListCtrlEx::OnDisplayToClipboard(int nRow, CString& strResult)
 
 		if (!OnDisplayToClipboard(nRow, nCol, strCellText))
 			continue;
-		if (!strResult.IsEmpty())
-			strResult += _T("\t");
+
+		if (firstColumn)
+			firstColumn = false;
+		else
+			strResult.AppendChar(_T('\t'));
+
 		strResult += strCellText;
 	}
 	return true;
