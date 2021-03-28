@@ -1232,7 +1232,7 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 //! @param pResult Not used
 //! @return Is final message handler (Return FALSE to continue routing the message)
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
+BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* /* pResult */)
 {
 #if _WIN32_WINNT >= 0x0600
 	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
@@ -1432,7 +1432,7 @@ namespace
 		}
 	};
 
-	int group_info_cmp(const void *a, const void *b)
+	int __cdecl group_info_cmp(const void *a, const void *b)
 	{
 		const struct group_info *ia = reinterpret_cast<const struct group_info*>(a);
 		const struct group_info *ib = reinterpret_cast<const struct group_info*>(b);
