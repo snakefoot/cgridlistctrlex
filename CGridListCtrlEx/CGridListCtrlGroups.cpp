@@ -1232,12 +1232,13 @@ BOOL CGridListCtrlGroups::OnGetEmptyMarkup(NMHDR* pNMHDR, LRESULT* pResult)
 //! @param pResult Not used
 //! @return Is final message handler (Return FALSE to continue routing the message)
 //------------------------------------------------------------------------
-BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* /* pResult */)
+BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 #if _WIN32_WINNT >= 0x0600
 	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
 	int nGroupId = pLinkInfo->iSubItem;
-	(nGroupId);	// Avoid unreferenced variable warning
+	(nGroupId);			// Avoid unreferenced variable warning
+	(pResult);			// Avoid unreferenced variable warning
 #else
 	(pNMHDR);			// Avoid unreferenced variable warning
 	(pResult);			// Avoid unreferenced variable warning
