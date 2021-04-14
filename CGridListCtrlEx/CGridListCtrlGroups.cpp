@@ -1237,7 +1237,8 @@ BOOL CGridListCtrlGroups::OnGroupTaskClick(NMHDR* pNMHDR, LRESULT* pResult)
 #if _WIN32_WINNT >= 0x0600
 	NMLVLINK* pLinkInfo = reinterpret_cast<NMLVLINK*>(pNMHDR);
 	int nGroupId = pLinkInfo->iSubItem;
-	(nGroupId);	// Avoid unreferenced variable warning
+	(nGroupId);			// Avoid unreferenced variable warning
+	(pResult);			// Avoid unreferenced variable warning
 #else
 	(pNMHDR);			// Avoid unreferenced variable warning
 	(pResult);			// Avoid unreferenced variable warning
@@ -1432,7 +1433,7 @@ namespace
 		}
 	};
 
-	int group_info_cmp(const void *a, const void *b)
+	int __cdecl group_info_cmp(const void *a, const void *b)
 	{
 		const struct group_info *ia = reinterpret_cast<const struct group_info*>(a);
 		const struct group_info *ib = reinterpret_cast<const struct group_info*>(b);
