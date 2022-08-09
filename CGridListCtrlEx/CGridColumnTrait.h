@@ -127,9 +127,9 @@ public:
 			, m_Sortable(true)
 			, m_Editable(true)
 			, m_Resizable(true)
-			, m_MetaFlags(0)
 			, m_MinWidth(-1)
 			, m_MaxWidth(-1)
+			, m_MetaFlags(0)
 		{}
 		bool m_Visible;		//!< Column is visible or not
 		int  m_OrgWidth;	//!< Width it had before being hidden

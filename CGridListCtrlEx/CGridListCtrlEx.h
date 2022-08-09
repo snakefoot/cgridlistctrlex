@@ -228,9 +228,17 @@ protected:
 	// Maintaining row traits
 	CGridRowTrait* m_pDefaultRowTrait;	//!< Default row trait used for special row drawing
 
-										// Maintaining cell/subitem focus
+	// Maintaining cell/subitem focus
 	int m_FocusCell;			//!< Column currently having focus (-1 means entire row)
 	virtual void MoveFocusCell(bool bMoveRight);
+
+	// Maintaining row sorting
+	int m_SortCol;				//!< Rows are sorted according to this column
+	bool m_Ascending;			//!< Rows are sorted ascending / descending
+	virtual bool SortColumn(int nCol, bool bAscending);
+
+	// Maintaining cell editing
+	CWnd* m_pEditor;			//!< Cell value editor currently in use
 
 	// Maintaining Keyboard search
 	CString m_LastSearchString;	//!< Last search criteria for keyboard search
@@ -239,27 +247,19 @@ protected:
 	int		m_LastSearchRow;	//!< Last row matched in keyboard search
 	int		m_RepeatSearchCount;//!< How many times the same search have been repeated (same key pressed)
 
-								// Maintaining row sorting
-	int m_SortCol;				//!< Rows are sorted according to this column
-	bool m_Ascending;			//!< Rows are sorted ascending / descending
-	virtual bool SortColumn(int nCol, bool bAscending);
-
-	// Maintaining cell editing
-	CWnd* m_pEditor;			//!< Cell value editor currently in use
-
-	bool m_UsingVisualStyle;	//!< Vista Style has been enabled (alpha blend)
-
-	int m_TooltipMaxWidth;		//!< Whether tooltips should be split in multiple lines
-
-								// Maintaining margin
+	// Maintaining margin
 	CFont m_GridFont;			//!< Original font of the the list control
 	CFont m_CellFont;			//!< Current font to draw rows
 	double m_Margin;			//!< Current margin between original font and cell font
 
+	bool m_UsingVisualStyle;	//!< Vista Style has been enabled (alpha blend)
+
 	CString m_EmptyMarkupText;	//!< Text to display when list control is empty
 	bool m_InvalidateMarkupText;//!< Ensure that the empty markup text is cleared properly
 
-								// Maintaining drag drop
+	int m_TooltipMaxWidth;		//!< Whether tooltips should be split in multiple lines
+
+	// Maintaining drag drop
 	COleDropTargetWnd<CGridListCtrlEx>* m_pOleDropTarget;	//!< Maintains OLE drag drop target
 	friend class COleDropTargetWnd<CGridListCtrlEx>;
 	friend class COleDropSourceWnd<CGridListCtrlEx>;

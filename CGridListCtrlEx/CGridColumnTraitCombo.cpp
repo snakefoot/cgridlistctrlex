@@ -15,10 +15,10 @@
 //! CGridColumnTraitCombo - Constructor
 //------------------------------------------------------------------------
 CGridColumnTraitCombo::CGridColumnTraitCombo()
-	: m_MaxItems(7)
-	, m_MaxWidth(200)
+  : m_pComboBox(NULL) 
 	, m_ComboBoxStyle(WS_VSCROLL | WS_HSCROLL | CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_NOINTEGRALHEIGHT)
-	, m_pComboBox(NULL)
+	, m_MaxItems(7)
+	, m_MaxWidth(200)	
 	, m_ShowDropDown(FALSE)
 {}
 
@@ -327,10 +327,10 @@ END_MESSAGE_MAP()
 //! CGridEditorComboBox - Constructor
 //------------------------------------------------------------------------
 CGridEditorComboBox::CGridEditorComboBox(int nRow, int nCol, UINT nMaxWidthPixels, UINT nMaxHeightItems, BOOL bShowDropDown)
-	: m_Row(nRow)
-	, m_Col(nCol)
-	, m_Completed(false)
+	: m_Completed(false)
 	, m_Modified(false)
+	, m_Row(nRow)
+	, m_Col(nCol)
 	, m_MaxWidthPixels(nMaxWidthPixels)
 	, m_MaxHeightItems(nMaxHeightItems)
 	, m_ShowDropDown(bShowDropDown)

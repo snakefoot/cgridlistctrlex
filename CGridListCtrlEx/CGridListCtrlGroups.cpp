@@ -1367,16 +1367,16 @@ namespace {
 	struct PARAMSORT
 	{
 		PARAMSORT(HWND hWnd, int nCol, bool bAscending, CGridColumnTrait* pTrait)
-			:m_hWnd(hWnd)
+			: m_hWnd(hWnd)
 			, m_pTrait(pTrait)
 			, m_ColumnIndex(nCol)
 			, m_Ascending(bAscending)
 		{}
 
 		HWND m_hWnd;
+		CGridColumnTrait* m_pTrait;
 		int  m_ColumnIndex;
 		bool m_Ascending;
-		CGridColumnTrait* m_pTrait;
 		CSimpleMap<int, CString> m_GroupNames;
 
 		const CString& LookupGroupName(int nGroupId)

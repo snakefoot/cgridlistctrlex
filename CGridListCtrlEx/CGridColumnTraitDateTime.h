@@ -71,13 +71,12 @@ protected:
 	virtual void PostNcDestroy();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
-	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
-	bool	m_Modified;				//!< Register if date was modified while the editor was open
-	int		m_Row;					//!< The index of the row being edited
-	int		m_Col;					//!< The index of the column being edited
-
 	CGridColumnTraitDateTime* m_pColumnTrait;	//!< Provides logic for parsing free text editing
 
+	bool	m_Modified;				//!< Register if date was modified while the editor was open
+	bool	m_Completed;			//!< Ensure the editor only reacts to a single close event
+	int		m_Row;					//!< The index of the row being edited
+	int		m_Col;					//!< The index of the column being edited
 	DECLARE_MESSAGE_MAP();
 
 private:

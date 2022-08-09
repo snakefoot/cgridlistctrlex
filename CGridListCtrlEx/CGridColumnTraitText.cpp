@@ -18,9 +18,9 @@ CGridColumnTraitText::CGridColumnTraitText()
 	: m_pOldFont(NULL)
 	, m_TextColor(COLORREF(-1))
 	, m_BackColor(COLORREF(-1))
-	, m_SortFormatNumber(false)
 	, m_OldTextColor(COLORREF(-1))
 	, m_OldBackColor(COLORREF(-1))
+	, m_SortFormatNumber(false)
 {}
 
 //------------------------------------------------------------------------

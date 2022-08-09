@@ -210,22 +210,22 @@ END_MESSAGE_MAP()
 //! Constructor 
 //------------------------------------------------------------------------
 CGridListCtrlEx::CGridListCtrlEx()
-	: m_FocusCell(-1)
+	: m_pColumnConfig(NULL)
+	, m_bConfigOwner(false)
+	, m_pDefaultRowTrait(new CGridRowTraitText)
+	, m_FocusCell(-1)
 	, m_SortCol(-1)
 	, m_Ascending(false)
-	, m_UsingVisualStyle(false)
 	, m_pEditor(NULL)
 	, m_LastSearchCell(-1)
 	, m_LastSearchRow(-1)
 	, m_RepeatSearchCount(0)
+  , m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
+	, m_UsingVisualStyle(false)
 	, m_EmptyMarkupText(_T("There are no items to show in this view."))
-	, m_pOleDropTarget(NULL)
-	, m_Margin(1.0)		// Higher row-height (more room for edit-ctrl border)
-	, m_pDefaultRowTrait(new CGridRowTraitText)
-	, m_pColumnConfig(NULL)
-	, m_bConfigOwner(false)
-	, m_InvalidateMarkupText(true)
+	, m_InvalidateMarkupText(true)	
 	, m_TooltipMaxWidth(SHRT_MAX)
+	, m_pOleDropTarget(NULL)
 {}
 
 //------------------------------------------------------------------------
@@ -3539,9 +3539,9 @@ namespace {
 		{}
 
 		HWND m_hWnd;
+		CGridColumnTrait* m_pTrait;
 		int  m_ColumnIndex;
 		bool m_Ascending;
-		CGridColumnTrait* m_pTrait;
 	};
 
 	// Comparison extracts values from the List-Control

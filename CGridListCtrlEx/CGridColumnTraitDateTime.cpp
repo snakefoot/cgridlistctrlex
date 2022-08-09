@@ -218,11 +218,11 @@ END_MESSAGE_MAP()
 //! @param pColumnTrait The parent column trait, used for datetime validation
 //------------------------------------------------------------------------
 CGridEditorDateTimeCtrl::CGridEditorDateTimeCtrl(int nRow, int nCol, CGridColumnTraitDateTime* pColumnTrait)
-	: m_Row(nRow)
-	, m_Col(nCol)
-	, m_Completed(false)
+	: m_pColumnTrait(pColumnTrait)
 	, m_Modified(false)
-	, m_pColumnTrait(pColumnTrait)
+	, m_Completed(false)
+	, m_Row(nRow)
+	, m_Col(nCol)
 {}
 
 //------------------------------------------------------------------------
