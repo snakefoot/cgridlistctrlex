@@ -32,7 +32,7 @@ void CGridRowTraitXP::Accept(CGridRowTraitVisitor& visitor)
 //------------------------------------------------------------------------
 void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD, LRESULT* pResult)
 {
-	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+	const int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	// Repair the standard drawing
 	switch (pLVCD->nmcd.dwDrawStage)
@@ -47,7 +47,7 @@ void CGridRowTraitXP::OnCustomDraw(CGridListCtrlEx& owner, NMLVCUSTOMDRAW* pLVCD
 		{
 			// Fix CListCtrl selection drawing bug with white background for icon image
 			// Fix CListCtrl selection drawing bug with white margin between icon and text
-			int nCol = pLVCD->iSubItem;
+			const int nCol = pLVCD->iSubItem;
 
 			if (CRect(pLVCD->nmcd.rc) == CRect(0, 0, 0, 0))
 				break;

@@ -293,7 +293,7 @@ void CGridListCtrlEx::LoadState(CViewConfigSection& config)
 
 	int nVisibleCols = config.GetIntSetting(_T("ColumnCount"));
 
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	if (nColCount < 0)
 		DebugBreak();
 
@@ -433,7 +433,7 @@ void CGridListCtrlEx::SaveState(CViewConfigSection& config)
 {
 	config.RemoveCurrentConfig();	// Reset the existing config
 
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	if (nColCount < 0)
 		DebugBreak();
 
@@ -1460,7 +1460,7 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 
 	SetRedraw(FALSE);
 
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	if (nColCount < 0)
 		DebugBreak();
 
@@ -2477,8 +2477,8 @@ BOOL CGridListCtrlEx::OnEndLabelEdit(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = FALSE;	// Reject edit by default
 
-	int nRow = pDispInfo->item.iItem;
-	int nCol = pDispInfo->item.iSubItem;
+	const int nRow = pDispInfo->item.iItem;
+	const int nCol = pDispInfo->item.iSubItem;
 
 	if (nRow != -1 && nCol != -1)
 	{
@@ -2659,8 +2659,8 @@ void CGridListCtrlEx::OnRButtonDown(UINT nFlags, CPoint point)
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellColor(NMLVCUSTOMDRAW* pLVCD)
 {
-	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
-	int nCol = pLVCD->iSubItem;
+	const int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+	const int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
 	(nItemData);	// Avoid unreferenced variable warning
 	return OnDisplayCellColor(nRow, nCol, pLVCD->clrText, pLVCD->clrTextBk);
@@ -2689,8 +2689,8 @@ bool CGridListCtrlEx::OnDisplayCellColor(int nRow, int nCol, COLORREF& textColor
 //------------------------------------------------------------------------
 bool CGridListCtrlEx::OnDisplayCellFont(NMLVCUSTOMDRAW* pLVCD, LOGFONT& font)
 {
-	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
-	int nCol = pLVCD->iSubItem;
+	const int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+	const int nCol = pLVCD->iSubItem;
 	LPARAM nItemData = pLVCD->nmcd.lItemlParam;
 	(nItemData);	// Avoid unreferenced variable warning
 	return OnDisplayCellFont(nRow, nCol, font);
@@ -2812,7 +2812,7 @@ void CGridListCtrlEx::OnCustomDrawCell(int nRow, int nCol, NMLVCUSTOMDRAW* pLVCD
 void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
-	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
+	const	int nRow = static_cast<int>(pLVCD->nmcd.dwItemSpec);
 
 	*pResult = CDRF_DODEFAULT;
 
@@ -2823,7 +2823,7 @@ void CGridListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the row-trait
 
-		int nCol = pLVCD->iSubItem;
+		const int nCol = pLVCD->iSubItem;
 		OnCustomDrawCell(nRow, nCol, pLVCD, pResult);
 		if (*pResult & CDRF_SKIPDEFAULT)
 			return;	// Everything is handled by the column-trait
@@ -3096,8 +3096,8 @@ void CGridListCtrlEx::OnContextMenu(CWnd* pWnd, CPoint point)
 //------------------------------------------------------------------------
 void CGridListCtrlEx::OnContextMenuKeyboard(CWnd* pWnd, CPoint point)
 {
-	int nCol = GetFocusCell();
-	int nRow = GetFocusRow();
+	const int nCol = GetFocusCell();
+	const int nRow = GetFocusRow();
 
 	if (nRow == -1)
 	{
@@ -3247,7 +3247,7 @@ void CGridListCtrlEx::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol)
 		InternalColumnPicker(menu, 4);
 	}
 
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	if (nColCount < 0)
 		DebugBreak();
 	CSimpleArray<CString> profiles;
@@ -3331,9 +3331,9 @@ BOOL CGridListCtrlEx::OnHeaderBeginResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	if (GetFocus() != this)
 		SetFocus();	// Force focus to finish editing
 
-					// Check that column is allowed to be resized
+	// Check that column is allowed to be resized
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
-	int nCol = pNMH->iItem;
+	const int nCol = pNMH->iItem;
 
 	if (!IsColumnVisible(nCol))
 	{
@@ -3385,7 +3385,7 @@ BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult
 
 	if (pNMH->pitem->mask & HDI_WIDTH)
 	{
-		int nCol = pNMH->iItem;
+		const int nCol = pNMH->iItem;
 		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 		if (pTrait == NULL)
 			return FALSE;
@@ -3425,7 +3425,7 @@ BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult
 LRESULT CGridListCtrlEx::OnSetColumnWidth(WPARAM wParam, LPARAM lParam)
 {
 	// Check that column is allowed to be resized
-	int nCol = static_cast<int>(wParam);
+	const int nCol = static_cast<int>(wParam);
 
 	if (!IsColumnResizable(nCol))
 		return FALSE;
@@ -3506,7 +3506,7 @@ BOOL CGridListCtrlEx::OnHeaderEndDrag(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMH->pitem->mask & HDI_ORDER)
 	{
 		// Correct iOrder so it is just after the last hidden column
-		int nColCount = GetColumnCount();
+		const int nColCount = GetColumnCount();
 		if (nColCount < 0)
 			DebugBreak();
 
@@ -3625,6 +3625,9 @@ BOOL CGridListCtrlEx::OnHeaderClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 	int nCol = pLV->iSubItem;
 	CGridColumnTrait* pTrait = GetColumnTrait(nCol);
+	if (pTrait == NULL)
+		return FALSE;	// Let parent-dialog get change
+
 	const CGridColumnTrait::ColumnState& columnState = pTrait->GetColumnState();
 	if (!columnState.m_Sortable)
 		return FALSE;	// Let parent-dialog get change
@@ -3656,7 +3659,7 @@ void CGridListCtrlEx::OnCopyToClipboard()
 
 	SIZE_T nlength = (result.GetLength() + 1)*sizeof(TCHAR);	// +1 for null-term
 
-																// Allocate a global memory object for the text.
+	// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nlength);
 	if (hglbCopy == NULL)
 		return;
@@ -3831,7 +3834,7 @@ BOOL CGridListCtrlEx::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 	// Update cell focus to show what is being dragged
 	SetFocusCell(GetFocusCell(), true);
 
-	int nRow = GetFocusRow();
+	const int nRow = GetFocusRow();
 
 	// Notify that drag operation was started (don't start edit),
 	// also it will ensure the entire row is dragged (and not a single cell)
@@ -3885,7 +3888,7 @@ DROPEFFECT CGridListCtrlEx::DoDragDrop(COleDataSource& oleDataSource, COleDropSo
 
 	SIZE_T nSize = (result.GetLength() + 1)*sizeof(TCHAR);	// +1 for null-term
 
-															// Allocate a global memory object for the text.
+	// Allocate a global memory object for the text.
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, nSize);
 	if (hglbCopy == NULL)
 		return FALSE;

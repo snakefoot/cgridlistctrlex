@@ -445,7 +445,7 @@ BOOL CGridListCtrlGroups::GetGroupIds(CSimpleArray<int>& groupIds)
 		// The less optimal way, but that is only on WinXP (Doesn't support negative group ids)
 		for (int nRow = 0; nRow < GetItemCount(); ++nRow)
 		{
-			int nGroupId = GetRowGroupId(nRow);
+			const int nGroupId = GetRowGroupId(nRow);
 			if (nGroupId >= 0 && groupIds.Find(nGroupId) == -1)
 				groupIds.Add(nGroupId);
 		}
@@ -839,7 +839,7 @@ void CGridListCtrlGroups::OnContextMenuHeader(CWnd* pWnd, CPoint point, int nCol
 		InternalColumnPicker(menu, 6);
 	}
 
-	int nColCount = GetColumnCount();
+	const int nColCount = GetColumnCount();
 	if (nColCount < 0)
 		DebugBreak();
 	CSimpleArray<CString> profiles;
@@ -1331,8 +1331,8 @@ bool CGridListCtrlGroups::OnDisplayCellGroup(int nRow, int nCol, int& nGroupId)
 BOOL CGridListCtrlGroups::OnGetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NMLVDISPINFO* pNMW = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-	int nRow = pNMW->item.iItem;
-	int nCol = pNMW->item.iSubItem;
+	const int nRow = pNMW->item.iItem;
+	const int nCol = pNMW->item.iSubItem;
 
 	if (nRow< 0 || nRow >= GetItemCount())
 		return FALSE;	// requesting invalid item
