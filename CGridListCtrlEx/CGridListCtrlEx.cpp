@@ -1594,8 +1594,8 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	{
 		// Backup the column width
 		const int orgWidth = GetColumnWidth(nCol);
-		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_Visible = false;
+		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_OrgWidth = orgWidth;
 	}
 
@@ -3379,7 +3379,8 @@ BOOL CGridListCtrlEx::OnHeaderEndResize(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 //------------------------------------------------------------------------
 BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult)
 {
-	// Check if the column have a minimum width
+	// If the column has traits associated with it and the column is visible,
+	// enforce any minimum and/or maximum widths defined by the traits.
 	NMHEADER* pNMH = reinterpret_cast<NMHEADER*>(pNMHDR);
 
 	if (pNMH->pitem->mask & HDI_WIDTH)
@@ -3387,6 +3388,8 @@ BOOL CGridListCtrlEx::OnHeaderItemChanging(UINT, NMHDR* pNMHDR, LRESULT* pResult
 		int nCol = pNMH->iItem;
 		CGridColumnTrait* pTrait = GetColumnTrait(nCol);
 		if (pTrait == NULL)
+			return FALSE;
+		if (!pTrait->GetColumnState().m_Visible)
 			return FALSE;
 
 		if (pTrait->GetColumnState().m_MinWidth >= 0)
