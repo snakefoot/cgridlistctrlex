@@ -1594,8 +1594,8 @@ BOOL CGridListCtrlEx::ShowColumn(int nCol, bool bShow)
 	{
 		// Backup the column width
 		const int orgWidth = GetColumnWidth(nCol);
-		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_Visible = false;
+		VERIFY(SetColumnWidth(nCol, 0));
 		columnState.m_OrgWidth = orgWidth;
 	}
 
