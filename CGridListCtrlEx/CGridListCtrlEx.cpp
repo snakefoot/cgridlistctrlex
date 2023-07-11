@@ -4285,7 +4285,9 @@ void CGridListCtrlEx::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	if (!UsingVisualStyle())
 	{
 		// Only when using the mouse to scroll
-		if ((::GetKeyState(VK_LBUTTON) & 0x8000) != 0)
+		const int vkLeftButtonId = (::GetSystemMetrics(SM_SWAPBUTTON) == 0) ? VK_LBUTTON
+		                                                                    : VK_RBUTTON;
+		if ((::GetKeyState(vkLeftButtonId) & 0x8000) != 0)
 		{
 			// Fix CListCtrl grid drawing bug where vertical grid-border disappears
 			//	- To reproduce the bug one needs atleast 2 columns:
@@ -4319,7 +4321,9 @@ void CGridListCtrlEx::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	if (!UsingVisualStyle())
 	{
 		// Only when using the mouse to scroll
-		if ((::GetKeyState(VK_LBUTTON) & 0x8000) != 0)
+		const int vkLeftButtonId = (::GetSystemMetrics(SM_SWAPBUTTON) == 0) ? VK_LBUTTON
+		                                                                    : VK_RBUTTON;
+		if ((::GetKeyState(vkLeftButtonId) & 0x8000) != 0)
 		{
 			// Fix bug where it doesn't erase the background properly
 			if (GetExtendedStyle() & LVS_EX_GRIDLINES)
